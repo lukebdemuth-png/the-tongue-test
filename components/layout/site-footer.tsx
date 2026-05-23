@@ -10,8 +10,8 @@ export function SiteFooter() {
           <div className="section-divider max-w-md" />
           <p className="font-serif text-[1.9rem] text-ink">{siteConfig.name}</p>
           <p className="mt-5 text-ink/68">
-            A public-data planning system for building a stronger yoga and
-            spiritual teaching brand on YouTube and Instagram.
+            A citation-based research interface for comparing traditional
+            medicine pattern language under qualified practitioner review.
           </p>
         </div>
 
@@ -36,9 +36,9 @@ export function SiteFooter() {
               Principles
             </p>
             <ul className="mt-4 space-y-3 text-sm text-ink/75">
-              <li>Use only public creator data</li>
-              <li>Turn one long teaching into many short clips</li>
-              <li>Optimize for clarity, trust, and repeatable formats</li>
+              <li>Keep Ayurveda, TCM, and Homeopathy distinct</li>
+              <li>Preserve citations, uncertainty, and source limits</li>
+              <li>Prioritize safety notes before pattern ranking</li>
             </ul>
           </div>
         </div>

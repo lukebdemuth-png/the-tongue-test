@@ -1,15 +1,14 @@
 export const siteConfig = {
-  name: "Satsang Signal",
+  name: "Pattern App",
   description:
-    "A creator intelligence dashboard for yoga, spiritual talks, and Sri Suktam-centered content strategy.",
+    "A practitioner-facing holistic medicine research system for tradition-separated reasoning, citation traceability, and safety-first review.",
   url: "https://example.com",
-  email: "hello@satsangsignal.com",
+  email: "hello@patternapp.example",
 };
 
 export const navItems = [
-  { href: "/#dashboard", label: "Dashboard" },
-  { href: "/#cadence", label: "Cadence" },
-  { href: "/#benchmarks", label: "Benchmarks" },
+  { href: "/#reasoning", label: "Reasoning" },
   { href: "/#workflow", label: "Workflow" },
+  { href: "/pattern-app", label: "Prototype" },
   { href: "/resources", label: "Resources" },
 ];
