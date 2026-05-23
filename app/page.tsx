@@ -1,128 +1,118 @@
 import Link from "next/link";
 
+import { WaitlistForm } from "@/components/landing/waitlist-form";
 import { buildMetadata } from "@/lib/metadata";
 
 export const metadata = buildMetadata({
-  title: "Pattern App",
+  title: "Patterns / Three Traditions",
   description:
-    "A practitioner-facing holistic medicine research system for tradition-separated reasoning, citation traceability, and safety-first review.",
+    "A premium waitlist for a source-backed pattern recognition app across Homeopathy, Ayurveda, and Chinese medicine.",
   path: "/",
 });
 
+const steps = [
+  {
+    title: "Enter the whole picture",
+    body: "Symptoms, constitution, current state, history, goals, cautions, medications, preferences, and the details that make a case particular.",
+  },
+  {
+    title: "Analyze through three traditions",
+    body: "Homeopathy, Ayurveda, and Chinese medicine stay separate first, each using its own pattern language and source trail.",
+  },
+  {
+    title: "Receive practical guidance",
+    body: "The output highlights likely patterns, confidence, questions, practical actions, cautions, and cited references for qualified review.",
+  },
+];
+
 const traditions = [
   {
-    name: "Ayurveda",
-    focus: "Dosha, agni, ama, constitution, and classical pattern language.",
-    signal: "Vata/Pitta/Kapha context",
-  },
-  {
-    name: "Traditional Chinese Medicine",
-    focus: "Pattern differentials, tongue and pulse notes, temperature, fluids, and organ-system relationships.",
-    signal: "Qi, Blood, Yin/Yang, fluids",
-  },
-  {
     name: "Homeopathy",
-    focus: "Rubrics, modalities, generals, peculiar symptoms, and remedy-direction differentials.",
-    signal: "Modalities and rubrics",
+    detail: "Repertory rubrics, modalities, generals, peculiar symptoms, and materia medica differentials.",
+    signal: "Rubrics + materia medica",
+  },
+  {
+    name: "Ayurveda",
+    detail: "Dosha, agni, ama, dhatu, srotas, constitution, digestion, routine, and source-backed categories.",
+    signal: "Dosha / agni / ama",
+  },
+  {
+    name: "Chinese Medicine",
+    detail: "Pattern, formula, herb, point-reference, temperature, fluids, deficiency/excess, and organ-network maps.",
+    signal: "Pattern / formula / points",
   },
 ];
 
-const capabilities = [
-  {
-    title: "Tradition-separated reasoning",
-    body: "Each view keeps its own vocabulary, evidence, uncertainty, and practitioner questions before any cross-tradition synthesis appears.",
-  },
-  {
-    title: "Citation traceability",
-    body: "Source support is designed to carry titles, locators, access notes, and confidence language so practitioners can review the evidence trail.",
-  },
-  {
-    title: "Safety-first review",
-    body: "Red flags, contraindications, medications, pregnancy context, and missing safety information stay ahead of pattern matching.",
-  },
-  {
-    title: "Workflow-ready output",
-    body: "The app frames findings as educational research notes, with confidence levels, contradictions, and the next best question for intake.",
-  },
+const previewCards = [
+  ["Pattern summary", "Vata-agni irregularity, shen/sleep involvement, and homeopathic night-worse rubric clusters appear relevant."],
+  ["Practical actions", "Review meal timing, sleep rhythm, gentle grounding practice, and follow-up tracking before stronger interventions."],
+  ["Considerations", "Herb, formula, remedy, and rubric directions remain practitioner-review items with contraindication checks."],
+  ["Follow-up questions", "What changes with heat, cold, food, time of day, stress, motion, rest, and pressure?"],
+  ["Source-backed reasoning", "Each surfaced direction carries citations, locator notes, confidence language, and source limitations."],
 ];
 
-const workflow = [
-  "Enter symptoms, signs, constitution/context, modalities, medications, and practitioner notes.",
-  "Review separate Ayurveda, TCM, and Homeopathy interpretations with source-backed confidence.",
-  "Compare agreement, conflict, missing information, and safety cautions before considering next steps.",
-];
-
-const evidenceRows = [
-  ["Safety gate", "Red flags and cautions", "Review first"],
-  ["Pattern match", "Matched features and contradictions", "Ranked by support"],
-  ["Source trail", "Classical texts, studies, rubrics", "Citation-linked"],
-  ["Next question", "Missing details that may change ranking", "Intake-guided"],
+const trustSignals = [
+  "Closed research library rather than open web guessing",
+  "Tradition-specific reasoning before synthesis",
+  "Citations and source-limit notes attached to outputs",
+  "Safety boundaries before herbs, remedies, formulas, or practices",
 ];
 
 export default function HomePage() {
   return (
     <main>
-      <section className="relative overflow-hidden border-b border-ink/6 bg-fog">
-        <div className="container-shell grid min-h-[calc(100vh-6.5rem)] gap-12 py-12 md:min-h-[calc(100vh-7.5rem)] md:grid-cols-[1fr_0.9fr] md:items-center md:py-16 lg:gap-16">
+      <section className="relative overflow-hidden border-b border-ink/6 bg-[#f7f3eb]">
+        <div className="absolute inset-0 gold-grid opacity-45" />
+        <div className="absolute left-1/2 top-12 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full border border-moss/10" />
+        <div className="absolute left-1/2 top-24 h-[24rem] w-[24rem] -translate-x-1/2 rounded-full border border-clay/10" />
+        <div className="container-shell relative grid min-h-[calc(100vh-6.5rem)] gap-12 py-14 md:min-h-[calc(100vh-7.5rem)] md:grid-cols-[1fr_0.72fr] md:items-center md:py-20">
           <div className="max-w-4xl">
-            <span className="eyebrow">Holistic medicine research system</span>
-            <h1 className="max-w-5xl text-[3.2rem] leading-[0.98] sm:text-6xl lg:text-[5.7rem]">
-              Pattern reasoning for qualified practitioner review.
+            <p className="eyebrow">Patterns / Three Traditions</p>
+            <h1 className="max-w-5xl text-[3.25rem] leading-[0.94] sm:text-6xl lg:text-[6.2rem]">
+              Pattern intelligence for integrative medicine.
             </h1>
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-ink/72 md:text-xl">
-              Pattern App helps practitioners compare Ayurveda, Traditional
-              Chinese Medicine, and Homeopathy perspectives without collapsing
-              them into a single claim. It is citation-based, educational, and
-              built to preserve uncertainty.
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-ink/70 md:text-xl">
+              A source-backed app for exploring symptoms through Homeopathy,
+              Ayurveda, and Chinese medicine, then turning overlapping signals
+              into practical, careful guidance for qualified review.
             </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <Link href="/pattern-app" className="button-primary">
-                Open Pattern App
-              </Link>
-              <a href="#reasoning" className="button-secondary">
-                View reasoning model
-              </a>
+            <div className="mt-9 max-w-2xl rounded-[2rem] border border-ink/8 bg-white/78 p-3 shadow-card backdrop-blur">
+              <WaitlistForm compact source="hero" />
             </div>
-            <p className="mt-5 max-w-2xl text-sm leading-6 text-ink/58">
-              For practitioner research support only. Not a diagnostic,
-              prescribing, or patient-specific treatment engine.
+            <div className="mt-5 flex flex-wrap items-center gap-4">
+              <a href="#how-it-works" className="button-secondary">
+                Learn How It Works
+              </a>
+              <Link href="/pattern-app" className="text-sm font-medium text-ink/62 underline underline-offset-4 hover:text-moss">
+                View current prototype
+              </Link>
+            </div>
+            <p className="mt-6 max-w-xl text-sm leading-6 text-ink/54">
+              Educational research support only. Not diagnosis, prescription,
+              or a substitute for licensed medical care.
             </p>
           </div>
 
           <div className="relative">
-            <div className="absolute -inset-6 bg-soft-radial opacity-80" />
-            <div className="relative overflow-hidden rounded-lg border border-ink/8 bg-white/82 shadow-panel">
-              <div className="border-b border-ink/8 px-5 py-4">
-                <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-moss">
-                  Practitioner case trace
+            <div className="overflow-hidden rounded-[2.25rem] border border-ink/8 bg-[#201f1d] p-5 text-white shadow-panel">
+              <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-5">
+                <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-sage">
+                  Example output
                 </p>
+                <div className="mt-6 space-y-4">
+                  {previewCards.slice(0, 3).map(([title, body]) => (
+                    <div key={title} className="border-t border-white/10 pt-4">
+                      <p className="font-serif text-2xl leading-7 text-white">{title}</p>
+                      <p className="mt-2 text-sm leading-6 text-white/66">{body}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="grid divide-y divide-ink/8">
-                {evidenceRows.map(([stage, evidence, status]) => (
-                  <div
-                    key={stage}
-                    className="grid gap-3 px-5 py-4 sm:grid-cols-[0.55fr_1fr_0.55fr] sm:items-center"
-                  >
-                    <p className="text-sm font-semibold text-ink">{stage}</p>
-                    <p className="text-sm leading-6 text-ink/66">{evidence}</p>
-                    <p className="justify-self-start rounded-full border border-moss/18 bg-sage/10 px-3 py-1 text-xs font-medium text-moss sm:justify-self-end">
-                      {status}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <div className="grid border-t border-ink/8 md:grid-cols-3">
+              <div className="mt-5 grid grid-cols-3 gap-3">
                 {traditions.map((tradition) => (
-                  <div
-                    key={tradition.name}
-                    className="border-t border-ink/8 px-5 py-5 first:border-t-0 md:border-l md:border-t-0 md:first:border-l-0"
-                  >
-                    <p className="font-serif text-2xl leading-7 text-ink">
-                      {tradition.name}
-                    </p>
-                    <p className="mt-3 text-sm leading-6 text-ink/66">
-                      {tradition.signal}
-                    </p>
+                  <div key={tradition.name} className="rounded-[1.1rem] border border-white/10 bg-white/[0.04] p-3">
+                    <p className="text-sm font-medium text-white">{tradition.name}</p>
+                    <p className="mt-2 text-xs leading-5 text-white/52">{tradition.signal}</p>
                   </div>
                 ))}
               </div>
@@ -131,108 +121,126 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="reasoning" className="section-space">
+      <section id="how-it-works" className="section-space">
         <div className="container-shell">
           <div className="max-w-3xl">
-            <span className="eyebrow">Reasoning architecture</span>
-            <h2 className="section-title">
-              Separate the traditions first. Synthesize only after evidence is visible.
-            </h2>
-            <p className="section-copy mt-6">
-              Pattern App is organized around traditional-system relevance, not
-              medical certainty. The goal is to help a practitioner see what
-              each source-supported framework suggests, where the record is
-              thin, and what might need review before moving forward.
-            </p>
+            <p className="eyebrow">What the app does</p>
+            <h2 className="section-title">From intake to source-backed pattern guidance.</h2>
           </div>
-
           <div className="mt-12 grid gap-4 lg:grid-cols-3">
-            {traditions.map((tradition) => (
-              <article
-                key={tradition.name}
-                className="rounded-lg border border-ink/8 bg-white/72 p-6 shadow-card"
-              >
-                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-moss">
-                  {tradition.signal}
-                </p>
-                <h3 className="mt-5 text-3xl leading-8">{tradition.name}</h3>
-                <p className="mt-4 text-sm leading-7 text-ink/68">
-                  {tradition.focus}
-                </p>
+            {steps.map((step, index) => (
+              <article key={step.title} className="rounded-[1.5rem] border border-ink/8 bg-white/74 p-6 shadow-card">
+                <p className="text-sm font-medium text-moss">0{index + 1}</p>
+                <h3 className="mt-8 text-3xl leading-8">{step.title}</h3>
+                <p className="mt-4 text-sm leading-7 text-ink/66">{step.body}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="border-y border-ink/6 bg-white/54 py-16 md:py-20">
+      <section id="traditions" className="border-y border-ink/6 bg-white/56 py-20 md:py-28">
         <div className="container-shell">
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {capabilities.map((capability) => (
-              <article
-                key={capability.title}
-                className="rounded-lg border border-ink/8 bg-fog/78 p-6"
-              >
-                <h3 className="font-sans text-base font-semibold tracking-normal text-ink">
-                  {capability.title}
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-ink/68">
-                  {capability.body}
-                </p>
+          <div className="grid gap-10 lg:grid-cols-[0.75fr_1fr] lg:items-start">
+            <div>
+              <p className="eyebrow">Three traditions</p>
+              <h2 className="section-title">Three maps. One careful synthesis.</h2>
+              <p className="section-copy mt-6">
+                The app does not flatten traditions into a single universal
+                answer. It keeps each map distinct, then compares where their
+                pattern signals overlap or conflict.
+              </p>
+            </div>
+            <div className="grid gap-3">
+              {traditions.map((tradition) => (
+                <article key={tradition.name} className="grid gap-4 rounded-[1.4rem] border border-ink/8 bg-fog/76 p-5 sm:grid-cols-[13rem_1fr]">
+                  <div>
+                    <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-moss">{tradition.signal}</p>
+                    <h3 className="mt-3 text-3xl leading-8">{tradition.name}</h3>
+                  </div>
+                  <p className="self-center text-sm leading-7 text-ink/68">{tradition.detail}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="preview" className="section-space">
+        <div className="container-shell">
+          <div className="max-w-3xl">
+            <p className="eyebrow">Output preview</p>
+            <h2 className="section-title">Practical, not vague. Careful, not overconfident.</h2>
+          </div>
+          <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+            {previewCards.map(([title, body]) => (
+              <article key={title} className="rounded-[1.35rem] border border-ink/8 bg-white/74 p-5 shadow-card">
+                <h3 className="font-sans text-base font-semibold tracking-normal text-ink">{title}</h3>
+                <p className="mt-4 text-sm leading-7 text-ink/66">{body}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="workflow" className="section-space">
-        <div className="container-shell grid gap-12 lg:grid-cols-[0.85fr_1fr] lg:items-start">
+      <section id="sources" className="border-y border-ink/6 bg-[#201f1d] py-20 text-white md:py-28">
+        <div className="container-shell grid gap-12 lg:grid-cols-[0.9fr_1fr] lg:items-center">
           <div>
-            <span className="eyebrow">Practitioner workflow</span>
-            <h2 className="section-title">From intake notes to reviewable research trace.</h2>
-            <p className="section-copy mt-6">
-              The interface is built for clinical-style thinking while staying
-              inside educational, citation-based boundaries: gather context,
-              compare traditional interpretations, then identify cautions,
-              contradictions, and the next useful question.
+            <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-sage">
+              Source-backed trust
+            </p>
+            <h2 className="mt-5 max-w-3xl text-[2.25rem] leading-[1.05] text-white sm:text-5xl">
+              Built around a closed library, not anonymous internet advice.
+            </h2>
+            <p className="mt-6 max-w-2xl text-base leading-8 text-white/68">
+              Patterns is designed to cite where outputs come from: classical
+              texts, repertories, materia medica, source metadata, and curated
+              research layers. Source limits and uncertainty remain visible.
             </p>
           </div>
-
-          <div className="space-y-3">
-            {workflow.map((item, index) => (
-              <div
-                key={item}
-                className="grid gap-4 rounded-lg border border-ink/8 bg-white/76 p-5 shadow-card sm:grid-cols-[3rem_1fr]"
-              >
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-moss/18 bg-sage/10 text-sm font-semibold text-moss">
-                  {index + 1}
-                </div>
-                <p className="self-center text-base leading-7 text-ink/72">{item}</p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {trustSignals.map((signal) => (
+              <div key={signal} className="rounded-[1.25rem] border border-white/10 bg-white/[0.04] p-5">
+                <p className="text-sm leading-7 text-white/76">{signal}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="newsletter" className="section-space">
+        <div className="container-shell grid gap-10 lg:grid-cols-[0.8fr_1fr] lg:items-start">
+          <div>
+            <p className="eyebrow">Free education</p>
+            <h2 className="section-title">Follow the build. Learn the pattern language.</h2>
+            <p className="section-copy mt-6">
+              Join for concise updates on integrative pattern recognition,
+              herbs and remedies as source-backed research categories, and the
+              process of building the Three Traditions app.
+            </p>
+          </div>
+          <div className="rounded-[2rem] border border-ink/8 bg-white/78 p-6 shadow-panel">
+            <WaitlistForm source="newsletter" />
           </div>
         </div>
       </section>
 
       <section className="pb-20 md:pb-28">
         <div className="container-shell">
-          <div className="rounded-lg border border-ink/8 bg-ink px-6 py-10 text-white shadow-panel sm:px-8 md:px-10 lg:grid lg:grid-cols-[1fr_auto] lg:items-center lg:gap-10">
+          <div className="rounded-[2rem] border border-ink/8 bg-white/80 p-6 shadow-panel md:p-10 lg:grid lg:grid-cols-[1fr_auto] lg:items-center lg:gap-10">
             <div>
-              <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-sage">
-                Prototype available
-              </p>
-              <h2 className="mt-4 max-w-3xl text-[2.2rem] leading-[1.05] text-white sm:text-5xl">
-                Try the current Pattern App reasoning surface.
+              <p className="eyebrow">Early access</p>
+              <h2 className="max-w-3xl text-[2.25rem] leading-[1.05] sm:text-5xl">
+                Join the waitlist for Patterns / Three Traditions.
               </h2>
-              <p className="mt-5 max-w-2xl text-base leading-8 text-white/72">
-                Use the prototype to test structured practitioner intake,
-                inspect tradition-specific outputs, and review the citation and
-                safety trace behind a first-pass interpretation.
+              <p className="mt-5 max-w-2xl text-base leading-8 text-ink/68">
+                Get launch updates, educational notes, and invitations to test
+                the app as the prototype becomes more useful.
               </p>
             </div>
-            <Link href="/pattern-app" className="button-primary mt-8 border-white bg-white text-ink hover:border-sage hover:bg-sage lg:mt-0">
-              Launch prototype
-            </Link>
+            <div className="mt-8 min-w-[min(100%,34rem)] lg:mt-0">
+              <WaitlistForm compact source="final-cta" />
+            </div>
           </div>
         </div>
       </section>

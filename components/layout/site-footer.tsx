@@ -10,8 +10,8 @@ export function SiteFooter() {
           <div className="section-divider max-w-md" />
           <p className="font-serif text-[1.9rem] text-ink">{siteConfig.name}</p>
           <p className="mt-5 text-ink/68">
-            A citation-based research interface for comparing traditional
-            medicine pattern language under qualified practitioner review.
+            A source-backed pattern recognition app across Homeopathy,
+            Ayurveda, and Chinese medicine.
           </p>
         </div>
 
@@ -38,7 +38,7 @@ export function SiteFooter() {
             <ul className="mt-4 space-y-3 text-sm text-ink/75">
               <li>Keep Ayurveda, TCM, and Homeopathy distinct</li>
               <li>Preserve citations, uncertainty, and source limits</li>
-              <li>Prioritize safety notes before pattern ranking</li>
+              <li>Prioritize safety before pattern ranking</li>
             </ul>
           </div>
         </div>

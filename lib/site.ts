@@ -1,14 +1,15 @@
 export const siteConfig = {
-  name: "Pattern App",
+  name: "Patterns",
   description:
-    "A practitioner-facing holistic medicine research system for tradition-separated reasoning, citation traceability, and safety-first review.",
+    "A source-backed pattern recognition app across Homeopathy, Ayurveda, and Chinese medicine.",
   url: "https://example.com",
-  email: "hello@patternapp.example",
+  email: "hello@patterns.example",
 };
 
 export const navItems = [
-  { href: "/#reasoning", label: "Reasoning" },
-  { href: "/#workflow", label: "Workflow" },
+  { href: "/#how-it-works", label: "How It Works" },
+  { href: "/#traditions", label: "Traditions" },
+  { href: "/#sources", label: "Sources" },
+  { href: "/#newsletter", label: "Waitlist" },
   { href: "/pattern-app", label: "Prototype" },
-  { href: "/resources", label: "Resources" },
 ];

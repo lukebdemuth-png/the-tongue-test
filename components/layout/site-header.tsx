@@ -13,7 +13,7 @@ export function SiteHeader() {
             {siteConfig.name}
           </span>
           <span className="mt-1 block text-[11px] uppercase tracking-[0.2em] text-moss/90">
-            Practitioner research reasoning
+            Three Traditions
           </span>
         </Link>
 
@@ -25,8 +25,8 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <Link href="/pattern-app" className="button-secondary hidden sm:inline-flex">
-          Open App
+        <Link href="/#newsletter" className="button-secondary hidden sm:inline-flex">
+          Join Waitlist
         </Link>
       </div>
 
