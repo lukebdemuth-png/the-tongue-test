@@ -1,0 +1,725 @@
+{
+  "registry_name": "Pattern App Core Source Registry",
+  "purpose": "Canonical source registry for the three healing modes: Ayurveda, Traditional Chinese Medicine, and Homeopathy.",
+  "last_updated": "2026-05-21",
+  "app_scope": {
+    "primary_modes": [
+      "Ayurveda",
+      "Traditional Chinese Medicine",
+      "Homeopathy"
+    ],
+    "ranking_target": "source-supported traditional-system relevance, not medical truth",
+    "safety_position": "educational, citation-based practitioner research support; not diagnosis or prescription"
+  },
+  "status_definitions": {
+    "local_file_status": {
+      "present": "A raw/local source file exists in the repo workspace.",
+      "missing": "No raw/local source file is present yet.",
+      "private_present": "A local private source exists but must not be committed or exposed as extracted text."
+    },
+    "ingestion_status": {
+      "processed": "Extracted/clean/chunk outputs exist.",
+      "raw_only": "Raw source exists but has not been ingested to final outputs.",
+      "missing_source": "Source must be located or supplied before ingestion.",
+      "metadata_only": "Only metadata should be tracked unless rights are clarified."
+    },
+    "priority": {
+      "P0": "Required for minimum viable Pattern App mode coverage.",
+      "P1": "High-priority expansion for clinical or materia medica coverage.",
+      "P2": "Useful later expansion or comparison layer."
+    }
+  },
+  "sources": [
+    {
+      "source_id": "ayurveda_charaka_samhita_vol1",
+      "healing_mode": "Ayurveda",
+      "tradition": "Ayurveda",
+      "title": "Charaka Samhita with Ayurved Dipika",
+      "canonical_role": "foundational_theory",
+      "source_layer": "foundational theory",
+      "app_role": [
+        "dosha theory",
+        "pathology",
+        "diagnosis logic",
+        "physiology",
+        "treatment principles"
+      ],
+      "priority": "P0",
+      "authors": [],
+      "translator_authors": [
+        "Ram Karan Sharma",
+        "Vaidya Bhagvan Dash"
+      ],
+      "known_source_url": "https://archive.org/details/JTrz_charak-samhita-with-ayurved-dipika-of-ram-karan-sharma-by-vaidya-bhagvan-dash-vol.-1-chaukhambh",
+      "local_raw_path": "data/raw/charaka_vol1.pdf",
+      "local_outputs": {
+        "extracted_text": "data/extracted/charaka_vol1_raw.txt",
+        "clean_markdown": "data/clean/charaka_vol1.md",
+        "chunks_jsonl": "data/chunks/charaka_vol1_chunks.jsonl",
+        "ocr_confidence_log": "data/extracted/charaka_vol1_ocr_confidence.jsonl"
+      },
+      "local_file_status": "present",
+      "ingestion_status": "processed",
+      "rights_access_status": "verify before publishing extracted full text",
+      "text_quality_notes": "Scanned/image PDF; full OCR quality pass still needed.",
+      "next_action": "Normalize chunks to master metadata schema and complete OCR quality review."
+    },
+    {
+      "source_id": "ayurveda_ashtanga_hridayam",
+      "healing_mode": "Ayurveda",
+      "tradition": "Ayurveda",
+      "title": "Ashtanga Hridayam",
+      "canonical_role": "clinical_pattern_text",
+      "source_layer": "clinical pattern text",
+      "app_role": [
+        "practical clinical Ayurveda",
+        "integrated treatment logic",
+        "formulations",
+        "lifestyle"
+      ],
+      "priority": "P0",
+      "authors": [
+        "Vagbhata"
+      ],
+      "translator_authors": [
+        "K. R. Srikantha Murthy"
+      ],
+      "known_source_url": "https://ia800502.us.archive.org/0/items/AstangaHrdayam.Eng/Astanga-hrdayam.%20Eng.pdf",
+      "local_raw_path": "data/raw/ashtanga_hridayam.pdf",
+      "local_outputs": {
+        "extracted_text": "data/extracted/ashtanga_hridayam_raw.txt",
+        "clean_markdown": "data/clean/ashtanga_hridayam.md",
+        "chunks_jsonl": "data/chunks/ashtanga_hridayam_chunks.jsonl"
+      },
+      "local_file_status": "present",
+      "ingestion_status": "processed",
+      "rights_access_status": "verify before publishing extracted full text",
+      "text_quality_notes": "Processed output exists; schema normalization still needed.",
+      "next_action": "Normalize chunks to master metadata schema."
+    },
+    {
+      "source_id": "ayurveda_sushruta_samhita_vol1",
+      "healing_mode": "Ayurveda",
+      "tradition": "Ayurveda",
+      "title": "Sushruta Samhita Volume 1",
+      "canonical_role": "foundational_theory",
+      "source_layer": "foundational theory / classical expansion",
+      "app_role": [
+        "surgery",
+        "anatomy",
+        "diagnostics",
+        "classical expansion layer"
+      ],
+      "priority": "P1",
+      "authors": [
+        "Sushruta"
+      ],
+      "translator_authors": [
+        "Kaviraj Kunja Lal Bhishagratna"
+      ],
+      "known_source_url": "https://archive.org/details/englishtranslati01susruoft",
+      "local_raw_path": "data/raw/sushruta_samhita_vol1.pdf",
+      "local_outputs": {
+        "extracted_text": "data/extracted/sushruta_samhita_vol1_raw.txt",
+        "clean_markdown": "data/clean/sushruta_samhita_vol1.md",
+        "chunks_jsonl": "data/chunks/sushruta_samhita_vol1_chunks.jsonl"
+      },
+      "local_file_status": "present",
+      "ingestion_status": "processed",
+      "rights_access_status": "Internet Archive scan; 1907 edition appears public-domain, verify before publishing extracted full text",
+      "text_quality_notes": "Embedded OCR text layer is present but noisy; needs OCR/cleaning quality review before user-facing quotation.",
+      "next_action": "Normalize chunks to master metadata schema and review chapter detection quality."
+    },
+    {
+      "source_id": "ayurveda_vagbhata_samhita_ashtanga_hridayam",
+      "healing_mode": "Ayurveda",
+      "tradition": "Ayurveda",
+      "title": "Vagbhata Samhita / Ashtanga Hridayam",
+      "canonical_role": "clinical_pattern_text",
+      "source_layer": "classical clinical pattern text",
+      "app_role": [
+        "practical clinical Ayurveda",
+        "integrated treatment logic",
+        "formulations",
+        "lifestyle",
+        "Vagbhata core book alignment"
+      ],
+      "priority": "P0",
+      "authors": [
+        "Vagbhata"
+      ],
+      "translator_authors": [
+        "K. R. Srikantha Murthy"
+      ],
+      "known_source_url": "https://ia800502.us.archive.org/0/items/AstangaHrdayam.Eng/Astanga-hrdayam.%20Eng.pdf",
+      "local_raw_path": "data/raw/ashtanga_hridayam.pdf",
+      "local_outputs": {
+        "extracted_text": "data/extracted/ashtanga_hridayam_raw.txt",
+        "clean_markdown": "data/clean/ashtanga_hridayam.md",
+        "chunks_jsonl": "data/chunks/ashtanga_hridayam_chunks.jsonl"
+      },
+      "local_file_status": "present",
+      "ingestion_status": "processed",
+      "rights_access_status": "verify before publishing extracted full text",
+      "text_quality_notes": "This registry entry records the user's Vagbhata core-book label; processed chunks are currently generated from the Ashtanga Hridayam source entry.",
+      "next_action": "Keep linked to existing Ashtanga Hridayam chunks; avoid duplicate ingestion unless a distinct Vagbhata source is supplied."
+    },
+    {
+      "source_id": "ayurveda_vasant_lad_textbook_vol1",
+      "healing_mode": "Ayurveda",
+      "tradition": "Ayurveda",
+      "title": "Textbook of Ayurveda, Vol. 1: Fundamental Principles of Ayurveda",
+      "canonical_role": "framework_text",
+      "source_layer": "modern educational framework / foundational principles",
+      "app_role": [
+        "fundamental principles",
+        "modern Ayurveda teaching framework",
+        "concept organization",
+        "practitioner-facing explanation layer"
+      ],
+      "priority": "P0",
+      "authors": [
+        "Vasant Lad"
+      ],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "metadata_only",
+      "rights_access_status": "likely copyrighted; private/local or metadata-only unless lawful open access or permission is confirmed",
+      "text_quality_notes": "Core Ayurveda framework book supplied by user; do not commit extracted full text without rights clearance.",
+      "next_action": "If user supplies a lawful local copy, register it as private-only and extract only into gitignored/private outputs."
+    },
+    {
+      "source_id": "ayurveda_vasant_lad_textbook_vol2",
+      "healing_mode": "Ayurveda",
+      "tradition": "Ayurveda",
+      "title": "Textbook of Ayurveda, Vol. 2: A Complete Guide to Clinical Assessment",
+      "canonical_role": "clinical_assessment",
+      "source_layer": "modern clinical assessment framework",
+      "app_role": [
+        "prakriti and vikriti assessment",
+        "agni and ama assessment",
+        "clinical observation",
+        "intake structure",
+        "practitioner question sequencing"
+      ],
+      "priority": "P0",
+      "authors": [
+        "Vasant Lad"
+      ],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "metadata_only",
+      "rights_access_status": "likely copyrighted; private/local or metadata-only unless lawful open access or permission is confirmed",
+      "text_quality_notes": "Highest-value Vasant Lad volume for intake and clinical assessment architecture; do not commit extracted full text without rights clearance.",
+      "next_action": "If user supplies a lawful local copy, register it as private-only and derive private intake/assessment metadata."
+    },
+    {
+      "source_id": "ayurveda_vasant_lad_textbook_vol3",
+      "healing_mode": "Ayurveda",
+      "tradition": "Ayurveda",
+      "title": "Textbook of Ayurveda, Vol. 3: General Principles of Management and Treatment",
+      "canonical_role": "treatment_principles",
+      "source_layer": "modern management and treatment principles",
+      "app_role": [
+        "general management principles",
+        "treatment category organization",
+        "diet and lifestyle categories",
+        "herbs and practices for practitioner review"
+      ],
+      "priority": "P0",
+      "authors": [
+        "Vasant Lad"
+      ],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "metadata_only",
+      "rights_access_status": "likely copyrighted; private/local or metadata-only unless lawful open access or permission is confirmed",
+      "text_quality_notes": "Core Ayurveda management/treatment book supplied by user; do not commit extracted full text without rights clearance.",
+      "next_action": "If user supplies a lawful local copy, register it as private-only and derive private treatment-category metadata."
+    },
+    {
+      "source_id": "ayurveda_dravyaguna_vijnana",
+      "healing_mode": "Ayurveda",
+      "tradition": "Ayurveda",
+      "title": "Dravyaguna Vijnana",
+      "canonical_role": "materia_medica",
+      "source_layer": "materia medica / herb reference",
+      "app_role": [
+        "rasa",
+        "virya",
+        "vipaka",
+        "doshic actions",
+        "herb properties"
+      ],
+      "priority": "P0",
+      "authors": [
+        "Priya Vrat Sharma"
+      ],
+      "translator_authors": [],
+      "known_source_url": "https://archive.org/details/Jsht_dravya-guna-vigyana-by-priya-vrata-sharma-vol.-2-and-3-vidya-bhavan-ayurveda-ser",
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "missing_source",
+      "rights_access_status": "verify Archive access status and rights before downloading/extracting",
+      "text_quality_notes": "Needed for Ayurveda herbs and materia medica layer.",
+      "next_action": "Locate permitted download/text asset or ask user/ChatGPT for rights/access notes."
+    },
+    {
+      "source_id": "ayurveda_indian_materia_medica_nadkarni",
+      "healing_mode": "Ayurveda",
+      "tradition": "Ayurveda / Indian herbal medicine",
+      "title": "Indian Materia Medica",
+      "canonical_role": "materia_medica",
+      "source_layer": "materia medica / botanical cross-reference",
+      "app_role": [
+        "Indian herbal cross-reference",
+        "medicinal actions",
+        "botanical references"
+      ],
+      "priority": "P1",
+      "authors": [
+        "K. M. Nadkarni"
+      ],
+      "translator_authors": [],
+      "known_source_url": "https://archive.org/details/in.ernet.dli.2015.112096",
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "missing_source",
+      "rights_access_status": "verify public-domain/access status before downloading/extracting",
+      "text_quality_notes": "Useful expansion for herbs and botanical references.",
+      "next_action": "Locate permitted download/text asset or ask user/ChatGPT for rights/access notes."
+    },
+    {
+      "source_id": "tcm_huangdi_neijing_suwen",
+      "healing_mode": "Traditional Chinese Medicine",
+      "tradition": "Traditional Chinese Medicine",
+      "title": "Huang Di Nei Jing Su Wen",
+      "canonical_role": "foundational_theory",
+      "source_layer": "foundational theory",
+      "app_role": [
+        "yin-yang",
+        "qi dynamics",
+        "organ systems",
+        "pattern logic",
+        "foundational TCM philosophy"
+      ],
+      "priority": "P0",
+      "authors": [],
+      "translator_authors": [],
+      "known_source_url": "https://ia903101.us.archive.org/8/items/HuangDiNeiJingSuWen/Huang%20Di%20Nei%20jing%20su%20wen.pdf",
+      "local_raw_path": "data/raw/huangdi_neijing.pdf",
+      "local_outputs": {
+        "extracted_text": "data/extracted/huangdi_neijing_raw.txt",
+        "clean_markdown": "data/clean/huangdi_neijing.md",
+        "chunks_jsonl": "data/chunks/huangdi_neijing_chunks.jsonl"
+      },
+      "local_file_status": "present",
+      "ingestion_status": "processed",
+      "rights_access_status": "verify edition/translation rights before publishing extracted full text",
+      "text_quality_notes": "Processed output exists; schema normalization still needed.",
+      "next_action": "Normalize chunks to master metadata schema and verify translator/edition metadata."
+    },
+    {
+      "source_id": "tcm_shang_han_lun",
+      "healing_mode": "Traditional Chinese Medicine",
+      "tradition": "Traditional Chinese Medicine",
+      "title": "Shang Han Lun",
+      "canonical_role": "clinical_pattern_text",
+      "source_layer": "clinical pattern text / formula logic",
+      "app_role": [
+        "pattern differentiation",
+        "disease staging",
+        "formula logic"
+      ],
+      "priority": "P0",
+      "authors": [
+        "Zhang Zhongjing"
+      ],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "missing_source",
+      "rights_access_status": "source and translation rights needed",
+      "text_quality_notes": "Needed for TCM clinical pattern and formula direction.",
+      "next_action": "Ask user/ChatGPT for public/open-access source options with rights/access notes."
+    },
+    {
+      "source_id": "tcm_jin_gui_yao_lue",
+      "healing_mode": "Traditional Chinese Medicine",
+      "tradition": "Traditional Chinese Medicine",
+      "title": "Jin Gui Yao Lue",
+      "canonical_role": "clinical_pattern_text",
+      "source_layer": "clinical pattern text / internal medicine",
+      "app_role": [
+        "internal medicine",
+        "syndrome interpretation",
+        "classical formulas"
+      ],
+      "priority": "P1",
+      "authors": [
+        "Zhang Zhongjing"
+      ],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "missing_source",
+      "rights_access_status": "source and translation rights needed",
+      "text_quality_notes": "Needed for TCM internal medicine formula reasoning.",
+      "next_action": "Ask user/ChatGPT for public/open-access source options with rights/access notes."
+    },
+    {
+      "source_id": "tcm_chinese_herbal_medicine_materia_medica",
+      "healing_mode": "Traditional Chinese Medicine",
+      "tradition": "Traditional Chinese Medicine",
+      "title": "Chinese Herbal Medicine: Materia Medica",
+      "canonical_role": "materia_medica",
+      "source_layer": "materia medica / herb reference",
+      "app_role": [
+        "TCM herb database",
+        "channels entered",
+        "temperatures",
+        "contraindications",
+        "herb functions"
+      ],
+      "priority": "P0",
+      "authors": [],
+      "translator_authors": [],
+      "known_source_url": "https://www.amsil.com/book/benskymateriamedica3th.pdf",
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "missing_source",
+      "rights_access_status": "likely copyrighted; verify permission/open-access status before downloading or extracting",
+      "text_quality_notes": "Needed for TCM herbs and contraindications; may require metadata-only handling if rights are unclear.",
+      "next_action": "Clarify rights or identify open licensed alternative."
+    },
+    {
+      "source_id": "tcm_chinese_herbal_medicine_formulas_strategies",
+      "healing_mode": "Traditional Chinese Medicine",
+      "tradition": "Traditional Chinese Medicine",
+      "title": "Chinese Herbal Medicine: Formulas and Strategies",
+      "canonical_role": "materia_medica",
+      "source_layer": "formula reference",
+      "app_role": [
+        "formula architecture",
+        "herb interactions",
+        "formula relationships"
+      ],
+      "priority": "P1",
+      "authors": [],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "missing_source",
+      "rights_access_status": "likely copyrighted; verify permission/open-access status before downloading or extracting",
+      "text_quality_notes": "Needed for formula relationships; may require metadata-only handling if rights are unclear.",
+      "next_action": "Clarify rights or identify open licensed alternative."
+    },
+    {
+      "source_id": "homeopathy_organon_fifth_sixth",
+      "healing_mode": "Homeopathy",
+      "tradition": "Homeopathy",
+      "title": "Organon of Medicine",
+      "canonical_role": "foundational_theory",
+      "source_layer": "foundational theory",
+      "app_role": [
+        "homeopathic philosophy",
+        "constitutional logic",
+        "case methodology"
+      ],
+      "priority": "P0",
+      "authors": [
+        "Samuel Hahnemann"
+      ],
+      "translator_authors": [],
+      "known_source_url": "https://archive.org/details/organonofmedicin0000hahn/page/n9/mode/2up",
+      "local_raw_path": "data/raw/organon_medicine.pdf",
+      "local_outputs": {
+        "extracted_text": "data/extracted/organon_raw.txt",
+        "clean_markdown": "data/clean/organon.md",
+        "chunks_jsonl": "data/chunks/organon_chunks.jsonl"
+      },
+      "local_file_status": "present",
+      "ingestion_status": "processed",
+      "rights_access_status": "locally supplied plus Archive source; verify edition and rights before publishing extracted full text",
+      "text_quality_notes": "Processed output exists; raw fifth/sixth edition PDF is now present.",
+      "next_action": "Normalize chunks to master metadata schema and confirm edition metadata."
+    },
+    {
+      "source_id": "homeopathy_organon_medical_art",
+      "healing_mode": "Homeopathy",
+      "tradition": "Homeopathy",
+      "title": "Organon of the Medical Art",
+      "canonical_role": "foundational_theory",
+      "source_layer": "foundational theory / authoritative philosophical text",
+      "app_role": [
+        "homeopathic philosophy",
+        "case methodology",
+        "authoritative philosophical frame",
+        "modern preferred Organon title alignment"
+      ],
+      "priority": "P0",
+      "authors": [
+        "Samuel Hahnemann"
+      ],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "metadata_only",
+      "rights_access_status": "edition/translation rights needed; modern editions may be copyrighted",
+      "text_quality_notes": "User-designated core Organon title. Current processed Organon chunks use an available fifth/sixth edition source; do not merge editions without edition-aware metadata.",
+      "next_action": "If user supplies this edition, register private/local path and keep edition distinct from existing Organon chunks."
+    },
+    {
+      "source_id": "homeopathy_science_of_homeopathy_vithoulkas",
+      "healing_mode": "Homeopathy",
+      "tradition": "Homeopathy",
+      "title": "The Science of Homeopathy",
+      "canonical_role": "framework_text",
+      "source_layer": "modern system framework",
+      "app_role": [
+        "homeopathic theory",
+        "levels of health",
+        "case reasoning framework",
+        "system architecture"
+      ],
+      "priority": "P0",
+      "authors": [
+        "George Vithoulkas"
+      ],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "metadata_only",
+      "rights_access_status": "likely copyrighted; private/local or metadata-only unless lawful open access or permission is confirmed",
+      "text_quality_notes": "Core Homeopathy framework book supplied by user; do not commit extracted full text without rights clearance.",
+      "next_action": "If user supplies a lawful local copy, register it as private-only and extract private framework notes."
+    },
+    {
+      "source_id": "homeopathy_soul_of_remedies_sankaran",
+      "healing_mode": "Homeopathy",
+      "tradition": "Homeopathy",
+      "title": "The Soul of Remedies",
+      "canonical_role": "framework_text",
+      "source_layer": "modern remedy framework",
+      "app_role": [
+        "remedy essence",
+        "sensation/vital approach",
+        "modern interpretive framework",
+        "remedy differentiation"
+      ],
+      "priority": "P0",
+      "authors": [
+        "Rajan Sankaran"
+      ],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "metadata_only",
+      "rights_access_status": "likely copyrighted; private/local or metadata-only unless lawful open access or permission is confirmed",
+      "text_quality_notes": "Core modern Homeopathy framework book supplied by user; do not commit extracted full text without rights clearance.",
+      "next_action": "If user supplies a lawful local copy, register it as private-only and extract private remedy-framework metadata."
+    },
+    {
+      "source_id": "homeopathy_organon_1849_third_american",
+      "healing_mode": "Homeopathy",
+      "tradition": "Homeopathy",
+      "title": "Samuel Hahnemann's Organon of Homeopathic Medicine",
+      "canonical_role": "foundational_theory",
+      "source_layer": "historical foundational theory edition",
+      "app_role": [
+        "historical comparison",
+        "homeopathic philosophy",
+        "case methodology"
+      ],
+      "priority": "P2",
+      "authors": [
+        "Samuel Hahnemann"
+      ],
+      "translator_authors": [],
+      "editor_commentator": [
+        "Constantine Hering"
+      ],
+      "edition": "Third American edition, 1849",
+      "known_source_url": null,
+      "local_raw_path": "data/raw/organon_homeopathic_medicine_1849_third_american.pdf",
+      "local_outputs": {},
+      "local_file_status": "present",
+      "ingestion_status": "raw_only",
+      "rights_access_status": "locally supplied; likely public-domain historical edition but verify before publishing extracted full text",
+      "text_quality_notes": "Large OCR-managed PDF; keep distinct from fifth/sixth edition.",
+      "next_action": "Do not merge with other Organon editions; ingest only after edition-aware metadata schema exists."
+    },
+    {
+      "source_id": "homeopathy_boericke_materia_medica",
+      "healing_mode": "Homeopathy",
+      "tradition": "Homeopathy",
+      "title": "Boericke's New Manual of Homeopathic Materia Medica with Repertory",
+      "canonical_role": "materia_medica",
+      "source_layer": "materia medica / remedy database",
+      "app_role": [
+        "remedy database",
+        "modalities",
+        "constitutional tendencies",
+        "symptom patterns",
+        "repertory reference"
+      ],
+      "priority": "P0",
+      "authors": [
+        "William Boericke"
+      ],
+      "translator_authors": [],
+      "known_source_url": "https://www.homeoint.org/books/boericmm/index.htm",
+      "alternate_source_url": "https://archive.org/details/BoerickeMateriaMedica_201510",
+      "local_raw_path": null,
+      "local_outputs": {
+        "chunks_jsonl": "data/chunks/homeopathy_boericke_chunks.jsonl"
+      },
+      "local_file_status": "web_processed",
+      "ingestion_status": "processed",
+      "rights_access_status": "Homeoint structured web source accessed as public web pages; verify terms before publishing extracted full text. Archive asset also needs access verification.",
+      "text_quality_notes": "User-designated core practical Homeopathy reference. Homeoint entries parsed as one JSONL chunk per remedy with section headings preserved where available.",
+      "next_action": "Use Boericke as the first source-backed Homeopathy remedy-differential layer; add Kent-style repertory/rubric data next for stronger ranking."
+    },
+    {
+      "source_id": "homeopathy_kent_repertory",
+      "healing_mode": "Homeopathy",
+      "tradition": "Homeopathy",
+      "title": "Kent's Final General Repertory",
+      "canonical_role": "repertory",
+      "source_layer": "repertory / symptom index",
+      "app_role": [
+        "repertory logic",
+        "symptom indexing",
+        "remedy mapping"
+      ],
+      "priority": "P0",
+      "authors": [
+        "James Tyler Kent"
+      ],
+      "translator_authors": [],
+      "known_source_url": "http://www.homeoint.org/books/kentrep/kentcont.htm",
+      "local_raw_path": null,
+      "local_outputs": {
+        "chunks_jsonl": "data/chunks/homeopathy_kent_repertory_chunks.jsonl"
+      },
+      "local_file_status": "web_processed",
+      "ingestion_status": "processed",
+      "rights_access_status": "Homeoint structured web source accessed as public web pages; verify terms before publishing extracted full text. Modern edited Kent repertory editions may be copyrighted and must remain separate.",
+      "text_quality_notes": "Selected Kent repertory sections parsed from Homeoint into rubric JSONL with rubric path, page, remedy abbreviations, and source URL.",
+      "next_action": "Use selected Kent rubrics to support Homeopathy rubric clusters; expand parsing/normalization and map abbreviations to full remedy names."
+    },
+    {
+      "source_id": "homeopathy_desktop_guide_keynotes_morrison",
+      "healing_mode": "Homeopathy",
+      "tradition": "Homeopathy",
+      "title": "Desktop Guide to Keynotes and Confirmatory Symptoms",
+      "canonical_role": "clinical_reference",
+      "source_layer": "clinical keynotes / remedy confirmation",
+      "app_role": [
+        "clinical keynotes",
+        "confirmatory symptoms",
+        "remedy differentials",
+        "practical clinical application"
+      ],
+      "priority": "P0",
+      "authors": [
+        "Roger Morrison"
+      ],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "metadata_only",
+      "rights_access_status": "likely copyrighted; private/local or metadata-only unless lawful open access or permission is confirmed",
+      "text_quality_notes": "User-designated core practical Homeopathy reference; do not commit extracted full text without rights clearance.",
+      "next_action": "If user supplies a lawful local copy, register it as private-only and derive private remedy-keynote metadata."
+    },
+    {
+      "source_id": "homeopathy_desktop_companion_physical_pathology_morrison",
+      "healing_mode": "Homeopathy",
+      "tradition": "Homeopathy",
+      "title": "Desktop Companion to Physical Pathology",
+      "canonical_role": "clinical_reference",
+      "source_layer": "physical pathology / clinical reference",
+      "app_role": [
+        "pathology-oriented remedy differentials",
+        "clinical context",
+        "physical pathology",
+        "practical clinical application"
+      ],
+      "priority": "P0",
+      "authors": [
+        "Roger Morrison"
+      ],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "metadata_only",
+      "rights_access_status": "likely copyrighted; private/local or metadata-only unless lawful open access or permission is confirmed",
+      "text_quality_notes": "User-designated core practical Homeopathy reference; do not commit extracted full text without rights clearance.",
+      "next_action": "If user supplies a lawful local copy, register it as private-only and derive private pathology/remedy metadata."
+    },
+    {
+      "source_id": "homeopathy_kent_lectures_materia_medica",
+      "healing_mode": "Homeopathy",
+      "tradition": "Homeopathy",
+      "title": "Lectures on Homeopathic Materia Medica",
+      "canonical_role": "materia_medica",
+      "source_layer": "materia medica / constitutional interpretation",
+      "app_role": [
+        "constitutional interpretation",
+        "remedy psychology",
+        "remedy differentials"
+      ],
+      "priority": "P1",
+      "authors": [
+        "James Tyler Kent"
+      ],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "missing_source",
+      "rights_access_status": "source and access rights needed",
+      "text_quality_notes": "Useful for remedy psychology and constitutional notes.",
+      "next_action": "Ask user/ChatGPT for public/open-access source options with rights/access notes."
+    }
+  ],
+  "next_development_order": [
+    "Validate this registry against local files.",
+    "Create schema validation tests for source registry and chunk outputs.",
+    "Normalize existing Charaka, Ashtanga Hridayam, Huang Di Nei Jing, and Organon chunks to the master metadata schema.",
+    "Complete Charaka OCR quality pass.",
+    "Ingest Sushruta after schema normalization.",
+    "Locate or verify missing P0 materia medica/repertory sources for each healing mode.",
+    "Build first retrieval/ranking prototype only after citations and schema validation are stable."
+  ]
+}

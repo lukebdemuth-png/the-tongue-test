@@ -1,0 +1,62 @@
+{
+  "case_id": "example-sleep-digestion",
+  "patient_context": {
+    "age_range": "adult",
+    "sex": "",
+    "pregnancy_status": "",
+    "known_conditions": [],
+    "current_medications": [],
+    "allergies": [],
+    "clinical_setting": "educational practitioner review"
+  },
+  "symptoms": {
+    "chief_complaint": "Poor sleep with digestive discomfort",
+    "primary_symptoms": ["sleep disturbance", "digestive discomfort"],
+    "secondary_symptoms": ["low energy"],
+    "duration": "several weeks",
+    "onset": "",
+    "severity": "moderate",
+    "frequency": "",
+    "better_from": [],
+    "worse_from": [],
+    "time_patterns": ["worse at night"],
+    "temperature_patterns": [],
+    "digestion": "variable appetite and digestion",
+    "sleep": "difficulty staying asleep",
+    "energy": "low morning energy",
+    "mood": "",
+    "pain_location": "",
+    "pain_quality": ""
+  },
+  "tradition_specific_inputs": {
+    "ayurveda": {
+      "prakriti": "",
+      "vikriti": "",
+      "agni": "",
+      "ama_signs": [],
+      "bowel_pattern": "",
+      "tongue_notes": "",
+      "pulse_notes": ""
+    },
+    "tcm": {
+      "tongue": "",
+      "pulse": "",
+      "temperature": "",
+      "sweating": "",
+      "thirst": "",
+      "appetite": "",
+      "bowel_urine": "",
+      "emotional_pattern": ""
+    },
+    "homeopathy": {
+      "modalities": [],
+      "mental_emotional_state": "",
+      "generals": [],
+      "peculiar_symptoms": [],
+      "food_cravings_aversions": [],
+      "thermal_state": ""
+    }
+  },
+  "practitioner_notes": "Compare traditional source relevance for sleep, digestion, appetite, and low energy.",
+  "requested_output_depth": "standard"
+}

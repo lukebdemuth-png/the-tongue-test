@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Archive.org Homeopathy Collections",
+    "url": "https://archive.org/",
+    "access_mode": "metadata API and public download assets",
+    "allowed_content": ["public-domain PDFs", "OCR text", "metadata", "links"],
+    "collection_targets": ["materia medica", "repertories", "clinical case studies", "remedy relationship systems", "historical journals", "pharmacopoeias", "practitioner writings"],
+    "focus": ["symptom-pattern relationships", "remedy relationships", "intervention sequencing", "constitutional descriptions", "case reasoning", "differential remedy logic"]
+  },
+  {
+    "name": "HathiTrust Homeopathy Public Domain",
+    "url": "https://www.hathitrust.org/",
+    "access_mode": "public-domain metadata and permitted full-view assets",
+    "allowed_content": ["metadata", "links", "public-domain full text where permitted"],
+    "collection_targets": ["materia medica", "repertories", "historical journals", "pharmacopoeias", "practitioner writings"],
+    "focus": ["symptom-pattern relationships", "remedy relationships", "constitutional descriptions", "differential remedy logic"]
+  },
+  {
+    "name": "Project Gutenberg Homeopathy Texts",
+    "url": "https://www.gutenberg.org/",
+    "access_mode": "public ebook assets and catalog metadata",
+    "allowed_content": ["public-domain ebooks", "metadata", "links"],
+    "collection_targets": ["materia medica", "practitioner writings", "historical journals"],
+    "focus": ["symptom-pattern relationships", "constitutional descriptions", "case reasoning"]
+  },
+  {
+    "name": "Journal of Integrated Standardized Homoeopathy",
+    "url": "https://jish-mldtrust.com/current-issue/",
+    "access_mode": "public current issue page with full text and PDF links",
+    "allowed_content": ["metadata", "case reports", "open-access full text", "open-access PDFs", "links"],
+    "priority": "high",
+    "collection_targets": ["case reports", "standardized case record methodology", "practitioner reasoning", "follow-up logic", "intervention rationale", "longitudinal outcomes", "practitioner training methods", "clinical documentation structures", "differential reasoning", "confidence/limitations language"],
+    "focus": ["methodology articles", "structured intake systems", "follow-up evaluation", "clinical decision frameworks", "practitioner training"]
+  }
+]

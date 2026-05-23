@@ -1,0 +1,13 @@
+{
+  "chief_concern": ["all traditions"],
+  "safety_screen": ["Integrative medicine", "all traditions"],
+  "digestion": ["Ayurveda", "TCM", "Yoga", "Integrative medicine"],
+  "elimination": ["Ayurveda", "TCM", "Homeopathy", "Integrative medicine"],
+  "sleep": ["Ayurveda", "TCM", "Homeopathy", "Yoga", "Qigong", "Integrative medicine"],
+  "emotional_state": ["Ayurveda", "TCM", "Homeopathy", "Yoga", "Qigong", "Integrative medicine"],
+  "temperature_moisture": ["Ayurveda", "TCM", "Homeopathy"],
+  "constitution": ["Ayurveda", "Homeopathy", "Integrative medicine"],
+  "modalities_better_worse": ["Homeopathy", "TCM", "Ayurveda"],
+  "lifestyle": ["Ayurveda", "Yoga", "Qigong", "Integrative medicine"],
+  "follow_up": ["all traditions"]
+}

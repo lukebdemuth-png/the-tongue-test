@@ -1,0 +1,57 @@
+[
+  {
+    "file": "HI__HOOK_TITLE__CENTER.mogrt",
+    "capsuleName": "HI Hook Title Center",
+    "base": "../../../../../Library/Application Support/Adobe/Common/Motion Graphics Templates/Titles/Modern Title.mogrt"
+  },
+  {
+    "file": "HI__QUOTE_OVERLAY__CENTER.mogrt",
+    "capsuleName": "HI Quote Overlay Center",
+    "base": "../../../../../Library/Application Support/Adobe/Common/Motion Graphics Templates/Basic Title.mogrt"
+  },
+  {
+    "file": "HI__QUOTE_OVERLAY__LOWER_THIRD.mogrt",
+    "capsuleName": "HI Quote Overlay Lower Third",
+    "base": "../../../../../Library/Application Support/Adobe/Common/Motion Graphics Templates/Lower Thirds/Classic Lower Third Two Lines.mogrt"
+  },
+  {
+    "file": "HI__KEY_POINT__01.mogrt",
+    "capsuleName": "HI Key Point 01",
+    "base": "../../../../../Library/Application Support/Adobe/Common/Motion Graphics Templates/AdobeStock_357915680.mogrt"
+  },
+  {
+    "file": "HI__KEY_POINT__02.mogrt",
+    "capsuleName": "HI Key Point 02",
+    "base": "../../../../../Library/Application Support/Adobe/Common/Motion Graphics Templates/AdobeStock_357915680.mogrt"
+  },
+  {
+    "file": "HI__KEY_POINT__03.mogrt",
+    "capsuleName": "HI Key Point 03",
+    "base": "../../../../../Library/Application Support/Adobe/Common/Motion Graphics Templates/AdobeStock_357915680.mogrt"
+  },
+  {
+    "file": "HI__SPEAKER_LOWER_THIRD.mogrt",
+    "capsuleName": "HI Speaker Lower Third",
+    "base": "../../../../../Library/Application Support/Adobe/Common/Motion Graphics Templates/Lower Thirds/Classic Lower Third Two Lines.mogrt"
+  },
+  {
+    "file": "HI__BODY_HIGHLIGHT__CALLOUT.mogrt",
+    "capsuleName": "HI Body Highlight Callout",
+    "base": "../../../../../Library/Application Support/Adobe/Common/Motion Graphics Templates/Lower Thirds/Classic Lower Third Two Lines.mogrt"
+  },
+  {
+    "file": "HI__BODY_HIGHLIGHT__NUMBERED.mogrt",
+    "capsuleName": "HI Body Highlight Numbered",
+    "base": "../../../../../Library/Application Support/Adobe/Common/Motion Graphics Templates/AdobeStock_357915680.mogrt"
+  },
+  {
+    "file": "HI__BODY_HIGHLIGHT__CENTER_TAG.mogrt",
+    "capsuleName": "HI Body Highlight Center Tag",
+    "base": "../../../../../Library/Application Support/Adobe/Common/Motion Graphics Templates/Titles/Modern Title.mogrt"
+  },
+  {
+    "file": "HI__CLOSING_CTA__CENTER.mogrt",
+    "capsuleName": "HI Closing CTA Center",
+    "base": "../../../../../Library/Application Support/Adobe/Common/Motion Graphics Templates/Titles/Modern Title.mogrt"
+  }
+]

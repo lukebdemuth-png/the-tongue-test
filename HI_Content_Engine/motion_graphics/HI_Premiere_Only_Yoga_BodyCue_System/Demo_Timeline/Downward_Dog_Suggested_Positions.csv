@@ -1,0 +1,12 @@
+body_area,x,y,notes
+palms,250,1340,place near front palm contact
+hands,300,1320,use for both palms or nearest hand
+arms,440,980,upper arm line
+spine,520,840,mid-back line
+hips,600,610,top hinge point
+knees,690,1040,bend/softness cue
+heels,820,1360,rear edge of both feet
+neck,470,960,base of skull / upper neck
+whole_body,560,900,use larger duplicated glow shapes
+breath,240,820,off to the side so it does not cover the pose
+cta,760,960,right side or centered depending frame

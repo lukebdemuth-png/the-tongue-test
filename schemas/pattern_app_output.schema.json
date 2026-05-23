@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pattern App Practitioner Output",
+  "type": "object",
+  "required": [
+    "case_id",
+    "safety_gate",
+    "cross_tradition_outcome",
+    "treatment_plan_draft",
+    "tradition_evaluations",
+    "citations",
+    "practitioner_review_required",
+    "disclaimer"
+  ],
+  "properties": {
+    "case_id": { "type": "string" },
+    "safety_gate": {
+      "type": "object",
+      "required": ["status", "red_flags_detected", "context_cautions"],
+      "properties": {
+        "status": { "enum": ["clear", "caution", "suppress"] },
+        "red_flags_detected": { "type": "array", "items": { "type": "string" } },
+        "context_cautions": { "type": "array", "items": { "type": "object" } }
+      }
+    },
+    "cross_tradition_outcome": {
+      "type": "object",
+      "required": [
+        "shared_themes",
+        "areas_of_agreement",
+        "areas_of_conflict",
+        "tradition_weighting",
+        "confidence_score",
+        "confidence_label"
+      ],
+      "properties": {
+        "shared_themes": { "type": "array", "items": { "type": "string" } },
+        "areas_of_agreement": { "type": "array", "items": { "type": "string" } },
+        "areas_of_conflict": { "type": "array", "items": { "type": "string" } },
+        "tradition_weighting": { "type": "array", "items": { "type": "object" } },
+        "confidence_score": { "type": "number", "minimum": 0, "maximum": 100 },
+        "confidence_label": { "type": "string" },
+        "practitioner_review_focus": { "type": "string" }
+      }
+    },
+    "treatment_plan_draft": {
+      "type": "object",
+      "required": ["scope", "ayurveda", "tcm", "homeopathy"],
+      "properties": {
+        "scope": { "type": "string" },
+        "ayurveda": { "type": "array", "items": { "$ref": "#/$defs/treatment_direction" } },
+        "tcm": { "type": "array", "items": { "$ref": "#/$defs/treatment_direction" } },
+        "homeopathy": { "type": "array", "items": { "$ref": "#/$defs/treatment_direction" } }
+      }
+    },
+    "tradition_evaluations": {
+      "type": "object",
+      "required": ["ayurveda", "tcm", "homeopathy"],
+      "properties": {
+        "ayurveda": { "type": "object" },
+        "tcm": { "type": "object" },
+        "homeopathy": { "type": "object" }
+      }
+    },
+    "citations": { "type": "array", "items": { "type": "object" } },
+    "practitioner_review_required": { "const": true },
+    "disclaimer": { "type": "string" }
+  },
+  "$defs": {
+    "treatment_direction": {
+      "type": "object",
+      "required": [
+        "tradition",
+        "category",
+        "direction",
+        "practitioner_action",
+        "client_facing_language",
+        "confidence_score",
+        "safety_notes",
+        "contraindications",
+        "review_priority",
+        "citations"
+      ],
+      "properties": {
+        "tradition": { "type": "string" },
+        "category": { "type": "string" },
+        "direction": { "type": "string" },
+        "practitioner_action": { "type": "string" },
+        "client_facing_language": { "type": "string" },
+        "why_this_matches": { "type": "array", "items": { "type": "string" } },
+        "matched_case_features": { "type": "array", "items": { "type": "string" } },
+        "confidence_score": { "type": "number", "minimum": 0, "maximum": 100 },
+        "safety_notes": { "type": "array", "items": { "type": "string" } },
+        "contraindications": { "type": "array", "items": { "type": "string" } },
+        "review_priority": {
+          "enum": ["review_first", "review_second", "exploratory", "hold_until_clarified"]
+        },
+        "citations": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

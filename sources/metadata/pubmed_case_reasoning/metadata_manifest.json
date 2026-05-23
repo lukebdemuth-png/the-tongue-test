@@ -1,0 +1,53 @@
+{
+  "case_reasoning_filter": "(\"case reports\"[Publication Type] OR \"case report\"[Title/Abstract] OR \"case study\"[Title/Abstract] OR \"clinical case\"[Title/Abstract] OR \"clinical reasoning\"[Title/Abstract] OR \"differential diagnosis\"[Title/Abstract] OR \"pattern differentiation\"[Title/Abstract] OR \"syndrome differentiation\"[Title/Abstract] OR \"constitutional medicine\"[Title/Abstract] OR \"practitioner reasoning\"[Title/Abstract] OR \"intervention rationale\"[Title/Abstract] OR \"outcome tracking\"[Title/Abstract] OR \"longitudinal follow-up\"[Title/Abstract] OR \"diagnostic methodology\"[Title/Abstract] OR \"integrative medicine\"[Title/Abstract])",
+  "collect_fields": [
+    "title",
+    "abstract",
+    "authors",
+    "journal",
+    "publication year",
+    "PMCID",
+    "PMID",
+    "DOI",
+    "keywords",
+    "symptoms",
+    "diagnosis/pattern",
+    "interventions",
+    "outcomes",
+    "confidence language",
+    "contradictions/limitations",
+    "source URL"
+  ],
+  "created": "2026-05-21T13:50:00.620615+00:00",
+  "policy": "PubMed E-utilities API first; PMC full text only when PMCID is available; no paywall/login bypassing.",
+  "retmax_per_term": 40,
+  "search_terms": [
+    "Ayurveda case report",
+    "Ayurvedic management case study",
+    "TCM syndrome differentiation",
+    "Traditional Chinese Medicine case report",
+    "Homeopathy case report",
+    "Homeopathic clinical case",
+    "Integrative medicine case study",
+    "Constitutional medicine",
+    "Whole systems medicine",
+    "Pattern differentiation",
+    "Clinical reasoning",
+    "Differential diagnosis"
+  ],
+  "sources": [
+    "https://pubmed.ncbi.nlm.nih.gov/",
+    "https://pmc.ncbi.nlm.nih.gov/"
+  ],
+  "tags": [
+    "ayurveda",
+    "tcm",
+    "homeopathy",
+    "case study",
+    "clinical reasoning",
+    "differential diagnosis",
+    "constitutional pattern",
+    "intervention outcome",
+    "practitioner methodology"
+  ]
+}

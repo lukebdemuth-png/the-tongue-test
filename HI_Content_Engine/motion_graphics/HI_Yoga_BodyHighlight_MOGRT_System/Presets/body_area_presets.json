@@ -1,0 +1,52 @@
+{
+  "hands": {
+    "caption": "Press evenly through hands",
+    "glow_size": "small-medium",
+    "notes": "Use near palms or finger mound area."
+  },
+  "wrists": {
+    "caption": "Soften pressure in wrists",
+    "glow_size": "small",
+    "notes": "Keep cue close to the front edge of the mat."
+  },
+  "shoulders": {
+    "caption": "Relax shoulders away from ears",
+    "glow_size": "small-medium",
+    "notes": "Use upper shoulder heads, not the neck."
+  },
+  "spine": {
+    "caption": "Lengthen spine",
+    "glow_size": "long sweep",
+    "notes": "Stretch the glow along the back line."
+  },
+  "hips": {
+    "caption": "Lift hips up and back",
+    "glow_size": "medium",
+    "notes": "Place highlight at the top hinge point."
+  },
+  "hamstrings": {
+    "caption": "Wake up the backs of the legs",
+    "glow_size": "long sweep",
+    "notes": "Use a longer glow sweep down the upper back leg line."
+  },
+  "knees": {
+    "caption": "Soften knees",
+    "glow_size": "small",
+    "notes": "Keep the cue gentle and non-corrective in tone."
+  },
+  "calves": {
+    "caption": "Lengthen through calves",
+    "glow_size": "medium",
+    "notes": "Use for stretching cues toward the heels."
+  },
+  "heels": {
+    "caption": "Reach heels down",
+    "glow_size": "small",
+    "notes": "Place highlight near heel contact area."
+  },
+  "neck_jaw": {
+    "caption": "Relax neck and jaw",
+    "glow_size": "small",
+    "notes": "Use breath pulse nearby for softer release moments."
+  }
+}

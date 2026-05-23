@@ -1,0 +1,28 @@
+{
+  "tags": [
+    "homeopathy",
+    "materia medica",
+    "repertory",
+    "constitutional pattern",
+    "remedy relationship",
+    "symptom cluster",
+    "intervention outcome"
+    ,
+    "standardized case record",
+    "clinical reasoning",
+    "practitioner methodology",
+    "outcome tracking",
+    "longitudinal care",
+    "differential diagnosis",
+    "community medicine",
+    "intake methodology"
+  ],
+  "focus_fields": [
+    "symptom_pattern_relationships",
+    "remedy_relationships",
+    "intervention_sequencing",
+    "constitutional_descriptions",
+    "case_reasoning",
+    "differential_remedy_logic"
+  ]
+}

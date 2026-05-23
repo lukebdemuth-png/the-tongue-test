@@ -1,0 +1,60 @@
+{
+  "chunk_count": 6,
+  "publications": {
+    "https://arxiv.org/abs/2510.06262": 1,
+    "https://arxiv.org/abs/2511.02374": 1,
+    "https://elizakerr.com/ayurveda/client_intake_form/": 1,
+    "https://thedeborahkeene.com/wp-content/uploads/2015/02/ayurveda-client-intake-form.pdf": 1,
+    "https://touchstonehealth.ca/wp-content/uploads/2013/06/Ayurveda-Intake-fillable-v11.pdf": 1,
+    "https://www.jotform.com/form-templates/ayurvedic-center-medical-questionnaire": 1
+  },
+  "record_count": 6,
+  "retrieval_date": "2026-05-19",
+  "sources": [
+    {
+      "date": "",
+      "open_access": null,
+      "publication": "https://touchstonehealth.ca/wp-content/uploads/2013/06/Ayurveda-Intake-fillable-v11.pdf",
+      "source_url": "https://touchstonehealth.ca/wp-content/uploads/2013/06/Ayurveda-Intake-fillable-v11.pdf",
+      "title": "Touchstone Health Ayurveda Intake"
+    },
+    {
+      "date": "",
+      "open_access": null,
+      "publication": "https://thedeborahkeene.com/wp-content/uploads/2015/02/ayurveda-client-intake-form.pdf",
+      "source_url": "https://thedeborahkeene.com/wp-content/uploads/2015/02/ayurveda-client-intake-form.pdf",
+      "title": "Deborah Keene Ayurveda Client Intake Form"
+    },
+    {
+      "date": "",
+      "open_access": null,
+      "publication": "https://elizakerr.com/ayurveda/client_intake_form/",
+      "source_url": "https://elizakerr.com/ayurveda/client_intake_form/",
+      "title": "Eliza Kerr Ayurveda Client Intake Form"
+    },
+    {
+      "date": "",
+      "open_access": null,
+      "publication": "https://www.jotform.com/form-templates/ayurvedic-center-medical-questionnaire",
+      "source_url": "https://www.jotform.com/form-templates/ayurvedic-center-medical-questionnaire",
+      "title": "Jotform Ayurvedic Center Medical Questionnaire"
+    },
+    {
+      "date": "",
+      "open_access": null,
+      "publication": "https://arxiv.org/abs/2510.06262",
+      "source_url": "https://arxiv.org/abs/2510.06262",
+      "title": "Prakriti200 dataset"
+    },
+    {
+      "date": "",
+      "open_access": null,
+      "publication": "https://arxiv.org/abs/2511.02374",
+      "source_url": "https://arxiv.org/abs/2511.02374",
+      "title": "AyurParam language model"
+    }
+  ],
+  "traditions": {
+    "Ayurveda": 6
+  }
+}

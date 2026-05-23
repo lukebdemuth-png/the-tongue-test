@@ -1,0 +1,122 @@
+{
+  "class_title": "Sandy - Building a Meditative State LLM Check",
+  "teacher": "Sandy",
+  "theme": [
+    "breath",
+    "posture",
+    "meditative state"
+  ],
+  "date_created": "2026-04-29T10:56:55-04:00",
+  "content_source": "heuristic",
+  "model": null,
+  "folder_paths": {
+    "01_Source": "Classes/sandy-building-a-meditative-state-llm-check/01_Source",
+    "02_Transcript": "Classes/sandy-building-a-meditative-state-llm-check/02_Transcript",
+    "03_Extraction": "Classes/sandy-building-a-meditative-state-llm-check/03_Extraction",
+    "04_Carousels": "Classes/sandy-building-a-meditative-state-llm-check/04_Carousels",
+    "05_Reels": "Classes/sandy-building-a-meditative-state-llm-check/05_Reels",
+    "06_Stories": "Classes/sandy-building-a-meditative-state-llm-check/06_Stories",
+    "07_PDF": "Classes/sandy-building-a-meditative-state-llm-check/07_PDF",
+    "08_Thumbnails": "Classes/sandy-building-a-meditative-state-llm-check/08_Thumbnails",
+    "09_Stills": "Classes/sandy-building-a-meditative-state-llm-check/09_Stills",
+    "10_Final": "Classes/sandy-building-a-meditative-state-llm-check/10_Final"
+  },
+  "asset_status": {
+    "Classes/sandy-building-a-meditative-state-llm-check/02_Transcript/full_transcript.txt": {
+      "draft": true,
+      "designed": false,
+      "exported": false,
+      "posted": false
+    },
+    "Classes/sandy-building-a-meditative-state-llm-check/03_Extraction/core_themes.md": {
+      "draft": true,
+      "designed": false,
+      "exported": false,
+      "posted": false
+    },
+    "Classes/sandy-building-a-meditative-state-llm-check/03_Extraction/quotes.md": {
+      "draft": true,
+      "designed": false,
+      "exported": false,
+      "posted": false
+    },
+    "Classes/sandy-building-a-meditative-state-llm-check/03_Extraction/practices.md": {
+      "draft": true,
+      "designed": false,
+      "exported": false,
+      "posted": false
+    },
+    "Classes/sandy-building-a-meditative-state-llm-check/03_Extraction/visual_opportunities.md": {
+      "draft": true,
+      "designed": false,
+      "exported": false,
+      "posted": false
+    },
+    "Classes/sandy-building-a-meditative-state-llm-check/04_Carousels/carousel_1_infographic.md": {
+      "draft": true,
+      "designed": false,
+      "exported": false,
+      "posted": false
+    },
+    "Classes/sandy-building-a-meditative-state-llm-check/04_Carousels/carousel_2_practice_checklist.md": {
+      "draft": true,
+      "designed": false,
+      "exported": false,
+      "posted": false
+    },
+    "Classes/sandy-building-a-meditative-state-llm-check/04_Carousels/carousel_3_photo_hero.md": {
+      "draft": true,
+      "designed": false,
+      "exported": false,
+      "posted": false
+    },
+    "Classes/sandy-building-a-meditative-state-llm-check/05_Reels/reel_script.md": {
+      "draft": true,
+      "designed": false,
+      "exported": false,
+      "posted": false
+    },
+    "Classes/sandy-building-a-meditative-state-llm-check/05_Reels/text_overlays.md": {
+      "draft": true,
+      "designed": false,
+      "exported": false,
+      "posted": false
+    },
+    "Classes/sandy-building-a-meditative-state-llm-check/05_Reels/caption.md": {
+      "draft": true,
+      "designed": false,
+      "exported": false,
+      "posted": false
+    },
+    "Classes/sandy-building-a-meditative-state-llm-check/06_Stories/story_frames.md": {
+      "draft": true,
+      "designed": false,
+      "exported": false,
+      "posted": false
+    },
+    "Classes/sandy-building-a-meditative-state-llm-check/07_PDF/free_lead_magnet.md": {
+      "draft": true,
+      "designed": false,
+      "exported": false,
+      "posted": false
+    },
+    "Classes/sandy-building-a-meditative-state-llm-check/08_Thumbnails/youtube_titles.md": {
+      "draft": true,
+      "designed": false,
+      "exported": false,
+      "posted": false
+    },
+    "Classes/sandy-building-a-meditative-state-llm-check/08_Thumbnails/visual_directions.md": {
+      "draft": true,
+      "designed": false,
+      "exported": false,
+      "posted": false
+    },
+    "Classes/sandy-building-a-meditative-state-llm-check/09_Stills/still_headlines.md": {
+      "draft": true,
+      "designed": false,
+      "exported": false,
+      "posted": false
+    }
+  }
+}

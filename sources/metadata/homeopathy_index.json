@@ -1,0 +1,20 @@
+{
+  "chunk_count": 1,
+  "publications": {
+    "Sample Homeopathy Source Fixture": 1
+  },
+  "record_count": 1,
+  "retrieval_date": "2026-05-18",
+  "sources": [
+    {
+      "date": "public-domain fixture",
+      "open_access": true,
+      "publication": "Sample Homeopathy Source Fixture",
+      "source_url": "https://example.org/sample-homeopathy-source",
+      "title": "Sample homeopathy materia medica and repertory reasoning fixture"
+    }
+  ],
+  "traditions": {
+    "Homeopathy": 1
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "canonical_traditions": [
+    "Ayurveda",
+    "Yoga",
+    "TCM",
+    "Qigong",
+    "Homeopathy",
+    "Integrative medicine"
+  ],
+  "aliases": {
+    "Traditional Chinese Medicine": "TCM",
+    "Classical Homeopathy": "Homeopathy",
+    "Integrative Medicine": "Integrative medicine"
+  }
+}

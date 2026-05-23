@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Holistic Medicine Source Scoring",
+  "type": "object",
+  "required": [
+    "authority_score",
+    "relevance_score",
+    "clinical_reasoning_value",
+    "pattern_recognition_value",
+    "outcome_tracking_value",
+    "legal_access_status",
+    "confidence_level"
+  ],
+  "properties": {
+    "authority_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "How authoritative the source is within its tradition and source hierarchy."
+    },
+    "relevance_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "How directly the source supports the target reasoning task."
+    },
+    "clinical_reasoning_value": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "How much the source explains diagnostic, differential, or practitioner reasoning."
+    },
+    "pattern_recognition_value": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "How useful the source is for extracting symptom clusters, patterns, syndromes, constitutions, or remedy pictures."
+    },
+    "outcome_tracking_value": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "How clearly the source tracks intervention, follow-up, outcomes, and limitations."
+    },
+    "legal_access_status": {
+      "type": "string",
+      "enum": [
+        "open_access_full_text",
+        "public_domain",
+        "metadata_abstract_only",
+        "permission_required",
+        "restricted_do_not_ingest"
+      ]
+    },
+    "confidence_level": {
+      "type": "string",
+      "enum": [
+        "high",
+        "moderate",
+        "low",
+        "uncertain"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "case_id": "medication-caution-sleep-digestion",
+  "patient_context": {
+    "age_range": "adult",
+    "sex": "",
+    "pregnancy_status": "not pregnant",
+    "known_conditions": ["hypertension"],
+    "current_medications": ["warfarin"],
+    "allergies": [],
+    "clinical_setting": "practitioner research review"
+  },
+  "symptoms": {
+    "chief_complaint": "Poor sleep with bloating and low energy",
+    "primary_symptoms": ["sleep disturbance", "bloating"],
+    "secondary_symptoms": ["low energy"],
+    "duration": "several weeks",
+    "onset": "",
+    "severity": "moderate",
+    "frequency": "",
+    "better_from": [],
+    "worse_from": ["worse at night"],
+    "time_patterns": ["worse at night"],
+    "temperature_patterns": [],
+    "digestion": "variable appetite and bloating after meals",
+    "sleep": "difficulty staying asleep",
+    "energy": "low morning energy",
+    "mood": "",
+    "pain_location": "",
+    "pain_quality": ""
+  },
+  "tradition_specific_inputs": {
+    "ayurveda": {},
+    "tcm": {},
+    "homeopathy": {
+      "modalities": ["worse at night"],
+      "generals": ["low morning energy"]
+    }
+  },
+  "practitioner_notes": "Check safety context before any herb or formula category.",
+  "requested_output_depth": "standard"
+}

@@ -1,0 +1,13 @@
+start,end,body_area,cue_text,recommended_stack
+0:00,0:05,palms,Root through palms,HI_Glow_Point_Node + HI_BodyGlow_Sweep + HI_Callout_Line + HI_Caption_Callout
+0:05,0:10,hands,Press evenly through hands,HI_Full_Cue_Combo + HI_BodyGlow_Sweep
+0:10,0:15,arms,Engage arms,HI_Full_Cue_Combo + HI_BodyGlow_Sweep
+0:15,0:20,spine,Lengthen spine,HI_Glow_Point_Node + HI_BodyGlow_Sweep + HI_Caption_Callout
+0:20,0:25,hips,Lift hips up and back,HI_Full_Cue_Combo + HI_BodyGlow_Sweep
+0:25,0:30,knees,Soften knees,HI_Glow_Point_Node + HI_Caption_Callout
+0:30,0:35,heels,Reach heels down,HI_Full_Cue_Combo + HI_BodyGlow_Sweep
+0:35,0:40,neck,Relax neck,HI_Glow_Point_Node + HI_Caption_Callout
+0:40,0:45,breath,Breathe out,HI_Breath_Pulse
+0:45,0:50,whole body,Whole body connection,HI_Glow_Point_Node + HI_BodyGlow_Sweep + HI_Caption_Callout
+0:50,0:55,breath,Stay for 5 breaths,HI_Breath_Pulse
+0:55,1:00,cta,Save this for your next practice,HI_Save_CTA

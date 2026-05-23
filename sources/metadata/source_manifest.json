@@ -1,0 +1,352 @@
+[
+  {
+    "name": "PubMed",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/",
+    "category": "journals",
+    "traditions": ["Ayurveda", "TCM", "Qigong", "Yoga", "Integrative Medicine"],
+    "access_mode": "NCBI E-utilities API",
+    "allowed_content": ["metadata", "abstracts", "links"],
+    "notes": "Use PubMed APIs first. Do not scrape page viewer HTML."
+  },
+  {
+    "name": "PubMed Central",
+    "url": "https://pmc.ncbi.nlm.nih.gov/",
+    "category": "journals",
+    "traditions": ["Ayurveda", "TCM", "Qigong", "Yoga", "Integrative Medicine"],
+    "access_mode": "NCBI APIs and public article assets",
+    "allowed_content": ["open-access full text", "metadata", "links"],
+    "notes": "Download only open-access assets exposed by PMC."
+  },
+  {
+    "name": "AyurCeL: A comprehensive ayurveda clinical E-learning and decision support platform",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11874735/",
+    "category": "journals",
+    "traditions": ["Ayurveda"],
+    "access_mode": "NCBI PMC full-text XML through E-utilities",
+    "allowed_content": ["abstract", "open-access full text", "references", "metadata", "links"],
+    "priority": "high",
+    "identifiers": {
+      "pmcid": "PMC11874735",
+      "pmid": "39951853",
+      "doi": "10.1016/j.jaim.2024.101107"
+    },
+    "tags": [
+      "Ayurveda",
+      "clinical decision support",
+      "e-learning",
+      "diagnostic reasoning",
+      "clinical reasoning",
+      "pattern recognition",
+      "practitioner training",
+      "high-priority architecture source"
+    ],
+    "ingest_targets": [
+      "abstract",
+      "full text if open access",
+      "references",
+      "terminology",
+      "system architecture ideas",
+      "decision-support logic",
+      "clinical reasoning framework"
+    ],
+    "notes": "High-priority architecture source for reasoning-engine design. Use PMC XML/API assets; do not scrape page viewer HTML."
+  },
+  {
+    "name": "Qigong Institute Research Abstracts",
+    "url": "https://www.qigonginstitute.org/abstract",
+    "category": "qigong",
+    "traditions": ["Qigong"],
+    "access_mode": "polite web fetch after robots check",
+    "allowed_content": ["metadata", "abstracts", "links"],
+    "notes": "Respect robots.txt and rate limits."
+  },
+  {
+    "name": "Qigong Institute Podcasts",
+    "url": "https://www.podomatic.com/podcasts/qigonginstitute",
+    "category": "lectures",
+    "traditions": ["Qigong"],
+    "access_mode": "public feeds/assets only",
+    "allowed_content": ["metadata", "links", "public transcripts when available"],
+    "notes": "Do not transcribe or redistribute copyrighted audio unless rights allow it."
+  },
+  {
+    "name": "TCM-ID",
+    "url": "https://www.bidd.group/TCMID/",
+    "category": "tcm",
+    "traditions": ["Traditional Chinese Medicine"],
+    "access_mode": "public dataset references and permitted downloads",
+    "allowed_content": ["metadata", "dataset links"],
+    "notes": "Use cited dataset references and license terms before downloads."
+  },
+  {
+    "name": "Archive.org",
+    "url": "https://archive.org/",
+    "category": "classical",
+    "traditions": ["Ayurveda", "Traditional Chinese Medicine", "Classical Homeopathy"],
+    "access_mode": "metadata API and public download assets",
+    "allowed_content": ["public-domain or open-access PDFs", "OCR text", "metadata"],
+    "notes": "Never bypass lending restrictions, login, encryption, or controlled digital lending."
+  },
+  {
+    "name": "Archive.org Homeopathy Collections",
+    "url": "https://archive.org/",
+    "category": "homeopathy",
+    "traditions": ["Classical Homeopathy"],
+    "access_mode": "metadata API and public download assets",
+    "allowed_content": ["public-domain PDFs", "OCR text", "metadata", "links"],
+    "collection_targets": [
+      "materia medica",
+      "repertories",
+      "clinical case studies",
+      "remedy relationship systems",
+      "historical journals",
+      "pharmacopoeias",
+      "practitioner writings"
+    ],
+    "focus": [
+      "symptom-pattern relationships",
+      "remedy relationships",
+      "intervention sequencing",
+      "constitutional descriptions",
+      "case reasoning",
+      "differential remedy logic"
+    ],
+    "tags": [
+      "homeopathy",
+      "materia medica",
+      "repertory",
+      "constitutional pattern",
+      "remedy relationship",
+      "symptom cluster",
+      "intervention outcome"
+    ],
+    "notes": "Use only public-domain or open-access assets exposed by Archive.org metadata/download APIs. Never bypass lending restrictions."
+  },
+  {
+    "name": "HathiTrust Homeopathy Public Domain",
+    "url": "https://www.hathitrust.org/",
+    "category": "homeopathy",
+    "traditions": ["Classical Homeopathy"],
+    "access_mode": "public-domain metadata and permitted full-view assets",
+    "allowed_content": ["metadata", "links", "public-domain full text where permitted"],
+    "collection_targets": [
+      "materia medica",
+      "repertories",
+      "historical journals",
+      "pharmacopoeias",
+      "practitioner writings"
+    ],
+    "focus": [
+      "symptom-pattern relationships",
+      "remedy relationships",
+      "constitutional descriptions",
+      "differential remedy logic"
+    ],
+    "tags": [
+      "homeopathy",
+      "materia medica",
+      "repertory",
+      "constitutional pattern",
+      "remedy relationship",
+      "symptom cluster"
+    ],
+    "notes": "Ingest metadata and only full-view/public-domain text where rights clearly allow it. Do not bypass partner login or limited-view restrictions."
+  },
+  {
+    "name": "Project Gutenberg Homeopathy Texts",
+    "url": "https://www.gutenberg.org/",
+    "category": "homeopathy",
+    "traditions": ["Classical Homeopathy"],
+    "access_mode": "Gutenberg public ebook assets and catalog metadata",
+    "allowed_content": ["public-domain ebooks", "metadata", "links"],
+    "collection_targets": [
+      "materia medica",
+      "practitioner writings",
+      "historical journals"
+    ],
+    "focus": [
+      "symptom-pattern relationships",
+      "constitutional descriptions",
+      "case reasoning"
+    ],
+    "tags": [
+      "homeopathy",
+      "materia medica",
+      "constitutional pattern",
+      "symptom cluster"
+    ],
+    "notes": "Use public Gutenberg text/metadata and preserve license/source notices."
+  },
+  {
+    "name": "Journal of Integrated Standardized Homoeopathy",
+    "url": "https://jish-mldtrust.com/current-issue/",
+    "category": "homeopathy",
+    "traditions": ["Homeopathy"],
+    "access_mode": "public current issue page with full text and PDF links",
+    "allowed_content": ["metadata", "case reports", "open-access full text", "open-access PDFs", "links"],
+    "priority": "high",
+    "collect": [
+      "case reports",
+      "standardized case record methodology",
+      "practitioner reasoning",
+      "follow-up logic",
+      "intervention rationale",
+      "longitudinal outcomes",
+      "practitioner training methods",
+      "clinical documentation structures",
+      "differential reasoning",
+      "confidence/limitations language"
+    ],
+    "focus": [
+      "methodology articles",
+      "structured intake systems",
+      "follow-up evaluation",
+      "clinical decision frameworks",
+      "practitioner training"
+    ],
+    "tags": [
+      "homeopathy",
+      "standardized case record",
+      "clinical reasoning",
+      "practitioner methodology",
+      "outcome tracking",
+      "longitudinal care",
+      "differential diagnosis",
+      "community medicine",
+      "intake methodology"
+    ],
+    "notes": "High-priority source for standardized homoeopathic methodology, case reports, practitioner reasoning, longitudinal follow-up, and documentation structures. Respect robots.txt and do not bypass site access controls."
+  },
+  {
+    "name": "Ayurveda Intake And Questionnaire Priority Sources",
+    "url": "sources/metadata/intake_priority_sources.jsonl",
+    "category": "intake_forms",
+    "traditions": ["Ayurveda"],
+    "access_mode": "public PDFs/pages and open-access arXiv metadata",
+    "allowed_content": ["derived structure", "metadata", "links", "public open-access research metadata"],
+    "priority": "high",
+    "collect": [
+      "question ordering",
+      "symptom categories",
+      "severity scales",
+      "constitutional questions",
+      "digestion/sleep/elimination questions",
+      "emotional-state questions",
+      "follow-up structures",
+      "medication/history sections",
+      "lifestyle sections",
+      "questionnaire structures",
+      "dosha classification logic",
+      "computational reasoning methods",
+      "scoring systems",
+      "classification methodology"
+    ],
+    "outputs": [
+      "standardized intake schema",
+      "symptom ontology",
+      "question priority ranking",
+      "cross-tradition intake map",
+      "intake-to-pattern relationship system"
+    ],
+    "notes": "Extract derived structure only from copyrighted intake forms; do not commit raw questionnaire text unless reuse rights clearly allow it."
+  },
+  {
+    "name": "Charaka Samhita Online",
+    "url": "https://www.carakasamhitaonline.com/",
+    "category": "ayurveda",
+    "traditions": ["Ayurveda"],
+    "access_mode": "polite web fetch after robots check",
+    "allowed_content": ["metadata", "links", "permitted text excerpts"],
+    "notes": "Respect site terms and avoid large copyrighted extracts."
+  },
+  {
+    "name": "NIIMH e-Charaka",
+    "url": "https://niimh.nic.in/ebooks/ecaraka/",
+    "category": "ayurveda",
+    "traditions": ["Ayurveda"],
+    "access_mode": "public ebook access if permitted",
+    "allowed_content": ["metadata", "links", "public text where allowed"],
+    "notes": "Prefer metadata and links unless reuse terms are explicit."
+  },
+  {
+    "name": "Journal of Ayurveda and Integrative Medicine",
+    "url": "https://www.jaim.in/",
+    "category": "journals",
+    "traditions": ["Ayurveda", "Integrative Medicine"],
+    "access_mode": "publisher metadata and open-access PDFs",
+    "allowed_content": ["metadata", "abstracts", "open-access PDFs"],
+    "notes": "Never bypass publisher access controls."
+  },
+  {
+    "name": "AYU Journal",
+    "url": "https://ayujournal.org/",
+    "category": "journals",
+    "traditions": ["Ayurveda"],
+    "access_mode": "publisher metadata and open-access PDFs",
+    "allowed_content": ["metadata", "abstracts", "open-access PDFs"],
+    "notes": "Never bypass publisher access controls."
+  },
+  {
+    "name": "American Journal of Chinese Medicine",
+    "url": "https://www.worldscientific.com/worldscinet/ajcm",
+    "category": "journals",
+    "traditions": ["Traditional Chinese Medicine"],
+    "access_mode": "metadata only unless article is open access",
+    "allowed_content": ["metadata", "abstracts", "links"],
+    "notes": "Do not download paywalled articles."
+  },
+  {
+    "name": "Chinese Journal of Integrative Medicine",
+    "url": "https://www.springer.com/journal/11655",
+    "category": "journals",
+    "traditions": ["Traditional Chinese Medicine", "Integrative Medicine"],
+    "access_mode": "metadata only unless article is open access",
+    "allowed_content": ["metadata", "abstracts", "links"],
+    "notes": "Do not download paywalled articles."
+  },
+  {
+    "name": "Journal of Traditional Chinese Medicine",
+    "url": "https://www.journaltcm.com/",
+    "category": "journals",
+    "traditions": ["Traditional Chinese Medicine"],
+    "access_mode": "metadata only unless article is open access",
+    "allowed_content": ["metadata", "abstracts", "links"],
+    "notes": "Do not download paywalled articles."
+  },
+  {
+    "name": "Journal of Chinese Medicine",
+    "url": "https://www.jcm.co.uk/",
+    "category": "journals",
+    "traditions": ["Traditional Chinese Medicine"],
+    "access_mode": "metadata only unless article is open access",
+    "allowed_content": ["metadata", "abstracts", "links"],
+    "notes": "Do not download subscriber-only content."
+  },
+  {
+    "name": "European Journal of Oriental Medicine",
+    "url": "https://www.ejom.co.uk/",
+    "category": "journals",
+    "traditions": ["Traditional Chinese Medicine"],
+    "access_mode": "metadata only unless article is open access",
+    "allowed_content": ["metadata", "abstracts", "links"],
+    "notes": "Do not download subscriber-only content."
+  },
+  {
+    "name": "Banyan Botanicals Learning Center",
+    "url": "https://www.banyanbotanicals.com/info/ayurvedic-living/",
+    "category": "ayurveda",
+    "traditions": ["Ayurveda"],
+    "access_mode": "polite web fetch after robots check",
+    "allowed_content": ["metadata", "links", "short notes"],
+    "notes": "Use educational articles for pointers, not as clinical authority."
+  },
+  {
+    "name": "Easy Ayurveda",
+    "url": "https://www.easyayurveda.com/",
+    "category": "ayurveda",
+    "traditions": ["Ayurveda"],
+    "access_mode": "polite web fetch after robots check",
+    "allowed_content": ["metadata", "links", "short notes"],
+    "notes": "Use educational articles for pointers, not as clinical authority."
+  }
+]

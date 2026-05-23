@@ -1,0 +1,27 @@
+{
+  "ranking_order": [
+    "safety_screen",
+    "chief_concern",
+    "onset_duration_severity",
+    "medications_history",
+    "digestion",
+    "elimination",
+    "sleep",
+    "energy",
+    "emotional_state",
+    "temperature_moisture",
+    "constitution",
+    "lifestyle",
+    "follow_up"
+  ],
+  "principle": "Ask the next question that most changes safety status, confidence, or pattern ranking.",
+  "high_priority_questions": [
+    "Are any urgent red flags present?",
+    "What is the primary concern and how severe is it?",
+    "When did it begin and is it changing?",
+    "What medications, diagnoses, pregnancy status, or allergies matter?",
+    "What digestion, elimination, sleep, energy, and emotional-state signs accompany it?",
+    "What makes it better or worse?",
+    "What changed after any intervention?"
+  ]
+}

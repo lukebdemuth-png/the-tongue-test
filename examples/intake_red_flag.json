@@ -1,0 +1,33 @@
+{
+  "case_id": "red-flag-chest-breathing",
+  "patient_context": {
+    "age_range": "adult",
+    "sex": "",
+    "pregnancy_status": "",
+    "known_conditions": [],
+    "current_medications": [],
+    "allergies": [],
+    "clinical_setting": "practitioner research review"
+  },
+  "symptoms": {
+    "chief_complaint": "Chest pain with difficulty breathing",
+    "primary_symptoms": ["chest pain", "difficulty breathing"],
+    "secondary_symptoms": [],
+    "duration": "today",
+    "severity": "severe",
+    "frequency": "",
+    "better_from": [],
+    "worse_from": [],
+    "time_patterns": [],
+    "temperature_patterns": [],
+    "digestion": "",
+    "sleep": "",
+    "energy": "",
+    "mood": "",
+    "pain_location": "chest",
+    "pain_quality": "acute"
+  },
+  "tradition_specific_inputs": {},
+  "practitioner_notes": "This should trigger referral-first language.",
+  "requested_output_depth": "brief"
+}

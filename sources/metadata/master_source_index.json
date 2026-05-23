@@ -1,0 +1,20 @@
+{
+  "chunk_count": 1,
+  "publications": {
+    "Sample Open Research Metadata": 1
+  },
+  "record_count": 1,
+  "retrieval_date": "2026-05-18",
+  "sources": [
+    {
+      "date": "2024",
+      "open_access": true,
+      "publication": "Sample Open Research Metadata",
+      "source_url": "https://example.org/sample-qigong-trial",
+      "title": "Sample qigong clinical trial metadata"
+    }
+  ],
+  "traditions": {
+    "Qigong": 1
+  }
+}

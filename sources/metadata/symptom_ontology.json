@@ -1,0 +1,11 @@
+{
+  "digestion": ["appetite", "bloating", "gas", "heartburn", "nausea", "cravings", "food tolerance"],
+  "elimination": ["bowel frequency", "stool quality", "constipation", "diarrhea", "urination", "sweating"],
+  "sleep": ["sleep onset", "night waking", "dreams", "restfulness", "sleep schedule"],
+  "energy": ["fatigue", "vitality", "morning energy", "afternoon dip", "post-exertional response"],
+  "emotional_state": ["stress", "anxiety", "irritability", "sadness", "fear", "grief", "mental clarity"],
+  "temperature_moisture": ["cold intolerance", "heat intolerance", "thirst", "dryness", "oiliness", "sweating"],
+  "pain": ["location", "quality", "severity", "timing", "better_worse_factors"],
+  "constitution": ["vata tendencies", "pitta tendencies", "kapha tendencies", "prakriti", "vikriti"],
+  "safety": ["red flags", "pregnancy", "medications", "diagnoses", "allergies", "urgent symptoms"]
+}

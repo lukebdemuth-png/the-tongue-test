@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Standardized Holistic Intake",
+  "type": "object",
+  "required": [
+    "identity_contact",
+    "safety_screen",
+    "chief_concern",
+    "medical_history",
+    "medications_supplements",
+    "constitution",
+    "digestion",
+    "elimination",
+    "sleep",
+    "energy",
+    "emotional_state",
+    "lifestyle",
+    "severity_scales",
+    "follow_up"
+  ],
+  "properties": {
+    "identity_contact": { "type": "object" },
+    "safety_screen": {
+      "type": "object",
+      "description": "Red flags, pregnancy, urgent symptoms, contraindications, and current clinician care."
+    },
+    "chief_concern": {
+      "type": "object",
+      "properties": {
+        "primary_concern": { "type": "string" },
+        "onset": { "type": "string" },
+        "duration": { "type": "string" },
+        "severity_0_10": { "type": ["number", "null"] },
+        "functional_impact": { "type": "string" }
+      }
+    },
+    "medical_history": { "type": "object" },
+    "medications_supplements": { "type": "array", "items": { "type": "object" } },
+    "constitution": {
+      "type": "object",
+      "description": "Prakriti/dosha, long-standing tendencies, body type, thermal preference, and mental-emotional baseline."
+    },
+    "digestion": { "type": "object" },
+    "elimination": { "type": "object" },
+    "sleep": { "type": "object" },
+    "energy": { "type": "object" },
+    "emotional_state": { "type": "object" },
+    "reproductive_health": { "type": "object" },
+    "lifestyle": { "type": "object" },
+    "severity_scales": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target", "scale", "value"],
+        "properties": {
+          "target": { "type": "string" },
+          "scale": { "type": "string" },
+          "value": { "type": ["number", "string", "null"] }
+        }
+      }
+    },
+    "follow_up": {
+      "type": "object",
+      "description": "Change over time, intervention response, adverse events, adherence, and next observation point."
+    }
+  }
+}

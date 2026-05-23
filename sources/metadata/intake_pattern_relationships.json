@@ -1,0 +1,25 @@
+{
+  "digestion": {
+    "ayurveda": ["agni", "ama", "vata/pitta/kapha digestive tendencies"],
+    "tcm": ["spleen/stomach pattern logic", "dampness", "heat/cold signs"],
+    "homeopathy": ["food modalities", "cravings", "aversions"]
+  },
+  "sleep": {
+    "ayurveda": ["vata disturbance", "pitta night waking", "kapha heaviness"],
+    "tcm": ["shen disturbance", "yin/blood deficiency", "heat patterns"],
+    "homeopathy": ["sleep modalities", "dreams", "time aggravations"]
+  },
+  "emotional_state": {
+    "ayurveda": ["rajas/tamas language", "dosha-linked emotional tendencies"],
+    "tcm": ["liver qi constraint", "heart shen", "fear/kidney associations"],
+    "homeopathy": ["characteristic mental-emotional symptoms"]
+  },
+  "temperature_moisture": {
+    "ayurveda": ["pitta heat", "vata dryness/cold", "kapha damp/heavy"],
+    "tcm": ["hot/cold", "damp/dry", "yin/yang"],
+    "homeopathy": ["thermal modalities", "thirst", "sweat"]
+  },
+  "follow_up": {
+    "all": ["outcome tracking", "adverse events", "intervention response", "confidence adjustment"]
+  }
+}

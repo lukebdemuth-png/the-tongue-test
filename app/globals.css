@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --font-sans: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-fog text-ink antialiased;
+  background-image:
+    radial-gradient(circle at top left, rgba(146, 161, 145, 0.14), transparent 24%),
+    radial-gradient(circle at 85% 10%, rgba(138, 107, 90, 0.12), transparent 24%),
+    radial-gradient(circle at bottom right, rgba(201, 168, 106, 0.12), transparent 28%),
+    linear-gradient(180deg, rgba(255, 252, 246, 0.92) 0%, rgba(248, 246, 242, 0.96) 34%, rgba(246, 242, 235, 1) 100%);
+}
+
+::selection {
+  background: rgba(85, 104, 90, 0.18);
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif tracking-tight text-ink;
+  }
+
+  p {
+    @apply text-[15px] leading-7 md:text-[16px] md:leading-8;
+    color: rgb(32 33 31 / 0.78);
+  }
+
+  a,
+  button,
+  input,
+  textarea {
+    @apply transition-all duration-200;
+  }
+}
+
+@layer components {
+  .container-shell {
+    @apply mx-auto w-full max-w-[88rem] px-5 sm:px-7 lg:px-10;
+  }
+
+  .section-space {
+    @apply py-20 md:py-28 lg:py-32;
+  }
+
+  .eyebrow {
+    @apply mb-5 inline-flex rounded-full px-3.5 py-1.5 text-[11px] font-medium uppercase tracking-[0.22em] text-moss;
+    border: 1px solid rgb(85 104 90 / 0.12);
+    background-color: rgb(255 255 255 / 0.78);
+  }
+
+  .section-title {
+    @apply max-w-4xl text-[2.15rem] leading-[1.06] sm:text-5xl lg:text-[3.75rem];
+  }
+
+  .section-copy {
+    @apply max-w-2xl text-base leading-8 md:text-lg;
+    color: rgb(32 33 31 / 0.68);
+  }
+
+  .surface-card {
+    @apply rounded-[30px] border p-6 shadow-card backdrop-blur-md sm:p-8 lg:p-10;
+    border-color: rgb(32 33 31 / 0.06);
+    background-color: rgb(255 255 255 / 0.8);
+  }
+
+  .surface-panel {
+    @apply rounded-[34px] border shadow-panel backdrop-blur-md;
+    border-color: rgb(32 33 31 / 0.06);
+    background-color: rgb(255 255 255 / 0.72);
+  }
+
+  .section-divider {
+    @apply mb-8 h-px w-full md:mb-10;
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      rgb(32 33 31 / 0.1),
+      transparent
+    );
+  }
+
+  .button-primary {
+    @apply inline-flex min-h-12 items-center justify-center rounded-full border border-ink/90 bg-ink px-5 py-3 text-sm font-medium text-white shadow-[0_10px_30px_rgba(32,33,31,0.12)] hover:-translate-y-0.5 hover:bg-moss hover:border-moss focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-moss;
+  }
+
+  .button-secondary {
+    @apply inline-flex min-h-12 items-center justify-center rounded-full border px-5 py-3 text-sm font-medium text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-moss;
+    border-color: rgb(32 33 31 / 0.12);
+    background-color: rgb(255 255 255 / 0.78);
+  }
+
+  .button-secondary:hover {
+    transform: translateY(-0.125rem);
+    border-color: rgb(85 104 90 / 0.35);
+    background-color: rgb(255 255 255 / 1);
+    color: rgb(85 104 90 / 1);
+  }
+
+  .nav-link {
+    @apply text-sm tracking-[0.01em] hover:text-ink;
+    color: rgb(32 33 31 / 0.68);
+  }
+
+  .metric-card {
+    @apply rounded-[28px] border p-5 shadow-card backdrop-blur-md sm:p-6;
+    border-color: rgb(32 33 31 / 0.07);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.86) 0%, rgba(244, 240, 234, 0.82) 100%);
+  }
+
+  .data-pill {
+    @apply inline-flex rounded-full border px-3 py-1.5 text-xs uppercase tracking-[0.18em];
+    color: rgb(32 33 31 / 0.74);
+    border-color: rgb(32 33 31 / 0.08);
+    background-color: rgb(255 255 255 / 0.72);
+  }
+
+  .gold-grid {
+    background-image:
+      linear-gradient(rgba(138, 107, 90, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(138, 107, 90, 0.08) 1px, transparent 1px);
+    background-size: 2.75rem 2.75rem;
+    background-position: center;
+  }
+}

@@ -1,0 +1,1894 @@
+{
+  "aggravation": [
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "homeopathy"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/27062953/",
+      "title": "Homeopathic clinical case reports: Development of a supplement (HOM-CASE) to the CARE clinical case reporting guideline.",
+      "tradition": [
+        "Homeopathy"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "homeopathy"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/32862414/",
+      "title": "Pituitary Microadenoma Treated with Individualized Homeopathic Medicine: A Case Report.",
+      "tradition": [
+        "Homeopathy"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda",
+        "potency"
+      ],
+      "outcomes": [
+        "improved",
+        "quality of life"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/38377655/",
+      "title": "Integrative management of insomnia during cancer chemotherapy: A case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine"
+      ]
+    }
+  ],
+  "amelioration": [
+    {
+      "diagnosis_pattern": [
+        "A 24-year-old female patient exhibited left-sided facial weakness, along with palatal ulcers, dysphagia, and ageusia, prompting the diagnosis of RHS."
+      ],
+      "interventions": [
+        "homeopathy"
+      ],
+      "outcomes": [
+        "improved",
+        "quality of life",
+        "reduced"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37660686/",
+      "title": "Homeopathic Treatment of Ramsay Hunt Syndrome: A Case Report.",
+      "tradition": [
+        "Homeopathy",
+        "Integrative medicine"
+      ]
+    }
+  ],
+  "anxiety": [
+    {
+      "diagnosis_pattern": [
+        "A holistic approach considering mental, physical, and constitutional symptoms may contribute to favourable outcomes in similar cases.",
+        "Subserosal uterine leiomyoma, renal calculi, Homoeopathy, Pulsatilla nigricans, Calcarea Carbonicum, Constitutional medicine, nanomedicine."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/42150189/",
+      "title": "A Case Study of Subserosal Uterine Leiomyoma and Renal Calculi Managed with High-Dilution Homoeopathic Medicines.",
+      "tradition": [
+        "Homeopathy"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "Nocturnal enuresis in a 9-year-old girl was treated with the constitutional approach to homeopathic medicine."
+      ],
+      "interventions": [
+        "homeopathy"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/39899543/",
+      "title": "Nocturnal Enuresis and Homeopathy: A Case Report.",
+      "tradition": [
+        "Homeopathy"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/33988064/",
+      "title": "Anticholinergic syndrome after atropine overdose in a supposedly homeopathic solution: a case report.",
+      "tradition": [
+        "Homeopathy"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "homeopathy"
+      ],
+      "outcomes": [
+        "reduced"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/39295670/",
+      "title": "Individualized Homeopathic Treatment for Persistent Insomnia and Generalized Anxiety Disorder: A Case Report.",
+      "tradition": [
+        "Homeopathy"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "breathing",
+        "meditation",
+        "pranayama",
+        "yoga"
+      ],
+      "outcomes": [
+        "blood pressure",
+        "quality of life",
+        "reduced",
+        "remission"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3293477/",
+      "title": "How Might Yoga Help Depression? A Neurobiological Perspective",
+      "tradition": [
+        "Yoga"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "acupuncture",
+        "yoga"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/33509740/",
+      "title": "The intersection between integrative medicine and neuropathic pain: A case report.",
+      "tradition": [
+        "Integrative medicine",
+        "Yoga"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "However, these clinical studies lack the guidance of Traditional Chinese Medicine (TCM) Syndrome Differentiation principles for treatment.",
+        "TCM diagnosis criteria classified SCD patients into one of three TCM Syndromes: (a) Equal; (b) Deficiency; and (c) Stagnation."
+      ],
+      "interventions": [
+        "acupuncture"
+      ],
+      "outcomes": [
+        "quality of life",
+        "sleep quality"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/38249565/",
+      "title": "Differential clinical characteristics across traditional Chinese medicine (TCM) Syndromes in patients with sickle cell disease.",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "Furthermore, this underscores the importance of tailoring treatment formulas to patients by identifying their specific syndrome differentiation in a clinical setting."
+      ],
+      "interventions": [
+        "chinese herbal medicine",
+        "herbal"
+      ],
+      "outcomes": [
+        "sleep quality"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/38608118/",
+      "title": "A relatively rare traditional Chinese medicine pattern of primary Sj\u00f6gren syndrome: A case report.",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "herbal"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/36679060/",
+      "title": "Indigenous-Amazonian Traditional Medicine's Usage of the Tobacco Plant: A Transdisciplinary Ethnopsychological Mixed-Methods Case Study.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [
+        "This case study provides more insight into differential diagnosis, classification according to the current DSM-5 criteria and discussion on potential treatment approaches.",
+        "[Persistent subjective cognitive decline in middle age: diagnosis and treatment]."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37323048/",
+      "title": "[Persistent subjective cognitive decline in middle age: diagnosis and treatment].",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [
+        "improved"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/33051431/",
+      "title": "Somatic symptom disorder in the context of Chinese yin-yang culture: A case report and literature review.",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "However, these clinical studies lack the guidance of Traditional Chinese Medicine (TCM) Syndrome Differentiation principles for treatment.",
+        "TCM diagnosis criteria classified SCD patients into one of three TCM syndromes: a) Equal; b) Deficiency; and c) Stagnation."
+      ],
+      "interventions": [
+        "acupuncture"
+      ],
+      "outcomes": [
+        "quality of life",
+        "sleep quality"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37905075/",
+      "title": "Differential clinical characteristics across traditional Chinese medicine (TCM) syndromes in patients with sickle cell disease.",
+      "tradition": [
+        "TCM"
+      ]
+    }
+  ],
+  "asthma": [
+    {
+      "diagnosis_pattern": [
+        "A number of detrimental outcomes can follow the misdiagnosis of DILI.[24] These include stopping a beneficial drug where no equivalent alternatives are available, falsely branding a drug as unsafe, opening the prospect of medical-legal consequences, and most importantly, leaving the actual cause of the injury undiagnosed.",
+        "By comparison, research aimed specifically at treating DILI has lagged behind.[1] The management of acute (or chronic) drug-induced liver injury (DILI), including herbal and dietary supplement induced liver injury (HDSLI) has not changed appreciably since we reviewed this topic 15 years ago.[2] It still involves a process that begins with the recognition of hepatic injury and assigning causality to a specific agent.[3] After making a diagnosis of DILI, a decision must be made regarding whether or not the suspected drug can be continued with frequent monitoring to determine if tolerance or drug adaptation is present, or if the injury meets criteria where the drug needs to be stopped temporarily or permanently.[3] In addition to applying these stopping rules, the decision to treat the hepatic injury with a specific antidote (e.g.",
+        "Historically, causality assessment was based in large part on expert opinion, which remains and important means of establishing the diagnosis.",
+        "LiverTox, a collaborative effort by the National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK) and the National Library of Medicine (NLM) was launched in October 2012, and provides the most up-to-date, interactive and searchable information on the diagnosis, cause, frequency, patterns, and management of DILI and HDSLI.[17] As such, it functions as a virtual resource on more than 650 agents (www.livertox.nih.gov)."
+      ],
+      "interventions": [
+        "herbal"
+      ],
+      "outcomes": [
+        "improved",
+        "reduced",
+        "remission"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5074808/",
+      "title": "Current and future directions in the treatment and prevention of drug-induced liver injury: a systematic review",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "breathing",
+        "meditation",
+        "pranayama",
+        "yoga"
+      ],
+      "outcomes": [
+        "blood pressure",
+        "quality of life",
+        "reduced",
+        "remission"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3293477/",
+      "title": "How Might Yoga Help Depression? A Neurobiological Perspective",
+      "tradition": [
+        "Yoga"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "The patient was diagnosed with CVA, and the Chinese medicine diagnosis was cough and wind-heat offending the lung syndrome.",
+        "Traditional Chinese medicine (TCM), with its holistic framework, syndrome differentiation-based treatment, and emphasis on preventing relapse, offers a promising strategy for complementary therapy."
+      ],
+      "interventions": [],
+      "outcomes": [
+        "improved",
+        "quality of life",
+        "remission"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/40859582/",
+      "title": "Persistent cough due to cough variant asthma following upper respiratory tract infection treated by traditional Chinese medicine: A case report.",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "However, the presentation may be non-specific and mimic other diseases, confounding diagnosis.",
+        "The recognized triad of presenting symptoms relates to constitutional, embolic, and obstructive effects produced by the tumor.",
+        "The use of transthoracic echocardiogram in aiding the rapid diagnosis of atrial myxoma is recommended.",
+        "This report also demonstrates that the presentation of a left-sided atrial myxoma with cardiac asthma can mimic respiratory disease and confound diagnosis."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/33939684/",
+      "title": "Unusual Presentation of Atrial Myxoma: A Case Report and Review of the Literature.",
+      "tradition": []
+    }
+  ],
+  "breathlessness": [
+    {
+      "diagnosis_pattern": [
+        "Ayurvedic perspective of diagnosis and reports on treatment strategies for such malignant conditions are highly limited."
+      ],
+      "interventions": [
+        "ayurveda"
+      ],
+      "outcomes": [
+        "improved",
+        "quality of life",
+        "reduced"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/40706140/",
+      "title": "An Ayurvedic intervention for pseudomyxoma peritonei - A case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "acupuncture",
+        "ayurveda",
+        "yoga"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/36755297/",
+      "title": "Ayurveda management of pulmonary mycosis: an integrative approach: a case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine",
+        "Yoga"
+      ]
+    }
+  ],
+  "chronic pain": [
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "herbal"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/39310405/",
+      "title": "Burning Mouth Syndrome in Association With Angular Cheilitis: A Case Report.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [
+        "sleep quality"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/40621299/",
+      "title": "Significant Improvement of Fibromyalgia Symptoms With Osteopathic Manipulative Treatment: A Case Report.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "breathing",
+        "meditation",
+        "pranayama",
+        "yoga"
+      ],
+      "outcomes": [
+        "blood pressure",
+        "quality of life",
+        "reduced",
+        "remission"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3293477/",
+      "title": "How Might Yoga Help Depression? A Neurobiological Perspective",
+      "tradition": [
+        "Yoga"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "acupuncture",
+        "herbal",
+        "materia medica",
+        "remedy"
+      ],
+      "outcomes": [
+        "reduced",
+        "remission"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3722488/",
+      "title": "Traditional medicines and globalization: current and future perspectives in ethnopharmacology",
+      "tradition": [
+        "Ayurveda",
+        "Homeopathy",
+        "Integrative medicine",
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [
+        "improved"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/33051431/",
+      "title": "Somatic symptom disorder in the context of Chinese yin-yang culture: A case report and literature review.",
+      "tradition": [
+        "TCM"
+      ]
+    }
+  ],
+  "depression": [
+    {
+      "diagnosis_pattern": [
+        "Efficacy of Constitutional Prescription in Homoeopathic Management of Psoriasis: Case Report.",
+        "Homoeopathy believes in a holistic approach and, when prescribed on a constitutional basis, helps to cure the condition from its root cause.",
+        "In this case, Sulphur was prescribed on a constitutional basis and proved to be beneficial."
+      ],
+      "interventions": [],
+      "outcomes": [
+        "quality of life"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/34936989/",
+      "title": "Efficacy of Constitutional Prescription in Homoeopathic Management of Psoriasis: Case Report.",
+      "tradition": [
+        "Homeopathy"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "homeopathy"
+      ],
+      "outcomes": [
+        "quality of life",
+        "remission"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/29490312/",
+      "title": "Case Reports of Acne and Homeopathy.",
+      "tradition": [
+        "Homeopathy",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "(35), is that the concept of constitutional types could be re-examined via genomic studies.",
+        "But Sasang scientists are in a good position to do this work since they have access to patients who are naturally classified according to phenotype constitutional group.",
+        "Could there be a Synthesis between Western and Oriental Medicine, and with Sasang Constitutional Medicine in Particular?",
+        "Higher level Systems Biology could be a basis for interpretation of the Korean version of oriental medicine: Sasang constitutional medicine since it seeks patient specific analysis and treatment, and the mathematical methods of systems biology could be used to analyze the central concept of balance in Sasang.",
+        "Since this issue of the journal is devoted to Sasang constitutional medicine (SCM), the article ends with specific reference to this form.",
+        "The main challenge here will be that the concepts of constitutional type at the phenotype level (as in Sasang) and at the genomic level are different since there is no simple relation between genotype and phenotype."
+      ],
+      "interventions": [
+        "acupuncture",
+        "herbal",
+        "meditation",
+        "moxibustion",
+        "qigong"
+      ],
+      "outcomes": [
+        "reduced"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2741627/",
+      "title": "Could there be a Synthesis between Western and Oriental Medicine, and with Sasang Constitutional Medicine in Particular?",
+      "tradition": [
+        "Qigong",
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "breathing",
+        "meditation",
+        "pranayama",
+        "yoga"
+      ],
+      "outcomes": [
+        "blood pressure",
+        "quality of life",
+        "reduced",
+        "remission"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3293477/",
+      "title": "How Might Yoga Help Depression? A Neurobiological Perspective",
+      "tradition": [
+        "Yoga"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/23577586/",
+      "title": "Integrative medicine. Depression.",
+      "tradition": [
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "However, these clinical studies lack the guidance of Traditional Chinese Medicine (TCM) Syndrome Differentiation principles for treatment.",
+        "TCM diagnosis criteria classified SCD patients into one of three TCM Syndromes: (a) Equal; (b) Deficiency; and (c) Stagnation."
+      ],
+      "interventions": [
+        "acupuncture"
+      ],
+      "outcomes": [
+        "quality of life",
+        "sleep quality"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/38249565/",
+      "title": "Differential clinical characteristics across traditional Chinese medicine (TCM) Syndromes in patients with sickle cell disease.",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "Ayurveda diagnosis was Kaphaja Unmada involving kapha-dominant vata and tama dosha."
+      ],
+      "interventions": [
+        "ayurveda"
+      ],
+      "outcomes": [
+        "improved",
+        "quality of life",
+        "reduced",
+        "remission"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/34024690/",
+      "title": "Ayurveda management of Major Depressive Disorder: A case study.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda"
+      ],
+      "outcomes": [
+        "clinical improvement"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/36455368/",
+      "title": "Ayurvedic Management of Prurigo nodularis at scalp: A case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "homeopathy"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/36424852/",
+      "title": "Integrative medicine approaches to chronic depression: case studies of the recovery process with a three-step path to recovery and significant cure.",
+      "tradition": [
+        "Homeopathy",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "An 84-year-old female patient presented symptoms of depression, insomnia, palpitations, and dyspepsia after COVID-19 diagnosis."
+      ],
+      "interventions": [
+        "acupuncture",
+        "herbal",
+        "moxibustion"
+      ],
+      "outcomes": [
+        "improved",
+        "quality of life"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/39093769/",
+      "title": "Integrative personalized medicine care for adjustment disorder of a post-COVID-19 patient: A CARE-compliant case report.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/33505824/",
+      "title": "Vertigoheel induced psychosis: A patient case report.",
+      "tradition": [
+        "Homeopathy"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [
+        "improved"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/33051431/",
+      "title": "Somatic symptom disorder in the context of Chinese yin-yang culture: A case report and literature review.",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "A cross-sectional study method combined with two types of traditional Chinese medicine(TCM) syndrome differentiation methods was adopted to investigate the clinical symptoms and distribution characteristics of TCM syndromes in patients with pulmonary nodules from the perspectives of number, size, nature, and stability of pulmonary nodules by using the \u03c7~2 test, systematic clustering and Apriori algorithm correlation analysis.",
+        "The proportion of cold and heat in complexity syndrome(63.43%) was higher based on cold-heat syndrome differentiation.",
+        "The top two syndromes were Qi deficiency syndrome(88.03%) and Qi depression syndrome(83.17%) based on disease syndrome differentiation."
+      ],
+      "interventions": [
+        "materia medica"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37802817/",
+      "title": "[Clinical symptoms and distribution characteristics traditional Chinese medicine syndromes of pulmonary nodules].",
+      "tradition": [
+        "Homeopathy",
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "In order to exploring Erectile Dysfunction(ED) syndrome and syndrome differentiation based on latent structure to provide objective evidence to support Traditional Chinese Medicine(TCM) dialectic.",
+        "[Exploration of erectile dysfunction syndrome and syndrome differentiation based on latent structure]."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/38639954/",
+      "title": "[Exploration of erectile dysfunction syndrome and syndrome differentiation based on latent structure].",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "Among these, the TCM indicators consist of 2 components: tongue diagnosis and pulse diagnosis.",
+        "In this study, we applied the guiding principle of systematics to the study of TCM diagnosis and treatment, and combined it with modern medical technology.",
+        "This case study validates the effectiveness of the proposed model in the diagnosis and treatment of liver disease in TCM.",
+        "This study aims to provide a basic theory for TCM diagnosis using systematics as the guiding principle.",
+        "Traditional Chinese medicine diagnosis and treatment based on systematics.",
+        "Using modern scientific and technological achievements, we aim to explore a new TCM diagnosis method.",
+        "We analyzed previous studies on TCM diagnosis and treatment, and reviewed clinical research on TCM diagnosis and treatment from the viewpoint of systematics.",
+        "We propose a new process model based on systematics for TCM diagnosis and treatment.",
+        "We proposed a TCM diagnosis and treatment process model, and a TCM model to establish an image, which can effectively support the diagnosis and treatment of TCM diseases."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/40636921/",
+      "title": "Traditional Chinese medicine diagnosis and treatment based on systematics.",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "However, these clinical studies lack the guidance of Traditional Chinese Medicine (TCM) Syndrome Differentiation principles for treatment.",
+        "TCM diagnosis criteria classified SCD patients into one of three TCM syndromes: a) Equal; b) Deficiency; and c) Stagnation."
+      ],
+      "interventions": [
+        "acupuncture"
+      ],
+      "outcomes": [
+        "quality of life",
+        "sleep quality"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37905075/",
+      "title": "Differential clinical characteristics across traditional Chinese medicine (TCM) syndromes in patients with sickle cell disease.",
+      "tradition": [
+        "TCM"
+      ]
+    }
+  ],
+  "fatigue": [
+    {
+      "diagnosis_pattern": [
+        "A holistic approach considering mental, physical, and constitutional symptoms may contribute to favourable outcomes in similar cases.",
+        "Subserosal uterine leiomyoma, renal calculi, Homoeopathy, Pulsatilla nigricans, Calcarea Carbonicum, Constitutional medicine, nanomedicine."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/42150189/",
+      "title": "A Case Study of Subserosal Uterine Leiomyoma and Renal Calculi Managed with High-Dilution Homoeopathic Medicines.",
+      "tradition": [
+        "Homeopathy"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda"
+      ],
+      "outcomes": [
+        "quality of life"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/39634340/",
+      "title": "A Case Report on Management of Liver Cirrhosis Using Ayurveda and Integrative Approach of Treatment.",
+      "tradition": [
+        "Ayurveda"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [
+        "sleep quality"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/40621299/",
+      "title": "Significant Improvement of Fibromyalgia Symptoms With Osteopathic Manipulative Treatment: A Case Report.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "breathing",
+        "meditation",
+        "pranayama",
+        "yoga"
+      ],
+      "outcomes": [
+        "blood pressure",
+        "quality of life",
+        "reduced",
+        "remission"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3293477/",
+      "title": "How Might Yoga Help Depression? A Neurobiological Perspective",
+      "tradition": [
+        "Yoga"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "However, these clinical studies lack the guidance of Traditional Chinese Medicine (TCM) Syndrome Differentiation principles for treatment.",
+        "TCM diagnosis criteria classified SCD patients into one of three TCM Syndromes: (a) Equal; (b) Deficiency; and (c) Stagnation."
+      ],
+      "interventions": [
+        "acupuncture"
+      ],
+      "outcomes": [
+        "quality of life",
+        "sleep quality"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/38249565/",
+      "title": "Differential clinical characteristics across traditional Chinese medicine (TCM) Syndromes in patients with sickle cell disease.",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "moxibustion"
+      ],
+      "outcomes": [],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3576895/",
+      "title": "Indirect Moxibustion (CV4 and CV8) Ameliorates Chronic Fatigue: A Randomized, Double-Blind, Controlled Study",
+      "tradition": [
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda"
+      ],
+      "outcomes": [
+        "reduced"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37422989/",
+      "title": "Ayurveda approach in the treatment of type 2 diabetes mellitus - A case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "As for the timing of starting TSS in patients with triptan\u2010resistant menstrual migraine, many neurologists usually try to use at least two or three triptans (ie, serotonin 5\u2010HT 1B/1D receptor agonists) before making diagnosis as being triptan\u2010resistant."
+      ],
+      "interventions": [
+        "herbal"
+      ],
+      "outcomes": [],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6498115/",
+      "title": "Successful treatment of intractable menstrual migraine with the traditional herbal medicine tokishakuyakusan",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [
+        "Of the 23 patients analyzed, 69.6% showed some type of improvement, and no harmful effects from taking bowel nosodes were observed; 26% of patients showed major improvement or were \"cured.\" It is difficult to find correct constitutional remedies as they often require high-level techniques and time.",
+        "Since there are only 11 main bowel nosode remedies, they are easier to choose from and cheaper to use and develop than classical constitutional remedies."
+      ],
+      "interventions": [
+        "remedy"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/28805460/",
+      "title": "Case Study of Homeopathic Bowel Nosode Remedies for Dysbiotic Japanese Patients.",
+      "tradition": [
+        "Homeopathy",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "Imaging suggested liver cirrhosis and splenomegaly, according to imaging diagnosis, laboratory tests, ultrasound, magnetic resonance, and history of rheumatoid arthritis, we considered the diagnosis of liver cirrhosis due to FS.",
+        "Physicians should have a better understanding of FS and know that it can lead to liver cirrhosis, to avoid misdiagnosis and poor response to glucocorticoids, delay the disease, and increase the burden on patients."
+      ],
+      "interventions": [],
+      "outcomes": [
+        "improved"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/40295304/",
+      "title": "Felty syndrome with liver cirrhosis: A case report.",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [
+        "improved"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37767535/",
+      "title": "Colloidal silver ingestion and severe anemia - A case report.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [
+        "A cross-sectional study method combined with two types of traditional Chinese medicine(TCM) syndrome differentiation methods was adopted to investigate the clinical symptoms and distribution characteristics of TCM syndromes in patients with pulmonary nodules from the perspectives of number, size, nature, and stability of pulmonary nodules by using the \u03c7~2 test, systematic clustering and Apriori algorithm correlation analysis.",
+        "The proportion of cold and heat in complexity syndrome(63.43%) was higher based on cold-heat syndrome differentiation.",
+        "The top two syndromes were Qi deficiency syndrome(88.03%) and Qi depression syndrome(83.17%) based on disease syndrome differentiation."
+      ],
+      "interventions": [
+        "materia medica"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37802817/",
+      "title": "[Clinical symptoms and distribution characteristics traditional Chinese medicine syndromes of pulmonary nodules].",
+      "tradition": [
+        "Homeopathy",
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "However, these clinical studies lack the guidance of Traditional Chinese Medicine (TCM) Syndrome Differentiation principles for treatment.",
+        "TCM diagnosis criteria classified SCD patients into one of three TCM syndromes: a) Equal; b) Deficiency; and c) Stagnation."
+      ],
+      "interventions": [
+        "acupuncture"
+      ],
+      "outcomes": [
+        "quality of life",
+        "sleep quality"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37905075/",
+      "title": "Differential clinical characteristics across traditional Chinese medicine (TCM) syndromes in patients with sickle cell disease.",
+      "tradition": [
+        "TCM"
+      ]
+    }
+  ],
+  "headache": [
+    {
+      "diagnosis_pattern": [
+        "Excluding other differentials like viral hepatitis, alcoholic hepatitis, hemochromatosis, Wilson disease, and standard drug and toxin-induced hepatitis, the recent use of homeopathic remedies was a contributing factor in leading to the diagnosis of homeopathy-induced liver injury.",
+        "This case highlights the need for public awareness of the possible complications such as headache, tiredness, skin eruption, dizziness, bowel dysfunction, allergic reactions to acute pancreatitis, renal failure, neurological dysfunction, possible liver injury, and even mortality in those patients who pursue homeopathic treatments and health care professionals should take this into account when making a differential diagnosis in patients with liver injury."
+      ],
+      "interventions": [
+        "homeopathy",
+        "remedy"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37427238/",
+      "title": "Liver injury: the therapeutic dilemma of homeopathy - a case report from Bangladesh.",
+      "tradition": [
+        "Homeopathy"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "acupuncture",
+        "herbal",
+        "materia medica",
+        "remedy"
+      ],
+      "outcomes": [
+        "reduced",
+        "remission"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3722488/",
+      "title": "Traditional medicines and globalization: current and future perspectives in ethnopharmacology",
+      "tradition": [
+        "Ayurveda",
+        "Homeopathy",
+        "Integrative medicine",
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "Advanced clinical reasoning in the diagnosis of spinal cerebrospinal fluid leaks."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/39136273/",
+      "title": "Advanced clinical reasoning in the diagnosis of spinal cerebrospinal fluid leaks.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "homeopathy"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/32862414/",
+      "title": "Pituitary Microadenoma Treated with Individualized Homeopathic Medicine: A Case Report.",
+      "tradition": [
+        "Homeopathy"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda",
+        "remedy"
+      ],
+      "outcomes": [
+        "reduced"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37865054/",
+      "title": "Standalone Ayurveda\u00a0management of Hodgkin's lymphoma: A case report.",
+      "tradition": [
+        "Ayurveda",
+        "Homeopathy",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda",
+        "yoga"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/38241882/",
+      "title": "Ayurveda and Yoga management of chronic alcoholism sequelae - A case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine",
+        "Yoga"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "He had the complaints of numbness and pain in left upper limb, headache and pale discoloration of left-hand fingers and acute onset left upper extremity weakness.The Ayurveda diagnosis was considered as Vatarakta."
+      ],
+      "interventions": [
+        "ayurveda"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/38537487/",
+      "title": "Ayurveda management for acute upper limb ischemia - a case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/39454285/",
+      "title": "Ayurveda management of migraine - a case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "As for the timing of starting TSS in patients with triptan\u2010resistant menstrual migraine, many neurologists usually try to use at least two or three triptans (ie, serotonin 5\u2010HT 1B/1D receptor agonists) before making diagnosis as being triptan\u2010resistant."
+      ],
+      "interventions": [
+        "herbal"
+      ],
+      "outcomes": [],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6498115/",
+      "title": "Successful treatment of intractable menstrual migraine with the traditional herbal medicine tokishakuyakusan",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/7799661/",
+      "title": "Headache.",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "Subsequent brain biopsy demonstrated the final diagnosis.",
+        "This case highlights the broad differential diagnosis of leptomeningeal disease, emphasizing the role of specific clinical, laboratory, and imaging cues in guiding clinical reasoning."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/39586052/",
+      "title": "Clinical Reasoning: A 63-Year-Old Man With Progressive Multicranial Neuropathy and Leptomeningeal Enhancement.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [
+        "The case highlights the importance of increased awareness in broadening the differential diagnosis, particularly in young patients presenting with acute cognitive decline and atypical imaging findings.",
+        "The differential diagnosis of multiple intracranial lesions is often perplexing and highly challenging, especially in the early stages."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/40537073/",
+      "title": "Clinical Reasoning: Acute and Progressive Cognitive Decline in a 38-Year-Old Man.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "homeopathy"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/29561944/",
+      "title": "Treatment of chikungunya chronic arthritis: A systematic review.",
+      "tradition": [
+        "Homeopathy"
+      ]
+    }
+  ],
+  "hypertension": [
+    {
+      "diagnosis_pattern": [
+        "After the thorough clinical examination and laboratory investigations, diagnosis was confirmed as necrozoospermia."
+      ],
+      "interventions": [
+        "ayurveda",
+        "remedy"
+      ],
+      "outcomes": [],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6891995/",
+      "title": "Ayurvedic management of necrozoospermia - A case report",
+      "tradition": [
+        "Ayurveda",
+        "Homeopathy"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [
+        "reduced"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/41907905/",
+      "title": "Integrative management of chronic kidney disease: A case study combining siddha and modern medicine.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [
+        "Discussion This is the first study proposing a model quantifying TCM pulse diagnosis with the eight elements at the six locations.",
+        "First, the six items included in their scale-depth, width, force, relative force, rhythm, and pulse occlusion are not widely accepted as core items in TCM pulse diagnosis.",
+        "Introduction Traditional Chinese medicine (TCM) pulse diagnosis is one of the major clinical diagnostic methods in TCM.",
+        "Second, the integrity of the pulse diagnosis must be preserved.",
+        "Such arrangement is based on the fact that left cun, guan, and chi assess blood which is Yin in nature and right cun, guan, and chi assess qi which is Yang in nature in TCM pulse diagnosis [3, 28].",
+        "The null hypothesis is that the TCM pulse diagnostic model is not accurate in essential hypertension diagnosis.",
+        "To address these issues, the research team recontextualized TCM pulse diagnosis in an explicit and quantifiable way.",
+        "To recontextualize TCM pulse diagnosis, several issues must be addressed.",
+        "Validation of a Novel Traditional Chinese Medicine Pulse Diagnostic Model Using an Artificial Neural Network In view of lacking a quantifiable traditional Chinese medicine (TCM) pulse diagnostic model, a novel TCM pulse diagnostic model was introduced to quantify the pulse diagnosis.",
+        "We aim at introducing a novel TCM pulse diagnostic model to recontextualize TCM pulse diagnosis and validate the model with essential hypertension.",
+        "[11] tried to quantify TCM pulse diagnosis but did not reflect pulse qualities adequately for several reasons.",
+        "\u201cAgreed\u201d refers to a rating of \u201crelevant\u201d or \u201cvery relevant\u201d and \u201cDisagreed\u201d to a rating of \u201cirrelevant\u201d or \u201csomewhat relevant.\u201d The two experts that disagreed on the twelve items explained that although there was no standard for assessing pulse qualities in TCM, they did not think that the twelve items were good enough to represent TCM pulse diagnosis."
+      ],
+      "interventions": [],
+      "outcomes": [
+        "blood pressure"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3171770/",
+      "title": "Validation of a Novel Traditional Chinese Medicine Pulse Diagnostic\nModel Using an Artificial Neural Network",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "After that, TCM treatment will be applied in accordance with the conclusions drawn from the syndrome differentiation process.",
+        "Analysis Method According to the \u201csyndrome differentiation significance of 600 common symptoms\u201d and the MS common symptom standard in the Guideline of Clinical Research of TCM New Drugs, the four diagnosis information collection scale is established.",
+        "Combined the cluster results with the expert's suggestions and the relevant standards of MS diagnosis in TCM, all samples were classified into five types: phlegm heat syndrome (PHS), hyperactivity of heart fire syndrome (HHFS), spleen deficiency and dampness syndrome (SDDS), deficiency of liver and kidney syndrome (DLKS), and phlegm turbid upper syndrome (PTUS).",
+        "Diagnostic Criteria Diagnostic criteria of Western medicine were as follows: according to the MS diagnostic criteria issued by the IDF, AHA, and Diabetes Society of the Chinese Medical Association, the diagnosis can be made if the following 3 items or more are met: (1) abdominal obesity (waist circumference: male \u226590 cm and female \u226585 cm); (2) hyperglycemia: FPG \u2265 6.1 mmol/L or 2 hPG \u2265 7.8 mmol/L and/or diagnosed as diabetes; (3) hypertension: BP \u2265 130/85 mmHg and/or diagnosed as hypertension; (4) TG \u2265 1.70 mmol/L; and (5) HDL-C < 1.04 mmol/L.",
+        "Factor analysis can be used to find the potential relationship behind the four diagnosis information of TCM, namely, the common factors (syndrome elements).",
+        "Frequency Analysis of Four Diagnostic Information The four diagnosis information of MS patients in different age groups was tabulated based on the distribution frequency.",
+        "In TCM clinical practice, syndrome differentiation serves as the core of treatment for MS [9].",
+        "In this way, better TCM syndrome features can provide objective diagnostic evidence for clinical doctors to improve the accuracy of syndrome diagnosis and efficacy of clinical treatment for MS.",
+        "In this way, it can provide a certain basis for the quantitative and qualitative syndrome differentiation and treatment of MS.",
+        "Multivariate Statistical Method and TCM Syndrome Differentiation Syndrome differentiation and treatment is the essence of TCM [19].",
+        "TCM syndrome element and type diagnosis standard was as follows: according to the Syndrome Part of TCM Clinical Diagnosis and Treatment Terminology (the National Standard of the People's Republic of China) [16], TCM Diagnostics [17], Syndrome Elements Differentiation [18] and combined with the expert consultation, the classification specification of syndrome patterns was formulated.",
+        "The information collected from the four diagnostic methods (inspection, auscultation/smelling, interrogation, and palpating) is an important basis for the diagnosis and treatment of TCM."
+      ],
+      "interventions": [],
+      "outcomes": [
+        "improved",
+        "reduced"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7366224/",
+      "title": "Factor and Cluster Analysis for TCM Syndromes of Real-World Metabolic Syndrome at Different Age Stage",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [
+        "improved"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/40757054/",
+      "title": "Mercury Toxicity Mimicking Pheochromocytoma.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [
+        "She was hospitalized in the internal medicine department in order to study constitutional symptoms which consisted of confirmed weight loss of 13 kg, chronic diarrhea, loss of appetite, asthenia, and intermittent colic-like abdominal pain."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/34092541/",
+      "title": "70-year-old woman with chronic diarrhea.",
+      "tradition": []
+    }
+  ],
+  "insomnia": [
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "homeopathy"
+      ],
+      "outcomes": [
+        "reduced"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/39295670/",
+      "title": "Individualized Homeopathic Treatment for Persistent Insomnia and Generalized Anxiety Disorder: A Case Report.",
+      "tradition": [
+        "Homeopathy"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "After that, TCM treatment will be applied in accordance with the conclusions drawn from the syndrome differentiation process.",
+        "Analysis Method According to the \u201csyndrome differentiation significance of 600 common symptoms\u201d and the MS common symptom standard in the Guideline of Clinical Research of TCM New Drugs, the four diagnosis information collection scale is established.",
+        "Combined the cluster results with the expert's suggestions and the relevant standards of MS diagnosis in TCM, all samples were classified into five types: phlegm heat syndrome (PHS), hyperactivity of heart fire syndrome (HHFS), spleen deficiency and dampness syndrome (SDDS), deficiency of liver and kidney syndrome (DLKS), and phlegm turbid upper syndrome (PTUS).",
+        "Diagnostic Criteria Diagnostic criteria of Western medicine were as follows: according to the MS diagnostic criteria issued by the IDF, AHA, and Diabetes Society of the Chinese Medical Association, the diagnosis can be made if the following 3 items or more are met: (1) abdominal obesity (waist circumference: male \u226590 cm and female \u226585 cm); (2) hyperglycemia: FPG \u2265 6.1 mmol/L or 2 hPG \u2265 7.8 mmol/L and/or diagnosed as diabetes; (3) hypertension: BP \u2265 130/85 mmHg and/or diagnosed as hypertension; (4) TG \u2265 1.70 mmol/L; and (5) HDL-C < 1.04 mmol/L.",
+        "Factor analysis can be used to find the potential relationship behind the four diagnosis information of TCM, namely, the common factors (syndrome elements).",
+        "Frequency Analysis of Four Diagnostic Information The four diagnosis information of MS patients in different age groups was tabulated based on the distribution frequency.",
+        "In TCM clinical practice, syndrome differentiation serves as the core of treatment for MS [9].",
+        "In this way, better TCM syndrome features can provide objective diagnostic evidence for clinical doctors to improve the accuracy of syndrome diagnosis and efficacy of clinical treatment for MS.",
+        "In this way, it can provide a certain basis for the quantitative and qualitative syndrome differentiation and treatment of MS.",
+        "Multivariate Statistical Method and TCM Syndrome Differentiation Syndrome differentiation and treatment is the essence of TCM [19].",
+        "TCM syndrome element and type diagnosis standard was as follows: according to the Syndrome Part of TCM Clinical Diagnosis and Treatment Terminology (the National Standard of the People's Republic of China) [16], TCM Diagnostics [17], Syndrome Elements Differentiation [18] and combined with the expert consultation, the classification specification of syndrome patterns was formulated.",
+        "The information collected from the four diagnostic methods (inspection, auscultation/smelling, interrogation, and palpating) is an important basis for the diagnosis and treatment of TCM."
+      ],
+      "interventions": [],
+      "outcomes": [
+        "improved",
+        "reduced"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7366224/",
+      "title": "Factor and Cluster Analysis for TCM Syndromes of Real-World Metabolic Syndrome at Different Age Stage",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "breathing",
+        "meditation",
+        "pranayama",
+        "yoga"
+      ],
+      "outcomes": [
+        "blood pressure",
+        "quality of life",
+        "reduced",
+        "remission"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3293477/",
+      "title": "How Might Yoga Help Depression? A Neurobiological Perspective",
+      "tradition": [
+        "Yoga"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda",
+        "potency"
+      ],
+      "outcomes": [
+        "improved",
+        "quality of life"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/38377655/",
+      "title": "Integrative management of insomnia during cancer chemotherapy: A case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "Furthermore, this underscores the importance of tailoring treatment formulas to patients by identifying their specific syndrome differentiation in a clinical setting."
+      ],
+      "interventions": [
+        "chinese herbal medicine",
+        "herbal"
+      ],
+      "outcomes": [
+        "sleep quality"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/38608118/",
+      "title": "A relatively rare traditional Chinese medicine pattern of primary Sj\u00f6gren syndrome: A case report.",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "An 84-year-old female patient presented symptoms of depression, insomnia, palpitations, and dyspepsia after COVID-19 diagnosis."
+      ],
+      "interventions": [
+        "acupuncture",
+        "herbal",
+        "moxibustion"
+      ],
+      "outcomes": [
+        "improved",
+        "quality of life"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/39093769/",
+      "title": "Integrative personalized medicine care for adjustment disorder of a post-COVID-19 patient: A CARE-compliant case report.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/33505824/",
+      "title": "Vertigoheel induced psychosis: A patient case report.",
+      "tradition": [
+        "Homeopathy"
+      ]
+    }
+  ],
+  "modalities": [
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/15165971/",
+      "title": "Core competencies in integrative medicine for medical school curricula: a proposal.",
+      "tradition": [
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "After the thorough clinical examination and laboratory investigations, diagnosis was confirmed as necrozoospermia."
+      ],
+      "interventions": [
+        "ayurveda",
+        "remedy"
+      ],
+      "outcomes": [],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6891995/",
+      "title": "Ayurvedic management of necrozoospermia - A case report",
+      "tradition": [
+        "Ayurveda",
+        "Homeopathy"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "A number of detrimental outcomes can follow the misdiagnosis of DILI.[24] These include stopping a beneficial drug where no equivalent alternatives are available, falsely branding a drug as unsafe, opening the prospect of medical-legal consequences, and most importantly, leaving the actual cause of the injury undiagnosed.",
+        "By comparison, research aimed specifically at treating DILI has lagged behind.[1] The management of acute (or chronic) drug-induced liver injury (DILI), including herbal and dietary supplement induced liver injury (HDSLI) has not changed appreciably since we reviewed this topic 15 years ago.[2] It still involves a process that begins with the recognition of hepatic injury and assigning causality to a specific agent.[3] After making a diagnosis of DILI, a decision must be made regarding whether or not the suspected drug can be continued with frequent monitoring to determine if tolerance or drug adaptation is present, or if the injury meets criteria where the drug needs to be stopped temporarily or permanently.[3] In addition to applying these stopping rules, the decision to treat the hepatic injury with a specific antidote (e.g.",
+        "Historically, causality assessment was based in large part on expert opinion, which remains and important means of establishing the diagnosis.",
+        "LiverTox, a collaborative effort by the National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK) and the National Library of Medicine (NLM) was launched in October 2012, and provides the most up-to-date, interactive and searchable information on the diagnosis, cause, frequency, patterns, and management of DILI and HDSLI.[17] As such, it functions as a virtual resource on more than 650 agents (www.livertox.nih.gov)."
+      ],
+      "interventions": [
+        "herbal"
+      ],
+      "outcomes": [
+        "improved",
+        "reduced",
+        "remission"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5074808/",
+      "title": "Current and future directions in the treatment and prevention of drug-induced liver injury: a systematic review",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/19733814/",
+      "title": "Integrative medicine and patient-centered care.",
+      "tradition": [
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "acupuncture",
+        "yoga"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/33509740/",
+      "title": "The intersection between integrative medicine and neuropathic pain: A case report.",
+      "tradition": [
+        "Integrative medicine",
+        "Yoga"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "acupuncture",
+        "breathing"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/40945035/",
+      "title": "Integrative medicine consults in a pediatric hospital: A case series.",
+      "tradition": [
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [
+        "reduced"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/38772975/",
+      "title": "SMARCA4-deficient undifferentiated gastric carcinoma: a case series and literature review.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "homeopathy"
+      ],
+      "outcomes": [
+        "remission"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/31344727/",
+      "title": "Homeopathy as Therapy for Mycosis Fungoides: Case Reports of Three Patients.",
+      "tradition": [
+        "Homeopathy"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "herbal"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/40453233/",
+      "title": "Diagnostic and Therapeutic Challenges in Lyme Disease and Co-Infections: Unraveling Neuropsychiatric and Neurological Complexities-A Comprehensive Case Series Analysis.",
+      "tradition": [
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda"
+      ],
+      "outcomes": [
+        "remission"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/36436296/",
+      "title": "Management of folliculitis decalvans with ayurveda- A case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/38237453/",
+      "title": "Ayurveda management of primary infertility associated with endometriosis - A case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda"
+      ],
+      "outcomes": [
+        "improved",
+        "quality of life",
+        "reduced"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/41223582/",
+      "title": "Ayurvedic management for Epidermolysis bullosa - A case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda",
+        "meditation"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/33962505/",
+      "title": "Psychogenic pseudo-myasthenic ptosis\u00a0- management with ayurvedic medicines and Smriti meditation.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "acupuncture",
+        "herbal",
+        "homeopathy",
+        "moxibustion"
+      ],
+      "outcomes": [
+        "improved"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/42118131/",
+      "title": "A Compendium of Reporting Guidelines for Traditional, Complementary, and Integrative Medicine from the Enhancing the QUAlity and Transparency Of health Research (EQUATOR) Network.",
+      "tradition": [
+        "Homeopathy",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda"
+      ],
+      "outcomes": [
+        "reduced"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/39926933/",
+      "title": "Ayurveda Modalities in Palmoplanter Psoriasis-A Case Report.",
+      "tradition": [
+        "Ayurveda"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "This case highlights the importance of a systematic reasoning approach, emphasizing the differential diagnosis, further investigative modalities, and treatment options for this rare condition, with particular attention to potential multisystem involvement."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/40403221/",
+      "title": "Clinical Reasoning: A 59-Year-Old Man With Progressive Dysarthria and Gait Instability.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [
+        "It is characterized by the absence of inflammatory cells within the cornea or anterior chamber, central stromal necrosis, and corneal opacification, with an onset of 3 to 9 days after refractive surgery; This case report reviews the clinical findings, differential diagnosis, possible etiologies, and management of CTK; Though listed in the literature under numerous names, including diffuse lamellar keratitis (DLK) Stage IV, central lamellar keratitis (CLK), central flap necrosis (CFN), flap necrosis syndrome (FNS), and keratocyte-induced corneal microedema (KME), the conditions share characteristics with CTK, including clinical findings and treatment modalities."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/23231367/",
+      "title": "Central toxic keratopathy: a case study and literature review.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [
+        "But syndrome differentiation of UC presents a longstanding challenge in TCM due to its chronic nature and varied manifestations.",
+        "Comprehensive evaluations demonstrate that our ensemble models outperform individual deep learning approaches, with the Gradient Boosting (GB) model achieving 83% F1 in syndrome differentiation.",
+        "Furthermore, SHAP and LIME reveal key features associated with different syndromes, such as frequent stool in spleen-kidney yang deficiency and lower abdominal coldness in spleen yang deficiency, offering valuable insights for intelligent syndrome differentiation.",
+        "While existing research has primarily explored machine learning applications for diagnosis and prognosis prediction, the critical issue of explainability in syndrome differentiation remains underexamined."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/40593010/",
+      "title": "Predictive model of ulcerative colitis syndrome with ensemble learning and interpretability methods.",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "ANN was first used in 1990 for computerized differential diagnosis of interstitial lung diseases in CAD.",
+        "Computer-aided diagnosis (CAD) is rapidly entering the radiology mainstream.",
+        "Computer-aided diagnosis and artificial intelligence in clinical imaging.",
+        "Since then, ANN has been widely used in CAD schemes for the detection and diagnosis of various diseases in different imaging modalities, including the differential diagnosis of lung nodules and interstitial lung diseases in chest radiography, CT, and position emission tomography/CT."
+      ],
+      "interventions": [],
+      "outcomes": [
+        "improved"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/21978447/",
+      "title": "Computer-aided diagnosis and artificial intelligence in clinical imaging.",
+      "tradition": []
+    }
+  ],
+  "nausea": [
+    {
+      "diagnosis_pattern": [
+        "A number of detrimental outcomes can follow the misdiagnosis of DILI.[24] These include stopping a beneficial drug where no equivalent alternatives are available, falsely branding a drug as unsafe, opening the prospect of medical-legal consequences, and most importantly, leaving the actual cause of the injury undiagnosed.",
+        "By comparison, research aimed specifically at treating DILI has lagged behind.[1] The management of acute (or chronic) drug-induced liver injury (DILI), including herbal and dietary supplement induced liver injury (HDSLI) has not changed appreciably since we reviewed this topic 15 years ago.[2] It still involves a process that begins with the recognition of hepatic injury and assigning causality to a specific agent.[3] After making a diagnosis of DILI, a decision must be made regarding whether or not the suspected drug can be continued with frequent monitoring to determine if tolerance or drug adaptation is present, or if the injury meets criteria where the drug needs to be stopped temporarily or permanently.[3] In addition to applying these stopping rules, the decision to treat the hepatic injury with a specific antidote (e.g.",
+        "Historically, causality assessment was based in large part on expert opinion, which remains and important means of establishing the diagnosis.",
+        "LiverTox, a collaborative effort by the National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK) and the National Library of Medicine (NLM) was launched in October 2012, and provides the most up-to-date, interactive and searchable information on the diagnosis, cause, frequency, patterns, and management of DILI and HDSLI.[17] As such, it functions as a virtual resource on more than 650 agents (www.livertox.nih.gov)."
+      ],
+      "interventions": [
+        "herbal"
+      ],
+      "outcomes": [
+        "improved",
+        "reduced",
+        "remission"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5074808/",
+      "title": "Current and future directions in the treatment and prevention of drug-induced liver injury: a systematic review",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/38795577/",
+      "title": "Ayurvedic management of dengue haemorrhagic fever with menorrhagia: A case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda"
+      ],
+      "outcomes": [
+        "quality of life",
+        "reduced"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/41092832/",
+      "title": "Ayurvedic management of Budd Chiari Syndrome - A case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "As for the timing of starting TSS in patients with triptan\u2010resistant menstrual migraine, many neurologists usually try to use at least two or three triptans (ie, serotonin 5\u2010HT 1B/1D receptor agonists) before making diagnosis as being triptan\u2010resistant."
+      ],
+      "interventions": [
+        "herbal"
+      ],
+      "outcomes": [],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6498115/",
+      "title": "Successful treatment of intractable menstrual migraine with the traditional herbal medicine tokishakuyakusan",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/39809168/",
+      "title": "Urinary calculi successfully expelled in a patient through traditional Chinese exercise: A case report.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [
+        "This case highlights the importance of thinking broadly beyond common viral and bacterial encephalitides and developing a comprehensive differential diagnosis."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/40479630/",
+      "title": "Clinical Reasoning: A 64-Year-Old Man With Confusion, Nausea, Seizure, and Fever.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [
+        "improved"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37767535/",
+      "title": "Colloidal silver ingestion and severe anemia - A case report.",
+      "tradition": []
+    }
+  ],
+  "sleeplessness": [
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda"
+      ],
+      "outcomes": [
+        "reduced"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/39303382/",
+      "title": "Ayurvedic management of systemic sclerosis - A case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine"
+      ]
+    }
+  ],
+  "stress": [
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda",
+        "herbal"
+      ],
+      "outcomes": [
+        "quality of life"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/39269343/",
+      "title": "Complete Resolution of Plantar Psoriasis With Ayurveda, A Case Report.",
+      "tradition": [
+        "Ayurveda"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "The patient's medical doctor provided a diagnosis of hypothyroidism after blood tests showed that thyroid-stimulating hormone (TSH) levels were high at 6.87 mIU/L (where the acceptable range is 0.40-3.50 mIU/L) and free T4 (FT4) levels were low at 8.6 pmol/L (where the acceptable range is 9.0-19.0 pmol/L)."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/38745794/",
+      "title": "Treatment of Hypothyroidism and Stress Using Neuro-Emotional Technique (NET): A Case Study.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [
+        "Relevant indexed articles that investigated the elements characterizing TCM in nursing differential diagnosis and the role of the APN were identified.",
+        "The aim of this review is to summarize the various scientific journal articles on the nursing differential diagnosis of TCM, on the specific nurse training (particularly the role of the Advanced Practice Nurse, APN), and on the nursing educational support for the patient after hospital discharge."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37466761/",
+      "title": "Clinical Features of Takotsubo Syndrome and Its Differential Diagnostic Criteria in Clinical Nursing Practice: A Review of the Literature.",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "breathing",
+        "meditation",
+        "pranayama",
+        "yoga"
+      ],
+      "outcomes": [
+        "blood pressure",
+        "quality of life",
+        "reduced",
+        "remission"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3293477/",
+      "title": "How Might Yoga Help Depression? A Neurobiological Perspective",
+      "tradition": [
+        "Yoga"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "acupuncture",
+        "breathing"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/40945035/",
+      "title": "Integrative medicine consults in a pediatric hospital: A case series.",
+      "tradition": [
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "acupuncture",
+        "herbal",
+        "materia medica",
+        "remedy"
+      ],
+      "outcomes": [
+        "reduced",
+        "remission"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3722488/",
+      "title": "Traditional medicines and globalization: current and future perspectives in ethnopharmacology",
+      "tradition": [
+        "Ayurveda",
+        "Homeopathy",
+        "Integrative medicine",
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/35265026/",
+      "title": "Case Report: Atonic PNES Capture in fMRI.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/36184323/",
+      "title": "On the Role of Psychoneuroimmunology in Oral Medicine.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/38320320/",
+      "title": "Lifestyle Medicine Implementation in 8 Health Systems: Protocol for a Multiple Case Study Investigation.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda",
+        "homeopathy",
+        "yoga"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/35516692/",
+      "title": "Effect of integrated approach of yoga and naturopathy on polycystic ovarian syndrome: A case study.",
+      "tradition": [
+        "Ayurveda",
+        "Homeopathy",
+        "Yoga"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "Clues to a systemic inflammatory aetiology may include constitutional symptoms, morning stiffness, elevated acute-phase reactants and progressive symptoms despite modification of physical activity.",
+        "Effective management of athletes presenting with musculoskeletal complaints requires a structured history, physical examination, and definitive diagnosis to distinguish soft tissue problems from joint problems and an inflammatory syndrome from a non-inflammatory syndrome.",
+        "However, differential diagnosis should be made with AS, RA, gout, psudeogout, and less often with haemochromatosis and synovial chondochromatosis."
+      ],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/18937522/",
+      "title": "Rheumatic diseases presenting as sports-related injuries.",
+      "tradition": []
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/26046716/",
+      "title": "Functional Abdominal Pain: \"Get\" the Function, Loose the Pain.",
+      "tradition": [
+        "TCM"
+      ]
+    }
+  ],
+  "thirst": [
+    {
+      "diagnosis_pattern": [
+        "After that, TCM treatment will be applied in accordance with the conclusions drawn from the syndrome differentiation process.",
+        "Analysis Method According to the \u201csyndrome differentiation significance of 600 common symptoms\u201d and the MS common symptom standard in the Guideline of Clinical Research of TCM New Drugs, the four diagnosis information collection scale is established.",
+        "Combined the cluster results with the expert's suggestions and the relevant standards of MS diagnosis in TCM, all samples were classified into five types: phlegm heat syndrome (PHS), hyperactivity of heart fire syndrome (HHFS), spleen deficiency and dampness syndrome (SDDS), deficiency of liver and kidney syndrome (DLKS), and phlegm turbid upper syndrome (PTUS).",
+        "Diagnostic Criteria Diagnostic criteria of Western medicine were as follows: according to the MS diagnostic criteria issued by the IDF, AHA, and Diabetes Society of the Chinese Medical Association, the diagnosis can be made if the following 3 items or more are met: (1) abdominal obesity (waist circumference: male \u226590 cm and female \u226585 cm); (2) hyperglycemia: FPG \u2265 6.1 mmol/L or 2 hPG \u2265 7.8 mmol/L and/or diagnosed as diabetes; (3) hypertension: BP \u2265 130/85 mmHg and/or diagnosed as hypertension; (4) TG \u2265 1.70 mmol/L; and (5) HDL-C < 1.04 mmol/L.",
+        "Factor analysis can be used to find the potential relationship behind the four diagnosis information of TCM, namely, the common factors (syndrome elements).",
+        "Frequency Analysis of Four Diagnostic Information The four diagnosis information of MS patients in different age groups was tabulated based on the distribution frequency.",
+        "In TCM clinical practice, syndrome differentiation serves as the core of treatment for MS [9].",
+        "In this way, better TCM syndrome features can provide objective diagnostic evidence for clinical doctors to improve the accuracy of syndrome diagnosis and efficacy of clinical treatment for MS.",
+        "In this way, it can provide a certain basis for the quantitative and qualitative syndrome differentiation and treatment of MS.",
+        "Multivariate Statistical Method and TCM Syndrome Differentiation Syndrome differentiation and treatment is the essence of TCM [19].",
+        "TCM syndrome element and type diagnosis standard was as follows: according to the Syndrome Part of TCM Clinical Diagnosis and Treatment Terminology (the National Standard of the People's Republic of China) [16], TCM Diagnostics [17], Syndrome Elements Differentiation [18] and combined with the expert consultation, the classification specification of syndrome patterns was formulated.",
+        "The information collected from the four diagnostic methods (inspection, auscultation/smelling, interrogation, and palpating) is an important basis for the diagnosis and treatment of TCM."
+      ],
+      "interventions": [],
+      "outcomes": [
+        "improved",
+        "reduced"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7366224/",
+      "title": "Factor and Cluster Analysis for TCM Syndromes of Real-World Metabolic Syndrome at Different Age Stage",
+      "tradition": [
+        "TCM"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "breathing",
+        "meditation",
+        "pranayama",
+        "yoga"
+      ],
+      "outcomes": [
+        "blood pressure",
+        "quality of life",
+        "reduced",
+        "remission"
+      ],
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3293477/",
+      "title": "How Might Yoga Help Depression? A Neurobiological Perspective",
+      "tradition": [
+        "Yoga"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda"
+      ],
+      "outcomes": [
+        "reduced"
+      ],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37422989/",
+      "title": "Ayurveda approach in the treatment of type 2 diabetes mellitus - A case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine"
+      ]
+    },
+    {
+      "diagnosis_pattern": [],
+      "interventions": [
+        "ayurveda",
+        "yoga"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/38241882/",
+      "title": "Ayurveda and Yoga management of chronic alcoholism sequelae - A case report.",
+      "tradition": [
+        "Ayurveda",
+        "Integrative medicine",
+        "Yoga"
+      ]
+    },
+    {
+      "diagnosis_pattern": [
+        "On the basis of TCM theory, we made a clinical diagnosis of BHT and \"spleen Qi deficiency with turbid dampness,\" which may have been caused by the antibiotic treatment during hospitalization.",
+        "The literature does not contain reports on TCM-based diagnosis and treatment strategies for BHT."
+      ],
+      "interventions": [
+        "chinese herbal medicine",
+        "herbal"
+      ],
+      "outcomes": [],
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37904483/",
+      "title": "Black hairy tongue treated with traditional Chinese medicine: A case report.",
+      "tradition": [
+        "TCM"
+      ]
+    }
+  ]
+}

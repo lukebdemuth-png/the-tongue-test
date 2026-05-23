@@ -1,0 +1,12 @@
+{
+  "fade_in_seconds": 0.4,
+  "hold_seconds": 3.2,
+  "fade_out_seconds": 0.5,
+  "stagger_order": [
+    "glow_soft_ring",
+    "glow_point_dot",
+    "connector_line",
+    "caption_plate",
+    "text"
+  ]
+}

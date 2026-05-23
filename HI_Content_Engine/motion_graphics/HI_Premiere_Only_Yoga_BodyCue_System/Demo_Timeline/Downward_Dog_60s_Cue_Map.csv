@@ -1,0 +1,13 @@
+start,end,body_area,cue_text,asset_stack
+0:00,0:05,palms,Root through palms,glow_soft_ring + glow_point_dot + caption_plate_rounded + text
+0:05,0:10,hands,Press evenly through hands,glow_soft_ring + glow_point_dot + connector_dots_short + caption_plate_rounded + text
+0:10,0:15,arms,Engage arms,glow_soft_ring + glow_point_dot + connector_dots_short + caption_plate_rounded + text
+0:15,0:20,spine,Lengthen spine,glow_soft_sweep_vertical + glow_point_dot + connector_dots_short + caption_plate_rounded + text
+0:20,0:25,hips,Lift hips up and back,glow_soft_ring + glow_point_dot + connector_dots_short + caption_plate_rounded + text
+0:25,0:30,knees,Soften knees,glow_soft_ring + glow_point_dot + caption_plate_rounded + text
+0:30,0:35,heels,Reach heels down,glow_soft_ring + glow_point_dot + connector_dots_short + caption_plate_rounded + text
+0:35,0:40,neck,Relax neck,glow_soft_ring + glow_point_dot + caption_plate_rounded + text
+0:40,0:45,breath,Breathe out,breath_pulse_rings + text
+0:45,0:50,whole_body,Whole body connection,glow_soft_ring + glow_point_dot + caption_plate_rounded + text
+0:50,0:55,breath,Stay for 5 breaths,breath_pulse_rings + text
+0:55,1:00,cta,Save this for your next practice,cta_vertical_bar + text

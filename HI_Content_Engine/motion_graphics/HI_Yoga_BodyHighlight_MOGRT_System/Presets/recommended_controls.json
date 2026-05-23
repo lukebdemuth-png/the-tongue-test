@@ -1,0 +1,22 @@
+{
+  "default_glow_color": "#CF6F1A",
+  "default_text_color": "#F6F0E8",
+  "default_bg_tone": "#181512",
+  "body_glow_sweep": {
+    "glow_intensity": 48,
+    "line_on": false,
+    "blocks": 1
+  },
+  "glow_point_node": {
+    "circle_opacity": 100,
+    "circle_size": "18x18"
+  },
+  "callout_line": {
+    "line_opacity": "driven by template default",
+    "start_end_controls": true
+  },
+  "breath_pulse": {
+    "circle_opacity": 88,
+    "circle_size": "74x74"
+  }
+}
