@@ -699,6 +699,122 @@ def ayurveda_treatment_directions(
     return sorted(directions, key=lambda item: item["confidence_score"], reverse=True)
 
 
+TCM_DIRECTION_RULES = [
+    {
+        "category": "diet",
+        "direction": "Review a spleen-qi/dampness-informed diet direction focused on digestibility, regular meals, and reducing heavy or damp-aggravating inputs.",
+        "triggers": {"spleen_qi_or_damp_tendency", "digestion", "bloating", "low_energy"},
+        "keywords": {"food", "drinking", "moderate", "qi", "dampness", "stomach"},
+        "action": "Review whether low energy, bloating, poor appetite, heaviness, or loose stool language suggests a TCM diet category for practitioner evaluation.",
+    },
+    {
+        "category": "lifestyle",
+        "direction": "Review sleep, rest-activity rhythm, and spirit/qi regulation as a source-backed lifestyle category.",
+        "triggers": {"shen_sleep_involvement", "sleep", "anxiety", "night_worse"},
+        "keywords": {"spirit", "sleep", "resting", "qi", "heart", "peace"},
+        "action": "Review whether sleep disturbance, anxiety, restlessness, or night timing makes lifestyle rhythm and shen-settling education relevant.",
+    },
+    {
+        "category": "formulas",
+        "direction": "Hold formula selection until syndrome differentiation, tongue, pulse, medication status, and contraindications are clearer.",
+        "triggers": {"spleen_qi_or_damp_tendency", "liver_qi_constraint_tendency", "heat_tendency", "cold_tendency", "shen_sleep_involvement"},
+        "keywords": {"qi", "yin", "yang", "heat", "cold", "depletion", "repletion"},
+        "action": "Use formula category only as a practitioner-review placeholder; do not present a named formula until stronger formula-source and safety data exist.",
+    },
+    {
+        "category": "herbs",
+        "direction": "Hold TCM herb selection until materia medica support and herb-drug contraindication review are available.",
+        "triggers": {"spleen_qi_or_damp_tendency", "heat_tendency", "cold_tendency", "shen_sleep_involvement"},
+        "keywords": {"qi", "yin", "yang", "heat", "cold", "stomach", "heart"},
+        "action": "Review the herb category only after materia medica, medications, pregnancy status, and practitioner scope are checked.",
+    },
+    {
+        "category": "acupuncture_moxibustion",
+        "direction": "Review acupuncture or moxibustion category only as a pattern-management strategy after full TCM assessment.",
+        "triggers": {"cold_tendency", "spleen_qi_or_damp_tendency", "liver_qi_constraint_tendency", "shen_sleep_involvement"},
+        "keywords": {"channel", "qi", "cold", "heat", "depletion", "repletion"},
+        "action": "Review whether channel, cold/heat, excess/deficiency, and shen signs justify an acupuncture or moxibustion discussion with a qualified practitioner.",
+    },
+]
+
+
+def tcm_case_tags(packet: dict[str, Any], terms: set[str]) -> set[str]:
+    tags = set(packet.get("possible_pattern_flags", []))
+    if terms & {"sleep", "insomnia", "asleep", "dream", "night"}:
+        tags.add("sleep")
+    if terms & {"anxiety", "restless", "fear"}:
+        tags.add("anxiety")
+    if terms & {"night", "worse"}:
+        tags.add("night_worse")
+    if terms & {"digestion", "digestive", "stomach", "appetite"}:
+        tags.add("digestion")
+    if terms & {"bloating", "gas", "distension"}:
+        tags.add("bloating")
+    if terms & {"energy", "fatigue", "tired", "weakness"}:
+        tags.add("low_energy")
+    return tags
+
+
+def tcm_treatment_directions(
+    query: str,
+    tcm_packet: dict[str, Any],
+    safety_status: str,
+    context_cautions: list[dict[str, str]] | None = None,
+) -> list[dict[str, Any]]:
+    context_cautions = context_cautions or []
+    terms = query_terms(query)
+    tags = tcm_case_tags(tcm_packet, terms)
+    hold = safety_status == "suppress"
+    directions = []
+    for rule in TCM_DIRECTION_RULES:
+        trigger_matches = sorted(tags & rule["triggers"])
+        if not trigger_matches and not hold:
+            continue
+        evidence = source_backed_chunks("Traditional Chinese Medicine", rule["keywords"], limit=2)
+        citations = [chunk_citation_id(chunk) for chunk in evidence]
+        evidence_notes = [
+            f"{chunk.get('book', chunk.get('title', 'TCM source'))} {chunk.get('stable_locator', '')}: matched {', '.join(chunk.get('_matched_keywords', []))}"
+            for chunk in evidence
+        ]
+        base_score = 40 if hold else 54 + min(len(trigger_matches) * 6, 18) + min(len(citations) * 4, 8)
+        directions.append(
+            {
+                "tradition": "Traditional Chinese Medicine",
+                "category": rule["category"],
+                "direction": rule["direction"],
+                "practitioner_action": rule["action"],
+                "client_facing_language": client_language_for_category("Traditional Chinese Medicine", rule["category"]),
+                "why_this_matches": [
+                    f"Inferred TCM tags: {', '.join(trigger_matches) if trigger_matches else 'held for safety review'}",
+                    *evidence_notes[:2],
+                ],
+                "matched_case_features": trigger_matches,
+                "missing_or_uncertain_features": tcm_packet.get("missing_questions", []),
+                "contradictions": [],
+                "citations": citations,
+                "confidence_score": min(82.0, round(base_score, 2)),
+                "practitioner_review_required": True,
+                "safety_notes": (
+                    ["Hold treatment suggestions until red-flag concern is medically assessed."]
+                    if hold
+                    else ["Review medications, pregnancy status, conditions, and contraindications before use."]
+                ),
+                "contraindications": category_contraindications(rule["category"], context_cautions),
+                "review_priority": "hold_until_clarified"
+                if hold
+                else "review_first"
+                if base_score >= 72
+                else "review_second"
+                if base_score >= 60
+                else "exploratory",
+                "source_url": evidence[0].get("source_url", "") if evidence else "",
+                "source": evidence[0].get("title", "TCM source") if evidence else "TCM source",
+                "text_preview": compact_text(evidence[0].get("text", ""))[:420] if evidence else "",
+            }
+        )
+    return sorted(directions, key=lambda item: item["confidence_score"], reverse=True)
+
+
 COMMON_KENT_ABBREVIATIONS = {
     "abies nigra": ["abies-n"],
     "aconitum napellus": ["acon"],
@@ -1149,17 +1265,28 @@ def treatment_plan_draft(
             context_cautions,
         )
 
-    return {
-        "scope": "Practitioner-review treatment plan draft; not diagnosis, prescription, or patient self-treatment instructions.",
-        "ayurveda": ayurveda_categories,
-        "tcm": treatment_categories_for_candidate(
+    tcm_categories = (
+        tcm_treatment_directions(
+            query,
+            evaluation_packets.get("tcm", {}),
+            safety_status,
+            context_cautions,
+        )
+        if query
+        else []
+    )
+    if not tcm_categories and top_by_tradition["Traditional Chinese Medicine"]:
+        tcm_categories = treatment_categories_for_candidate(
             "Traditional Chinese Medicine",
             top_by_tradition["Traditional Chinese Medicine"][0],
             safety_status,
             context_cautions,
         )
-        if top_by_tradition["Traditional Chinese Medicine"]
-        else [],
+
+    return {
+        "scope": "Practitioner-review treatment plan draft; not diagnosis, prescription, or patient self-treatment instructions.",
+        "ayurveda": ayurveda_categories,
+        "tcm": tcm_categories,
         "homeopathy": homeopathy_categories,
     }
 

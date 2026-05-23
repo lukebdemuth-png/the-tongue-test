@@ -10,6 +10,7 @@ from src.pattern_app_brain import (
     kent_rubric_clusters,
     normalize_features,
     safety_gate,
+    tcm_treatment_directions,
 )
 
 
@@ -160,6 +161,36 @@ def test_brain_trace_uses_ayurveda_engine_before_generic_categories() -> None:
     assert ayurveda_plan
     assert any("Inferred Ayurveda tags" in item["why_this_matches"][0] for item in ayurveda_plan)
     assert any(item["category"] == "herbs" and "Dravyaguna" in item["direction"] for item in ayurveda_plan)
+
+
+def test_tcm_treatment_directions_use_pattern_flags_and_citations() -> None:
+    packet = {
+        "possible_pattern_flags": ["spleen_qi_or_damp_tendency", "shen_sleep_involvement"],
+        "missing_questions": ["tongue", "pulse", "thirst"],
+    }
+    directions = tcm_treatment_directions(
+        "poor sleep at night with bloating, poor appetite, fatigue, low energy, and digestive discomfort",
+        packet,
+        "caution",
+        [],
+    )
+
+    categories = {item["category"] for item in directions}
+    assert {"diet", "lifestyle", "herbs", "formulas"} <= categories
+    assert any("spleen_qi_or_damp_tendency" in item["matched_case_features"] for item in directions)
+    assert all(item["citations"] for item in directions)
+    formula = next(item for item in directions if item["category"] == "formulas")
+    assert "Hold formula selection" in formula["direction"]
+
+
+def test_brain_trace_uses_tcm_engine_before_generic_categories() -> None:
+    intake = json.loads(EXAMPLE_INTAKE.read_text(encoding="utf-8"))
+    trace = build_brain_trace(intake, limit=1)
+    tcm_plan = trace["treatment_plan_draft"]["tcm"]
+
+    assert tcm_plan
+    assert any("Inferred TCM tags" in item["why_this_matches"][0] for item in tcm_plan)
+    assert any(item["category"] == "formulas" and "Hold formula selection" in item["direction"] for item in tcm_plan)
 
 
 def test_candidates_explain_missing_data_and_score_breakdown() -> None:
