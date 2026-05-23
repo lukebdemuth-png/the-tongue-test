@@ -6,6 +6,7 @@ from src.pattern_app_brain import (
     ayurveda_treatment_directions,
     boericke_remedy_differentials,
     build_brain_trace,
+    build_candidates,
     kent_rubric_clusters,
     normalize_features,
     safety_gate,
@@ -159,3 +160,44 @@ def test_brain_trace_uses_ayurveda_engine_before_generic_categories() -> None:
     assert ayurveda_plan
     assert any("Inferred Ayurveda tags" in item["why_this_matches"][0] for item in ayurveda_plan)
     assert any(item["category"] == "herbs" and "Dravyaguna" in item["direction"] for item in ayurveda_plan)
+
+
+def test_candidates_explain_missing_data_and_score_breakdown() -> None:
+    intake = json.loads(EXAMPLE_INTAKE.read_text(encoding="utf-8"))
+    trace = build_brain_trace(intake, limit=1)
+    ayurveda_candidate = trace["candidates"]["ayurveda"][0]
+
+    assert ayurveda_candidate["missing_key_data"]
+    assert "score_breakdown" in ayurveda_candidate
+    assert ayurveda_candidate["score_breakdown"]["missing_information_penalty"] > 0
+    assert ayurveda_candidate["confidence_rationale"]
+    assert ayurveda_candidate["confidence_score"] <= ayurveda_candidate["score_breakdown"]["retrieval_score"]
+
+
+def test_candidate_contradictions_are_visible_when_case_conflicts_with_source_direction() -> None:
+    results = {
+        "Ayurveda": [
+            {
+                "score": 76.0,
+                "confidence_label": "likely match, practitioner review required",
+                "score_details": {
+                    "matched_terms": ["cold"],
+                    "symptom_match": 44,
+                    "source_authority": 88,
+                    "citation_quality": 90,
+                    "source_quality_tier": "usable_source_supported",
+                },
+                "citation": {
+                    "citation_id": "ayurveda-test",
+                    "locator": "Heat and burning pattern",
+                    "source": "Test source",
+                },
+                "text_preview": "This passage discusses heat, hot signs, burning, and thirst.",
+            }
+        ]
+    }
+    candidates = build_candidates(results, "clear", feature_terms={"cold", "chilly"})
+
+    candidate = candidates["Ayurveda"][0]
+    assert candidate["contradicting_features"]
+    assert candidate["score_breakdown"]["contradiction_penalty"] > 0

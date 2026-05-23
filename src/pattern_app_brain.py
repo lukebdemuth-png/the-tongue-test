@@ -125,26 +125,151 @@ def priority_from_score(score: float, safety_status: str) -> str:
     return "hold_until_clarified"
 
 
-def build_candidates(results: dict[str, list[dict[str, Any]]], safety_status: str) -> dict[str, list[dict[str, Any]]]:
+TRADITION_PACKET_KEYS = {
+    "Ayurveda": "ayurveda",
+    "Traditional Chinese Medicine": "tcm",
+    "Homeopathy": "homeopathy",
+}
+
+CONTRADICTION_RULES = [
+    {
+        "candidate_terms": {"heat", "hot", "burning", "thirst", "pitta"},
+        "case_terms": {"cold", "chilly", "chilliness", "better from heat"},
+        "message": "Candidate leans heat/thirst, while the intake includes cold or chilliness language.",
+    },
+    {
+        "candidate_terms": {"cold", "chilly", "chilliness"},
+        "case_terms": {"heat", "hot", "burning", "thirst"},
+        "message": "Candidate leans cold/chilliness, while the intake includes heat, burning, or thirst language.",
+    },
+    {
+        "candidate_terms": {"dry", "dryness", "constipation", "vata"},
+        "case_terms": {"mucus", "congestion", "sticky", "edema", "swelling"},
+        "message": "Candidate leans dryness/depletion, while the intake includes damp, mucus, or swelling language.",
+    },
+    {
+        "candidate_terms": {"damp", "mucus", "phlegm", "kapha", "heaviness"},
+        "case_terms": {"dry", "dryness", "constipation"},
+        "message": "Candidate leans damp/heavy, while the intake includes dryness or constipation language.",
+    },
+]
+
+
+def contradiction_notes(candidate_text: str, feature_terms: set[str]) -> list[str]:
+    text = candidate_text.lower()
+    notes = []
+    for rule in CONTRADICTION_RULES:
+        if any(term in text for term in rule["candidate_terms"]) and feature_terms & rule["case_terms"]:
+            notes.append(rule["message"])
+    return notes
+
+
+def packet_missing_key_data(
+    tradition: str,
+    evaluation_packets: dict[str, Any] | None,
+    safety: dict[str, Any] | None,
+) -> list[str]:
+    packet_key = TRADITION_PACKET_KEYS.get(tradition)
+    packet = (evaluation_packets or {}).get(packet_key, {}) if packet_key else {}
+    missing = list(packet.get("missing_questions", []))
+    if safety:
+        for item in safety.get("missing_safety_context", []):
+            if item not in missing:
+                missing.append(item)
+    return missing
+
+
+def confidence_rationale(
+    row: dict[str, Any],
+    missing_key_data: list[str],
+    contradictions: list[str],
+    safety_status: str,
+) -> list[str]:
+    details = row.get("score_details", {})
+    matched = details.get("matched_terms", [])
+    rationale = [
+        f"Matched {len(matched)} intake feature(s) in source text.",
+        f"Source quality tier: {details.get('source_quality_tier', 'unscored')}.",
+        f"Citation quality score: {details.get('citation_quality', 'unscored')}.",
+    ]
+    if missing_key_data:
+        rationale.append(f"Missing information lowers confidence: {', '.join(missing_key_data[:5])}.")
+    if contradictions:
+        rationale.append(f"Contradiction review needed: {contradictions[0]}")
+    if safety_status == "suppress":
+        rationale.append("Safety override is active; traditional interpretation is held until medical concern is clarified.")
+    elif safety_status == "caution":
+        rationale.append("Safety context is incomplete or cautionary; practitioner review remains required.")
+    return rationale
+
+
+def score_breakdown_for_candidate(
+    row: dict[str, Any],
+    adjusted_score: float,
+    missing_key_data: list[str],
+    contradictions: list[str],
+    safety_status: str,
+) -> dict[str, Any]:
+    details = row.get("score_details", {})
+    return {
+        "display_score": adjusted_score,
+        "retrieval_score": row["score"],
+        "pattern_match_score": details.get("symptom_match", 0),
+        "source_support_score": round(
+            (float(details.get("source_authority", 0)) * 0.55)
+            + (float(details.get("citation_quality", 0)) * 0.45),
+            2,
+        ),
+        "citation_quality": details.get("citation_quality", 0),
+        "source_quality_tier": details.get("source_quality_tier", "unscored"),
+        "missing_information_penalty": min(12, len(missing_key_data) * 2),
+        "contradiction_penalty": min(16, len(contradictions) * 4),
+        "safety_gate": 0 if safety_status == "suppress" else 1,
+        "formula_note": "Prototype display score starts from retrieval score, then applies visible missing-information and contradiction penalties.",
+    }
+
+
+def build_candidates(
+    results: dict[str, list[dict[str, Any]]],
+    safety_status: str,
+    evaluation_packets: dict[str, Any] | None = None,
+    safety: dict[str, Any] | None = None,
+    feature_terms: set[str] | None = None,
+) -> dict[str, list[dict[str, Any]]]:
     candidates: dict[str, list[dict[str, Any]]] = {}
+    feature_terms = feature_terms or set()
     for tradition, rows in results.items():
         tradition_candidates = []
         for row in rows:
             citation = row["citation"]
             matched = row["score_details"]["matched_terms"]
+            missing = packet_missing_key_data(tradition, evaluation_packets, safety)
+            contradictions = contradiction_notes(
+                " ".join([citation.get("locator", ""), row.get("text_preview", "")]),
+                feature_terms,
+            )
+            adjusted_score = max(0.0, round(row["score"] - min(12, len(missing) * 2) - min(16, len(contradictions) * 4), 2))
             tradition_candidates.append(
                 {
                     "tradition": tradition,
                     "candidate_name": citation["locator"],
                     "candidate_type": candidate_type(tradition),
-                    "priority": priority_from_score(row["score"], safety_status),
-                    "confidence_score": row["score"],
-                    "confidence_label": row["confidence_label"],
+                    "priority": priority_from_score(adjusted_score, safety_status),
+                    "confidence_score": adjusted_score,
+                    "confidence_label": confidence_label(adjusted_score),
                     "matched_features": matched,
                     "unmatched_features": [],
-                    "contradicting_features": [],
-                    "missing_key_data": [],
+                    "contradicting_features": contradictions,
+                    "missing_key_data": missing,
                     "supporting_citations": [citation["citation_id"]],
+                    "score_breakdown": score_breakdown_for_candidate(
+                        row,
+                        adjusted_score,
+                        missing,
+                        contradictions,
+                        safety_status,
+                    ),
+                    "confidence_rationale": confidence_rationale(row, missing, contradictions, safety_status),
                     "why_this_direction": [
                         f"Matched intake features: {', '.join(matched)}" if matched else "Matched source text weakly.",
                         f"Source layer: {citation['source']}",
@@ -1082,7 +1207,13 @@ def build_brain_trace(intake: dict[str, Any], chunks_path: Path = CHUNKS_PATH, l
     safety = safety_gate(intake)
     features = normalize_features(intake)
     results = search(query, chunks, limit_per_tradition=limit)
-    candidates = build_candidates(results, safety["status"])
+    candidates = build_candidates(
+        results,
+        safety["status"],
+        evaluation_packets=evaluation_packets,
+        safety=safety,
+        feature_terms={feature["feature"] for feature in features},
+    )
     synthesis = synthesis_notes(candidates)
     next_question = next_best_question(safety, features)
     intake_state = build_progressive_intake_state(intake, safety, next_question)
