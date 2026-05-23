@@ -1327,6 +1327,115 @@ def client_teaching_sequence(summary: dict[str, Any], plan: dict[str, Any], safe
     ]
 
 
+def plan_items(plan: dict[str, Any]) -> list[dict[str, Any]]:
+    items = []
+    for tradition in ["ayurveda", "tcm", "homeopathy"]:
+        for item in plan.get(tradition, []):
+            items.append({**item, "tradition_key": tradition})
+    return items
+
+
+def practical_considerations(plan: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
+    buckets = {
+        "herbs_formulas_remedies_to_consider": [],
+        "lifestyle_diet_practice_actions": [],
+    }
+    concrete_categories = {"herbs", "formulas", "remedy_differential", "rubric_cluster"}
+    action_categories = {"diet", "lifestyle", "yoga_breath", "acupuncture_moxibustion", "modalities", "constitution_notes"}
+    for item in plan_items(plan):
+        row = {
+            "tradition": item["tradition"],
+            "category": item["category"],
+            "direction": item["direction"],
+            "practitioner_action": item["practitioner_action"],
+            "confidence_score": item["confidence_score"],
+            "review_priority": item["review_priority"],
+            "citations": item["citations"],
+            "safety_notes": item["safety_notes"],
+        }
+        if item["category"] in concrete_categories:
+            buckets["herbs_formulas_remedies_to_consider"].append(row)
+        if item["category"] in action_categories:
+            buckets["lifestyle_diet_practice_actions"].append(row)
+    for key in buckets:
+        buckets[key] = sorted(
+            buckets[key],
+            key=lambda row: (
+                {"review_first": 3, "review_second": 2, "exploratory": 1, "hold_until_clarified": 0}.get(row["review_priority"], 0),
+                row["confidence_score"],
+            ),
+            reverse=True,
+        )
+    return buckets
+
+
+def practical_warnings(safety: dict[str, Any], plan: dict[str, Any]) -> list[str]:
+    warnings = list(safety.get("notes", []))
+    if safety.get("red_flags_detected"):
+        warnings.append("See an appropriate medical professional before using traditional-system recommendations.")
+    for caution in safety.get("context_cautions", []):
+        note = caution.get("note")
+        if note and note not in warnings:
+            warnings.append(note)
+    for item in plan_items(plan):
+        for note in item.get("contraindications", []):
+            if note not in warnings:
+                warnings.append(note)
+    if not warnings:
+        warnings.append("Practitioner review is required before herbs, formulas, remedies, diet changes, or practices are used.")
+    return warnings[:12]
+
+
+def cited_reference_summary(citations: list[dict[str, Any]], limit: int = 10) -> list[dict[str, Any]]:
+    return [
+        {
+            "citation_id": citation["citation_id"],
+            "tradition": citation["tradition"],
+            "source": citation["source"],
+            "locator": citation["locator"],
+            "pages": citation["pages"],
+            "url": citation.get("url", ""),
+            "rights_note": citation.get("rights_note", ""),
+        }
+        for citation in citations[:limit]
+    ]
+
+
+def build_practical_output(
+    summary: dict[str, Any],
+    synthesis: dict[str, Any],
+    plan: dict[str, Any],
+    safety: dict[str, Any],
+    intake_state: dict[str, Any],
+    citations: list[dict[str, Any]],
+    next_question: str,
+) -> dict[str, Any]:
+    considerations = practical_considerations(plan)
+    additional_questions = [
+        item
+        for item in [next_question, *intake_state.get("minimum_missing", []), *intake_state.get("deepening_missing", [])]
+        if item
+    ]
+    return {
+        "scope": "Working prototype output for qualified practitioner review; educational only and not a diagnosis or prescription.",
+        "likely_pattern_summary": {
+            "case_snapshot": summary.get("case_snapshot", ""),
+            "tradition_directions": summary.get("primary_traditional_directions", []),
+            "shared_pattern_signals": synthesis.get("shared_themes", []),
+            "areas_of_conflict": synthesis.get("areas_of_conflict", []),
+        },
+        "confidence": {
+            "score": synthesis.get("confidence_score", 0),
+            "label": synthesis.get("confidence_label", "insufficient evidence"),
+            "basis": summary.get("confidence_summary", ""),
+        },
+        "questions_still_needed": additional_questions[:10],
+        **considerations,
+        "warnings_and_professional_boundaries": practical_warnings(safety, plan),
+        "cited_source_references": cited_reference_summary(citations),
+    }
+
+
 def build_brain_trace(intake: dict[str, Any], chunks_path: Path = CHUNKS_PATH, limit: int = 3) -> dict[str, Any]:
     chunks = read_jsonl(chunks_path)
     query = intake_to_query(intake)
@@ -1349,6 +1458,15 @@ def build_brain_trace(intake: dict[str, Any], chunks_path: Path = CHUNKS_PATH, l
     app_output = build_app_output(query, chunks, limit_per_tradition=limit)
     app_output["case_id"] = intake.get("case_id", "")
     app_output["input_summary"] = summarize_input(intake, safety["red_flags_detected"])
+    practical_output = build_practical_output(
+        summary,
+        synthesis,
+        plan,
+        safety,
+        intake_state,
+        app_output["citations"],
+        next_question,
+    )
     practitioner_output = {
         "case_id": intake.get("case_id", ""),
         "safety_gate": safety,
@@ -1356,6 +1474,7 @@ def build_brain_trace(intake: dict[str, Any], chunks_path: Path = CHUNKS_PATH, l
             **synthesis,
             "practitioner_review_focus": next_question,
         },
+        "practical_output": practical_output,
         "treatment_plan_draft": plan,
         "tradition_evaluations": evaluation_packets,
         "intake_state": intake_state,
@@ -1378,6 +1497,7 @@ def build_brain_trace(intake: dict[str, Any], chunks_path: Path = CHUNKS_PATH, l
             "homeopathy": candidates.get("Homeopathy", []),
         },
         "practitioner_summary": summary,
+        "practical_output": practical_output,
         "treatment_plan_draft": plan,
         "client_teaching_sequence": client_teaching_sequence(summary, plan, safety),
         "synthesis_trace": synthesis,

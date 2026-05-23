@@ -115,6 +115,38 @@ type BrainTrace = {
     confidence_summary: string;
     next_best_question: string;
   };
+  practical_output: {
+    scope: string;
+    likely_pattern_summary: {
+      case_snapshot: string;
+      tradition_directions: Array<{
+        tradition: string;
+        direction: string;
+        confidence_score: number;
+        priority: string;
+      }>;
+      shared_pattern_signals: string[];
+      areas_of_conflict: string[];
+    };
+    confidence: {
+      score: number;
+      label: string;
+      basis: string;
+    };
+    questions_still_needed: string[];
+    herbs_formulas_remedies_to_consider: PracticalRecommendation[];
+    lifestyle_diet_practice_actions: PracticalRecommendation[];
+    warnings_and_professional_boundaries: string[];
+    cited_source_references: Array<{
+      citation_id: string;
+      tradition: string;
+      source: string;
+      locator: string;
+      pages: string;
+      url?: string;
+      rights_note?: string;
+    }>;
+  };
   treatment_plan_draft: {
     scope: string;
     ayurveda: TreatmentDirection[];
@@ -155,6 +187,17 @@ type BrainTrace = {
     disclaimer: string;
   };
   prototype_warning: string;
+};
+
+type PracticalRecommendation = {
+  tradition: string;
+  category: string;
+  direction: string;
+  practitioner_action: string;
+  confidence_score: number;
+  review_priority: string;
+  citations: string[];
+  safety_notes: string[];
 };
 
 type TraditionEvaluationPacket = {
@@ -201,9 +244,13 @@ type IntakeForm = {
   energy: string;
   mood: string;
   temperature: string;
+  goals: string;
+  cautions: string;
+  preferences: string;
   medications: string;
   pregnancyStatus: string;
   knownConditions: string;
+  allergies: string;
   practitionerNotes: string;
   ayurvedaNotes: string;
   tcmNotes: string;
@@ -223,9 +270,13 @@ const sampleForm: IntakeForm = {
   energy: "low morning energy",
   mood: "",
   temperature: "",
+  goals: "Improve sleep quality and digestive comfort with practitioner review.",
+  cautions: "",
+  preferences: "Prefer gentle diet and routine steps before stronger interventions.",
   medications: "",
   pregnancyStatus: "",
   knownConditions: "",
+  allergies: "",
   practitionerNotes: "Compare traditional source relevance for sleep, digestion, appetite, bloating, and low energy.",
   ayurvedaNotes: "",
   tcmNotes: "",
@@ -248,7 +299,7 @@ function intakeFromForm(form: IntakeForm) {
       pregnancy_status: form.pregnancyStatus,
       known_conditions: splitList(form.knownConditions),
       current_medications: splitList(form.medications),
-      allergies: [],
+      allergies: splitList(form.allergies),
       clinical_setting: "practitioner research review",
     },
     symptoms: {
@@ -299,7 +350,12 @@ function intakeFromForm(form: IntakeForm) {
         thermal_state: form.temperature,
       },
     },
-    practitioner_notes: form.practitionerNotes,
+    practitioner_notes: [
+      form.practitionerNotes,
+      form.goals ? `Goals: ${form.goals}` : "",
+      form.cautions ? `Cautions: ${form.cautions}` : "",
+      form.preferences ? `Preferences: ${form.preferences}` : "",
+    ].filter(Boolean).join("\n"),
     requested_output_depth: "standard",
   };
 }
@@ -550,6 +606,101 @@ function CrossTraditionOutcome({ trace }: { trace: BrainTrace }) {
   );
 }
 
+function RecommendationList({ title, items }: { title: string; items: PracticalRecommendation[] }) {
+  return (
+    <div className="rounded-md border border-ink/10 bg-white/70 p-3">
+      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{title}</p>
+      <div className="mt-3 space-y-2">
+        {items.slice(0, 6).map((item, index) => (
+          <article key={`${title}-${item.tradition}-${item.category}-${index}`} className="rounded-md bg-fog/70 p-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="text-sm font-semibold text-ink">{item.tradition} · {item.category.replaceAll("_", " ")}</p>
+              <span className="rounded-full border border-ink/10 px-2.5 py-1 text-xs text-ink/60">
+                {item.confidence_score} · {item.review_priority}
+              </span>
+            </div>
+            <p className="mt-2 text-sm leading-6 text-ink/72">{item.practitioner_action}</p>
+            <p className="mt-2 text-xs text-ink/50">Citations: {item.citations.join(", ") || "pending"}</p>
+          </article>
+        ))}
+        {!items.length ? <p className="text-sm leading-6 text-ink/62">No source-backed items surfaced yet.</p> : null}
+      </div>
+    </div>
+  );
+}
+
+function PracticalOutput({ trace }: { trace: BrainTrace }) {
+  const output = trace.practical_output;
+  return (
+    <section className="rounded-lg border border-moss/25 bg-white p-5 shadow-card">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="eyebrow mb-2">Working Prototype Output</p>
+          <h2 className="text-2xl font-semibold leading-tight">Patterns / Three Traditions</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/68">{output.scope}</p>
+        </div>
+        <span className="rounded-full bg-ink px-3 py-1.5 text-sm text-white">
+          Confidence {output.confidence.score}
+        </span>
+      </div>
+
+      <div className="mt-4 rounded-md border border-ink/10 bg-fog/60 p-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Likely pattern summary</p>
+        <p className="mt-2 text-sm leading-6 text-ink/72">
+          {output.likely_pattern_summary.case_snapshot || "No case snapshot yet."}
+        </p>
+        <div className="mt-3 grid gap-3 md:grid-cols-3">
+          {output.likely_pattern_summary.tradition_directions.map((direction) => (
+            <div key={`${direction.tradition}-${direction.direction}`} className="rounded-md bg-white/80 p-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{direction.tradition}</p>
+              <p className="mt-2 text-sm leading-6 text-ink/72">{direction.direction}</p>
+              <p className="mt-2 text-xs text-ink/50">{direction.confidence_score} · {direction.priority}</p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-3 text-sm leading-6 text-ink/62">
+          {output.confidence.label}. {output.confidence.basis}
+        </p>
+      </div>
+
+      <div className="mt-4 grid gap-3 xl:grid-cols-2">
+        <RecommendationList title="Herbs / formulas / remedies to consider" items={output.herbs_formulas_remedies_to_consider} />
+        <RecommendationList title="Lifestyle / diet / practice actions" items={output.lifestyle_diet_practice_actions} />
+      </div>
+
+      <div className="mt-4 grid gap-3 lg:grid-cols-2">
+        <div className="rounded-md border border-ink/10 bg-white/70 p-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Questions still needed</p>
+          <ul className="mt-2 space-y-1 text-sm leading-6 text-ink/70">
+            {output.questions_still_needed.slice(0, 8).map((question) => (
+              <li key={question}>{question}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="rounded-md border border-ink/10 bg-white/70 p-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Warnings and boundaries</p>
+          <ul className="mt-2 space-y-1 text-sm leading-6 text-ink/70">
+            {output.warnings_and_professional_boundaries.slice(0, 8).map((warning) => (
+              <li key={warning}>{warning}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-md border border-ink/10 bg-white/70 p-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Cited source references</p>
+        <div className="mt-2 grid gap-2 md:grid-cols-2">
+          {output.cited_source_references.slice(0, 6).map((citation) => (
+            <p key={citation.citation_id} className="text-xs leading-5 text-ink/62">
+              <span className="font-semibold text-ink/78">{citation.tradition}</span> · {citation.source} · {citation.locator} · pages {citation.pages}
+            </p>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function EvaluationPacketCard({ title, packet }: { title: string; packet: TraditionEvaluationPacket }) {
   const flags = [
     ...(packet.possible_dosha_flags ?? []),
@@ -691,11 +842,19 @@ export function PatternBrainPrototype() {
                 <TextField label="Mood / mental-emotional" value={form.mood} onChange={(value) => updateForm("mood", value)} rows={2} />
                 <TextField label="Temperature / thirst / dryness" value={form.temperature} onChange={(value) => updateForm("temperature", value)} rows={2} />
               </div>
+              <TextField label="Goals" value={form.goals} onChange={(value) => updateForm("goals", value)} placeholder="What does the person want help understanding or improving?" rows={2} />
+              <div className="grid gap-3 md:grid-cols-2">
+                <TextField label="Cautions" value={form.cautions} onChange={(value) => updateForm("cautions", value)} placeholder="Red flags, sensitivities, prior reactions, scope limits..." rows={2} />
+                <TextField label="Preferences" value={form.preferences} onChange={(value) => updateForm("preferences", value)} placeholder="Gentle first, avoid herbs, diet focus, etc." rows={2} />
+              </div>
               <div className="grid gap-3 md:grid-cols-2">
                 <TextField label="Current medications / herbs" value={form.medications} onChange={(value) => updateForm("medications", value)} rows={2} />
                 <TextField label="Pregnancy status" value={form.pregnancyStatus} onChange={(value) => updateForm("pregnancyStatus", value)} rows={2} />
               </div>
-              <TextField label="Known conditions / allergies" value={form.knownConditions} onChange={(value) => updateForm("knownConditions", value)} rows={2} />
+              <div className="grid gap-3 md:grid-cols-2">
+                <TextField label="Known conditions" value={form.knownConditions} onChange={(value) => updateForm("knownConditions", value)} rows={2} />
+                <TextField label="Allergies" value={form.allergies} onChange={(value) => updateForm("allergies", value)} rows={2} />
+              </div>
               <TextField label="Ayurveda notes" value={form.ayurvedaNotes} onChange={(value) => updateForm("ayurvedaNotes", value)} placeholder="prakriti, vikriti, agni, ama, tongue, pulse..." rows={2} />
               <TextField label="TCM notes" value={form.tcmNotes} onChange={(value) => updateForm("tcmNotes", value)} placeholder="tongue, pulse, thirst, sweating, bowel/urine..." rows={2} />
               <TextField label="Homeopathy notes" value={form.homeopathyNotes} onChange={(value) => updateForm("homeopathyNotes", value)} placeholder="modalities, generals, peculiar symptoms, cravings..." rows={2} />
@@ -716,7 +875,7 @@ export function PatternBrainPrototype() {
                 </button>
               </div>
             </div>
-          ) : (
+              ) : (
             <>
               <div className="mb-3 flex justify-end">
                 <button className="button-secondary min-h-9 px-3 py-2 text-xs" onClick={() => setIntakeText(JSON.stringify(sampleIntake, null, 2))}>
@@ -774,6 +933,7 @@ export function PatternBrainPrototype() {
               </section>
 
               <CrossTraditionOutcome trace={trace} />
+              <PracticalOutput trace={trace} />
 
               <section className="rounded-lg border border-ink/10 bg-white/80 p-4">
                 <h2 className="text-lg font-semibold">Treatment Plan Draft</h2>

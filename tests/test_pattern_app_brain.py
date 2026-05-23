@@ -31,6 +31,11 @@ def test_brain_trace_includes_core_sections() -> None:
     assert trace["treatment_plan_draft"]["scope"].startswith("Practitioner-review")
     assert trace["practitioner_output"]["schema"] == "schemas/pattern_app_output.schema.json"
     assert trace["practitioner_output"]["cross_tradition_outcome"]["tradition_weighting"]
+    assert trace["practical_output"]["likely_pattern_summary"]["tradition_directions"]
+    assert trace["practical_output"]["herbs_formulas_remedies_to_consider"]
+    assert trace["practical_output"]["lifestyle_diet_practice_actions"]
+    assert trace["practical_output"]["warnings_and_professional_boundaries"]
+    assert trace["practical_output"]["cited_source_references"]
     assert trace["client_teaching_sequence"]
     assert trace["next_best_question"]
     assert trace["app_output"]["practitioner_review_required"] if "practitioner_review_required" in trace["app_output"] else True
@@ -66,6 +71,21 @@ def test_brain_trace_holds_plan_for_red_flags() -> None:
             continue
         for item in tradition_items:
             assert item["review_priority"] == "hold_until_clarified"
+    assert any("medical professional" in warning for warning in trace["practical_output"]["warnings_and_professional_boundaries"])
+
+
+def test_practical_output_matches_three_traditions_core_loop() -> None:
+    intake = json.loads(EXAMPLE_INTAKE.read_text(encoding="utf-8"))
+    trace = build_brain_trace(intake, limit=2)
+    practical = trace["practical_output"]
+
+    traditions = {item["tradition"] for item in practical["likely_pattern_summary"]["tradition_directions"]}
+    assert {"ayurveda", "tcm", "homeopathy"} <= traditions
+    assert practical["confidence"]["label"]
+    assert practical["questions_still_needed"]
+    assert any(item["tradition"] == "Homeopathy" for item in practical["herbs_formulas_remedies_to_consider"])
+    assert any(item["tradition"] == "Ayurveda" for item in practical["lifestyle_diet_practice_actions"])
+    assert all(item["citations"] for item in practical["herbs_formulas_remedies_to_consider"][:3])
 
 
 def test_normalize_features_tags_known_dimensions() -> None:
