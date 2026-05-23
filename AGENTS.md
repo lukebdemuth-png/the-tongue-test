@@ -4,6 +4,8 @@
 
 Work autonomously and continuously. Do not pause for routine permission questions when the next step is clear, low-risk, and aligned with the current task.
 
+Default to moving forward without asking for permission when the action is reversible, scoped, and consistent with the user's latest request. Ask only when a stop condition applies or when the environment requires explicit approval for credentials, private access, destructive operations, or restricted system/network actions.
+
 Make implementation decisions independently using the repository's existing patterns, project goals, and the smallest reasonable change that moves the work forward.
 
 Before making architectural changes, adding new source families, changing metadata schemas, changing ranking/comparison logic, or building app-facing output formats, read `docs/PROJECT_MASTER.md` first. Use `docs/APP_BRAIN_ARCHITECTURE.md`, `docs/TREATMENT_DISCERNMENT_LOGIC.md`, `docs/TREATMENT_PLAN_OUTPUT_DESIGN.md`, `docs/CASE_STUDY_EVIDENCE_PLAN.md`, `docs/CORE_BOOK_CANON.md`, `docs/MASTER_CANON.md`, `docs/PROJECT_BLUEPRINT.md`, and `docs/APP_SCHEMA_AND_RETRIEVAL_PLAN.md` as supporting references when needed.
