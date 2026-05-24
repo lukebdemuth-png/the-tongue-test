@@ -66,7 +66,7 @@ const producedOutputs = [
   },
   {
     title: "Traditional Recommendations",
-    body: "The system organizes practical considerations that may include herbs, remedies, formulas, dietary observations, lifestyle considerations, and supportive practices drawn from traditional medical frameworks.",
+    body: "The system organizes traditional recommendations that may include herbs, remedies, formulas, dietary observations, lifestyle patterns, and supportive practices drawn from traditional medical frameworks.",
   },
   {
     title: "Source References",
@@ -232,8 +232,9 @@ export default function HomePage() {
               </p>
               <p className="mt-5 text-base leading-8 text-ink/68">
                 The result is a source-connected map of likely pattern signals,
-                traditional considerations, useful comparisons, recommendations
-                to explore, and the next questions that would refine the case.
+                traditional recommendations, useful comparisons, clinical
+                relationships to explore, and the next questions that would
+                refine the case.
               </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">

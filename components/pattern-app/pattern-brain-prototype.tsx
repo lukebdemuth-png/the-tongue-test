@@ -76,7 +76,7 @@ const systemOutputCards = [
   },
   {
     title: "Traditional Recommendations",
-    body: "Herbs, remedies, formulas, dietary observations, lifestyle considerations, and supportive practices when source support and safety context allow.",
+    body: "Herbs, remedies, formulas, dietary observations, lifestyle patterns, and supportive practices when source support and safety context allow.",
   },
   {
     title: "Source References",

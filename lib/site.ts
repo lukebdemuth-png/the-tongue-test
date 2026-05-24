@@ -4,7 +4,7 @@ export const siteConfig = {
   tagline: "3 traditions one pattern.",
   traditionsLine: "Homeopathy · Ayurveda · Chinese Medicine",
   description:
-    "Patterns analyzes a person's symptoms, constitution, tendencies, and system imbalances across Homeopathy, Ayurveda, and Chinese Medicine. The result is a source-based pattern profile that identifies the most relevant cross-traditional patterns and suggests practical next steps — such as remedies, herbs, formulas, lifestyle considerations, and areas for deeper practitioner review.",
+    "Patterns analyzes a person's symptoms, constitution, constitutional tendencies, and system imbalances through cross-traditional pattern recognition across Homeopathy, Ayurveda, and Chinese Medicine. The result is a source-based pattern profile rooted in classical source texts, highlighting clinical relationships and practical next steps such as remedies, herbs, formulas, diet, lifestyle, and areas for deeper practitioner review.",
   url: "https://example.com",
   email: "hello@empiricalpatterns.example",
   logo: "/images/brand/patterns-logo-mark.svg",
