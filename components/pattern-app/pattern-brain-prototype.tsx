@@ -90,6 +90,7 @@ type BrainTrace = {
         direction: string;
         confidence_score: number;
         priority: string;
+        citations?: string[];
       }>;
       shared_pattern_signals: string[];
       areas_of_conflict: string[];
@@ -163,6 +164,7 @@ type PracticalRecommendation = {
   confidence_score: number;
   review_priority: string;
   citations: string[];
+  source_basis?: string;
   safety_notes: string[];
 };
 
@@ -479,9 +481,13 @@ function ActionBucket({
       <div className="mt-3 space-y-3">
         {items.length ? (
           items.slice(0, 3).map((item, index) => (
-            <p key={`${title}-${item.direction}-${index}`} className="text-sm leading-6 text-ink/72">
-              {item.practitioner_action}
-            </p>
+            <div key={`${title}-${item.direction}-${index}`} className="space-y-1">
+              <p className="text-sm leading-6 text-ink/72">{item.practitioner_action}</p>
+              <p className="text-xs leading-5 text-ink/45">
+                {item.tradition}
+                {item.citations.length ? ` · ${item.citations.slice(0, 2).join(", ")}` : ""}
+              </p>
+            </div>
           ))
         ) : (
           <p className="text-sm leading-6 text-ink/55">No source-backed item yet. Add more intake detail to refine this area.</p>
@@ -501,6 +507,7 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
     "The intake does not yet contain enough recognized symptom detail for a useful first-pass outcome.";
   const doFirst = actionItems.slice(0, 5);
   const holdForReview = reviewItems.slice(0, 4);
+  const bookDirections = output.likely_pattern_summary.tradition_directions.slice(0, 6);
   const nextQuestion = output.questions_still_needed[0] || trace.next_best_question;
   const safetyBoundary =
     output.warnings_and_professional_boundaries.find((warning) => /urgent|red|medical|severe|sudden|pregnancy|medication/i.test(warning)) ||
@@ -523,6 +530,20 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
         <p className="mt-3 text-base leading-7 text-ink/78">{summary}</p>
       </div>
 
+      {bookDirections.length ? (
+        <div className="mt-4 grid gap-3 md:grid-cols-3">
+          {bookDirections.map((item) => (
+            <article key={`${item.tradition}-${item.direction}`} className="rounded-lg border border-ink/10 bg-white/75 p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{item.tradition}</p>
+              <p className="mt-3 text-sm leading-6 text-ink/76">{item.direction}</p>
+              {item.citations?.length ? (
+                <p className="mt-3 text-xs leading-5 text-ink/45">Source layer: {item.citations.slice(0, 2).join(", ")}</p>
+              ) : null}
+            </article>
+          ))}
+        </div>
+      ) : null}
+
       <div className="mt-4 grid gap-3 lg:grid-cols-[1.1fr_0.9fr]">
         <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Do First</p>
@@ -531,7 +552,13 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
               {doFirst.map((item, index) => (
                 <li key={`${item.category}-${item.practitioner_action}`} className="grid grid-cols-[1.6rem_1fr] gap-2">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full bg-ink text-xs text-white">{index + 1}</span>
-                  <span>{item.practitioner_action}</span>
+                  <span>
+                    {item.practitioner_action}
+                    <span className="mt-1 block text-xs leading-5 text-ink/45">
+                      {item.tradition}
+                      {item.citations.length ? ` · ${item.citations.slice(0, 2).join(", ")}` : ""}
+                    </span>
+                  </span>
                 </li>
               ))}
             </ol>
@@ -559,7 +586,13 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
         {holdForReview.length ? (
           <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/72">
             {holdForReview.map((item) => (
-              <li key={`${item.category}-${item.practitioner_action}`}>{item.practitioner_action}</li>
+              <li key={`${item.category}-${item.practitioner_action}`}>
+                {item.practitioner_action}
+                <span className="mt-1 block text-xs leading-5 text-ink/45">
+                  {item.tradition}
+                  {item.citations.length ? ` · ${item.citations.slice(0, 2).join(", ")}` : ""}
+                </span>
+              </li>
             ))}
           </ul>
         ) : (

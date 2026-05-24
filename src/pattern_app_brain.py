@@ -1384,6 +1384,11 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
     "fatigue": {
         "summary": "Low energy is a broad signal. First-pass review should look for sleep debt, digestion/appetite changes, stress load, timing after meals or exertion, and safety context before choosing any traditional direction.",
         "signals": ["energy pattern", "sleep relationship", "digestion relationship", "stress load"],
+        "tradition_directions": [
+            ("Ayurveda", "Use the available Ayurveda canon to review whether low energy clusters with weak/variable digestion, ama-like heaviness, vata irregularity, or kapha sluggishness before choosing diet, routine, herbs, or formulas."),
+            ("Traditional Chinese Medicine", "Use the Huangdi Neijing layer to review qi, rest-activity rhythm, digestion, and deficiency/excess clues before any formula or herb direction is considered."),
+            ("Homeopathy", "Use Organon method, Boericke materia medica, and Kent repertory support to clarify the totality: generals, modalities, mental-emotional state, thermal state, and what changes the fatigue."),
+        ],
         "actions": [
             ("diet", "Track whether energy drops after meals, with skipped meals, or with heavy foods; review meal timing and digestibility before adding stronger interventions."),
             ("sleep", "Review sleep quantity, waking time, dreams, night sweats, and whether rest actually restores energy."),
@@ -1399,6 +1404,11 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
     "headache": {
         "summary": "Headache needs safety screening first, then pattern review by location, quality, timing, triggers, digestion, sleep, stress, and temperature sensitivity.",
         "signals": ["pain location", "pain quality", "trigger pattern", "safety screen"],
+        "tradition_directions": [
+            ("Ayurveda", "Use the available Ayurveda canon to review headache through digestion/agni, heat/cold, dryness, sleep, routine, and dosha-pattern clues after urgent causes are screened out."),
+            ("Traditional Chinese Medicine", "Use Huangdi Neijing source support to review headache through location, timing, heat/cold, qi movement, sleep, digestion, and channel-style relationships before herbs or formulas."),
+            ("Homeopathy", "Use Kent rubrics and Boericke materia medica only after location, sensation, modalities, timing, concomitants, and peculiar features are clarified."),
+        ],
         "actions": [
             ("avoid_reduce", "Do not treat traditionally first if headache is sudden, the worst of life, follows head injury, or comes with neurological symptoms, fever, stiff neck, vision changes, pregnancy concern, or severe hypertension concern."),
             ("observation", "Record location, quality, onset, duration, light sensitivity, nausea, menstrual timing, food/caffeine relationship, and what makes it better or worse."),
@@ -1414,6 +1424,11 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
     "insomnia": {
         "summary": "Poor sleep should be separated into trouble falling asleep, staying asleep, early waking, restless sleep, or non-restorative sleep, then linked to heat, worry, digestion, pain, urination, dreams, or stimulant use.",
         "signals": ["sleep phase", "night timing", "nervous-system load", "digestion relationship"],
+        "tradition_directions": [
+            ("Ayurveda", "Use the available Ayurveda canon to review sleep through routine, vata-style irregularity, digestion, heat, dryness, and depletion/heaviness clues."),
+            ("Traditional Chinese Medicine", "Use Huangdi Neijing source support to review sleep through spirit/qi regulation, night timing, heat/cold, digestion, and rest-activity rhythm."),
+            ("Homeopathy", "Use Organon case method plus Boericke and Kent to review sleep timing, dreams, waking pattern, mental state, temperature, and modalities."),
+        ],
         "actions": [
             ("sleep", "Identify the main sleep problem: falling asleep, staying asleep, early waking, restless dreaming, or waking unrefreshed."),
             ("avoid_reduce", "Review caffeine, alcohol, late meals, screens, intense evening work, and late exercise as possible pattern aggravators."),
@@ -1429,6 +1444,11 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
     "bloating": {
         "summary": "Bloating should be reviewed through timing after meals, food triggers, stool pattern, gas movement, appetite, stress, and whether warmth, movement, pressure, or passing stool/gas changes it.",
         "signals": ["digestion", "food timing", "stool relationship", "gas movement"],
+        "tradition_directions": [
+            ("Ayurveda", "Use Charaka/Ashtanga/Sushruta layers to review agni, ama-like heaviness, appetite, stool, meal timing, and whether the pattern points more to vata movement or kapha heaviness."),
+            ("Traditional Chinese Medicine", "Use Huangdi Neijing source support to review digestion, qi movement, damp/heavy tendencies, appetite, and bowel relationships before formula direction."),
+            ("Homeopathy", "Use Boericke and Kent to review bloating through modalities, food aggravations, pressure/movement effects, stool relationship, and remedy differentials."),
+        ],
         "actions": [
             ("diet", "Track which meals, food qualities, speed of eating, and meal timing make bloating better or worse."),
             ("movement", "Review whether light walking after meals improves gas movement or whether movement worsens discomfort."),
@@ -1444,6 +1464,11 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
     "constipation": {
         "summary": "Constipation needs stool frequency, dryness, difficulty, incomplete evacuation, pain, bloating, fluids, movement, travel, stress, and medication context before any traditional intervention is chosen.",
         "signals": ["stool pattern", "dryness", "motility", "medication context"],
+        "tradition_directions": [
+            ("Ayurveda", "Use the available Ayurveda canon to review stool dryness, vata movement, agni, fluids/oiliness, routine, and abdominal symptoms before any bowel-moving herb direction."),
+            ("Traditional Chinese Medicine", "Use Huangdi Neijing source support to review dryness, heat/cold, qi movement, fluid relationship, and deficiency/excess clues before herbs or formulas."),
+            ("Homeopathy", "Use Kent stool rubrics and Boericke materia medica after clarifying urging, stool character, sensations, modalities, timing, and concomitants."),
+        ],
         "actions": [
             ("diet", "Review fluids, meal regularity, fiber tolerance, oils/fats, and whether dry or heavy foods are aggravating."),
             ("movement", "Review gentle daily movement and abdominal ease if appropriate for the person’s condition."),
@@ -1459,6 +1484,11 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
     "anxiety": {
         "summary": "Anxiety should be reviewed by trigger, timing, body sensations, sleep, digestion, caffeine/stimulant use, panic features, and safety context.",
         "signals": ["trigger", "body sensations", "sleep relationship", "stimulant relationship"],
+        "tradition_directions": [
+            ("Ayurveda", "Use the available Ayurveda canon to review anxiety through vata-style instability, sleep, digestion, routine, depletion, and stimulant/stress relationships."),
+            ("Traditional Chinese Medicine", "Use Huangdi Neijing source support to review anxiety through spirit/qi regulation, sleep, chest/breath sensations, heat/cold, and digestion relationships."),
+            ("Homeopathy", "Use Organon case method, Boericke, and Kent after clarifying fears, triggers, consolation, restlessness, sleep, temperature, and peculiar symptoms."),
+        ],
         "actions": [
             ("breathwork", "Use only gentle, comfortable breath awareness; stop if breath practices increase panic, dizziness, or air hunger."),
             ("sleep", "Review whether anxiety is worse at night, on waking, after poor sleep, or with dreams."),
@@ -1489,15 +1519,18 @@ def outcome_row(
     citations: list[str],
     confidence: float,
     review_priority: str = "review_first",
+    tradition: str = "Cross-tradition intake",
+    source_basis: str = "",
 ) -> dict[str, Any]:
     return {
-        "tradition": "Cross-tradition intake",
+        "tradition": tradition,
         "category": category,
         "direction": action,
         "practitioner_action": action,
         "confidence_score": confidence,
         "review_priority": review_priority,
         "citations": citations[:3],
+        "source_basis": source_basis,
         "safety_notes": ["Practitioner review required; educational pattern-support output only."],
     }
 
@@ -1520,28 +1553,71 @@ def apply_symptom_outcome_layer(
         *(citation_groups.get("Traditional Chinese Medicine") or [])[:1],
         *(citation_groups.get("Homeopathy") or [])[:1],
     ]
+    default_citations_by_tradition = {
+        "Ayurveda": (citation_groups.get("Ayurveda") or cross_citations)[:2],
+        "Traditional Chinese Medicine": (citation_groups.get("Traditional Chinese Medicine") or cross_citations)[:2],
+        "Homeopathy": (citation_groups.get("Homeopathy") or cross_citations)[:2],
+        "Cross-tradition intake": cross_citations,
+    }
     action_rows: list[dict[str, Any]] = []
     review_rows: list[dict[str, Any]] = []
     summaries: list[str] = []
     signals: list[str] = []
+    tradition_directions: list[dict[str, Any]] = []
     seen_actions: set[tuple[str, str]] = set()
+    seen_directions: set[tuple[str, str]] = set()
 
     for canonical_symptom in canonical[:4]:
         profile = SYMPTOM_OUTCOME_PROFILES[canonical_symptom]
         summaries.append(profile["summary"])
         signals.extend(profile.get("signals", []))
+        for tradition, direction in profile.get("tradition_directions", []):
+            direction_key = (tradition, direction)
+            if direction_key in seen_directions:
+                continue
+            seen_directions.add(direction_key)
+            tradition_directions.append(
+                {
+                    "tradition": tradition,
+                    "direction": direction,
+                    "confidence_score": 68 if safety["status"] == "caution" else 74,
+                    "priority": "review_first",
+                    "citations": default_citations_by_tradition.get(tradition, cross_citations),
+                }
+            )
         for category, action in profile.get("actions", []):
             key = (category, action)
             if key in seen_actions:
                 continue
             seen_actions.add(key)
-            action_rows.append(outcome_row(category, action, cross_citations, 74 if safety["status"] == "clear" else 66))
+            tradition = "Ayurveda" if category in {"diet", "movement"} else "Traditional Chinese Medicine" if category in {"sleep", "breathwork"} else "Cross-tradition intake"
+            action_rows.append(
+                outcome_row(
+                    category,
+                    action,
+                    default_citations_by_tradition.get(tradition, cross_citations),
+                    74 if safety["status"] == "clear" else 66,
+                    tradition=tradition,
+                    source_basis="Uses currently processed source layers; missing modern books will improve specificity later.",
+                )
+            )
         for category, action in profile.get("review", []):
             key = (category, action)
             if key in seen_actions:
                 continue
             seen_actions.add(key)
-            review_rows.append(outcome_row(category, action, cross_citations, 68 if safety["status"] == "clear" else 58, "review_second"))
+            tradition = "Homeopathy" if category in {"remedy_differential", "rubric_cluster"} else "Ayurveda" if category in {"herbs", "formulas"} else "Cross-tradition intake"
+            review_rows.append(
+                outcome_row(
+                    category,
+                    action,
+                    default_citations_by_tradition.get(tradition, cross_citations),
+                    68 if safety["status"] == "clear" else 58,
+                    "review_second",
+                    tradition=tradition,
+                    source_basis="Uses currently processed source layers; held for practitioner review until pattern and safety details are clearer.",
+                )
+            )
 
     case_snapshot = intake.get("symptoms", {}).get("chief_complaint") or ", ".join(
         intake.get("symptoms", {}).get("primary_symptoms", [])
@@ -1550,6 +1626,7 @@ def apply_symptom_outcome_layer(
         **practical_output.get("likely_pattern_summary", {}),
         "case_snapshot": case_snapshot,
         "plain_language_summary": " ".join(summaries[:3]),
+        "tradition_directions": tradition_directions[:9],
         "shared_pattern_signals": sorted(set(signals))[:10],
     }
     practical_output["confidence"] = {
@@ -1595,6 +1672,7 @@ def practical_considerations(plan: dict[str, Any]) -> dict[str, list[dict[str, A
             "confidence_score": item["confidence_score"],
             "review_priority": item["review_priority"],
             "citations": item["citations"],
+            "source_basis": item.get("source_basis", ""),
             "safety_notes": item["safety_notes"],
         }
         if item["category"] in ACTION_CATEGORY_GROUPS["concrete"]:
