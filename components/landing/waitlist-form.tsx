@@ -5,9 +5,20 @@ import { useState } from "react";
 type WaitlistFormProps = {
   compact?: boolean;
   source: string;
+  buttonLabel?: string;
+  successMessage?: string;
+  helperText?: string;
+  interestPlaceholder?: string;
 };
 
-export function WaitlistForm({ compact = false, source }: WaitlistFormProps) {
+export function WaitlistForm({
+  compact = false,
+  source,
+  buttonLabel = "Join Waitlist",
+  successMessage = "You are on the waitlist. I will send thoughtful updates as the app develops.",
+  helperText = "Educational updates only. No spam, no diagnosis, no treatment claims.",
+  interestPlaceholder = "What do you want Patterns to help you understand?",
+}: WaitlistFormProps) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [interest, setInterest] = useState("");
@@ -27,7 +38,7 @@ export function WaitlistForm({ compact = false, source }: WaitlistFormProps) {
       const body = await response.json();
       if (!response.ok) throw new Error(body.error || "Could not join the waitlist.");
       setStatus("success");
-      setMessage("You are on the waitlist. I will send thoughtful updates as the app develops.");
+      setMessage(successMessage);
       setEmail("");
       setName("");
       setInterest("");
@@ -54,7 +65,7 @@ export function WaitlistForm({ compact = false, source }: WaitlistFormProps) {
         />
         {compact ? (
           <button className="button-primary min-w-[10rem]" disabled={status === "loading"}>
-            {status === "loading" ? "Joining..." : "Join Waitlist"}
+            {status === "loading" ? "Sending..." : buttonLabel}
           </button>
         ) : null}
       </div>
@@ -71,12 +82,12 @@ export function WaitlistForm({ compact = false, source }: WaitlistFormProps) {
           <textarea
             value={interest}
             onChange={(event) => setInterest(event.target.value)}
-            placeholder="What do you want Patterns to help you understand?"
+            placeholder={interestPlaceholder}
             rows={3}
             className="w-full resize-y border border-ink/10 bg-white/85 p-5 text-sm leading-6 text-ink outline-none focus:border-moss"
           />
           <button className="button-primary w-full" disabled={status === "loading"}>
-            {status === "loading" ? "Joining..." : "Join the Waitlist"}
+            {status === "loading" ? "Sending..." : buttonLabel}
           </button>
         </>
       ) : null}
@@ -87,7 +98,7 @@ export function WaitlistForm({ compact = false, source }: WaitlistFormProps) {
         </p>
       ) : (
         <p className="text-sm leading-6 text-ink/54">
-          Educational updates only. No spam, no diagnosis, no treatment claims.
+          {helperText}
         </p>
       )}
     </form>
