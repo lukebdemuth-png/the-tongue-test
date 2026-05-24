@@ -1360,13 +1360,232 @@ def plan_items(plan: dict[str, Any]) -> list[dict[str, Any]]:
     return items
 
 
+ACTION_CATEGORY_GROUPS = {
+    "concrete": {"herbs", "formulas", "remedy_differential", "rubric_cluster"},
+    "action": {
+        "diet",
+        "lifestyle",
+        "yoga_breath",
+        "acupuncture_moxibustion",
+        "modalities",
+        "constitution_notes",
+        "sleep",
+        "breathwork",
+        "movement",
+        "meditation",
+        "avoid_reduce",
+        "observation",
+        "practitioner_follow_up",
+    },
+}
+
+
+SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
+    "fatigue": {
+        "summary": "Low energy is a broad signal. First-pass review should look for sleep debt, digestion/appetite changes, stress load, timing after meals or exertion, and safety context before choosing any traditional direction.",
+        "signals": ["energy pattern", "sleep relationship", "digestion relationship", "stress load"],
+        "actions": [
+            ("diet", "Track whether energy drops after meals, with skipped meals, or with heavy foods; review meal timing and digestibility before adding stronger interventions."),
+            ("sleep", "Review sleep quantity, waking time, dreams, night sweats, and whether rest actually restores energy."),
+            ("movement", "Consider gentle, capacity-matched movement only if it improves energy without next-day depletion."),
+            ("observation", "Log morning, afternoon, after-meal, and after-exertion energy for several days to identify the strongest pattern."),
+            ("practitioner_follow_up", "Clarify medications, pregnancy status, anemia history, thyroid history, fever, weight loss, shortness of breath, dizziness, or bleeding before using herbs or formulas."),
+        ],
+        "review": [
+            ("herbs", "Herbs or formulas should stay on hold until the practitioner clarifies whether the fatigue pattern is digestive, sleep-related, depletion-type, stress-related, or medically concerning."),
+            ("remedy_differential", "Homeopathic remedy review should focus on modalities, generals, mental-emotional state, thermal state, and what kind of rest or exertion changes the fatigue."),
+        ],
+    },
+    "headache": {
+        "summary": "Headache needs safety screening first, then pattern review by location, quality, timing, triggers, digestion, sleep, stress, and temperature sensitivity.",
+        "signals": ["pain location", "pain quality", "trigger pattern", "safety screen"],
+        "actions": [
+            ("avoid_reduce", "Do not treat traditionally first if headache is sudden, the worst of life, follows head injury, or comes with neurological symptoms, fever, stiff neck, vision changes, pregnancy concern, or severe hypertension concern."),
+            ("observation", "Record location, quality, onset, duration, light sensitivity, nausea, menstrual timing, food/caffeine relationship, and what makes it better or worse."),
+            ("sleep", "Review whether sleep loss, waking time, screens, jaw tension, or late meals are part of the headache pattern."),
+            ("diet", "Review hydration, missed meals, alcohol, caffeine change, heavy foods, and food triggers before considering herb or formula categories."),
+            ("practitioner_follow_up", "Clarify medication use, migraine history, blood pressure context, injury, fever, neurological symptoms, and pregnancy status."),
+        ],
+        "review": [
+            ("herbs", "Herbs, formulas, and supplements for headache require practitioner review because medication interactions and red flags matter."),
+            ("rubric_cluster", "Homeopathy repertory review should begin with location, sensation, modalities, timing, accompanying symptoms, and distinctive features."),
+        ],
+    },
+    "insomnia": {
+        "summary": "Poor sleep should be separated into trouble falling asleep, staying asleep, early waking, restless sleep, or non-restorative sleep, then linked to heat, worry, digestion, pain, urination, dreams, or stimulant use.",
+        "signals": ["sleep phase", "night timing", "nervous-system load", "digestion relationship"],
+        "actions": [
+            ("sleep", "Identify the main sleep problem: falling asleep, staying asleep, early waking, restless dreaming, or waking unrefreshed."),
+            ("avoid_reduce", "Review caffeine, alcohol, late meals, screens, intense evening work, and late exercise as possible pattern aggravators."),
+            ("breathwork", "Consider gentle downshifting breath only if it is calming and does not cause dizziness, anxiety escalation, or air hunger."),
+            ("observation", "Track waking time, body temperature, sweating, urination, hunger, worry, pain, and dreams."),
+            ("practitioner_follow_up", "Clarify medications, pregnancy/postpartum status, sleep apnea signs, panic symptoms, severe depression, or manic symptoms."),
+        ],
+        "review": [
+            ("formulas", "Sleep formulas should remain practitioner-review only until the sleep pattern, medications, pregnancy status, and contraindications are clear."),
+            ("remedy_differential", "Homeopathic review should focus on sleep timing, mental state at night, dreams, temperature, and modalities."),
+        ],
+    },
+    "bloating": {
+        "summary": "Bloating should be reviewed through timing after meals, food triggers, stool pattern, gas movement, appetite, stress, and whether warmth, movement, pressure, or passing stool/gas changes it.",
+        "signals": ["digestion", "food timing", "stool relationship", "gas movement"],
+        "actions": [
+            ("diet", "Track which meals, food qualities, speed of eating, and meal timing make bloating better or worse."),
+            ("movement", "Review whether light walking after meals improves gas movement or whether movement worsens discomfort."),
+            ("avoid_reduce", "Reduce guesswork: avoid adding multiple herbs, supplements, or restrictive diet changes before stool, appetite, and trigger patterns are clear."),
+            ("observation", "Record appetite, belching, gas, stool frequency, stool form, abdominal pain, nausea, and relation to stress."),
+            ("practitioner_follow_up", "Escalate for severe, persistent, worsening, painful, feverish, bloody, or unexplained weight-loss-associated digestive symptoms."),
+        ],
+        "review": [
+            ("herbs", "Digestive herbs should wait for practitioner review of pregnancy status, medications, reflux, ulcers, gallbladder history, and stool pattern."),
+            ("formulas", "Formula review should clarify whether the pattern looks more weak digestion, stagnation, dampness/heaviness, heat, cold, or food intolerance."),
+        ],
+    },
+    "constipation": {
+        "summary": "Constipation needs stool frequency, dryness, difficulty, incomplete evacuation, pain, bloating, fluids, movement, travel, stress, and medication context before any traditional intervention is chosen.",
+        "signals": ["stool pattern", "dryness", "motility", "medication context"],
+        "actions": [
+            ("diet", "Review fluids, meal regularity, fiber tolerance, oils/fats, and whether dry or heavy foods are aggravating."),
+            ("movement", "Review gentle daily movement and abdominal ease if appropriate for the person’s condition."),
+            ("observation", "Track stool frequency, form, straining, dryness, incomplete feeling, pain, gas, and what changes it."),
+            ("avoid_reduce", "Avoid stimulant laxative or strong herb assumptions without practitioner review, especially with pregnancy, medications, abdominal pain, or chronic disease."),
+            ("practitioner_follow_up", "Clarify severe pain, vomiting, blood, unexplained weight loss, new constipation, medication causes, and pregnancy status."),
+        ],
+        "review": [
+            ("herbs", "Laxative or bowel-moving herbs require careful practitioner review and are not appropriate as automatic suggestions."),
+            ("remedy_differential", "Homeopathy review should focus on urging, stool character, sensations, timing, and modalities."),
+        ],
+    },
+    "anxiety": {
+        "summary": "Anxiety should be reviewed by trigger, timing, body sensations, sleep, digestion, caffeine/stimulant use, panic features, and safety context.",
+        "signals": ["trigger", "body sensations", "sleep relationship", "stimulant relationship"],
+        "actions": [
+            ("breathwork", "Use only gentle, comfortable breath awareness; stop if breath practices increase panic, dizziness, or air hunger."),
+            ("sleep", "Review whether anxiety is worse at night, on waking, after poor sleep, or with dreams."),
+            ("avoid_reduce", "Review caffeine, stimulants, alcohol rebound, skipped meals, and doom-scrolling as possible aggravators."),
+            ("observation", "Track triggers, time of day, chest sensations, breath changes, digestion, restlessness, and what reliably helps."),
+            ("practitioner_follow_up", "Escalate urgently for chest pain, fainting, suicidal thoughts, mania, psychosis, severe panic, or substance withdrawal concerns."),
+        ],
+        "review": [
+            ("herbs", "Calming herbs or formulas require practitioner review for medications, pregnancy status, sedation, bipolar history, and interactions."),
+            ("remedy_differential", "Homeopathy review should focus on fears, triggers, restlessness, consolation, temperature, sleep, and peculiar symptoms."),
+        ],
+    },
+}
+
+
+def citation_ids_by_tradition(citations: list[dict[str, Any]]) -> dict[str, list[str]]:
+    grouped: dict[str, list[str]] = {"Ayurveda": [], "Traditional Chinese Medicine": [], "Homeopathy": []}
+    for citation in citations:
+        tradition = citation.get("tradition", "")
+        if tradition in grouped and citation.get("citation_id"):
+            grouped[tradition].append(citation["citation_id"])
+    return grouped
+
+
+def outcome_row(
+    category: str,
+    action: str,
+    citations: list[str],
+    confidence: float,
+    review_priority: str = "review_first",
+) -> dict[str, Any]:
+    return {
+        "tradition": "Cross-tradition intake",
+        "category": category,
+        "direction": action,
+        "practitioner_action": action,
+        "confidence_score": confidence,
+        "review_priority": review_priority,
+        "citations": citations[:3],
+        "safety_notes": ["Practitioner review required; educational pattern-support output only."],
+    }
+
+
+def apply_symptom_outcome_layer(
+    practical_output: dict[str, Any],
+    intake: dict[str, Any],
+    citations: list[dict[str, Any]],
+    safety: dict[str, Any],
+    next_question: str,
+) -> dict[str, Any]:
+    normalized = normalize_intake_symptoms(intake)
+    canonical = [item["canonical"] for item in normalized if item["canonical"] in SYMPTOM_OUTCOME_PROFILES]
+    if not canonical:
+        return practical_output
+
+    citation_groups = citation_ids_by_tradition(citations)
+    cross_citations = [
+        *(citation_groups.get("Ayurveda") or [])[:1],
+        *(citation_groups.get("Traditional Chinese Medicine") or [])[:1],
+        *(citation_groups.get("Homeopathy") or [])[:1],
+    ]
+    action_rows: list[dict[str, Any]] = []
+    review_rows: list[dict[str, Any]] = []
+    summaries: list[str] = []
+    signals: list[str] = []
+    seen_actions: set[tuple[str, str]] = set()
+
+    for canonical_symptom in canonical[:4]:
+        profile = SYMPTOM_OUTCOME_PROFILES[canonical_symptom]
+        summaries.append(profile["summary"])
+        signals.extend(profile.get("signals", []))
+        for category, action in profile.get("actions", []):
+            key = (category, action)
+            if key in seen_actions:
+                continue
+            seen_actions.add(key)
+            action_rows.append(outcome_row(category, action, cross_citations, 74 if safety["status"] == "clear" else 66))
+        for category, action in profile.get("review", []):
+            key = (category, action)
+            if key in seen_actions:
+                continue
+            seen_actions.add(key)
+            review_rows.append(outcome_row(category, action, cross_citations, 68 if safety["status"] == "clear" else 58, "review_second"))
+
+    case_snapshot = intake.get("symptoms", {}).get("chief_complaint") or ", ".join(
+        intake.get("symptoms", {}).get("primary_symptoms", [])
+    )
+    practical_output["likely_pattern_summary"] = {
+        **practical_output.get("likely_pattern_summary", {}),
+        "case_snapshot": case_snapshot,
+        "plain_language_summary": " ".join(summaries[:3]),
+        "shared_pattern_signals": sorted(set(signals))[:10],
+    }
+    practical_output["confidence"] = {
+        **practical_output.get("confidence", {}),
+        "score": 68 if safety["status"] == "caution" else practical_output.get("confidence", {}).get("score", 72),
+        "label": "first-pass practical guidance, practitioner review required",
+        "basis": (
+            "Generated from recognized symptom profiles, safety screening, and available source-linked retrieval. "
+            "Confidence remains limited until the missing intake questions are answered."
+        ),
+    }
+    practical_output["lifestyle_diet_practice_actions"] = [
+        *action_rows,
+        *practical_output.get("lifestyle_diet_practice_actions", []),
+    ]
+    practical_output["herbs_formulas_remedies_to_consider"] = [
+        *review_rows,
+        *practical_output.get("herbs_formulas_remedies_to_consider", []),
+    ]
+    questions = [next_question]
+    for item in normalized:
+        questions.extend(item.get("next_questions", [])[:2])
+    questions.extend(practical_output.get("questions_still_needed", []))
+    deduped_questions = []
+    for question in questions:
+        if question and question not in deduped_questions:
+            deduped_questions.append(question)
+    practical_output["questions_still_needed"] = deduped_questions[:10]
+    return practical_output
+
+
 def practical_considerations(plan: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
     buckets = {
         "herbs_formulas_remedies_to_consider": [],
         "lifestyle_diet_practice_actions": [],
     }
-    concrete_categories = {"herbs", "formulas", "remedy_differential", "rubric_cluster"}
-    action_categories = {"diet", "lifestyle", "yoga_breath", "acupuncture_moxibustion", "modalities", "constitution_notes"}
     for item in plan_items(plan):
         row = {
             "tradition": item["tradition"],
@@ -1378,9 +1597,9 @@ def practical_considerations(plan: dict[str, Any]) -> dict[str, list[dict[str, A
             "citations": item["citations"],
             "safety_notes": item["safety_notes"],
         }
-        if item["category"] in concrete_categories:
+        if item["category"] in ACTION_CATEGORY_GROUPS["concrete"]:
             buckets["herbs_formulas_remedies_to_consider"].append(row)
-        if item["category"] in action_categories:
+        if item["category"] in ACTION_CATEGORY_GROUPS["action"]:
             buckets["lifestyle_diet_practice_actions"].append(row)
     for key in buckets:
         buckets[key] = sorted(
@@ -1490,6 +1709,13 @@ def build_brain_trace(intake: dict[str, Any], chunks_path: Path = CHUNKS_PATH, l
         safety,
         intake_state,
         app_output["citations"],
+        next_question,
+    )
+    practical_output = apply_symptom_outcome_layer(
+        practical_output,
+        intake,
+        app_output["citations"],
+        safety,
         next_question,
     )
     practitioner_output = {

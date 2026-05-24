@@ -84,6 +84,7 @@ type BrainTrace = {
     scope: string;
     likely_pattern_summary: {
       case_snapshot: string;
+      plain_language_summary?: string;
       tradition_directions: Array<{
         tradition: string;
         direction: string;
@@ -647,7 +648,7 @@ function PracticalOutput({ trace }: { trace: BrainTrace }) {
           <p className="eyebrow mb-2">Here Is What To Do</p>
           <h2 className="text-3xl font-semibold leading-tight md:text-4xl">Practical guidance</h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-ink/68">
-            {output.likely_pattern_summary.case_snapshot || output.scope}
+            {output.likely_pattern_summary.plain_language_summary || output.likely_pattern_summary.case_snapshot || output.scope}
           </p>
         </div>
         <span className="rounded-full border border-ink/10 bg-fog px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-ink/62">
