@@ -129,10 +129,13 @@ export default function HomePage() {
                 <p className="text-xs uppercase tracking-[0.2em] text-ink/52">
                   {siteConfig.tagline}
                 </p>
+                <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-ink/46">
+                  {siteConfig.traditionsLine}
+                </p>
               </div>
             </div>
             <h1 className="max-w-4xl text-[3.2rem] leading-[0.96] sm:text-6xl lg:text-[6.5rem]">
-              3 traditions, one pattern.
+              3 traditions one pattern.
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-ink/72 md:text-xl">
               Patterns is a working app for entering symptoms and health

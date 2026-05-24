@@ -27,6 +27,9 @@ export function SiteHeader() {
             <span className="mt-1 block text-[11px] uppercase tracking-[0.2em] text-moss/90">
               {siteConfig.tagline}
             </span>
+            <span className="mt-1 block text-[10px] uppercase tracking-[0.18em] text-ink/48">
+              {siteConfig.traditionsLine}
+            </span>
           </span>
         </Link>
 
