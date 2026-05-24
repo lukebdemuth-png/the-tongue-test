@@ -6,7 +6,7 @@ import { buildMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/lib/site";
 
 export const metadata = buildMetadata({
-  title: "3-patterns",
+  title: siteConfig.formalName,
   description:
     "A source-backed pattern recognition app for practitioners working across Homeopathy, Ayurveda, and Chinese medicine.",
   path: "/",
@@ -71,7 +71,7 @@ const landingImages = {
   },
   logo: {
     src: siteConfig.logo,
-    alt: "3-patterns logo mark.",
+    alt: "Empirical Patterns logo mark.",
   },
 };
 
@@ -125,19 +125,20 @@ export default function HomePage() {
                 />
               </span>
               <div>
-                <p className="eyebrow mb-1">3-patterns</p>
+                <p className="eyebrow mb-1">{siteConfig.formalName}</p>
                 <p className="text-xs uppercase tracking-[0.2em] text-ink/52">
-                  Three Traditions
+                  {siteConfig.tagline}
                 </p>
               </div>
             </div>
             <h1 className="max-w-4xl text-[3.2rem] leading-[0.96] sm:text-6xl lg:text-[6.5rem]">
-              Source-backed pattern intelligence for practitioners.
+              3 traditions, one pattern.
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-ink/72 md:text-xl">
-              A working app for entering symptoms and health context, analyzing
-              them through Homeopathy, Ayurveda, and Chinese medicine, and
-              producing careful next steps with citations and safety boundaries.
+              Patterns is a working app for entering symptoms and health
+              context, analyzing them through Homeopathy, Ayurveda, and Chinese
+              medicine, and producing careful next steps with citations and
+              safety boundaries.
             </p>
             <div className="mt-8 max-w-2xl border border-ink/10 bg-white/82 p-4 shadow-card backdrop-blur md:p-5">
               <WaitlistForm compact source="hero" />
@@ -167,7 +168,7 @@ export default function HomePage() {
                 Turns intake into tradition-separated reasoning.
               </h2>
               <p className="section-copy mt-6">
-                3-patterns is being built as a practical research tool: less
+                Patterns is being built as a practical research tool: less
                 mystical guessing, more structured comparison, source trace,
                 and clear boundaries around what still needs practitioner
                 judgment.
@@ -356,7 +357,7 @@ export default function HomePage() {
             <h2 className="section-title">Join the waitlist while the app is tested.</h2>
             <p className="section-copy mt-6">
               This is the product lane: join for launch updates, invitations to
-              test 3-patterns, and access as the source-backed reasoning gets
+              test Patterns, and access as the source-backed reasoning gets
               sharper.
             </p>
           </div>
@@ -365,7 +366,7 @@ export default function HomePage() {
               source="product-waitlist"
               buttonLabel="Join the Waitlist"
               successMessage="You are on the product waitlist. I will send launch and testing updates as the app develops."
-              interestPlaceholder="What would make 3-patterns useful enough for you to test?"
+              interestPlaceholder="What would make Patterns useful enough for you to test?"
             />
           </div>
         </div>
@@ -375,7 +376,7 @@ export default function HomePage() {
         <div className="container-shell">
           <div className="border-y border-ink/12 py-10 lg:grid lg:grid-cols-[1fr_34rem] lg:items-center lg:gap-12">
             <div>
-              <p className="eyebrow">3-patterns</p>
+              <p className="eyebrow">{siteConfig.formalName}</p>
               <h2 className="max-w-3xl text-[2.3rem] leading-[1.04] sm:text-5xl">
                 Help shape a careful tool for integrative pattern recognition.
               </h2>

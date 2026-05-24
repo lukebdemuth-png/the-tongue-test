@@ -1,6 +1,10 @@
 # Brand Images
 
-Current app name: `3-patterns`
+Formal app name: `Empirical Patterns`
+
+Short app name: `Patterns`
+
+Tagline: `3 traditions, one pattern.`
 
 Current logo:
 

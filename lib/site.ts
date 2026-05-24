@@ -1,9 +1,11 @@
 export const siteConfig = {
-  name: "3-patterns",
+  name: "Patterns",
+  formalName: "Empirical Patterns",
+  tagline: "3 traditions, one pattern.",
   description:
     "A source-backed pattern recognition app across Homeopathy, Ayurveda, and Chinese medicine.",
   url: "https://example.com",
-  email: "hello@3-patterns.example",
+  email: "hello@empiricalpatterns.example",
   logo: "/images/brand/3-patterns-logo.png",
 };
 

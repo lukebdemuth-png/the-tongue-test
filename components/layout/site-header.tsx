@@ -25,7 +25,7 @@ export function SiteHeader() {
               {siteConfig.name}
             </span>
             <span className="mt-1 block text-[11px] uppercase tracking-[0.2em] text-moss/90">
-              Three Traditions
+              {siteConfig.tagline}
             </span>
           </span>
         </Link>

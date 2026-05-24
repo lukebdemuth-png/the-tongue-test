@@ -15,9 +15,9 @@ export function WaitlistForm({
   compact = false,
   source,
   buttonLabel = "Join Waitlist",
-  successMessage = "You are on the waitlist. I will send thoughtful updates as 3-patterns develops.",
+  successMessage = "You are on the waitlist. I will send thoughtful updates as Patterns develops.",
   helperText = "Educational updates only. No spam, no diagnosis, no treatment claims.",
-  interestPlaceholder = "What do you want 3-patterns to help you understand?",
+  interestPlaceholder = "What do you want Patterns to help you understand?",
 }: WaitlistFormProps) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");

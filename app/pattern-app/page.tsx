@@ -2,8 +2,8 @@ import { PatternBrainPrototype } from "@/components/pattern-app/pattern-brain-pr
 import { buildMetadata } from "@/lib/metadata";
 
 export const metadata = buildMetadata({
-  title: "3-patterns Brain Prototype",
-  description: "A local practitioner-facing test surface for the 3-patterns reasoning trace.",
+  title: "Patterns Brain Prototype",
+  description: "A local practitioner-facing test surface for the Empirical Patterns reasoning trace.",
   path: "/pattern-app",
 });
 

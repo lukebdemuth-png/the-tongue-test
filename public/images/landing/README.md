@@ -1,6 +1,6 @@
 # Landing Page Images
 
-These images are replaceable placeholders for the 3-patterns landing page.
+These images are replaceable placeholders for the Empirical Patterns landing page.
 
 Current files:
 
