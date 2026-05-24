@@ -491,6 +491,87 @@ function ActionBucket({
   );
 }
 
+function OutcomePanel({ trace }: { trace: BrainTrace }) {
+  const output = trace.practical_output;
+  const actionItems = output.lifestyle_diet_practice_actions;
+  const reviewItems = output.herbs_formulas_remedies_to_consider;
+  const summary =
+    output.likely_pattern_summary.plain_language_summary ||
+    output.likely_pattern_summary.case_snapshot ||
+    "The intake does not yet contain enough recognized symptom detail for a useful first-pass outcome.";
+  const doFirst = actionItems.slice(0, 5);
+  const holdForReview = reviewItems.slice(0, 4);
+  const nextQuestion = output.questions_still_needed[0] || trace.next_best_question;
+  const safetyBoundary =
+    output.warnings_and_professional_boundaries.find((warning) => /urgent|red|medical|severe|sudden|pregnancy|medication/i.test(warning)) ||
+    output.warnings_and_professional_boundaries[0];
+
+  return (
+    <section className="rounded-xl border border-ink/12 bg-white p-5 shadow-card md:p-7">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="eyebrow mb-2">Outcome</p>
+          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">Working practical direction</h2>
+        </div>
+        <span className="rounded-full border border-ink/10 bg-fog px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-ink/62">
+          {output.confidence.label}
+        </span>
+      </div>
+
+      <div className="mt-5 rounded-lg border border-moss/20 bg-[#f8f7f1] p-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Working Interpretation</p>
+        <p className="mt-3 text-base leading-7 text-ink/78">{summary}</p>
+      </div>
+
+      <div className="mt-4 grid gap-3 lg:grid-cols-[1.1fr_0.9fr]">
+        <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Do First</p>
+          {doFirst.length ? (
+            <ol className="mt-3 space-y-3 text-sm leading-6 text-ink/76">
+              {doFirst.map((item, index) => (
+                <li key={`${item.category}-${item.practitioner_action}`} className="grid grid-cols-[1.6rem_1fr] gap-2">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-ink text-xs text-white">{index + 1}</span>
+                  <span>{item.practitioner_action}</span>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className="mt-3 text-sm leading-6 text-ink/60">
+              Add one clear symptom, duration, severity, and what makes it better or worse to generate first steps.
+            </p>
+          )}
+        </article>
+
+        <div className="space-y-3">
+          <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Next Question</p>
+            <p className="mt-3 text-sm leading-6 text-ink/76">{nextQuestion}</p>
+          </article>
+          <article className="rounded-lg border border-amber-200/70 bg-amber-50/70 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-800">Safety Boundary</p>
+            <p className="mt-3 text-sm leading-6 text-ink/76">{safetyBoundary}</p>
+          </article>
+        </div>
+      </div>
+
+      <article className="mt-4 rounded-lg border border-ink/10 bg-white/75 p-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Hold For Practitioner Review</p>
+        {holdForReview.length ? (
+          <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/72">
+            {holdForReview.map((item) => (
+              <li key={`${item.category}-${item.practitioner_action}`}>{item.practitioner_action}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-3 text-sm leading-6 text-ink/60">
+            Herbs, formulas, remedies, and supplements remain held until safety context and pattern details are clearer.
+          </p>
+        )}
+      </article>
+    </section>
+  );
+}
+
 function CandidateList({ title, items }: { title: string; items: Candidate[] }) {
   return (
     <section className="rounded-lg border border-ink/10 bg-white/75 p-4">
@@ -899,14 +980,15 @@ export function PatternBrainPrototype() {
             <section className="flex min-h-[28rem] items-center justify-center rounded-xl border border-dashed border-ink/15 bg-white/65 p-8 text-center shadow-card">
               <div>
                 <p className="eyebrow mb-3">Output</p>
-                <h2 className="text-3xl font-semibold leading-tight">Guidance appears here.</h2>
+                <h2 className="text-3xl font-semibold leading-tight">Outcome appears here.</h2>
                 <p className="mt-3 max-w-md text-sm leading-6 text-ink/60">
-                  The result will prioritize practical recommendations first. The reasoning trail stays tucked away unless you open it.
+                  Press Generate Guidance to see a working interpretation, do-first steps, what to hold, the next question, and safety boundaries.
                 </p>
               </div>
             </section>
           ) : (
             <>
+              <OutcomePanel trace={trace} />
               <PracticalOutput trace={trace} />
 
               <details className="rounded-lg border border-ink/10 bg-white/80 p-4">
