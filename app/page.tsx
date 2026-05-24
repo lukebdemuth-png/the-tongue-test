@@ -262,12 +262,18 @@ export default function HomePage() {
       <section id="newsletter" className="section-space">
         <div className="container-shell grid gap-10 lg:grid-cols-[0.8fr_1fr] lg:items-start">
           <div>
-            <p className="eyebrow">Early access</p>
-            <h2 className="section-title">Join the waitlist while the app is tested.</h2>
+            <p className="eyebrow">Early Practitioner Access</p>
+            <h2 className="section-title">
+              The first 50 practitioners and advanced students get free early beta access.
+            </h2>
             <p className="section-copy mt-6">
-              This is the product lane: join for launch updates, invitations to
-              test Patterns, and access as the source-backed reasoning gets
-              sharper.
+              The first 50 practitioners and advanced students who join the
+              waitlist will receive free access to the early beta version of 3
+              Patterns.
+            </p>
+            <p className="section-copy mt-4">
+              Built for those interested in cross-tradition pattern recognition
+              across Homeopathy, Ayurveda, and Chinese medicine.
             </p>
           </div>
           <div className="border border-ink/10 bg-white/82 p-6 shadow-panel">
