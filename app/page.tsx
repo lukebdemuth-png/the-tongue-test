@@ -3,6 +3,7 @@ import Image from "next/image";
 import { WaitlistForm } from "@/components/landing/waitlist-form";
 import { buildMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/lib/site";
+import { sourceCanonGroups } from "@/lib/source-canon";
 
 export const metadata = buildMetadata({
   title: siteConfig.formalName,
@@ -235,7 +236,7 @@ export default function HomePage() {
               Built for traceability before confidence.
             </h2>
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/68">
-              The app is being organized around a closed library, source
+              The app is being organized around a closed-loop book canon, source
               manifests, chunk-level citations, and daily test runs so weak
               outputs can be found and improved before launch.
             </p>
@@ -255,6 +256,37 @@ export default function HomePage() {
                 <p className="text-sm leading-7 text-white/76">{item}</p>
               </div>
             ))}
+          </div>
+        </div>
+        <div className="container-shell mt-14">
+          <div className="border border-white/12 bg-white/[0.04] p-5 md:p-7">
+            <div className="grid gap-8 lg:grid-cols-[0.42fr_1fr]">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-sage">
+                  Closed source canon
+                </p>
+                <h3 className="mt-4 max-w-md text-3xl leading-9 text-white">
+                  Only these books shape the app brain.
+                </h3>
+                <p className="mt-4 text-sm leading-7 text-white/66">
+                  If a book is not in this canon, it is not used as a core source for
+                  the closed-loop reasoning system unless it is deliberately added later.
+                </p>
+                <a href="/source-canon" className="button-secondary mt-6 border-white/20 text-white hover:bg-white/10">
+                  View full source canon
+                </a>
+              </div>
+              <div className="grid gap-4 md:grid-cols-2">
+                {sourceCanonGroups.map((group) => (
+                  <article key={group.tradition} className="border-t border-white/14 pt-4">
+                    <p className="text-sm font-semibold text-white">{group.tradition}</p>
+                    <p className="mt-2 text-sm leading-7 text-white/62">
+                      {group.books.map((book) => book.title).join("; ")}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>

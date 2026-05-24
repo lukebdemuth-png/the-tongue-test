@@ -14,5 +14,6 @@ export const navItems = [
   { href: "/#how-it-works", label: "How It Works" },
   { href: "/#traditions", label: "Traditions" },
   { href: "/#sources", label: "Sources" },
+  { href: "/source-canon", label: "Source Canon" },
   { href: "/#newsletter", label: "Waitlist" },
 ];
