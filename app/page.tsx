@@ -7,8 +7,7 @@ import { siteConfig } from "@/lib/site";
 
 export const metadata = buildMetadata({
   title: siteConfig.formalName,
-  description:
-    "A source-backed pattern recognition app for practitioners working across Homeopathy, Ayurveda, and Chinese medicine.",
+  description: siteConfig.description,
   path: "/",
 });
 
@@ -138,10 +137,7 @@ export default function HomePage() {
               3 traditions one pattern.
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-ink/72 md:text-xl">
-              Patterns is a working app for entering symptoms and health
-              context, analyzing them through Homeopathy, Ayurveda, and Chinese
-              medicine, and producing careful next steps with citations and
-              safety boundaries.
+              {siteConfig.description}
             </p>
             <div className="mt-8 max-w-2xl border border-ink/10 bg-white/82 p-4 shadow-card backdrop-blur md:p-5">
               <WaitlistForm compact source="hero" />
