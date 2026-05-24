@@ -50,7 +50,7 @@ export function WaitlistForm({ compact = false, source }: WaitlistFormProps) {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           placeholder="Email address"
-          className="min-h-12 w-full rounded-full border border-ink/10 bg-white/85 px-5 text-sm text-ink outline-none focus:border-moss"
+          className="min-h-12 w-full border border-ink/10 bg-white/85 px-5 text-sm text-ink outline-none focus:border-moss"
         />
         {compact ? (
           <button className="button-primary min-w-[10rem]" disabled={status === "loading"}>
@@ -66,14 +66,14 @@ export function WaitlistForm({ compact = false, source }: WaitlistFormProps) {
             value={name}
             onChange={(event) => setName(event.target.value)}
             placeholder="Name, practice, or organization"
-            className="min-h-12 w-full rounded-full border border-ink/10 bg-white/85 px-5 text-sm text-ink outline-none focus:border-moss"
+            className="min-h-12 w-full border border-ink/10 bg-white/85 px-5 text-sm text-ink outline-none focus:border-moss"
           />
           <textarea
             value={interest}
             onChange={(event) => setInterest(event.target.value)}
             placeholder="What do you want Patterns to help you understand?"
             rows={3}
-            className="w-full resize-y rounded-[1.5rem] border border-ink/10 bg-white/85 p-5 text-sm leading-6 text-ink outline-none focus:border-moss"
+            className="w-full resize-y border border-ink/10 bg-white/85 p-5 text-sm leading-6 text-ink outline-none focus:border-moss"
           />
           <button className="button-primary w-full" disabled={status === "loading"}>
             {status === "loading" ? "Joining..." : "Join the Waitlist"}
