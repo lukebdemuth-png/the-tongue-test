@@ -1,91 +1,33 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import type { ReactNode } from "react";
 
-const sampleIntake = {
-  case_id: "browser-test-sleep-digestion",
-  patient_context: {
-    age_range: "adult",
-    sex: "",
-    pregnancy_status: "",
-    known_conditions: [],
-    current_medications: [],
-    allergies: [],
-    clinical_setting: "practitioner research review",
-  },
-  symptoms: {
-    chief_complaint: "Poor sleep with digestive discomfort",
-    primary_symptoms: ["sleep disturbance", "digestive discomfort"],
-    secondary_symptoms: ["low energy"],
-    duration: "several weeks",
-    onset: "",
-    severity: "moderate",
-    frequency: "",
-    better_from: [],
-    worse_from: ["worse at night"],
-    time_patterns: ["worse at night"],
-    temperature_patterns: [],
-    digestion: "variable appetite and digestion with bloating",
-    sleep: "difficulty staying asleep",
-    energy: "low morning energy",
-    mood: "",
-    pain_location: "",
-    pain_quality: "",
-  },
-  tradition_specific_inputs: {
-    ayurveda: {
-      prakriti: "",
-      vikriti: "",
-      agni: "",
-      ama_signs: [],
-      bowel_pattern: "",
-      tongue_notes: "",
-      pulse_notes: "",
-    },
-    tcm: {
-      tongue: "",
-      pulse: "",
-      temperature: "",
-      sweating: "",
-      thirst: "",
-      appetite: "",
-      bowel_urine: "",
-      emotional_pattern: "",
-    },
-    homeopathy: {
-      modalities: ["worse at night"],
-      mental_emotional_state: "",
-      generals: ["low morning energy"],
-      peculiar_symptoms: [],
-      food_cravings_aversions: [],
-      thermal_state: "",
-    },
-  },
-  practitioner_notes: "Compare traditional source relevance for sleep, digestion, appetite, bloating, and low energy.",
-  requested_output_depth: "standard",
-};
-
-const systemOutputCards = [
-  {
-    title: "Pattern Summary",
-    body: "Structured overview of recurring signals across the whole case.",
-  },
-  {
-    title: "Cross-Tradition Interpretation",
-    body: "Independent Homeopathy, Ayurveda, and Chinese medicine readings, then overlap.",
-  },
-  {
-    title: "Traditional Recommendations",
-    body: "Herbs, remedies, formulas, dietary observations, lifestyle patterns, and supportive practices when source support and safety context allow.",
-  },
-  {
-    title: "Source References",
-    body: "Citations connected to the closed source canon and reviewed case-study evidence.",
-  },
-  {
-    title: "Refinement Questions",
-    body: "Next questions that narrow modalities, relationships, timing, safety, and pattern fit.",
-  },
+const symptomLibrary = [
+  "low energy",
+  "headache",
+  "poor sleep",
+  "waking at night",
+  "bloating",
+  "constipation",
+  "loose stool",
+  "anxiety",
+  "irritability",
+  "brain fog",
+  "cold hands",
+  "hot flashes",
+  "cravings",
+  "dry skin",
+  "joint pain",
+  "neck tension",
+  "nausea",
+  "heavy feeling",
+  "dizziness",
+  "low appetite",
+  "high stress",
+  "sadness",
+  "restlessness",
+  "night sweats",
 ];
 
 type Candidate = {
@@ -267,6 +209,14 @@ type IntakeForm = {
   energy: string;
   mood: string;
   temperature: string;
+  cravings: string;
+  elimination: string;
+  pain: string;
+  stress: string;
+  reproductive: string;
+  skin: string;
+  circulation: string;
+  mindFocus: string;
   goals: string;
   cautions: string;
   preferences: string;
@@ -293,6 +243,14 @@ const sampleForm: IntakeForm = {
   energy: "low morning energy",
   mood: "",
   temperature: "",
+  cravings: "",
+  elimination: "",
+  pain: "",
+  stress: "",
+  reproductive: "",
+  skin: "",
+  circulation: "",
+  mindFocus: "",
   goals: "Improve sleep quality and digestive comfort with practitioner review.",
   cautions: "",
   preferences: "Prefer gentle diet and routine steps before stronger interventions.",
@@ -337,12 +295,12 @@ function intakeFromForm(form: IntakeForm) {
       worse_from: splitList(form.worseFrom),
       time_patterns: splitList(form.worseFrom).filter((item) => /morning|night|day|evening|time/i.test(item)),
       temperature_patterns: splitList(form.temperature),
-      digestion: form.digestion,
+      digestion: [form.digestion, form.cravings, form.elimination].filter(Boolean).join("\n"),
       sleep: form.sleep,
       energy: form.energy,
-      mood: form.mood,
-      pain_location: "",
-      pain_quality: "",
+      mood: [form.mood, form.stress, form.mindFocus].filter(Boolean).join("\n"),
+      pain_location: form.pain,
+      pain_quality: form.pain,
     },
     tradition_specific_inputs: {
       ayurveda: {
@@ -357,20 +315,25 @@ function intakeFromForm(form: IntakeForm) {
       tcm: {
         tongue: "",
         pulse: "",
-        temperature: form.temperature,
+        temperature: [form.temperature, form.circulation].filter(Boolean).join("\n"),
         sweating: "",
         thirst: "",
-        appetite: form.digestion,
-        bowel_urine: "",
-        emotional_pattern: form.tcmNotes,
+        appetite: [form.digestion, form.cravings].filter(Boolean).join("\n"),
+        bowel_urine: form.elimination,
+        emotional_pattern: [form.mood, form.stress, form.tcmNotes].filter(Boolean).join("\n"),
       },
       homeopathy: {
         modalities: [...splitList(form.betterFrom), ...splitList(form.worseFrom)],
-        mental_emotional_state: form.mood,
-        generals: splitList(form.homeopathyNotes),
+        mental_emotional_state: [form.mood, form.stress, form.mindFocus].filter(Boolean).join("\n"),
+        generals: [
+          ...splitList(form.homeopathyNotes),
+          ...splitList(form.energy),
+          ...splitList(form.temperature),
+          ...splitList(form.cravings),
+        ],
         peculiar_symptoms: [],
-        food_cravings_aversions: [],
-        thermal_state: form.temperature,
+        food_cravings_aversions: splitList(form.cravings),
+        thermal_state: [form.temperature, form.circulation].filter(Boolean).join("\n"),
       },
     },
     practitioner_notes: [
@@ -378,6 +341,8 @@ function intakeFromForm(form: IntakeForm) {
       form.goals ? `Goals: ${form.goals}` : "",
       form.cautions ? `Cautions: ${form.cautions}` : "",
       form.preferences ? `Preferences: ${form.preferences}` : "",
+      form.reproductive ? `Menstrual/reproductive: ${form.reproductive}` : "",
+      form.skin ? `Skin: ${form.skin}` : "",
     ].filter(Boolean).join("\n"),
     requested_output_depth: "standard",
   };
@@ -434,6 +399,97 @@ function TextField({
   );
 }
 
+function IntakeSection({
+  title,
+  description,
+  children,
+  defaultOpen = false,
+}: {
+  title: string;
+  description: string;
+  children: ReactNode;
+  defaultOpen?: boolean;
+}) {
+  return (
+    <details className="group rounded-lg border border-ink/10 bg-white/70 p-4" open={defaultOpen}>
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+        <span>
+          <span className="block text-sm font-semibold text-ink">{title}</span>
+          <span className="mt-1 block text-xs leading-5 text-ink/55">{description}</span>
+        </span>
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-ink/10 text-sm text-ink/55 group-open:rotate-45">
+          +
+        </span>
+      </summary>
+      <div className="mt-4 grid gap-3">{children}</div>
+    </details>
+  );
+}
+
+function SymptomPicker({
+  selected,
+  onToggle,
+}: {
+  selected: string[];
+  onToggle: (symptom: string) => void;
+}) {
+  return (
+    <div className="rounded-xl border border-ink/10 bg-white/78 p-5 shadow-card">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className="eyebrow mb-2">Quick Symptoms</p>
+          <h2 className="text-2xl font-semibold leading-tight">Tap what fits.</h2>
+        </div>
+        <p className="text-sm text-ink/55">{selected.length} selected</p>
+      </div>
+      <div className="mt-5 flex flex-wrap gap-2">
+        {symptomLibrary.map((symptom) => {
+          const active = selected.includes(symptom);
+          return (
+            <button
+              key={symptom}
+              type="button"
+              className={`rounded-full border px-3.5 py-2 text-sm transition ${
+                active
+                  ? "border-ink bg-ink text-white"
+                  : "border-ink/10 bg-fog/70 text-ink/72 hover:border-moss/35 hover:bg-white"
+              }`}
+              onClick={() => onToggle(symptom)}
+            >
+              {symptom}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function ActionBucket({
+  title,
+  items,
+}: {
+  title: string;
+  items: PracticalRecommendation[];
+}) {
+  return (
+    <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{title}</p>
+      <div className="mt-3 space-y-3">
+        {items.length ? (
+          items.slice(0, 3).map((item, index) => (
+            <p key={`${title}-${item.direction}-${index}`} className="text-sm leading-6 text-ink/72">
+              {item.practitioner_action}
+            </p>
+          ))
+        ) : (
+          <p className="text-sm leading-6 text-ink/55">No source-backed item yet. Add more intake detail to refine this area.</p>
+        )}
+      </div>
+    </article>
+  );
+}
+
 function CandidateList({ title, items }: { title: string; items: Candidate[] }) {
   return (
     <section className="rounded-lg border border-ink/10 bg-white/75 p-4">
@@ -454,67 +510,6 @@ function CandidateList({ title, items }: { title: string; items: Candidate[] }) 
             <p className="mt-2 text-xs uppercase tracking-[0.14em] text-moss">Matched</p>
             <p className="mt-1 text-sm text-ink/70">{item.matched_features.join(", ") || "No strong feature match yet"}</p>
             <p className="mt-2 text-xs text-ink/55">Citation: {item.supporting_citations.join(", ")}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function TreatmentPlanSection({ title, items }: { title: string; items: TreatmentDirection[] }) {
-  return (
-    <section className="rounded-lg border border-ink/10 bg-white/75 p-4">
-      <h2 className="text-lg font-semibold">{title}</h2>
-      <div className="mt-3 space-y-3">
-        {items.map((item, index) => (
-          <article key={`${title}-${item.category}-${item.direction}-${index}`} className="rounded-md bg-fog/70 p-3">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{item.category.replaceAll("_", " ")}</p>
-              <span className="rounded-full border border-ink/10 px-2.5 py-1 text-xs text-ink/60">
-                {item.confidence_score} · {item.review_priority}
-              </span>
-            </div>
-            <p className="mt-2 text-sm leading-6 text-ink/78">{item.practitioner_action}</p>
-            {item.why_this_matches?.length ? (
-              <div className="mt-2 rounded-md border border-ink/10 bg-white/65 p-3">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Why surfaced</p>
-                <ul className="mt-2 space-y-1 text-sm leading-6 text-ink/68">
-                  {item.why_this_matches.slice(0, 4).map((reason) => (
-                    <li key={reason}>{reason}</li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-            {item.text_preview ? (
-              <p className="mt-2 rounded-md bg-white/60 p-3 text-sm leading-6 text-ink/62">{item.text_preview}</p>
-            ) : null}
-            {item.kent_supporting_rubrics?.length ? (
-              <div className="mt-2 rounded-md border border-ink/10 bg-white/65 p-3">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Kent Cross-Support</p>
-                <ul className="mt-2 space-y-1 text-sm leading-6 text-ink/68">
-                  {item.kent_supporting_rubrics.slice(0, 3).map((support) => (
-                    <li key={`${support.rubric}-${support.citation}`}>
-                      {support.rubric} · {support.matched_abbreviations.join(", ")}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-            {item.contraindications.length ? (
-              <div className="mt-2 rounded-md border border-ink/10 bg-white/65 p-3">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Contraindication Review</p>
-                <ul className="mt-2 space-y-1 text-sm leading-6 text-ink/68">
-                  {item.contraindications.slice(0, 4).map((note) => (
-                    <li key={note}>{note}</li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-            <p className="mt-2 text-sm leading-6 text-ink/62">{item.client_facing_language}</p>
-            <p className="mt-2 text-xs text-ink/50">
-              Citation: {item.citations.join(", ") || "pending stronger source support"}
-              {item.source_url ? <> · <a className="underline" href={item.source_url} target="_blank" rel="noreferrer">source</a></> : null}
-            </p>
           </article>
         ))}
       </div>
@@ -629,135 +624,75 @@ function CrossTraditionOutcome({ trace }: { trace: BrainTrace }) {
   );
 }
 
-function RecommendationList({ title, items }: { title: string; items: PracticalRecommendation[] }) {
-  return (
-    <div className="rounded-md border border-ink/10 bg-white/70 p-3">
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{title}</p>
-      <div className="mt-3 space-y-2">
-        {items.slice(0, 6).map((item, index) => (
-          <article key={`${title}-${item.tradition}-${item.category}-${index}`} className="rounded-md bg-fog/70 p-3">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <p className="text-sm font-semibold text-ink">{item.tradition} · {item.category.replaceAll("_", " ")}</p>
-              <span className="rounded-full border border-ink/10 px-2.5 py-1 text-xs text-ink/60">
-                {item.confidence_score} · {item.review_priority}
-              </span>
-            </div>
-            <p className="mt-2 text-sm leading-6 text-ink/72">{item.practitioner_action}</p>
-            <p className="mt-2 text-xs text-ink/50">Citations: {item.citations.join(", ") || "pending"}</p>
-          </article>
-        ))}
-        {!items.length ? <p className="text-sm leading-6 text-ink/62">No source-backed items surfaced yet.</p> : null}
-      </div>
-    </div>
-  );
-}
-
-function SystemOutputMap({ trace }: { trace: BrainTrace }) {
+function PracticalOutput({ trace }: { trace: BrainTrace }) {
   const output = trace.practical_output;
+  const allActions = [
+    ...output.herbs_formulas_remedies_to_consider,
+    ...output.lifestyle_diet_practice_actions,
+  ];
+  const herbs = output.herbs_formulas_remedies_to_consider;
+  const foods = allActions.filter((item) => /diet|food|nutrition|meal|appetite|digest/i.test(`${item.category} ${item.practitioner_action}`));
+  const sleep = allActions.filter((item) => /sleep|night|rest/i.test(`${item.category} ${item.practitioner_action}`));
+  const practices = allActions.filter((item) => /routine|practice|daily|breath|movement|meditation|yoga|qigong/i.test(`${item.category} ${item.practitioner_action}`));
+  const avoid = allActions.filter((item) => /avoid|reduce|caution|contraindication|hold|review/i.test(`${item.category} ${item.practitioner_action}`));
+  const observationNotes = [
+    ...output.questions_still_needed.slice(0, 4),
+    ...output.likely_pattern_summary.shared_pattern_signals.slice(0, 3),
+  ];
+
   return (
-    <section className="rounded-lg border border-ink/10 bg-white/80 p-4 shadow-card">
+    <section className="rounded-xl border border-moss/25 bg-white p-5 shadow-card md:p-7">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="eyebrow mb-2">What the system produces</p>
-          <h2 className="text-2xl font-semibold leading-tight">Practical cross-tradition direction</h2>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/68">
-            The app compares the same presentation through the three traditions independently, then organizes
-            overlapping insights into practitioner-facing recommendations, source references, and refinement questions.
+          <p className="eyebrow mb-2">Here Is What To Do</p>
+          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">Practical guidance</h2>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-ink/68">
+            {output.likely_pattern_summary.case_snapshot || output.scope}
           </p>
         </div>
-        <span className="rounded-full border border-ink/10 px-3 py-1.5 text-sm text-ink/65">
+        <span className="rounded-full border border-ink/10 bg-fog px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-ink/62">
           {output.confidence.label}
         </span>
       </div>
-      <div className="mt-4 grid gap-3 md:grid-cols-2">
-        {systemOutputCards.map((card, index) => (
-          <article
-            key={card.title}
-            className={
-              index === 2
-                ? "rounded-md border border-moss/20 bg-fog/70 p-3 md:col-span-2"
-                : "rounded-md border border-ink/10 bg-fog/55 p-3"
-            }
-          >
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">
-              {String(index + 1).padStart(2, "0")} · {card.title}
-            </p>
-            <p className="mt-2 text-sm leading-6 text-ink/70">{card.body}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
 
-function PracticalOutput({ trace }: { trace: BrainTrace }) {
-  const output = trace.practical_output;
-  return (
-    <section className="rounded-lg border border-moss/25 bg-white p-5 shadow-card">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <p className="eyebrow mb-2">Working Prototype Output</p>
-          <h2 className="text-2xl font-semibold leading-tight">Practical recommendations</h2>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/68">{output.scope}</p>
-        </div>
-        <span className="rounded-full bg-ink px-3 py-1.5 text-sm text-white">
-          Confidence {output.confidence.score}
-        </span>
-      </div>
-
-      <div className="mt-4 rounded-md border border-ink/10 bg-fog/60 p-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Likely pattern summary</p>
-        <p className="mt-2 text-sm leading-6 text-ink/72">
-          {output.likely_pattern_summary.case_snapshot || "No case snapshot yet."}
-        </p>
-        <div className="mt-3 grid gap-3 md:grid-cols-3">
-          {output.likely_pattern_summary.tradition_directions.map((direction) => (
-            <div key={`${direction.tradition}-${direction.direction}`} className="rounded-md bg-white/80 p-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{direction.tradition}</p>
-              <p className="mt-2 text-sm leading-6 text-ink/72">{direction.direction}</p>
-              <p className="mt-2 text-xs text-ink/50">{direction.confidence_score} · {direction.priority}</p>
-            </div>
-          ))}
-        </div>
-        <p className="mt-3 text-sm leading-6 text-ink/62">
-          {output.confidence.label}. {output.confidence.basis}
-        </p>
-      </div>
-
-      <div className="mt-4 grid gap-3 xl:grid-cols-2">
-        <RecommendationList title="Herbs / formulas / remedies to consider" items={output.herbs_formulas_remedies_to_consider} />
-        <RecommendationList title="Lifestyle / diet / practice actions" items={output.lifestyle_diet_practice_actions} />
-      </div>
-
-      <div className="mt-4 grid gap-3 lg:grid-cols-2">
-        <div className="rounded-md border border-ink/10 bg-white/70 p-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Questions still needed</p>
-          <ul className="mt-2 space-y-1 text-sm leading-6 text-ink/70">
-            {output.questions_still_needed.slice(0, 8).map((question) => (
+      <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+        <ActionBucket title="Herbs / Remedies / Formulas" items={herbs} />
+        <ActionBucket title="Foods" items={foods.length ? foods : output.lifestyle_diet_practice_actions.slice(0, 2)} />
+        <ActionBucket title="Daily Practices" items={practices.length ? practices : output.lifestyle_diet_practice_actions.slice(0, 2)} />
+        <ActionBucket title="Sleep Recommendations" items={sleep.length ? sleep : output.lifestyle_diet_practice_actions.slice(0, 1)} />
+        <ActionBucket title="Avoid / Reduce" items={avoid} />
+        <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Practitioner Follow-Up</p>
+          <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/72">
+            {output.questions_still_needed.slice(0, 4).map((question) => (
               <li key={question}>{question}</li>
             ))}
           </ul>
-        </div>
-        <div className="rounded-md border border-ink/10 bg-white/70 p-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Warnings and boundaries</p>
-          <ul className="mt-2 space-y-1 text-sm leading-6 text-ink/70">
+        </article>
+      </div>
+
+      <div className="mt-4 grid gap-3 lg:grid-cols-2">
+        <article className="rounded-lg border border-ink/10 bg-fog/55 p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Observation Notes</p>
+          <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/70">
+            {observationNotes.map((note) => (
+              <li key={note}>{note}</li>
+            ))}
+          </ul>
+        </article>
+        <article className="rounded-lg border border-amber-200/70 bg-amber-50/60 p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-800">Review Boundaries</p>
+          <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/70">
             {output.warnings_and_professional_boundaries.slice(0, 8).map((warning) => (
               <li key={warning}>{warning}</li>
             ))}
           </ul>
-        </div>
+        </article>
       </div>
 
-      <div className="mt-4 rounded-md border border-ink/10 bg-white/70 p-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Cited source references</p>
-        <div className="mt-2 grid gap-2 md:grid-cols-2">
-          {output.cited_source_references.slice(0, 6).map((citation) => (
-            <p key={citation.citation_id} className="text-xs leading-5 text-ink/62">
-              <span className="font-semibold text-ink/78">{citation.tradition}</span> · {citation.source} · {citation.locator} · pages {citation.pages}
-            </p>
-          ))}
-        </div>
-      </div>
+      <p className="mt-5 text-xs leading-5 text-ink/50">
+        Educational, source-based traditional-system output for qualified practitioner review. Not a diagnosis or prescription.
+      </p>
     </section>
   );
 }
@@ -791,9 +726,12 @@ function EvaluationPacketCard({ title, packet }: { title: string; packet: Tradit
 }
 
 export function PatternBrainPrototype() {
-  const [intakeMode, setIntakeMode] = useState<"simple" | "json">("simple");
   const [form, setForm] = useState<IntakeForm>(sampleForm);
-  const [intakeText, setIntakeText] = useState(JSON.stringify(sampleIntake, null, 2));
+  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([
+    "poor sleep",
+    "bloating",
+    "low energy",
+  ]);
   const [trace, setTrace] = useState<BrainTrace | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -811,7 +749,11 @@ export function PatternBrainPrototype() {
     setError("");
     setLoading(true);
     try {
-      const parsed = intakeMode === "simple" ? intakeFromForm(form) : JSON.parse(intakeText);
+      const selected = selectedSymptoms.join(", ");
+      const parsed = intakeFromForm({
+        ...form,
+        primarySymptoms: [selected, form.primarySymptoms].filter(Boolean).join(", "),
+      });
       const response = await fetch("/api/pattern-brain", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -831,185 +773,156 @@ export function PatternBrainPrototype() {
     setForm((current) => ({ ...current, [key]: value }));
   }
 
-  return (
-    <main className="container-shell py-10 md:py-14">
-      <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-        <div>
-          <p className="eyebrow mb-3">Patterns Prototype</p>
-          <h1 className="text-3xl leading-tight md:text-5xl">Brain trace tester</h1>
-          <p className="mt-3 max-w-3xl text-ink/70">
-            Enter as little as a chief complaint and a few symptoms, or add modalities, safety context, and tradition-specific notes for a stronger trace.
-          </p>
-        </div>
-        <button className="button-primary w-full md:w-auto" onClick={analyze} disabled={loading}>
-          {loading ? "Analyzing..." : "Analyze Case"}
-        </button>
-      </div>
+  function toggleSymptom(symptom: string) {
+    setSelectedSymptoms((current) =>
+      current.includes(symptom) ? current.filter((item) => item !== symptom) : [...current, symptom],
+    );
+  }
 
-      <div className="grid gap-5 lg:grid-cols-[minmax(22rem,0.85fr)_minmax(0,1.15fr)]">
-        <section className="rounded-lg border border-ink/10 bg-white/80 p-4 shadow-card">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-lg font-semibold">Practitioner Intake</h2>
-            <div className="flex rounded-full border border-ink/10 bg-fog p-1">
-              <button
-                className={`rounded-full px-3 py-1.5 text-xs font-medium ${intakeMode === "simple" ? "bg-ink text-white" : "text-ink/65"}`}
-                onClick={() => setIntakeMode("simple")}
-              >
-                Simple
-              </button>
-              <button
-                className={`rounded-full px-3 py-1.5 text-xs font-medium ${intakeMode === "json" ? "bg-ink text-white" : "text-ink/65"}`}
-                onClick={() => setIntakeMode("json")}
-              >
-                JSON
-              </button>
-            </div>
+  return (
+    <main className="min-h-screen bg-[#fbfaf6]">
+      <div className="container-shell py-10 md:py-14">
+        <section className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="eyebrow mb-3">3 Patterns</p>
+            <h1 className="max-w-3xl text-4xl font-semibold leading-[1.04] md:text-6xl">
+              Tell us what is happening.
+            </h1>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-ink/68">
+              Select a few symptoms, add the case notes you already have, and generate organized practical guidance.
+            </p>
           </div>
-          {intakeMode === "simple" ? (
-            <div className="space-y-4">
-              <TextField
-                label="Chief complaint"
-                value={form.chiefComplaint}
-                onChange={(value) => updateForm("chiefComplaint", value)}
-                placeholder="What is the main concern?"
+          <button className="button-primary w-full md:w-auto" onClick={analyze} disabled={loading}>
+            {loading ? "Generating..." : "Generate Guidance"}
+          </button>
+        </section>
+
+        <div className="grid gap-5 xl:grid-cols-[minmax(22rem,0.92fr)_minmax(0,1.08fr)]">
+          <section className="space-y-4">
+            <SymptomPicker selected={selectedSymptoms} onToggle={toggleSymptom} />
+
+            <section className="rounded-xl border border-ink/10 bg-white/80 p-5 shadow-card">
+              <p className="eyebrow mb-2">Describe Your Symptoms</p>
+              <h2 className="text-2xl font-semibold leading-tight">Just tell us what is going on.</h2>
+              <textarea
+                className="mt-5 min-h-[13rem] w-full resize-y rounded-lg border border-ink/10 bg-fog/60 p-4 text-base leading-7 text-ink outline-none transition focus:border-moss focus:bg-white"
+                value={form.practitionerNotes}
+                onChange={(event) => updateForm("practitionerNotes", event.target.value)}
+                placeholder="Symptoms, emotional state, history, timeline, practitioner notes, odd details, client language, shorthand..."
               />
-              <TextField
-                label="Primary symptoms"
-                value={form.primarySymptoms}
-                onChange={(value) => updateForm("primarySymptoms", value)}
-                placeholder="Comma-separated: insomnia, bloating, anxiety"
-              />
-              <TextField
-                label="Secondary symptoms"
-                value={form.secondarySymptoms}
-                onChange={(value) => updateForm("secondarySymptoms", value)}
-                placeholder="Energy, mood, pain, skin, digestion..."
-                rows={2}
-              />
-              <div className="grid gap-3 md:grid-cols-2">
-                <Field label="Duration" value={form.duration} onChange={(value) => updateForm("duration", value)} placeholder="days, weeks, months" />
-                <Field label="Severity" value={form.severity} onChange={(value) => updateForm("severity", value)} placeholder="mild, moderate, severe, 0-10" />
+            </section>
+
+            <section className="rounded-xl border border-ink/10 bg-white/80 p-5 shadow-card">
+              <div className="mb-4">
+                <p className="eyebrow mb-2">Intake</p>
+                <h2 className="text-2xl font-semibold leading-tight">Add only what matters.</h2>
               </div>
-              <div className="grid gap-3 md:grid-cols-2">
-                <TextField label="Better from" value={form.betterFrom} onChange={(value) => updateForm("betterFrom", value)} placeholder="heat, rest, pressure..." rows={2} />
-                <TextField label="Worse from" value={form.worseFrom} onChange={(value) => updateForm("worseFrom", value)} placeholder="cold, night, motion..." rows={2} />
+              <div className="space-y-3">
+                <IntakeSection title="Main Concern" description="A few basics are enough for a first pass." defaultOpen>
+                  <TextField label="Main concern" value={form.chiefComplaint} onChange={(value) => updateForm("chiefComplaint", value)} rows={2} />
+                  <TextField label="Other symptoms" value={form.secondarySymptoms} onChange={(value) => updateForm("secondarySymptoms", value)} placeholder="Anything not covered by the symptom taps" rows={2} />
+                  <div className="grid gap-3 md:grid-cols-2">
+                    <Field label="Duration" value={form.duration} onChange={(value) => updateForm("duration", value)} placeholder="days, weeks, months" />
+                    <Field label="Severity" value={form.severity} onChange={(value) => updateForm("severity", value)} placeholder="mild, moderate, severe, 0-10" />
+                  </div>
+                </IntakeSection>
+
+                <IntakeSection title="Patterns Around Symptoms" description="Timing, triggers, better/worse, temperature, and pain qualities.">
+                  <div className="grid gap-3 md:grid-cols-2">
+                    <TextField label="Better from" value={form.betterFrom} onChange={(value) => updateForm("betterFrom", value)} placeholder="rest, heat, pressure, food, motion..." rows={2} />
+                    <TextField label="Worse from" value={form.worseFrom} onChange={(value) => updateForm("worseFrom", value)} placeholder="night, cold, stress, movement..." rows={2} />
+                  </div>
+                  <div className="grid gap-3 md:grid-cols-2">
+                    <TextField label="Temperature" value={form.temperature} onChange={(value) => updateForm("temperature", value)} placeholder="cold, hot, chills, thirst, dryness..." rows={2} />
+                    <TextField label="Pain" value={form.pain} onChange={(value) => updateForm("pain", value)} placeholder="location, quality, movement, timing..." rows={2} />
+                  </div>
+                </IntakeSection>
+
+                <IntakeSection title="Body Systems" description="Compact notes for digestion, elimination, sleep, skin, circulation, and reproductive context.">
+                  <div className="grid gap-3 md:grid-cols-2">
+                    <TextField label="Digestion" value={form.digestion} onChange={(value) => updateForm("digestion", value)} rows={2} />
+                    <TextField label="Elimination" value={form.elimination} onChange={(value) => updateForm("elimination", value)} placeholder="bowel, urine, frequency, consistency..." rows={2} />
+                    <TextField label="Sleep" value={form.sleep} onChange={(value) => updateForm("sleep", value)} rows={2} />
+                    <TextField label="Energy" value={form.energy} onChange={(value) => updateForm("energy", value)} rows={2} />
+                    <TextField label="Skin" value={form.skin} onChange={(value) => updateForm("skin", value)} rows={2} />
+                    <TextField label="Circulation" value={form.circulation} onChange={(value) => updateForm("circulation", value)} placeholder="cold hands, flushing, swelling..." rows={2} />
+                    <TextField label="Cravings" value={form.cravings} onChange={(value) => updateForm("cravings", value)} placeholder="sweet, salty, sour, aversions..." rows={2} />
+                    <TextField label="Menstrual / reproductive" value={form.reproductive} onChange={(value) => updateForm("reproductive", value)} rows={2} />
+                  </div>
+                </IntakeSection>
+
+                <IntakeSection title="Mind, Stress, Goals" description="Emotional tone, focus, preferences, and what the practitioner is trying to clarify.">
+                  <div className="grid gap-3 md:grid-cols-2">
+                    <TextField label="Emotions" value={form.mood} onChange={(value) => updateForm("mood", value)} rows={2} />
+                    <TextField label="Stress" value={form.stress} onChange={(value) => updateForm("stress", value)} rows={2} />
+                    <TextField label="Mind / focus" value={form.mindFocus} onChange={(value) => updateForm("mindFocus", value)} rows={2} />
+                    <TextField label="Goals" value={form.goals} onChange={(value) => updateForm("goals", value)} rows={2} />
+                  </div>
+                </IntakeSection>
+
+                <IntakeSection title="Safety + Preferences" description="Keep herbs, remedies, formulas, and practices inside practitioner review.">
+                  <div className="grid gap-3 md:grid-cols-2">
+                    <TextField label="Cautions" value={form.cautions} onChange={(value) => updateForm("cautions", value)} placeholder="red flags, sensitivities, prior reactions..." rows={2} />
+                    <TextField label="Preferences" value={form.preferences} onChange={(value) => updateForm("preferences", value)} placeholder="gentle first, food only, avoid herbs..." rows={2} />
+                    <TextField label="Medications / herbs" value={form.medications} onChange={(value) => updateForm("medications", value)} rows={2} />
+                    <TextField label="Pregnancy status" value={form.pregnancyStatus} onChange={(value) => updateForm("pregnancyStatus", value)} rows={2} />
+                    <TextField label="Known conditions" value={form.knownConditions} onChange={(value) => updateForm("knownConditions", value)} rows={2} />
+                    <TextField label="Allergies" value={form.allergies} onChange={(value) => updateForm("allergies", value)} rows={2} />
+                  </div>
+                </IntakeSection>
               </div>
-              <TextField label="Digestion / appetite / stool" value={form.digestion} onChange={(value) => updateForm("digestion", value)} rows={2} />
-              <div className="grid gap-3 md:grid-cols-2">
-                <TextField label="Sleep" value={form.sleep} onChange={(value) => updateForm("sleep", value)} rows={2} />
-                <TextField label="Energy" value={form.energy} onChange={(value) => updateForm("energy", value)} rows={2} />
-              </div>
-              <div className="grid gap-3 md:grid-cols-2">
-                <TextField label="Mood / mental-emotional" value={form.mood} onChange={(value) => updateForm("mood", value)} rows={2} />
-                <TextField label="Temperature / thirst / dryness" value={form.temperature} onChange={(value) => updateForm("temperature", value)} rows={2} />
-              </div>
-              <TextField label="Goals" value={form.goals} onChange={(value) => updateForm("goals", value)} placeholder="What does the person want help understanding or improving?" rows={2} />
-              <div className="grid gap-3 md:grid-cols-2">
-                <TextField label="Cautions" value={form.cautions} onChange={(value) => updateForm("cautions", value)} placeholder="Red flags, sensitivities, prior reactions, scope limits..." rows={2} />
-                <TextField label="Preferences" value={form.preferences} onChange={(value) => updateForm("preferences", value)} placeholder="Gentle first, avoid herbs, diet focus, etc." rows={2} />
-              </div>
-              <div className="grid gap-3 md:grid-cols-2">
-                <TextField label="Current medications / herbs" value={form.medications} onChange={(value) => updateForm("medications", value)} rows={2} />
-                <TextField label="Pregnancy status" value={form.pregnancyStatus} onChange={(value) => updateForm("pregnancyStatus", value)} rows={2} />
-              </div>
-              <div className="grid gap-3 md:grid-cols-2">
-                <TextField label="Known conditions" value={form.knownConditions} onChange={(value) => updateForm("knownConditions", value)} rows={2} />
-                <TextField label="Allergies" value={form.allergies} onChange={(value) => updateForm("allergies", value)} rows={2} />
-              </div>
-              <TextField label="Ayurveda notes" value={form.ayurvedaNotes} onChange={(value) => updateForm("ayurvedaNotes", value)} placeholder="prakriti, vikriti, agni, ama, tongue, pulse..." rows={2} />
-              <TextField label="TCM notes" value={form.tcmNotes} onChange={(value) => updateForm("tcmNotes", value)} placeholder="tongue, pulse, thirst, sweating, bowel/urine..." rows={2} />
-              <TextField label="Homeopathy notes" value={form.homeopathyNotes} onChange={(value) => updateForm("homeopathyNotes", value)} placeholder="modalities, generals, peculiar symptoms, cravings..." rows={2} />
-              <TextField label="Practitioner notes" value={form.practitionerNotes} onChange={(value) => updateForm("practitionerNotes", value)} rows={3} />
-              <div className="flex flex-wrap gap-2">
-                <button className="button-secondary min-h-9 px-3 py-2 text-xs" onClick={() => setForm(sampleForm)}>
+
+              <div className="mt-5 flex flex-wrap gap-2">
+                <button
+                  className="button-secondary min-h-9 px-3 py-2 text-xs"
+                  onClick={() => {
+                    setForm(sampleForm);
+                    setSelectedSymptoms(["poor sleep", "bloating", "low energy"]);
+                  }}
+                >
                   Reset Sample
                 </button>
                 <button
                   className="button-secondary min-h-9 px-3 py-2 text-xs"
-                  onClick={() => {
-                    const next = JSON.stringify(intakeFromForm(form), null, 2);
-                    setIntakeText(next);
-                    setIntakeMode("json");
-                  }}
+                  onClick={() => setTrace(null)}
                 >
-                  View JSON
+                  Clear Output
                 </button>
               </div>
-            </div>
-              ) : (
-            <>
-              <div className="mb-3 flex justify-end">
-                <button className="button-secondary min-h-9 px-3 py-2 text-xs" onClick={() => setIntakeText(JSON.stringify(sampleIntake, null, 2))}>
-                  Reset Sample
-                </button>
-              </div>
-              <textarea
-                className="min-h-[38rem] w-full resize-y rounded-md border border-ink/10 bg-fog/70 p-3 font-mono text-xs leading-5 text-ink outline-none focus:border-moss"
-                value={intakeText}
-                onChange={(event) => setIntakeText(event.target.value)}
-                spellCheck={false}
-              />
-            </>
-          )}
-          {error ? <p className="mt-3 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</p> : null}
-        </section>
+              {error ? <p className="mt-3 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</p> : null}
+            </section>
+          </section>
 
-        <section className="space-y-5">
+          <section className="space-y-5">
           {!trace ? (
-            <div className="rounded-lg border border-ink/10 bg-white/75 p-8 text-ink/70">
-              Run the sample case to see the first transparent brain trace.
-            </div>
+            <section className="flex min-h-[28rem] items-center justify-center rounded-xl border border-dashed border-ink/15 bg-white/65 p-8 text-center shadow-card">
+              <div>
+                <p className="eyebrow mb-3">Output</p>
+                <h2 className="text-3xl font-semibold leading-tight">Guidance appears here.</h2>
+                <p className="mt-3 max-w-md text-sm leading-6 text-ink/60">
+                  The result will prioritize practical recommendations first. The reasoning trail stays tucked away unless you open it.
+                </p>
+              </div>
+            </section>
           ) : (
             <>
-              <section className="rounded-lg border border-ink/10 bg-white/80 p-4">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <h2 className="text-xl font-semibold">Safety Gate: {trace.safety_gate.status}</h2>
-                    <p className="mt-1 text-sm text-ink/65">{trace.safety_gate.notes.join(" ")}</p>
-                  </div>
-                  <span className="rounded-full border border-ink/10 px-3 py-1.5 text-sm text-ink/65">
-                    Case: {trace.case_id || "untitled"}
-                  </span>
-                </div>
-              </section>
-
-              <section className="rounded-lg border border-ink/10 bg-white/80 p-4">
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div>
-                    <h2 className="text-lg font-semibold">Intake State</h2>
-                    <p className="mt-2 text-sm leading-6 text-ink/68">
-                      {trace.intake_state.minimum_complete ? "Minimum intake is complete." : "Minimum intake still needs details."}{" "}
-                      Stage: {trace.intake_state.stage.replaceAll("_", " ")}.
-                    </p>
-                  </div>
-                  <span className="rounded-full border border-ink/10 px-3 py-1.5 text-sm text-ink/65">
-                    {trace.intake_state.can_generate_first_pass ? "First pass ready" : "Hold first pass"}
-                  </span>
-                </div>
-                {trace.intake_state.deepening_missing.length || trace.intake_state.minimum_missing.length ? (
-                  <p className="mt-3 text-xs leading-5 text-ink/55">
-                    Missing next: {[...trace.intake_state.minimum_missing, ...trace.intake_state.deepening_missing].slice(0, 7).join(", ")}
-                  </p>
-                ) : null}
-              </section>
-
-              <CrossTraditionOutcome trace={trace} />
-              <SystemOutputMap trace={trace} />
               <PracticalOutput trace={trace} />
 
-              <section className="rounded-lg border border-ink/10 bg-white/80 p-4">
-                <h2 className="text-lg font-semibold">Treatment Plan Draft</h2>
-                <p className="mt-2 text-sm text-ink/65">{trace.treatment_plan_draft.scope}</p>
-                <div className="mt-4 grid gap-4">
-                  <TreatmentPlanSection title="Ayurveda Plan Categories" items={trace.treatment_plan_draft.ayurveda} />
-                  <TreatmentPlanSection title="TCM Plan Categories" items={trace.treatment_plan_draft.tcm} />
-                  <TreatmentPlanSection title="Homeopathy Plan Categories" items={trace.treatment_plan_draft.homeopathy} />
-                </div>
-              </section>
-
               <details className="rounded-lg border border-ink/10 bg-white/80 p-4">
-                <summary className="cursor-pointer text-lg font-semibold">How This Outcome Was Built</summary>
+                <summary className="cursor-pointer text-lg font-semibold">How We Arrived Here</summary>
                 <div className="mt-4 space-y-4">
+                  <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
+                    <h2 className="text-lg font-semibold">Safety + Intake State</h2>
+                    <p className="mt-2 text-sm leading-6 text-ink/68">
+                      Safety gate: {trace.safety_gate.status}. {trace.safety_gate.notes.join(" ")}
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-ink/68">
+                      {trace.intake_state.minimum_complete ? "Minimum intake is complete." : "Minimum intake still needs details."} Next question: {trace.next_best_question}
+                    </p>
+                  </section>
+
+                  <CrossTraditionOutcome trace={trace} />
+
                   <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
                     <h2 className="text-lg font-semibold">Autofilled Tradition Evaluations</h2>
                     <p className="mt-2 text-sm leading-6 text-ink/65">
@@ -1058,51 +971,40 @@ export function PatternBrainPrototype() {
                     <CandidateList title="Traditional Chinese Medicine" items={trace.candidates.tcm} />
                     <CandidateList title="Homeopathy" items={trace.candidates.homeopathy} />
                   </div>
+
+                  <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
+                    <h2 className="text-lg font-semibold">Citations</h2>
+                    <div className="mt-3 space-y-2">
+                      {trace.app_output.citations.slice(0, 8).map((citation) => (
+                        <details key={citation.citation_id} className="rounded-md bg-fog/70 p-3 text-sm text-ink/70">
+                          <summary className="cursor-pointer">
+                            <span className="font-semibold text-ink">{citation.tradition}</span> · {citation.source} · {citation.locator} · pages {citation.pages}
+                          </summary>
+                          <div className="mt-3 space-y-1 text-xs leading-5 text-ink/60">
+                            <p>ID: {citation.citation_id}</p>
+                            <p>Book: {citation.book || citation.source}</p>
+                            <p>Author / translator: {citation.author_or_translator || "Unknown"}</p>
+                            <p>Section: {citation.section || "Unknown"} · Chapter: {citation.chapter || "Unknown"}</p>
+                            <p>Edition: {citation.edition || "Unknown"}</p>
+                            <p>Rights: {citation.rights_note || "Unknown"}</p>
+                            {citation.url ? (
+                              <a className="underline" href={citation.url} target="_blank" rel="noreferrer">
+                                Open source
+                              </a>
+                            ) : null}
+                          </div>
+                        </details>
+                      ))}
+                    </div>
+                  </section>
                 </div>
               </details>
-
-              <section className="rounded-lg border border-ink/10 bg-white/80 p-4">
-                <h2 className="text-lg font-semibold">Client Teaching Sequence</h2>
-                <div className="mt-3 space-y-3">
-                  {trace.client_teaching_sequence.map((item, index) => (
-                    <article key={`${item.step}-${index}`} className="rounded-md bg-fog/70 p-3">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{index + 1}. {item.step}</p>
-                      <p className="mt-2 text-sm leading-6 text-ink/72">{item.teaching}</p>
-                    </article>
-                  ))}
-                </div>
-              </section>
-
-              <section className="rounded-lg border border-ink/10 bg-white/80 p-4">
-                <h2 className="text-lg font-semibold">Citations</h2>
-                <div className="mt-3 space-y-2">
-                  {trace.app_output.citations.slice(0, 8).map((citation) => (
-                    <details key={citation.citation_id} className="rounded-md bg-fog/70 p-3 text-sm text-ink/70">
-                      <summary className="cursor-pointer">
-                        <span className="font-semibold text-ink">{citation.tradition}</span> · {citation.source} · {citation.locator} · pages {citation.pages}
-                      </summary>
-                      <div className="mt-3 space-y-1 text-xs leading-5 text-ink/60">
-                        <p>ID: {citation.citation_id}</p>
-                        <p>Book: {citation.book || citation.source}</p>
-                        <p>Author / translator: {citation.author_or_translator || "Unknown"}</p>
-                        <p>Section: {citation.section || "Unknown"} · Chapter: {citation.chapter || "Unknown"}</p>
-                        <p>Edition: {citation.edition || "Unknown"}</p>
-                        <p>Rights: {citation.rights_note || "Unknown"}</p>
-                        {citation.url ? (
-                          <a className="underline" href={citation.url} target="_blank" rel="noreferrer">
-                            Open source
-                          </a>
-                        ) : null}
-                      </div>
-                    </details>
-                  ))}
-                </div>
-              </section>
 
               <p className="rounded-lg border border-ink/10 bg-white/70 p-4 text-sm text-ink/60">{trace.prototype_warning}</p>
             </>
           )}
-        </section>
+          </section>
+        </div>
       </div>
     </main>
   );
