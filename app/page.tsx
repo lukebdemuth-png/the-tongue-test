@@ -55,6 +55,29 @@ const outputRows = [
   ["Source trail", "Citations, locators, rights notes, and source limitations attached"],
 ];
 
+const producedOutputs = [
+  {
+    title: "Pattern Summary",
+    body: "A structured overview of recurring pattern signals identified across symptoms, tendencies, history, cautions, and current state.",
+  },
+  {
+    title: "Cross-Tradition Interpretation",
+    body: "See how Homeopathy, Ayurveda, and Chinese medicine each interpret the same presentation differently, then where those interpretations overlap.",
+  },
+  {
+    title: "Traditional Recommendations",
+    body: "The system organizes practical considerations that may include herbs, remedies, formulas, dietary observations, lifestyle considerations, and supportive practices drawn from traditional medical frameworks.",
+  },
+  {
+    title: "Source References",
+    body: "Each output remains connected to a closed-loop source library and reviewed case-study evidence rather than generic AI-generated wellness advice.",
+  },
+  {
+    title: "Refinement Questions",
+    body: "The system continues narrowing the pattern through follow-up questions about modalities, relationships, timing, aggravations, relief, and missing safety context.",
+  },
+];
+
 const landingImages = {
   hero: {
     src: "/images/landing/hero-patterns-still-life.png",
@@ -189,6 +212,58 @@ export default function HomePage() {
                 <p className="mt-4 text-sm leading-7 text-ink/68">{tradition.body}</p>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="produces" className="section-space bg-[#efe9df]">
+        <div className="container-shell">
+          <div className="grid gap-12 lg:grid-cols-[0.78fr_1fr] lg:items-start">
+            <div>
+              <p className="eyebrow">What the system produces</p>
+              <h2 className="section-title">
+                Symptoms become organized practical direction.
+              </h2>
+              <p className="section-copy mt-6">
+                3 Patterns is not just an AI analysis surface. Multiple
+                traditions analyze the same presentation independently, then
+                the system organizes overlapping insights into a practical
+                framework for practitioner review.
+              </p>
+              <p className="mt-5 text-base leading-8 text-ink/68">
+                The result is a source-connected map of likely pattern signals,
+                traditional considerations, useful comparisons, recommendations
+                to explore, and the next questions that would refine the case.
+              </p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {producedOutputs.map((item, index) => (
+                <article
+                  key={item.title}
+                  className={
+                    index === 2
+                      ? "border border-ink/10 bg-white/86 p-5 shadow-card sm:col-span-2"
+                      : "border border-ink/10 bg-white/72 p-5 shadow-card"
+                  }
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">
+                    {String(index + 1).padStart(2, "0")}
+                  </p>
+                  <h3 className="mt-4 font-sans text-xl font-semibold tracking-normal text-ink">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-7 text-ink/68">{item.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+          <div className="mt-12 border-y border-ink/12 py-7">
+            <p className="max-w-4xl text-2xl leading-9 text-ink md:text-3xl md:leading-10">
+              This app helps organize symptoms into practical cross-tradition
+              recommendations rooted in classical medical systems, with source
+              references, safety boundaries, and refinement questions kept
+              visible.
+            </p>
           </div>
         </div>
       </section>
