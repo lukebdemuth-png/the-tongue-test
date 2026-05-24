@@ -26,6 +26,7 @@ from src.pattern_app_retrieval import (
     search,
 )
 from src.pattern_app_safety import category_contraindications, detect_context_cautions, safety_completeness_score
+from src.pattern_app_symptom_normalizer import CANONICAL_SYMPTOMS, normalize_intake_symptoms
 
 
 BOERICKE_PATH = Path("data/chunks/homeopathy_boericke_chunks.jsonl")
@@ -78,6 +79,16 @@ def normalize_features(intake: dict[str, Any]) -> list[dict[str, Any]]:
             else:
                 dimension = "general"
         features.append({"feature": term, "dimension": dimension, "source": "intake"})
+    for normalized in normalize_intake_symptoms(intake):
+        features.append(
+            {
+                "feature": normalized["canonical"],
+                "dimension": normalized["dimension"],
+                "source": "symptom_normalizer",
+                "original": normalized["original"],
+                "aliases": normalized["aliases"],
+            }
+        )
     return features
 
 
@@ -285,11 +296,18 @@ def build_candidates(
 def next_best_question(safety: dict[str, Any], features: list[dict[str, Any]]) -> str:
     if safety["red_flags_detected"]:
         return "Before traditional interpretation, has urgent medical evaluation ruled out the red-flag concern?"
+    normalized = [feature for feature in features if feature.get("source") == "symptom_normalizer"]
+    if any(feature.get("feature") == "symptom" for feature in normalized):
+        return "What is the single main symptom or concern?"
     missing = safety["missing_safety_context"]
     if "current_medications" in missing:
         return "What current medications, supplements, or herbs is the person taking?"
     if "pregnancy_status" in missing:
         return "Is pregnancy possible, current, or recently postpartum?"
+    if normalized and normalized[0].get("aliases"):
+        questions = CANONICAL_SYMPTOMS.get(normalized[0]["feature"], {}).get("next_questions", [])
+        if questions:
+            return questions[0]
     dimensions = {feature["dimension"] for feature in features}
     if "modality" not in dimensions:
         return "What makes the main symptom better or worse: heat, cold, motion, rest, pressure, food, or time of day?"
@@ -1232,6 +1250,13 @@ def treatment_plan_draft(
         "Traditional Chinese Medicine": candidates.get("Traditional Chinese Medicine", [])[:1],
         "Homeopathy": candidates.get("Homeopathy", [])[:1],
     }
+    if not any(top_by_tradition.values()):
+        return {
+            "scope": "Practitioner-review treatment plan draft; not diagnosis, prescription, or patient self-treatment instructions.",
+            "ayurveda": [],
+            "tcm": [],
+            "homeopathy": [],
+        }
     homeopathy_categories = (
         treatment_categories_for_candidate("Homeopathy", top_by_tradition["Homeopathy"][0], safety_status, context_cautions)
         if top_by_tradition["Homeopathy"]

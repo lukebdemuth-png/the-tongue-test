@@ -51,13 +51,13 @@ async function writeSupabaseSubmission(submission: WaitlistSubmission) {
   const table = process.env.SUPABASE_WAITLIST_TABLE || "waitlist_subscribers";
   if (!url || !serviceRoleKey) return false;
 
-  const response = await fetch(`${url.replace(/\/$/, "")}/rest/v1/${table}`, {
+  const response = await fetch(`${url.replace(/\/$/, "")}/rest/v1/${table}?on_conflict=email`, {
     method: "POST",
     headers: {
       apikey: serviceRoleKey,
       Authorization: `Bearer ${serviceRoleKey}`,
       "Content-Type": "application/json",
-      Prefer: "return=minimal",
+      Prefer: "resolution=merge-duplicates,return=minimal",
     },
     body: JSON.stringify({
       email: submission.email,
@@ -74,19 +74,32 @@ async function writeSupabaseSubmission(submission: WaitlistSubmission) {
   return true;
 }
 
-async function notifyViaResend(submission: WaitlistSubmission) {
+async function sendResendEmail(input: { from: string; to: string; subject: string; text: string }) {
   const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.WAITLIST_NOTIFY_EMAIL;
-  const from = process.env.WAITLIST_FROM_EMAIL || "waitlist@patterns.app";
-  if (!apiKey || !to) return;
+  if (!apiKey) return;
 
-  await fetch("https://api.resend.com/emails", {
+  const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
+    body: JSON.stringify(input),
+  });
+
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(`Resend email failed: ${detail || response.statusText}`);
+  }
+}
+
+async function notifyViaResend(submission: WaitlistSubmission) {
+  const to = process.env.WAITLIST_NOTIFY_EMAIL;
+  const from = process.env.WAITLIST_FROM_EMAIL || "waitlist@patterns.app";
+  if (!process.env.RESEND_API_KEY) return;
+
+  if (to) {
+    await sendResendEmail({
       from,
       to,
       subject: "New Patterns waitlist signup",
@@ -96,8 +109,23 @@ async function notifyViaResend(submission: WaitlistSubmission) {
         `Interest: ${submission.interest ?? ""}`,
         `Source: ${submission.source ?? "landing-page"}`,
       ].join("\n"),
-    }),
-  });
+    });
+  }
+
+  if (process.env.WAITLIST_CONFIRMATION_ENABLED === "true") {
+    await sendResendEmail({
+      from,
+      to: submission.email,
+      subject: "You are on the Patterns waitlist",
+      text: [
+        "Thanks for joining the Patterns / Three Traditions waitlist.",
+        "",
+        "We will send practical updates as the practitioner-facing prototype develops.",
+        "",
+        "This project is an educational, source-backed research tool. It does not diagnose, prescribe, or replace qualified clinical judgment.",
+      ].join("\n"),
+    });
+  }
 }
 
 export async function saveWaitlistSubmission(submission: WaitlistSubmission): Promise<WaitlistResult> {

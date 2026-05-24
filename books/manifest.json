@@ -1,0 +1,141 @@
+{
+  "generated_for": "Patterns / Three Traditions",
+  "purpose": "GitHub-visible source-book map for the closed-loop source system",
+  "raw_pdf_policy": "Raw PDFs and full extracted texts remain local-only unless rights/access status is explicitly cleared for repository storage.",
+  "github_accessible_layers": [
+    "data/chunks/*.jsonl",
+    "data/chunks/normalized/*.jsonl",
+    "sources/metadata/**/*.jsonl",
+    "sources/metadata/**/*.json",
+    "books/**/*.md",
+    "books/manifest.json"
+  ],
+  "vector_db_status": "No committed vector database or embedding store found. indexes/ and chunks/ contain placeholders only.",
+  "sources": [
+    {
+      "source_id": "ayurveda_ashtanga_hridayam",
+      "title": "Ashtanga Hridayam",
+      "tradition": "Ayurveda",
+      "local_raw_file": "data/raw/ashtanga_hridayam.pdf",
+      "local_clean_file": "data/clean/ashtanga_hridayam.md",
+      "local_extracted_file": "data/extracted/ashtanga_hridayam_raw.txt",
+      "github_chunk_files": [
+        "data/chunks/ashtanga_hridayam_chunks.jsonl",
+        "data/chunks/normalized/ayurveda_ashtanga_hridayam.jsonl"
+      ],
+      "chunk_count": 405,
+      "raw_pdf_committed": false,
+      "closed_loop_accessible_in_github": true,
+      "rights_status": "verify before publishing extracted full text"
+    },
+    {
+      "source_id": "ayurveda_charaka_samhita_vol1",
+      "title": "Charaka Samhita Vol. 1",
+      "tradition": "Ayurveda",
+      "local_raw_file": "data/raw/charaka_vol1.pdf",
+      "local_clean_file": "data/clean/charaka_vol1.md",
+      "local_extracted_file": "data/extracted/charaka_vol1_raw.txt",
+      "github_chunk_files": [
+        "data/chunks/charaka_vol1_chunks.jsonl",
+        "data/chunks/normalized/ayurveda_charaka_samhita_vol1.jsonl"
+      ],
+      "chunk_count": 1,
+      "raw_pdf_committed": false,
+      "closed_loop_accessible_in_github": true,
+      "rights_status": "verify before publishing extracted full text",
+      "quality_note": "Only one normalized chunk currently exists; reprocessing is needed."
+    },
+    {
+      "source_id": "ayurveda_sushruta_samhita_vol1",
+      "title": "Sushruta Samhita Vol. 1",
+      "tradition": "Ayurveda",
+      "local_raw_file": "data/raw/sushruta_samhita_vol1.pdf",
+      "local_clean_file": "data/clean/sushruta_samhita_vol1.md",
+      "local_extracted_file": "data/extracted/sushruta_samhita_vol1_raw.txt",
+      "github_chunk_files": [
+        "data/chunks/sushruta_samhita_vol1_chunks.jsonl",
+        "data/chunks/normalized/ayurveda_sushruta_samhita_vol1.jsonl"
+      ],
+      "chunk_count": 309,
+      "raw_pdf_committed": false,
+      "closed_loop_accessible_in_github": true,
+      "rights_status": "verify before publishing extracted full text"
+    },
+    {
+      "source_id": "tcm_huangdi_neijing_suwen",
+      "title": "Huangdi Neijing Suwen",
+      "tradition": "Traditional Chinese Medicine",
+      "local_raw_file": "data/raw/huangdi_neijing.pdf",
+      "local_clean_file": "data/clean/huangdi_neijing.md",
+      "local_extracted_file": "data/extracted/huangdi_neijing_raw.txt",
+      "github_chunk_files": [
+        "data/chunks/huangdi_neijing_chunks.jsonl",
+        "data/chunks/normalized/tcm_huangdi_neijing_suwen.jsonl"
+      ],
+      "chunk_count": 603,
+      "raw_pdf_committed": false,
+      "closed_loop_accessible_in_github": true,
+      "rights_status": "verify before publishing extracted full text"
+    },
+    {
+      "source_id": "homeopathy_organon_fifth_sixth",
+      "title": "Organon of Medicine",
+      "tradition": "Homeopathy",
+      "local_raw_file": "data/raw/organon_medicine.pdf",
+      "local_clean_file": "data/clean/organon.md",
+      "local_extracted_file": "data/extracted/organon_raw.txt",
+      "github_chunk_files": [
+        "data/chunks/organon_chunks.jsonl",
+        "data/chunks/normalized/homeopathy_organon_fifth_sixth.jsonl"
+      ],
+      "chunk_count": 277,
+      "raw_pdf_committed": false,
+      "closed_loop_accessible_in_github": true,
+      "rights_status": "locally supplied plus Archive source; verify edition and rights before publishing extracted full text"
+    },
+    {
+      "source_id": "homeopathy_boericke",
+      "title": "Boericke Materia Medica",
+      "tradition": "Homeopathy",
+      "local_raw_file": null,
+      "github_chunk_files": [
+        "data/chunks/homeopathy_boericke_chunks.jsonl"
+      ],
+      "chunk_count": 688,
+      "raw_pdf_committed": false,
+      "closed_loop_accessible_in_github": true,
+      "rights_status": "public web source ingestion; preserve source URL and access notes"
+    },
+    {
+      "source_id": "homeopathy_kent_repertory",
+      "title": "Kent Repertory",
+      "tradition": "Homeopathy",
+      "local_raw_file": null,
+      "github_chunk_files": [
+        "data/chunks/homeopathy_kent_repertory_chunks.jsonl"
+      ],
+      "chunk_count": 11496,
+      "raw_pdf_committed": false,
+      "closed_loop_accessible_in_github": true,
+      "rights_status": "public web source ingestion; preserve source URL and access notes"
+    },
+    {
+      "source_id": "intake_methodology",
+      "title": "Ayurveda intake methodology PDFs",
+      "tradition": "Intake methodology",
+      "local_raw_files": [
+        "sources/raw/intake_methodology/Ayurveda-Intake-fillable-v11.pdf",
+        "sources/raw/intake_methodology/ayurveda-client-intake-form.pdf"
+      ],
+      "github_chunk_files": [
+        "sources/metadata/intake_methodology/intake_source_chunks.jsonl",
+        "sources/metadata/intake_methodology/intake_source_records.jsonl",
+        "sources/metadata/intake_methodology/intake_source_index.json"
+      ],
+      "chunk_count": 6,
+      "raw_pdf_committed": false,
+      "closed_loop_accessible_in_github": true,
+      "rights_status": "raw PDFs ignored; derived metadata/chunks committed"
+    }
+  ]
+}

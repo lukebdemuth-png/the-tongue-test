@@ -101,6 +101,33 @@ def test_normalize_features_tags_known_dimensions() -> None:
     assert "timing" in dimensions
 
 
+def test_normalize_features_adds_canonical_symptom_for_typos() -> None:
+    intake = {
+        "symptoms": {"primary_symptoms": ["headace"], "chief_complaint": "headace"},
+        "tradition_specific_inputs": {},
+        "practitioner_notes": "",
+    }
+    features = normalize_features(intake)
+
+    assert any(item["feature"] == "headache" and item["source"] == "symptom_normalizer" for item in features)
+
+
+def test_generic_symptoms_input_asks_for_main_concern_without_plan_categories() -> None:
+    intake = {
+        "case_id": "generic-symptoms",
+        "symptoms": {"chief_complaint": "symptoms", "primary_symptoms": ["symptoms"]},
+        "patient_context": {},
+        "tradition_specific_inputs": {},
+        "practitioner_notes": "",
+    }
+    trace = build_brain_trace(intake, limit=1)
+
+    assert trace["next_best_question"] == "What is the single main symptom or concern?"
+    assert trace["practical_output"]["confidence"]["score"] == 0
+    assert trace["practical_output"]["herbs_formulas_remedies_to_consider"] == []
+    assert trace["practical_output"]["lifestyle_diet_practice_actions"] == []
+
+
 def test_boericke_remedy_differentials_include_source_backed_treatment_details() -> None:
     differentials = boericke_remedy_differentials(
         "poor sleep worse at night with bloating, variable appetite, low energy, and digestive discomfort",

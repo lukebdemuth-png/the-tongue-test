@@ -9,6 +9,8 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
+from src.pattern_app_symptom_normalizer import expanded_query_text
+
 
 CHUNKS_PATH = Path("data/chunks/pattern_app_core_chunks.jsonl")
 TRADITIONS = ["Ayurveda", "Traditional Chinese Medicine", "Homeopathy"]
@@ -75,8 +77,11 @@ def query_terms(query: str) -> set[str]:
         "case", "current", "known", "clinical", "setting", "several", "weeks",
         "any", "before", "context", "check", "safety", "none", "not", "pregnant",
         "herb", "herbs", "formula", "formulas", "supplement", "supplements",
+        "test", "single", "word", "prototype", "production", "style", "minimal",
+        "provided", "intentionally",
     }
-    return {term for term in tokenize(query) if len(term) > 2 and term not in stopwords}
+    expanded = expanded_query_text(query)
+    return {term for term in tokenize(expanded) if len(term) > 2 and term not in stopwords}
 
 
 def citation_id(chunk: dict[str, Any]) -> str:

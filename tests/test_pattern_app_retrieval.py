@@ -45,3 +45,13 @@ def test_query_terms_remove_intake_boilerplate() -> None:
     assert "standard" not in terms
     assert "practitioner" not in terms
     assert "source" not in terms
+
+
+def test_query_terms_expand_symptom_typos_and_aliases() -> None:
+    constipation_terms = query_terms("consitation")
+    fatigue_terms = query_terms("low energy")
+
+    assert "constipation" in constipation_terms
+    assert "stool" in constipation_terms
+    assert "fatigue" in fatigue_terms
+    assert "weakness" in fatigue_terms
