@@ -67,3 +67,14 @@ def test_symptom_outcome_questions_are_specific() -> None:
 
     assert any("bloating worse after meals" in question for question in questions)
     assert any("belching, gas, pain" in question for question in questions)
+
+
+def test_new_top_symptoms_get_generic_book_backed_outcomes() -> None:
+    trace = build_brain_trace(minimal_intake("palpitations", "acne", "back pain"), limit=1)
+    output = trace["practical_output"]
+
+    assert "Palpitations first-pass outcome" in output["likely_pattern_summary"]["plain_language_summary"]
+    assert "Skin Acne first-pass outcome" in output["likely_pattern_summary"]["plain_language_summary"]
+    assert output["likely_pattern_summary"]["tradition_directions"]
+    assert output["lifestyle_diet_practice_actions"]
+    assert all(item["direction"] for item in output["lifestyle_diet_practice_actions"][:3])

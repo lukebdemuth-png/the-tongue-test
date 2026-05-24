@@ -27,6 +27,10 @@ def test_symptom_alias_terms_cover_launch_symptoms() -> None:
     assert "bloating" in symptom_alias_terms("bloated")
     assert "nausea" in symptom_alias_terms("nausia")
     assert "rash" in symptom_alias_terms("itching")
+    assert "palpitations" in symptom_alias_terms("palpitations")
+    assert "congestion" in symptom_alias_terms("congestion")
+    assert "menstrual" in symptom_alias_terms("menstrual cramps")
+    assert "back" in symptom_alias_terms("back pain")
 
 
 def test_normalize_intake_symptoms_preserves_original_phrase() -> None:

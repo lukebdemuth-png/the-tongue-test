@@ -1504,6 +1504,123 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
 }
 
 
+GENERIC_OUTCOME_BY_DIMENSION: dict[str, dict[str, Any]] = {
+    "pain": {
+        "summary": "Pain needs location, quality, severity, timing, triggers, what changes it, and safety context before any traditional direction is chosen.",
+        "signals": ["pain location", "pain quality", "modality", "safety screen"],
+        "actions": [
+            ("observation", "Record exact location, quality, intensity, onset, timing, what improves it, what worsens it, and related symptoms."),
+            ("avoid_reduce", "Avoid strong interventions until red flags, injury, fever, neurological symptoms, or rapidly worsening pain are ruled out."),
+            ("practitioner_follow_up", "Clarify medications, pregnancy status, injury, fever, neurological symptoms, and whether this is new or worsening."),
+        ],
+        "review": [
+            ("rubric_cluster", "Homeopathy repertory review should focus on location, sensation, modalities, timing, concomitants, and peculiar features."),
+            ("herbs", "Herbs, formulas, and supplements for pain require practitioner review because medication interactions and red flags matter."),
+        ],
+    },
+    "digestion": {
+        "summary": "Digestive symptoms should be reviewed through appetite, stool, timing after meals, food triggers, gas, nausea, pain, thirst, and stress relationship.",
+        "signals": ["digestion", "food timing", "stool relationship", "trigger pattern"],
+        "actions": [
+            ("diet", "Track meal timing, food qualities, appetite, stool, gas, nausea, and which foods reliably improve or worsen the symptom."),
+            ("observation", "Record whether the symptom changes with warmth, pressure, movement, passing stool/gas, fasting, or smaller meals."),
+            ("practitioner_follow_up", "Escalate digestive symptoms with severe pain, blood, fever, dehydration, persistent vomiting, unexplained weight loss, or pregnancy concern."),
+        ],
+        "review": [
+            ("herbs", "Digestive herbs should wait for practitioner review of medications, pregnancy status, reflux/ulcer history, gallbladder history, and stool pattern."),
+            ("formulas", "Formula review should clarify whether the pattern looks more weak digestion, stagnation, dampness/heaviness, heat, cold, or food intolerance."),
+        ],
+    },
+    "mental_emotional": {
+        "summary": "Mental-emotional symptoms should be reviewed through trigger, timing, sleep, digestion, body sensations, stimulant use, safety context, and what reliably helps.",
+        "signals": ["trigger", "sleep relationship", "body sensations", "stress load"],
+        "actions": [
+            ("observation", "Track triggers, time of day, sleep, food/caffeine, body sensations, digestion, and what reliably helps."),
+            ("breathwork", "Use only gentle, comfortable breath awareness; stop if breathing practices increase panic, dizziness, or air hunger."),
+            ("practitioner_follow_up", "Clarify safety concerns, medications, substance use, severe depression, panic, mania, psychosis, or self-harm thoughts."),
+        ],
+        "review": [
+            ("herbs", "Calming herbs or formulas require practitioner review for medications, pregnancy status, sedation, bipolar history, and interactions."),
+            ("remedy_differential", "Homeopathy review should focus on triggers, fears, consolation, restlessness, sleep, temperature, and peculiar symptoms."),
+        ],
+    },
+    "respiratory": {
+        "summary": "Respiratory symptoms need quality, timing, mucus, fever, breathing safety, triggers, position, and exposure history before traditional interpretation.",
+        "signals": ["respiratory quality", "mucus", "timing", "safety screen"],
+        "actions": [
+            ("observation", "Record dry/wet quality, mucus color/amount, fever, throat/nasal symptoms, position, time of day, and triggers."),
+            ("avoid_reduce", "Do not treat traditionally first if there is breathing difficulty, chest pain, blue lips, blood, high fever, or low oxygen concern."),
+            ("practitioner_follow_up", "Clarify asthma/COPD history, medications, fever, oxygen status, exposure, and whether symptoms are worsening."),
+        ],
+        "review": [
+            ("herbs", "Respiratory herbs or formulas require practitioner review, especially with pregnancy, medications, asthma, fever, or breathing distress."),
+            ("remedy_differential", "Homeopathy review should focus on cough quality, modalities, mucus, position, timing, thirst, and concomitants."),
+        ],
+    },
+    "skin": {
+        "summary": "Skin symptoms should be reviewed through appearance, sensation, heat/cold, dryness/oozing, triggers, medications, digestion, stress, and safety signs.",
+        "signals": ["skin appearance", "sensation", "trigger pattern", "safety screen"],
+        "actions": [
+            ("observation", "Record appearance, location, itching/burning/pain, dryness/oozing, heat, spread, triggers, foods, products, and medication changes."),
+            ("avoid_reduce", "Avoid adding herbs, supplements, or topical experiments until allergic reaction, infection, blistering, fever, or rapid spread is ruled out."),
+            ("practitioner_follow_up", "Escalate skin symptoms with throat/lip swelling, breathing difficulty, fever, blistering, severe pain, or rapid spread."),
+        ],
+        "review": [
+            ("herbs", "Skin herbs or formulas require practitioner review because triggers, medications, allergy, pregnancy status, and infection concerns matter."),
+            ("remedy_differential", "Homeopathy review should focus on eruption type, sensation, modalities, location, discharge, and concomitants."),
+        ],
+    },
+    "general": {
+        "summary": "This symptom needs timing, severity, triggers, what changes it, related body systems, and safety context before stronger traditional recommendations are appropriate.",
+        "signals": ["timing", "severity", "trigger pattern", "missing details"],
+        "actions": [
+            ("observation", "Record when it happens, how severe it is, what improves it, what worsens it, and what symptoms appear with it."),
+            ("practitioner_follow_up", "Clarify medications, pregnancy status, known conditions, recent changes, and any severe or rapidly worsening features."),
+            ("avoid_reduce", "Avoid strong herbs, formulas, remedies, or practices until the symptom pattern is more specific."),
+        ],
+        "review": [
+            ("remedy_differential", "Homeopathy review should wait for clearer modalities, generals, mental-emotional state, and peculiar symptoms."),
+            ("formulas", "Formula review should wait until the pattern is clearer and safety context is complete."),
+        ],
+    },
+}
+
+
+DIMENSION_FALLBACKS = {
+    "cardiorespiratory": "respiratory",
+    "circulation_temperature": "general",
+    "elimination": "digestion",
+    "energy": "general",
+    "fluid": "general",
+    "mind_focus": "mental_emotional",
+    "metabolic": "general",
+    "neurological": "general",
+    "reproductive": "general",
+    "temperature": "general",
+    "temperature_fluid": "general",
+    "urinary": "general",
+}
+
+
+def outcome_profile_for_symptom(normalized_symptom: dict[str, Any]) -> dict[str, Any]:
+    canonical = normalized_symptom["canonical"]
+    if canonical in SYMPTOM_OUTCOME_PROFILES:
+        return SYMPTOM_OUTCOME_PROFILES[canonical]
+    dimension = normalized_symptom.get("dimension", "general")
+    profile_key = dimension if dimension in GENERIC_OUTCOME_BY_DIMENSION else DIMENSION_FALLBACKS.get(dimension, "general")
+    base = GENERIC_OUTCOME_BY_DIMENSION[profile_key]
+    label = canonical.replace("_", " ")
+    return {
+        **base,
+        "summary": f"{label.title()} first-pass outcome: {base['summary']}",
+        "tradition_directions": [
+            ("Ayurveda", f"Use the available Ayurveda canon to review {label} through digestion, routine, heat/cold, dryness/heaviness, strength, and dosha-pattern clues."),
+            ("Traditional Chinese Medicine", f"Use Huangdi Neijing source support to review {label} through qi, yin-yang, heat/cold, fluids, rest-activity rhythm, and organ-network relationships."),
+            ("Homeopathy", f"Use Organon method, Boericke materia medica, and Kent repertory support to review {label} through totality, modalities, generals, concomitants, and peculiar features."),
+        ],
+    }
+
+
 def citation_ids_by_tradition(citations: list[dict[str, Any]]) -> dict[str, list[str]]:
     grouped: dict[str, list[str]] = {"Ayurveda": [], "Traditional Chinese Medicine": [], "Homeopathy": []}
     for citation in citations:
@@ -1556,8 +1673,8 @@ def apply_symptom_outcome_layer(
     next_question: str,
 ) -> dict[str, Any]:
     normalized = normalize_intake_symptoms(intake)
-    canonical = [item["canonical"] for item in normalized if item["canonical"] in SYMPTOM_OUTCOME_PROFILES]
-    if not canonical:
+    recognized = [item for item in normalized if item.get("canonical") != "symptom"]
+    if not recognized:
         return practical_output
 
     citation_groups = citation_ids_by_tradition(citations)
@@ -1580,8 +1697,8 @@ def apply_symptom_outcome_layer(
     seen_actions: set[tuple[str, str]] = set()
     seen_directions: set[tuple[str, str]] = set()
 
-    for canonical_symptom in canonical[:4]:
-        profile = SYMPTOM_OUTCOME_PROFILES[canonical_symptom]
+    for normalized_symptom in recognized[:6]:
+        profile = outcome_profile_for_symptom(normalized_symptom)
         summaries.append(profile["summary"])
         signals.extend(profile.get("signals", []))
         for tradition, direction in profile.get("tradition_directions", []):
