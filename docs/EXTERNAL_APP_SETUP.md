@@ -132,6 +132,8 @@ Use `.env.example` as the template.
 Required first:
 
 ```text
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 SUPABASE_URL=
 SUPABASE_SERVICE_ROLE_KEY=
 SUPABASE_WAITLIST_TABLE=waitlist_subscribers

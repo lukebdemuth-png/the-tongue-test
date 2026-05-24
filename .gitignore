@@ -1,4 +1,6 @@
 .next
+.env.local
+.env*.local
 node_modules
 .local/
 out
