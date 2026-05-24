@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 
 import { WaitlistForm } from "@/components/landing/waitlist-form";
@@ -146,9 +145,9 @@ export default function HomePage() {
               <a href="#how-it-works" className="button-primary">
                 Learn how it works
               </a>
-              <Link href="/pattern-app" className="button-secondary">
-                View prototype
-              </Link>
+              <a href="#newsletter" className="button-secondary">
+                Join the waitlist
+              </a>
             </div>
             <p className="mt-6 max-w-xl text-sm leading-6 text-ink/58">
               Educational research support for qualified review. Not diagnosis,

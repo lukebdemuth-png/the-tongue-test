@@ -15,5 +15,4 @@ export const navItems = [
   { href: "/#traditions", label: "Traditions" },
   { href: "/#sources", label: "Sources" },
   { href: "/#newsletter", label: "Waitlist" },
-  { href: "/pattern-app", label: "Prototype" },
 ];
