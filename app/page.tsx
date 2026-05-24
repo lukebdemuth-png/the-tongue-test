@@ -55,6 +55,21 @@ const outputRows = [
   ["Source trail", "Citations, locators, rights notes, and source limitations attached"],
 ];
 
+const landingImages = {
+  hero: {
+    src: "/images/landing/hero-patterns-still-life.png",
+    alt: "Editorial still life with reference books, botanical material, and an abstract three-column tablet interface.",
+  },
+  sourceLibrary: {
+    src: "/images/landing/source-library-workflow.png",
+    alt: "Archive desk with organized source folders, classical books, citation cards, and an abstract source map on a laptop.",
+  },
+  freeContent: {
+    src: "/images/landing/free-content-newsletter.png",
+    alt: "Editorial desk with a phone, printed educational notes, notebook, tea, and botanical reference material.",
+  },
+};
+
 const trustItems = [
   "Closed source library and provenance records",
   "Tradition-specific analysis before synthesis",
@@ -84,9 +99,8 @@ export default function HomePage() {
     <main className="bg-[#f6f2ea]">
       <section className="relative overflow-hidden border-b border-ink/10 bg-[#eee7dc]">
         <Image
-          src="/images/patterns-hero-still-life.png"
-          alt=""
-          aria-hidden="true"
+          src={landingImages.hero.src}
+          alt={landingImages.hero.alt}
           fill
           priority
           sizes="100vw"
@@ -211,7 +225,7 @@ export default function HomePage() {
       </section>
 
       <section id="sources" className="border-y border-ink/10 bg-[#20211f] py-20 text-white md:py-28">
-        <div className="container-shell grid gap-12 lg:grid-cols-[0.8fr_1fr]">
+        <div className="container-shell grid gap-12 lg:grid-cols-[0.82fr_1fr]">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-sage">
               Source-backed trust
@@ -224,6 +238,15 @@ export default function HomePage() {
               manifests, chunk-level citations, and daily test runs so weak
               outputs can be found and improved before launch.
             </p>
+            <div className="relative mt-8 aspect-[16/10] overflow-hidden border border-white/12 bg-white/5">
+              <Image
+                src={landingImages.sourceLibrary.src}
+                alt={landingImages.sourceLibrary.alt}
+                fill
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                className="object-cover"
+              />
+            </div>
           </div>
           <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
             {trustItems.map((item) => (
@@ -256,6 +279,15 @@ export default function HomePage() {
                   Use <span className="font-semibold text-ink">/#free-content</span> after
                   your live domain for Instagram and other traffic sources.
                 </p>
+              </div>
+              <div className="relative mt-8 aspect-[4/3] overflow-hidden border border-ink/10 bg-white/70 shadow-card">
+                <Image
+                  src={landingImages.freeContent.src}
+                  alt={landingImages.freeContent.alt}
+                  fill
+                  sizes="(min-width: 1024px) 34vw, 100vw"
+                  className="object-cover"
+                />
               </div>
             </div>
             <div className="grid gap-6">
