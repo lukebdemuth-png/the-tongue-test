@@ -33,7 +33,7 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-6 lg:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-5 lg:flex">
           {navItems.map((item) => (
             <Link key={item.href} href={item.href} className="nav-link relative pb-1">
               {item.label}
@@ -42,7 +42,7 @@ export function SiteHeader() {
         </nav>
 
         <Link href="/#newsletter" className="button-secondary hidden sm:inline-flex">
-          Join Waitlist
+          Request Access
         </Link>
       </div>
 
@@ -54,7 +54,7 @@ export function SiteHeader() {
           <Link
             key={item.href}
             href={item.href}
-            className="whitespace-nowrap rounded-full border border-transparent px-3 py-2 text-sm text-ink/62"
+            className="whitespace-nowrap rounded-full border border-transparent px-3 py-2 text-xs uppercase tracking-[0.12em] text-ink/62"
           >
             {item.label}
           </Link>

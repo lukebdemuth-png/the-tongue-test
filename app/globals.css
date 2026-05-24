@@ -15,7 +15,10 @@ html {
 body {
   @apply bg-fog text-ink antialiased;
   background:
+    radial-gradient(circle at 12% 18%, rgba(88, 74, 54, 0.035) 0 1px, transparent 1px),
+    radial-gradient(circle at 72% 42%, rgba(88, 74, 54, 0.025) 0 1px, transparent 1px),
     linear-gradient(180deg, rgba(252, 250, 245, 1) 0%, rgba(246, 242, 234, 1) 100%);
+  background-size: 18px 18px, 26px 26px, auto;
 }
 
 ::selection {
@@ -27,7 +30,7 @@ body {
   h2,
   h3,
   h4 {
-    @apply font-serif tracking-tight text-ink;
+    @apply font-serif font-semibold tracking-normal text-ink;
   }
 
   p {
@@ -49,7 +52,7 @@ body {
   }
 
   .section-space {
-    @apply py-20 md:py-28 lg:py-32;
+    @apply py-24 md:py-32 lg:py-40;
   }
 
   .eyebrow {
@@ -57,7 +60,7 @@ body {
   }
 
   .section-title {
-    @apply max-w-4xl text-[2.15rem] leading-[1.06] sm:text-5xl lg:text-[3.75rem];
+    @apply max-w-4xl text-[2.25rem] font-semibold leading-[1.03] sm:text-5xl lg:text-[3.9rem];
   }
 
   .section-copy {
@@ -88,25 +91,32 @@ body {
   }
 
   .button-primary {
-    @apply inline-flex min-h-12 items-center justify-center border border-ink/90 bg-ink px-5 py-3 text-sm font-medium text-white shadow-[0_10px_30px_rgba(32,33,31,0.12)] hover:-translate-y-0.5 hover:bg-moss hover:border-moss focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-moss;
+    @apply inline-flex min-h-10 items-center justify-center border border-ink/90 bg-ink px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.12em] text-white shadow-[0_8px_20px_rgba(32,33,31,0.08)] hover:bg-moss hover:border-moss focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-moss;
   }
 
   .button-secondary {
-    @apply inline-flex min-h-12 items-center justify-center border px-5 py-3 text-sm font-medium text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-moss;
+    @apply inline-flex min-h-10 items-center justify-center border px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.12em] text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-moss;
     border-color: rgb(32 33 31 / 0.12);
     background-color: rgb(255 255 255 / 0.78);
   }
 
   .button-secondary:hover {
-    transform: translateY(-0.125rem);
     border-color: rgb(85 104 90 / 0.35);
     background-color: rgb(255 255 255 / 1);
     color: rgb(85 104 90 / 1);
   }
 
   .nav-link {
-    @apply text-sm tracking-[0.01em] hover:text-ink;
+    @apply text-[12px] uppercase tracking-[0.14em] hover:text-ink;
     color: rgb(32 33 31 / 0.68);
+  }
+
+  .archival-texture {
+    background-image:
+      linear-gradient(rgba(32, 33, 31, 0.026) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(32, 33, 31, 0.02) 1px, transparent 1px),
+      radial-gradient(circle at 20% 30%, rgba(96, 72, 48, 0.035) 0 1px, transparent 1px);
+    background-size: 3.4rem 3.4rem, 3.4rem 3.4rem, 1.15rem 1.15rem;
   }
 
   .metric-card {

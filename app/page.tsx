@@ -3,7 +3,7 @@ import Image from "next/image";
 import { WaitlistForm } from "@/components/landing/waitlist-form";
 import { buildMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/lib/site";
-import { caseStudyEvidencePolicy, sourceCanonGroups } from "@/lib/source-canon";
+import { caseStudyEvidencePolicy } from "@/lib/source-canon";
 
 export const metadata = buildMetadata({
   title: siteConfig.formalName,
@@ -15,17 +15,17 @@ const processSteps = [
   {
     label: "Intake",
     title: "Start with the whole case.",
-    body: "Symptoms, context, constitution, cautions, medications, goals, and preferences are held together before any tradition-specific interpretation begins.",
+    body: "Symptoms, constitution, tendencies, cautions, medications, goals, and preferences are held together before any tradition-specific interpretation begins.",
   },
   {
     label: "Reasoning",
     title: "Keep each tradition distinct.",
-    body: "Homeopathy, Ayurveda, and Chinese medicine are analyzed through their own pattern language first, with citations and uncertainty kept visible.",
+    body: "Homeopathy, Ayurveda, and Chinese medicine are read through their own pattern language first, with citations and uncertainty kept visible.",
   },
   {
     label: "Output",
     title: "Show what is useful next.",
-    body: "The app returns likely directions, confidence, next questions, practical review categories, warnings, and source references.",
+    body: "The app returns a source-based pattern profile, confidence, next questions, practitioner review categories, warnings, and source references.",
   },
 ];
 
@@ -58,7 +58,7 @@ const outputRows = [
 const producedOutputs = [
   {
     title: "Pattern Summary",
-    body: "A structured overview of recurring pattern signals identified across symptoms, tendencies, history, cautions, and current state.",
+    body: "A structured overview of pattern signals identified across symptoms, constitutional tendencies, history, cautions, and current state.",
   },
   {
     title: "Cross-Tradition Interpretation",
@@ -70,11 +70,58 @@ const producedOutputs = [
   },
   {
     title: "Source References",
-    body: "Each output remains connected to a closed-loop source library and reviewed case-study evidence rather than generic AI-generated wellness advice.",
+    body: "Each output remains connected to a closed-loop library of source texts and reviewed case-study evidence rather than broad generalized content.",
   },
   {
     title: "Refinement Questions",
     body: "The system continues narrowing the pattern through follow-up questions about modalities, relationships, timing, aggravations, relief, and missing safety context.",
+  },
+];
+
+const sourceCanonSections = [
+  {
+    category: "Philosophy",
+    note: "Texts that define the interpretive ground of a tradition.",
+    books: [
+      ["Organon of the Medical Art", "Homeopathy / Hahnemann / method"],
+      ["The Science of Homeopathy", "Homeopathy / Vithoulkas / system framework"],
+      ["The Soul of Remedies", "Homeopathy / Sankaran / remedy framework"],
+      ["Prakriti: Your Ayurvedic Constitution", "Ayurveda / Svoboda / constitution"],
+      ["The Web That Has No Weaver", "Chinese Medicine / Kaptchuk / conceptual bridge"],
+    ],
+  },
+  {
+    category: "Classical Canon",
+    note: "Foundational source texts and classical medical architecture.",
+    books: [
+      ["Charaka Samhita", "Ayurveda / classical source text"],
+      ["Sushruta Samhita", "Ayurveda / classical source text"],
+      ["Vagbhata Samhita / Ashtanga Hridayam", "Ayurveda / classical clinical canon"],
+      ["Huangdi Neijing / Yellow Emperor's Inner Classic", "Chinese Medicine / classical source text"],
+    ],
+  },
+  {
+    category: "Clinical Framework",
+    note: "Modern practitioner frameworks for assessment, case structure, and clinical relationships.",
+    books: [
+      ["Textbook of Ayurveda, Vol. 1", "Ayurveda / Vasant Lad / fundamentals"],
+      ["Textbook of Ayurveda, Vol. 2", "Ayurveda / Vasant Lad / clinical assessment"],
+      ["Textbook of Ayurveda, Vol. 3", "Ayurveda / Vasant Lad / management principles"],
+      ["Ayurvedic Medicine: The Principles of Traditional Practice", "Ayurveda / Sebastian Pole / practice reference"],
+      ["Desktop Guide to Keynotes and Confirmatory Symptoms", "Homeopathy / Morrison / keynotes"],
+      ["Desktop Companion to Physical Pathology", "Homeopathy / Morrison / pathology"],
+    ],
+  },
+  {
+    category: "Materia Medica / Repertory",
+    note: "References for remedies, herbs, rubrics, and source-linked differentials.",
+    books: [
+      ["Boericke's New Manual of Homeopathic Materia Medica with Repertory", "Homeopathy / Boericke / materia medica"],
+      ["Kent's Final General Repertory", "Homeopathy / Kent / repertory"],
+      ["Homeopathic Medical Repertory, 3rd ed.", "Homeopathy / Murphy / clinical repertory"],
+      ["User-confirmed TCM Materia Medica", "Chinese Medicine / pending exact office reference"],
+      ["Encyclopedia of Herbal Medicine", "General herbal / Chevallier / cross-checking"],
+    ],
   },
 ];
 
@@ -98,7 +145,7 @@ const trustItems = [
   "Tradition-specific analysis before synthesis",
   "Confidence levels based on source support and missing data",
   "Warnings before herbs, formulas, remedies, diet, or practices",
-  "Daily launch tests for single-word and messy symptom inputs",
+  "Daily validation tests for single-word and messy symptom inputs",
   "Practitioner-facing language, not diagnosis or prescription",
 ];
 
@@ -114,8 +161,8 @@ export default function HomePage() {
           sizes="100vw"
           className="absolute inset-0 h-full w-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(246,242,234,0.98)_0%,rgba(246,242,234,0.9)_38%,rgba(246,242,234,0.56)_68%,rgba(246,242,234,0.22)_100%)]" />
-        <div className="container-shell relative flex min-h-[calc(100vh-6rem)] flex-col justify-center py-16 md:min-h-[calc(100vh-7rem)] md:py-24">
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(246,242,234,0.86)_0%,rgba(246,242,234,0.7)_40%,rgba(246,242,234,0.34)_72%,rgba(246,242,234,0.1)_100%)]" />
+        <div className="container-shell relative flex min-h-[calc(100vh-6rem)] flex-col justify-center py-20 md:min-h-[calc(100vh-7rem)] md:py-28">
           <div className="max-w-3xl">
             <div className="mb-5 flex items-center gap-3">
               <span className="relative h-16 w-16 overflow-hidden border border-ink/10 bg-white/86 shadow-card">
@@ -146,14 +193,6 @@ export default function HomePage() {
             <div className="mt-8 max-w-2xl border border-ink/10 bg-white/82 p-4 shadow-card backdrop-blur md:p-5">
               <WaitlistForm compact source="hero" />
             </div>
-            <div className="mt-5 flex flex-wrap items-center gap-4">
-              <a href="#how-it-works" className="button-primary">
-                Learn how it works
-              </a>
-              <a href="#newsletter" className="button-secondary">
-                Join the waitlist
-              </a>
-            </div>
             <p className="mt-6 max-w-xl text-sm leading-6 text-ink/58">
               Educational research support for qualified review. Not diagnosis,
               prescription, or a substitute for appropriate medical care.
@@ -162,7 +201,51 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="how-it-works" className="section-space">
+      <section id="canon" className="archival-texture border-b border-ink/10 bg-[#f9f6ef] py-24 md:py-32 lg:py-36">
+        <div className="container-shell">
+          <div className="grid gap-12 lg:grid-cols-[0.42fr_1fr] lg:items-start">
+            <div>
+              <p className="eyebrow">Source canon</p>
+              <h2 className="section-title">A closed library of source texts.</h2>
+              <p className="section-copy mt-6">
+                The app brain is organized around named source texts, reviewed
+                case-study evidence, pattern recognition, constitutional
+                tendencies, and clinical relationships. Sources are grouped by
+                their role in interpretation.
+              </p>
+              <a href="/source-canon" className="button-secondary mt-8">
+                Full Canon
+              </a>
+            </div>
+            <div className="grid gap-5">
+              {sourceCanonSections.map((section) => (
+                <article key={section.category} className="border border-ink/10 bg-white/72 p-5 shadow-card">
+                  <div className="grid gap-4 md:grid-cols-[13rem_1fr]">
+                    <div>
+                      <h3 className="text-3xl leading-8">{section.category}</h3>
+                      <p className="mt-3 text-sm leading-6 text-ink/58">{section.note}</p>
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      {section.books.map(([title, metadata]) => (
+                        <div key={title} className="border-t border-ink/10 pt-3">
+                          <p className="font-serif text-[1.15rem] font-semibold leading-6 text-ink">
+                            {title}
+                          </p>
+                          <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.12em] text-ink/44">
+                            {metadata}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="how-it-works" className="section-space archival-texture">
         <div className="container-shell">
           <div className="grid gap-12 lg:grid-cols-[0.7fr_1fr] lg:items-start">
             <div>
@@ -171,10 +254,9 @@ export default function HomePage() {
                 Turns intake into tradition-separated reasoning.
               </h2>
               <p className="section-copy mt-6">
-                Patterns is being built as a practical research tool: less
-                mystical guessing, more structured comparison, source trace,
-                and clear boundaries around what still needs practitioner
-                judgment.
+                Patterns is being built as an interpretive source instrument:
+                structured comparison, visible source trails, and clear
+                boundaries around what still needs practitioner judgment.
               </p>
             </div>
             <div className="divide-y divide-ink/10 border-y border-ink/10">
@@ -196,7 +278,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="traditions" className="border-y border-ink/10 bg-[#fcfaf5] py-20 md:py-28">
+      <section id="traditions" className="archival-texture border-y border-ink/10 bg-[#fcfaf5] py-24 md:py-32 lg:py-36">
         <div className="container-shell">
           <div className="max-w-3xl">
             <p className="eyebrow">Three traditions</p>
@@ -216,7 +298,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="produces" className="section-space bg-[#efe9df]">
+      <section id="produces" className="section-space archival-texture bg-[#efe9df]">
         <div className="container-shell">
           <div className="grid gap-12 lg:grid-cols-[0.78fr_1fr] lg:items-start">
             <div>
@@ -225,8 +307,7 @@ export default function HomePage() {
                 Symptoms become organized practical direction.
               </h2>
               <p className="section-copy mt-6">
-                3 Patterns is not just an AI analysis surface. Multiple
-                traditions analyze the same presentation independently, then
+                Multiple traditions read the same presentation independently, then
                 the system organizes overlapping insights into a practical
                 framework for practitioner review.
               </p>
@@ -269,7 +350,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="preview" className="section-space">
+      <section id="preview" className="section-space archival-texture">
         <div className="container-shell grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div>
             <p className="eyebrow">Output preview</p>
@@ -302,7 +383,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="sources" className="border-y border-ink/10 bg-[#20211f] py-20 text-white md:py-28">
+      <section id="sources" className="border-y border-ink/10 bg-[#20211f] py-24 text-white md:py-32 lg:py-36">
         <div className="container-shell grid gap-12 lg:grid-cols-[0.82fr_1fr]">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-sage">
@@ -314,8 +395,8 @@ export default function HomePage() {
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/68">
               The app is being organized around a closed-loop book canon,
               reviewed case-study evidence, source manifests, chunk-level
-              citations, and daily test runs so weak outputs can be found and
-              improved before launch.
+              citations, and validation runs so weak outputs can be identified
+              and improved before public use.
             </p>
             <div className="relative mt-8 aspect-[16/10] overflow-hidden border border-white/12 bg-white/5">
               <Image
@@ -336,41 +417,13 @@ export default function HomePage() {
           </div>
         </div>
         <div className="container-shell mt-14">
-          <div className="border border-white/12 bg-white/[0.04] p-5 md:p-7">
-            <div className="grid gap-8 lg:grid-cols-[0.42fr_1fr]">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-sage">
-                  Closed source canon
-                </p>
-                <h3 className="mt-4 max-w-md text-3xl leading-9 text-white">
-                  Only these books and reviewed case studies shape the app brain.
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-white/66">
-                  If a source is not in this canon, it is not used as a core source for
-                  the closed-loop reasoning system unless it is deliberately added later.
-                </p>
-                <a href="/source-canon" className="button-secondary mt-6 border-white/20 text-white hover:bg-white/10">
-                  View full source canon
-                </a>
-              </div>
-              <div className="grid gap-4 md:grid-cols-2">
-                {sourceCanonGroups.map((group) => (
-                  <article key={group.tradition} className="border-t border-white/14 pt-4">
-                    <p className="text-sm font-semibold text-white">{group.tradition}</p>
-                    <p className="mt-2 text-sm leading-7 text-white/62">
-                      {group.books.map((book) => book.title).join("; ")}
-                    </p>
-                  </article>
-                ))}
-                <article className="border-t border-white/14 pt-4">
-                  <p className="text-sm font-semibold text-white">{caseStudyEvidencePolicy.title}</p>
-                  <p className="mt-2 text-sm leading-7 text-white/62">
-                    Applied case reports and case series with clear citations, outcomes,
-                    limitations, and safety notes.
-                  </p>
-                </article>
-              </div>
-            </div>
+          <div className="border-t border-white/14 pt-5">
+            <p className="max-w-4xl text-sm leading-7 text-white/62">
+              {caseStudyEvidencePolicy.title} supports applied reasoning,
+              outcomes, limitations, safety notes, and confidence calibration.
+              It sits below the source-text canon in authority and above broad
+              summary content in applied value.
+            </p>
           </div>
         </div>
       </section>
@@ -394,9 +447,9 @@ export default function HomePage() {
           </div>
           <div className="border border-ink/10 bg-white/82 p-6 shadow-panel">
             <WaitlistForm
-              source="product-waitlist"
-              buttonLabel="Join the Waitlist"
-              successMessage="You are on the product waitlist. I will send launch and testing updates as the app develops."
+              source="early-access"
+              buttonLabel="Request Access"
+              successMessage="You are on the early access list. I will send testing updates as Patterns develops."
               interestPlaceholder="What would make Patterns useful enough for you to test?"
             />
           </div>
@@ -412,8 +465,8 @@ export default function HomePage() {
                 Help shape a careful tool for integrative pattern recognition.
               </h2>
               <p className="mt-5 max-w-2xl text-base leading-8 text-ink/68">
-                The product is not trying to replace practitioners. It is being
-                built to make reasoning, uncertainty, and source support easier
+                The system is not trying to replace practitioners. It is being
+                shaped to make reasoning, uncertainty, and source support easier
                 to see.
               </p>
             </div>

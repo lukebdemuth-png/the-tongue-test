@@ -14,8 +14,8 @@ type WaitlistFormProps = {
 export function WaitlistForm({
   compact = false,
   source,
-  buttonLabel = "Join Waitlist",
-  successMessage = "You are on the waitlist. I will send thoughtful updates as Patterns develops.",
+  buttonLabel = "Request Access",
+  successMessage = "You are on the early access list. I will send thoughtful updates as Patterns develops.",
   helperText = "Educational updates only. No spam, no diagnosis, no treatment claims.",
   interestPlaceholder = "What do you want Patterns to help you understand?",
 }: WaitlistFormProps) {

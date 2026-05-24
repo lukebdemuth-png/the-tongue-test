@@ -11,9 +11,9 @@ export const siteConfig = {
 };
 
 export const navItems = [
-  { href: "/#how-it-works", label: "How It Works" },
+  { href: "/#canon", label: "Canon" },
   { href: "/#traditions", label: "Traditions" },
+  { href: "/#produces", label: "Output" },
   { href: "/#sources", label: "Sources" },
-  { href: "/source-canon", label: "Source Canon" },
   { href: "/#newsletter", label: "Waitlist" },
 ];
