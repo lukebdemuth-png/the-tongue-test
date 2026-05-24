@@ -1,5 +1,6 @@
 from src.pattern_app_retrieval import (
     build_app_output,
+    content_quality_penalty,
     detect_red_flags,
     query_terms,
     read_jsonl,
@@ -55,3 +56,25 @@ def test_query_terms_expand_symptom_typos_and_aliases() -> None:
     assert "stool" in constipation_terms
     assert "fatigue" in fatigue_terms
     assert "weakness" in fatigue_terms
+
+
+def test_daily_symptom_seed_file_has_50_cases() -> None:
+    cases = [
+        line.strip()
+        for line in open("examples/pattern_app_daily_symptoms.txt", encoding="utf-8")
+        if line.strip() and not line.strip().startswith("#")
+    ]
+
+    assert len(cases) == 50
+    assert "consitation" in cases
+    assert "headace" in cases
+
+
+def test_content_quality_penalty_catches_generic_chapter_openers() -> None:
+    chunk = {
+        "text": "Now we shall discourse on the Chapter which treats of food and drink. Head pain appears later.",
+        "section": "",
+        "chapter": "",
+    }
+
+    assert content_quality_penalty(chunk, {"head", "pain"}) >= 12

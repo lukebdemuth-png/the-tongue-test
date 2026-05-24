@@ -9,6 +9,9 @@ def test_canonical_for_phrase_corrects_common_typos() -> None:
     assert canonical_for_phrase("consitation") == "constipation"
     assert canonical_for_phrase("headace") == "headache"
     assert canonical_for_phrase("lowenergy") == "fatigue"
+    assert canonical_for_phrase("cant sleep") == "insomnia"
+    assert canonical_for_phrase("stomache") == "stomach_pain"
+    assert canonical_for_phrase("anxity") == "anxiety"
 
 
 def test_symptom_alias_terms_expand_single_word_inputs() -> None:
@@ -17,6 +20,13 @@ def test_symptom_alias_terms_expand_single_word_inputs() -> None:
     assert "fatigue" in terms
     assert "weakness" in terms
     assert "energy" in terms
+
+
+def test_symptom_alias_terms_cover_launch_symptoms() -> None:
+    assert "sleep" in symptom_alias_terms("cant sleep")
+    assert "bloating" in symptom_alias_terms("bloated")
+    assert "nausea" in symptom_alias_terms("nausia")
+    assert "rash" in symptom_alias_terms("itching")
 
 
 def test_normalize_intake_symptoms_preserves_original_phrase() -> None:

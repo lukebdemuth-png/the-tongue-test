@@ -79,6 +79,7 @@ def query_terms(query: str) -> set[str]:
         "herb", "herbs", "formula", "formulas", "supplement", "supplements",
         "test", "single", "word", "prototype", "production", "style", "minimal",
         "provided", "intentionally",
+        "cant", "can't", "cannot",
     }
     expanded = expanded_query_text(query)
     return {term for term in tokenize(expanded) if len(term) > 2 and term not in stopwords}
@@ -148,6 +149,34 @@ def citation_quality_score(chunk: dict[str, Any]) -> float:
     return min(score, 100.0)
 
 
+GENERIC_CHAPTER_PHRASES = [
+    "now we shall discuss",
+    "now we shall discourse",
+    "we shall discourse",
+    "chapter which treats",
+    "chapter which deals",
+    "having made obeisance",
+    "foreword",
+    "published by",
+    "all rights reserved",
+    "no part of this publication",
+]
+
+
+def content_quality_penalty(chunk: dict[str, Any], matched_terms: set[str]) -> float:
+    text = " ".join([chunk.get("text", ""), chunk.get("section", ""), chunk.get("chapter", "")]).lower()
+    penalty = 0.0
+    if any(phrase in text[:1400] for phrase in GENERIC_CHAPTER_PHRASES):
+        penalty += 12.0
+    if len(text) < 180:
+        penalty += 6.0
+    if len(matched_terms) == 1 and next(iter(matched_terms), "") in {"pain", "head", "low", "dry", "hard"}:
+        penalty += 8.0
+    if "ocr ran on this scanned page" in text or "no readable text" in text:
+        penalty += 30.0
+    return min(penalty, 40.0)
+
+
 def score_chunk(chunk: dict[str, Any], terms: set[str]) -> tuple[float, dict[str, Any]]:
     text = " ".join(
         [
@@ -163,27 +192,32 @@ def score_chunk(chunk: dict[str, Any], terms: set[str]) -> tuple[float, dict[str
     if not exact_matches and not substring_matches:
         return 0.0, {}
 
+    matched_terms = exact_matches | substring_matches
     symptom_match = min(100.0, (len(exact_matches) * 22) + (len(substring_matches) * 10))
     authority = source_authority_score(chunk)
     citation_quality = citation_quality_score(chunk)
     tradition_fit = 75.0
     safety_completeness = 55.0
+    quality_penalty = content_quality_penalty(chunk, matched_terms)
     score = (
         symptom_match * 0.35
         + authority * 0.20
         + citation_quality * 0.20
         + tradition_fit * 0.15
         + safety_completeness * 0.10
+        - quality_penalty
     )
+    score = max(0.0, score)
     details = {
-        "matched_terms": sorted(exact_matches | substring_matches),
+        "matched_terms": sorted(matched_terms),
         "symptom_match": round(symptom_match, 2),
         "source_authority": round(authority, 2),
         "citation_quality": round(citation_quality, 2),
+        "content_quality_penalty": round(quality_penalty, 2),
         "source_quality_tier": source_quality_tier(authority, citation_quality),
         "tradition_specific_fit": round(tradition_fit, 2),
         "safety_completeness": round(safety_completeness, 2),
-        "ranking_formula": "symptom_match*.35 + source_authority*.20 + citation_quality*.20 + tradition_specific_fit*.15 + safety_completeness*.10",
+        "ranking_formula": "symptom_match*.35 + source_authority*.20 + citation_quality*.20 + tradition_specific_fit*.15 + safety_completeness*.10 - content_quality_penalty",
     }
     return round(score, 2), details
 

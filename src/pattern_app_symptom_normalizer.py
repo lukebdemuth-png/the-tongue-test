@@ -13,6 +13,33 @@ from typing import Any
 
 
 CANONICAL_SYMPTOMS: dict[str, dict[str, Any]] = {
+    "anxiety": {
+        "dimension": "mental_emotional",
+        "aliases": ["anxiety", "anxious", "worry", "panic", "nervous", "restless mind"],
+        "next_questions": [
+            "Does the anxiety come with panic, chest pain, shortness of breath, insomnia, digestive changes, or a clear trigger?",
+            "Is it worse at a certain time of day, before events, after caffeine, or when alone?",
+            "What helps: reassurance, movement, pressure, warmth, breathing, food, or rest?",
+        ],
+    },
+    "bloating": {
+        "dimension": "digestion",
+        "aliases": ["bloating", "bloated", "gas", "flatulence", "abdominal distension", "distention"],
+        "next_questions": [
+            "Is bloating worse after meals, specific foods, stress, evening, or before stool?",
+            "Is there belching, gas, pain, constipation, loose stool, nausea, or appetite change?",
+            "What helps: warmth, pressure, movement, passing gas, stool, fasting, or smaller meals?",
+        ],
+    },
+    "cough": {
+        "dimension": "respiratory",
+        "aliases": ["cough", "coughing", "dry cough", "wet cough", "phlegm", "mucus"],
+        "next_questions": [
+            "Is the cough dry, wet, barking, spasmodic, or productive with phlegm?",
+            "Are there red flags such as difficulty breathing, chest pain, blood, high fever, or low oxygen?",
+            "What makes it worse: lying down, cold air, talking, exertion, night, or morning?",
+        ],
+    },
     "constipation": {
         "dimension": "elimination",
         "aliases": ["constipation", "hard stool", "dry stool", "infrequent stool", "difficult stool", "bowel"],
@@ -24,7 +51,7 @@ CANONICAL_SYMPTOMS: dict[str, dict[str, Any]] = {
     },
     "fatigue": {
         "dimension": "energy",
-        "aliases": ["fatigue", "low energy", "tired", "weakness", "exhaustion", "low stamina"],
+        "aliases": ["fatigue", "low energy", "no energy", "tired", "tiredness", "weakness", "exhaustion", "low stamina"],
         "next_questions": [
             "Is the low energy worse in the morning, afternoon, after meals, or after exertion?",
             "How are sleep, appetite, digestion, mood, and recovery after rest?",
@@ -38,6 +65,51 @@ CANONICAL_SYMPTOMS: dict[str, dict[str, Any]] = {
             "Where is the headache located: forehead, temples, behind the eyes, vertex, or occiput?",
             "What is the quality: throbbing, pressure, sharp, dull, burning, or heavy?",
             "Are there red flags such as sudden worst headache, neurological symptoms, fever, head injury, or vision changes?",
+        ],
+    },
+    "insomnia": {
+        "dimension": "sleep",
+        "aliases": ["insomnia", "can't sleep", "cant sleep", "sleepless", "poor sleep", "waking at night", "restless sleep"],
+        "next_questions": [
+            "Is the main issue falling asleep, staying asleep, waking too early, or non-restorative sleep?",
+            "What time does waking happen, and is there heat, sweating, urination, hunger, worry, pain, or dreams?",
+            "What helps or worsens sleep: food, screens, stress, caffeine, exercise, warmth, or position?",
+        ],
+    },
+    "nausea": {
+        "dimension": "digestion",
+        "aliases": ["nausea", "nauseous", "queasy", "vomiting", "retching", "upset stomach"],
+        "next_questions": [
+            "Is there vomiting, pregnancy possibility, fever, severe abdominal pain, dehydration, or blood?",
+            "Is nausea worse before eating, after eating, with motion, odors, stress, morning, or night?",
+            "What helps: eating, fasting, ginger, warmth, fresh air, lying still, or vomiting?",
+        ],
+    },
+    "pain": {
+        "dimension": "pain",
+        "aliases": ["pain", "ache", "aching", "soreness", "sharp pain", "dull pain"],
+        "next_questions": [
+            "Where is the pain located, and does it move anywhere?",
+            "What is the quality: sharp, dull, throbbing, burning, cramping, heavy, or shooting?",
+            "What makes it better or worse: motion, rest, pressure, heat, cold, eating, stool, or time of day?",
+        ],
+    },
+    "rash": {
+        "dimension": "skin",
+        "aliases": ["rash", "itch", "itching", "hives", "red skin", "skin eruption"],
+        "next_questions": [
+            "Is there swelling of lips or throat, breathing difficulty, fever, blistering, or rapidly spreading rash?",
+            "Is the rash itchy, burning, painful, dry, oozing, raised, or hot?",
+            "What triggered it: food, medication, herb, supplement, contact exposure, heat, cold, stress, or infection?",
+        ],
+    },
+    "stomach_pain": {
+        "dimension": "digestion",
+        "aliases": ["stomach pain", "abdominal pain", "belly pain", "stomach ache", "cramps", "cramping"],
+        "next_questions": [
+            "Where is the pain located, and is it mild, moderate, severe, sudden, or worsening?",
+            "Is there fever, vomiting, blood, pregnancy possibility, chest pain, or acute severe abdominal pain?",
+            "Is it better or worse with food, stool, gas, pressure, warmth, cold, movement, or rest?",
         ],
     },
     "symptom": {
@@ -58,7 +130,15 @@ TYPO_CORRECTIONS = {
     "headace": "headache",
     "headach": "headache",
     "lowenergy": "low energy",
+    "cant sleep": "can't sleep",
+    "cantsleep": "can't sleep",
+    "stomache": "stomach ache",
+    "stomachach": "stomach ache",
+    "anxity": "anxiety",
+    "nausia": "nausea",
+    "tummypain": "stomach pain",
     "tird": "tired",
+    "tierd": "tired",
 }
 
 ALIAS_TO_CANONICAL: dict[str, str] = {}

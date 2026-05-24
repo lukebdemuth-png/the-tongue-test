@@ -299,15 +299,15 @@ def next_best_question(safety: dict[str, Any], features: list[dict[str, Any]]) -
     normalized = [feature for feature in features if feature.get("source") == "symptom_normalizer"]
     if any(feature.get("feature") == "symptom" for feature in normalized):
         return "What is the single main symptom or concern?"
+    if normalized and normalized[0].get("aliases"):
+        questions = CANONICAL_SYMPTOMS.get(normalized[0]["feature"], {}).get("next_questions", [])
+        if questions:
+            return questions[0]
     missing = safety["missing_safety_context"]
     if "current_medications" in missing:
         return "What current medications, supplements, or herbs is the person taking?"
     if "pregnancy_status" in missing:
         return "Is pregnancy possible, current, or recently postpartum?"
-    if normalized and normalized[0].get("aliases"):
-        questions = CANONICAL_SYMPTOMS.get(normalized[0]["feature"], {}).get("next_questions", [])
-        if questions:
-            return questions[0]
     dimensions = {feature["dimension"] for feature in features}
     if "modality" not in dimensions:
         return "What makes the main symptom better or worse: heat, cold, motion, rest, pressure, food, or time of day?"

@@ -1,0 +1,52 @@
+# Daily Pattern App launch-readiness symptom batch.
+# One symptom per line. The runner ignores blank lines and comments.
+symptoms
+constipation
+consitation
+low energy
+headache
+headace
+fatigue
+tired
+no energy
+insomnia
+cant sleep
+poor sleep
+waking at night
+bloating
+gas
+stomach pain
+stomache
+abdominal pain
+nausea
+nausia
+vomiting
+diarrhea
+loose stool
+anxiety
+anxity
+panic
+irritability
+sadness
+brain fog
+dizziness
+chest pain
+difficulty breathing
+cough
+dry cough
+phlegm
+fever
+high fever
+rash
+itching
+hives
+back pain
+neck pain
+joint pain
+knee pain
+menstrual cramps
+hot flashes
+cold hands
+night sweats
+thirst
+dry mouth

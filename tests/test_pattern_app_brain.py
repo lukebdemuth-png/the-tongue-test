@@ -128,6 +128,19 @@ def test_generic_symptoms_input_asks_for_main_concern_without_plan_categories() 
     assert trace["practical_output"]["lifestyle_diet_practice_actions"] == []
 
 
+def test_single_symptom_gets_symptom_specific_next_question_before_medication_question() -> None:
+    intake = {
+        "case_id": "single-headache",
+        "symptoms": {"chief_complaint": "headace", "primary_symptoms": ["headace"]},
+        "patient_context": {},
+        "tradition_specific_inputs": {},
+        "practitioner_notes": "",
+    }
+    trace = build_brain_trace(intake, limit=1)
+
+    assert trace["next_best_question"].startswith("Where is the headache located")
+
+
 def test_boericke_remedy_differentials_include_source_backed_treatment_details() -> None:
     differentials = boericke_remedy_differentials(
         "poor sleep worse at night with bloating, variable appetite, low energy, and digestive discomfort",

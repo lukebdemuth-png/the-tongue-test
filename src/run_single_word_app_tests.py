@@ -18,6 +18,7 @@ from src.pattern_app_brain import build_brain_trace
 
 DEFAULT_OUTPUT_ROOT = Path("private_sources/pattern_app_test_runs")
 DEFAULT_SYMPTOMS = ["symptoms", "constipation", "low energy", "headache"]
+DEFAULT_SYMPTOMS_FILE = Path("examples/pattern_app_daily_symptoms.txt")
 
 
 def slugify(value: str) -> str:
@@ -300,16 +301,33 @@ def write_json(path: Path, value: dict[str, Any]) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Run single-symptom Pattern App tests.")
-    parser.add_argument("symptoms", nargs="*", default=DEFAULT_SYMPTOMS)
+    parser.add_argument("symptoms", nargs="*", default=[])
+    parser.add_argument("--symptoms-file", type=Path, help="Newline-delimited symptoms to run as a batch.")
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
     args = parser.parse_args()
+
+    symptoms = args.symptoms
+    if args.symptoms_file:
+        symptoms = [
+            line.strip()
+            for line in args.symptoms_file.read_text(encoding="utf-8").splitlines()
+            if line.strip() and not line.strip().startswith("#")
+        ]
+    elif not symptoms and DEFAULT_SYMPTOMS_FILE.exists():
+        symptoms = [
+            line.strip()
+            for line in DEFAULT_SYMPTOMS_FILE.read_text(encoding="utf-8").splitlines()
+            if line.strip() and not line.strip().startswith("#")
+        ]
+    elif not symptoms:
+        symptoms = DEFAULT_SYMPTOMS
 
     run_id = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     run_dir = args.output_root / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
 
     index: list[dict[str, Any]] = []
-    for position, symptom in enumerate(args.symptoms, start=1):
+    for position, symptom in enumerate(symptoms, start=1):
         normalized = symptom.strip().lower()
         case_id = f"single-word-{position:03d}-{slugify(normalized)}"
         intake = build_minimal_intake(normalized, case_id)
