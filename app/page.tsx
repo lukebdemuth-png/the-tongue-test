@@ -63,10 +63,6 @@ const landingImages = {
     src: "/images/landing/source-library-workflow.png",
     alt: "Archive desk with organized source folders, classical books, citation cards, and an abstract source map on a laptop.",
   },
-  freeContent: {
-    src: "/images/landing/free-content-newsletter.png",
-    alt: "Editorial desk with a phone, printed educational notes, notebook, tea, and botanical reference material.",
-  },
   logo: {
     src: siteConfig.logo,
     alt: "Empirical Patterns logo mark.",
@@ -80,21 +76,6 @@ const trustItems = [
   "Warnings before herbs, formulas, remedies, diet, or practices",
   "Daily launch tests for single-word and messy symptom inputs",
   "Practitioner-facing language, not diagnosis or prescription",
-];
-
-const freeResources = [
-  {
-    title: "Single-symptom intake prompts",
-    body: "A short practitioner-facing guide for turning one-word symptoms like low energy or headache into better follow-up questions.",
-  },
-  {
-    title: "Three Traditions pattern notes",
-    body: "Educational notes showing how Homeopathy, Ayurveda, and Chinese medicine keep their own language before any synthesis happens.",
-  },
-  {
-    title: "Source-backed safety boundaries",
-    body: "Plain-language reminders around citations, uncertainty, cautions, and when an output needs professional review.",
-  },
 ];
 
 export default function HomePage() {
@@ -274,76 +255,6 @@ export default function HomePage() {
                 <p className="text-sm leading-7 text-white/76">{item}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="free-content" className="border-b border-ink/10 bg-[#fcfaf5] py-20 md:py-28">
-        <div className="container-shell">
-          <div className="grid gap-12 lg:grid-cols-[0.85fr_1fr] lg:items-start">
-            <div>
-              <p className="eyebrow">Free content</p>
-              <h2 className="section-title">
-                A linkable home for IG traffic, notes, and newsletter signups.
-              </h2>
-              <p className="section-copy mt-6">
-                Send people here from Instagram, email, podcast notes, or a bio
-                link when you want to offer educational material without sending
-                them straight into the app waitlist.
-              </p>
-              <div className="mt-7 border-l border-moss/40 pl-5">
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-moss">
-                  Share link
-                </p>
-                <p className="mt-3 break-words text-sm leading-7 text-ink/66">
-                  Use <span className="font-semibold text-ink">/#free-content</span> after
-                  your live domain for Instagram and other traffic sources.
-                </p>
-              </div>
-              <div className="relative mt-8 aspect-[4/3] overflow-hidden border border-ink/10 bg-white/70 shadow-card">
-                <Image
-                  src={landingImages.freeContent.src}
-                  alt={landingImages.freeContent.alt}
-                  fill
-                  sizes="(min-width: 1024px) 34vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-            </div>
-            <div className="grid gap-6">
-              <div className="grid gap-4 md:grid-cols-3">
-                {freeResources.map((resource) => (
-                  <article key={resource.title} className="border-t border-ink/12 pt-5">
-                    <h3 className="font-sans text-base font-semibold tracking-normal text-ink">
-                      {resource.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-7 text-ink/66">{resource.body}</p>
-                  </article>
-                ))}
-              </div>
-              <div className="border border-ink/10 bg-white/86 p-6 shadow-panel">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-clay">
-                  Newsletter
-                </p>
-                <h3 className="mt-4 text-3xl leading-9">
-                  Get the free education list.
-                </h3>
-                <p className="mt-4 max-w-2xl text-sm leading-7 text-ink/66">
-                  This signup is for free educational content. It is tracked
-                  separately from app access so you can see who came for content
-                  versus who asked to join the product waitlist.
-                </p>
-                <div className="mt-6">
-                  <WaitlistForm
-                    source="free-content-newsletter"
-                    buttonLabel="Get Free Content"
-                    successMessage="You are signed up for the free educational content list."
-                    helperText="Free educational content only. No diagnosis, treatment claims, or spam."
-                    interestPlaceholder="What free topic would be most useful to you?"
-                  />
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
