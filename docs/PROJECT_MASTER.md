@@ -280,29 +280,7 @@ Local status:
 
 ### Ayurveda: Materia Medica
 
-#### Dravyaguna Vijnana
-
-Role: Ayurvedic herb database, rasa, virya, vipaka, doshic actions, and herb properties.
-
-Primary source:
-
-- https://archive.org/details/Jsht_dravya-guna-vigyana-by-priya-vrata-sharma-vol.-2-and-3-vidya-bhavan-ayurveda-ser
-
-Local status:
-
-- Missing
-
-#### Indian Materia Medica
-
-Role: large Indian herbal cross-reference system, medicinal actions, and botanical references.
-
-Primary source:
-
-- https://archive.org/details/in.ernet.dli.2015.112096
-
-Local status:
-
-- Missing
+No additional Ayurveda materia medica text is currently part of the user-approved core canon. Prior generic candidates such as Dravyaguna Vijnana and Indian Materia Medica are excluded from core guiding use unless the user explicitly re-approves them.
 
 ### TCM: Foundational Theory
 
@@ -330,60 +308,17 @@ Local status:
 - Missing
 - Metadata-only / private-local handling required unless rights are clear
 
-#### Shang Han Lun
-
-Role: pattern differentiation, disease staging, and formula logic.
-
-Local status:
-
-- Missing
-
-#### Jin Gui Yao Lue
-
-Role: internal medicine, syndrome interpretation, and classical formulas.
-
-Local status:
-
-- Missing
-
 ### TCM: Materia Medica
-
-#### Chinese Herbal Medicine: Materia Medica
-
-Role: TCM herb database, channels entered, temperatures, contraindications, and herb functions.
-
-Primary source candidate:
-
-- https://www.amsil.com/book/benskymateriamedica3th.pdf
-
-Local status:
-
-- Missing
-
-Rights note:
-
-- Verify copyright/access status before committing extracted text.
 
 #### User-confirmed TCM Materia Medica
 
-Role: office TCM materia medica reference to be named by the user.
+Role: TCM herb database, channels entered, temperatures, contraindications, and herb functions.
 
 Local status:
 
 - Pending exact title and edition from user
 - Metadata-only / private-local handling required unless rights are clear
-
-#### Chinese Herbal Medicine: Formulas and Strategies
-
-Role: formula architecture, herb interactions, and formula relationships.
-
-Local status:
-
-- Missing
-
-Rights note:
-
-- Verify copyright/access status before committing extracted text.
+- Prior generic candidates such as Shang Han Lun, Jin Gui Yao Lue, Chinese Herbal Medicine: Materia Medica, and Chinese Herbal Medicine: Formulas and Strategies are excluded from core guiding use unless the user explicitly re-approves them.
 
 ### Homeopathy: Foundational Theory
 
@@ -456,14 +391,6 @@ Local status:
 Use note:
 
 - This supports general herb context and safety review. It should not override Ayurveda or TCM materia medica logic.
-
-#### Lectures on Homeopathic Materia Medica
-
-Role: constitutional interpretation and remedy psychology.
-
-Local status:
-
-- Missing
 
 ### Yoga / Consciousness / Communication Layer
 
@@ -770,17 +697,15 @@ Current prototype tools:
 - `src/pattern_app_validate.py`: validates normalized chunks against `schemas/pattern_app_chunk.schema.json`.
 - `src/pattern_app_retrieval.py`: simple tradition-separated retrieval, citation rendering, confidence labels, and red-flag suppression prototype.
 
-Missing major canon sources:
+Missing major user-approved core medicine sources:
 
-- Dravyaguna Vijnana
 - Vasant Lad Textbook of Ayurveda Vol. 1
 - Vasant Lad Textbook of Ayurveda Vol. 2
 - Vasant Lad Textbook of Ayurveda Vol. 3
-- Indian Materia Medica
-- Shang Han Lun
-- Jin Gui Yao Lue
-- Chinese Herbal Medicine: Materia Medica
-- Chinese Herbal Medicine: Formulas and Strategies
+- Ayurvedic Medicine: The Principles of Traditional Practice
+- Prakriti: Your Ayurvedic Constitution
+- The Web That Has No Weaver
+- User-confirmed TCM Materia Medica title
 - Organon of the Medical Art edition, if distinct from the currently processed Organon source
 - The Science of Homeopathy
 - The Soul of Remedies
@@ -788,10 +713,13 @@ Missing major canon sources:
 - Morrison's Desktop Guide to Keynotes and Confirmatory Symptoms
 - Morrison's Desktop Companion to Physical Pathology
 - Kent's Final General Repertory
-- Lectures on Homeopathic Materia Medica
+- Homeopathic Medical Repertory, 3rd ed.
+- Encyclopedia of Herbal Medicine
+
+Missing non-medical communication/style sources:
+
 - The Secret of the Yoga Sutra: Samadhi Pada
 - Yoga and Psychotherapy
-- The Web That Has No Weaver
 
 ## 15. Development Rules
 

@@ -21,6 +21,7 @@ def build_report(registry: dict[str, Any]) -> dict[str, Any]:
     by_mode: dict[str, Counter[str]] = defaultdict(Counter)
     by_priority: Counter[str] = Counter()
     next_actions = []
+    excluded_audit_entries = []
 
     for source in sources:
         mode = source["healing_mode"]
@@ -28,17 +29,19 @@ def build_report(registry: dict[str, Any]) -> dict[str, Any]:
         by_mode[mode][status] += 1
         by_priority[source["priority"]] += 1
         if status != "processed":
-            next_actions.append(
-                {
-                    "source_id": source["source_id"],
-                    "mode": mode,
-                    "priority": source["priority"],
-                    "status": status,
-                    "local_file_status": source["local_file_status"],
-                    "title": source["title"],
-                    "next_action": source["next_action"],
-                }
-            )
+            item = {
+                "source_id": source["source_id"],
+                "mode": mode,
+                "priority": source["priority"],
+                "status": status,
+                "local_file_status": source["local_file_status"],
+                "title": source["title"],
+                "next_action": source["next_action"],
+            }
+            if source["next_action"].startswith("No ingestion action"):
+                excluded_audit_entries.append(item)
+            else:
+                next_actions.append(item)
 
     return {
         "registry_name": registry["registry_name"],
@@ -49,6 +52,9 @@ def build_report(registry: dict[str, Any]) -> dict[str, Any]:
         "priority_counts": dict(by_priority),
         "by_mode": {mode: dict(counts) for mode, counts in by_mode.items()},
         "next_actions": sorted(next_actions, key=lambda item: (item["priority"], item["mode"], item["source_id"])),
+        "excluded_audit_entries": sorted(
+            excluded_audit_entries, key=lambda item: (item["priority"], item["mode"], item["source_id"])
+        ),
     }
 
 
@@ -70,6 +76,12 @@ def markdown_report(report: dict[str, Any]) -> str:
 
     lines.extend(["", "## Next Actions", ""])
     for item in report["next_actions"]:
+        lines.append(
+            f"- [{item['priority']}] {item['title']} ({item['source_id']}): "
+            f"{item['status']}, {item['local_file_status']}. {item['next_action']}"
+        )
+    lines.extend(["", "## Excluded Audit Entries", ""])
+    for item in report["excluded_audit_entries"]:
         lines.append(
             f"- [{item['priority']}] {item['title']} ({item['source_id']}): "
             f"{item['status']}, {item['local_file_status']}. {item['next_action']}"

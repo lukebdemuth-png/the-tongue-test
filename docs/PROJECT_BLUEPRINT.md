@@ -48,17 +48,19 @@ Sources should be categorized before ingestion so downstream retrieval can rank 
 
 ## Canonical Main Books
 
-The main app canon is defined in [MASTER_CANON.md](MASTER_CANON.md), with the current Homeopathy and Ayurveda core book set in [CORE_BOOK_CANON.md](CORE_BOOK_CANON.md). At minimum, architecture and retrieval work must account for these layers:
+The main app canon is defined in [MASTER_CANON.md](MASTER_CANON.md), with the current user-approved core book set in [CORE_BOOK_CANON.md](CORE_BOOK_CANON.md). At minimum, architecture and retrieval work must account for these layers:
 
 - Ayurveda foundational theory: Charaka Samhita, Sushruta Samhita, Vagbhata Samhita / Ashtanga Hridayam.
 - Ayurveda modern clinical framework: Vasant Lad's `Textbook of Ayurveda` Vol. 1, Vol. 2, and Vol. 3; Sebastian Pole's `Ayurvedic Medicine: The Principles of Traditional Practice`; Robert Svoboda's `Prakriti`, all handled as private/local or metadata-only unless rights are clear.
-- Ayurveda materia medica: Dravyaguna Vijnana, Indian Materia Medica.
-- TCM foundational theory: Huang Di Nei Jing Su Wen, Ted Kaptchuk's `The Web That Has No Weaver`, Shang Han Lun, Jin Gui Yao Lue.
-- TCM materia medica/formulas: user-confirmed TCM materia medica title pending, Chinese Herbal Medicine: Materia Medica, Chinese Herbal Medicine: Formulas and Strategies.
+- Ayurveda materia medica: no additional Ayurveda materia medica text is core unless the user names it later.
+- TCM foundational theory: Huang Di Nei Jing Su Wen and Ted Kaptchuk's `The Web That Has No Weaver`.
+- TCM materia medica/formulas: user-confirmed TCM materia medica title pending; no other TCM materia medica/formula text is core unless the user names it later.
 - Homeopathy foundational/framework: Organon of the Medical Art, The Science of Homeopathy, The Soul of Remedies.
 - Homeopathy materia medica/repertory: Boericke's New Manual of Homeopathic Materia Medica with Repertory, Morrison's Desktop Guide, Morrison's Desktop Companion, Kent's Final General Repertory, Robin Murphy's `Homeopathic Medical Repertory`.
 - General herbal medicine: Andrew Chevallier's `Encyclopedia of Herbal Medicine` as a cross-checking/safety-support layer, not a replacement for tradition-specific materia medica.
 - Yoga / consciousness / communication: The Secret of the Yoga Sutra: Samadhi Pada, Science of Breath, Yoga and Psychotherapy, The Web That Has No Weaver.
+
+Prior generic candidate sources such as Dravyaguna Vijnana, Indian Materia Medica, Shang Han Lun, Jin Gui Yao Lue, Chinese Herbal Medicine: Materia Medica, Chinese Herbal Medicine: Formulas and Strategies, and Kent's Lectures on Homeopathic Materia Medica are not part of the core guiding canon unless the user explicitly re-approves them.
 
 Private or copyrighted style/source references must follow the private source rules below.
 

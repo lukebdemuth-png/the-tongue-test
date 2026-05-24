@@ -56,10 +56,32 @@ def test_p0_coverage_for_each_mode() -> None:
         if source["priority"] == "P0":
             p0_by_mode.setdefault(source["healing_mode"], set()).add(source["canonical_role"])
 
-    assert {"foundational_theory", "materia_medica"}.issubset(p0_by_mode["Ayurveda"])
-    assert {"foundational_theory", "clinical_pattern_text", "materia_medica"}.issubset(
+    assert {"foundational_theory", "clinical_pattern_text", "clinical_assessment"}.issubset(
+        p0_by_mode["Ayurveda"]
+    )
+    assert {"foundational_theory", "framework_text", "materia_medica"}.issubset(
         p0_by_mode["Traditional Chinese Medicine"]
     )
     assert {"foundational_theory", "materia_medica", "repertory"}.issubset(
         p0_by_mode["Homeopathy"]
     )
+
+
+def test_excluded_chatgpt_candidate_sources_are_not_p0() -> None:
+    registry = load_registry()
+    excluded_source_ids = {
+        "ayurveda_dravyaguna_vijnana",
+        "ayurveda_indian_materia_medica_nadkarni",
+        "tcm_shang_han_lun",
+        "tcm_jin_gui_yao_lue",
+        "tcm_chinese_herbal_medicine_materia_medica",
+        "tcm_chinese_herbal_medicine_formulas_strategies",
+        "homeopathy_kent_lectures_materia_medica",
+    }
+
+    sources = {source["source_id"]: source for source in registry["sources"]}
+    for source_id in excluded_source_ids:
+        source = sources[source_id]
+        assert source["priority"] == "P2"
+        assert source["ingestion_status"] == "metadata_only"
+        assert "Excluded from the current user-approved core canon" in source["text_quality_notes"]

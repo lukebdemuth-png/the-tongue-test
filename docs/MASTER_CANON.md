@@ -51,6 +51,8 @@ The app ranks traditional system relevance, not medical truth.
 
 ## Canonical Source Layers
 
+The core medicine canon is user-approved only. Prior generic or ChatGPT-suggested books should not be treated as app-guiding sources unless the user explicitly adds them back later.
+
 ### Ayurveda: Foundational Theory
 
 #### Charaka Samhita
@@ -146,32 +148,7 @@ Access rule:
 
 ### Ayurveda: Materia Medica
 
-#### Dravyaguna Vijnana
-
-Role:
-
-- Ayurvedic herb database
-- Rasa
-- Virya
-- Vipaka
-- Doshic actions
-- Herb properties
-
-Primary source:
-
-- https://archive.org/details/Jsht_dravya-guna-vigyana-by-priya-vrata-sharma-vol.-2-and-3-vidya-bhavan-ayurveda-ser
-
-#### Indian Materia Medica
-
-Role:
-
-- Large Indian herbal cross-reference system
-- Medicinal actions
-- Botanical references
-
-Primary source:
-
-- https://archive.org/details/in.ernet.dli.2015.112096
+No additional Ayurveda materia medica text is currently part of the user-approved core canon. Prior generic candidates are excluded from core guiding use unless the user explicitly re-approves them.
 
 ### TCM: Foundational Theory
 
@@ -206,25 +183,9 @@ Access rule:
 - Treat as private/local or metadata-only unless lawful open access or permission is confirmed.
 - Do not commit extracted full text from copyrighted editions.
 
-#### Shang Han Lun
-
-Role:
-
-- Pattern differentiation
-- Disease staging
-- Formula logic
-
-#### Jin Gui Yao Lue
-
-Role:
-
-- Internal medicine
-- Syndrome interpretation
-- Classical formulas
-
 ### TCM: Materia Medica
 
-#### Chinese Herbal Medicine: Materia Medica
+#### User-Confirmed TCM Materia Medica Pending
 
 Role:
 
@@ -234,21 +195,9 @@ Role:
 - Contraindications
 - Herb functions
 
-Primary source:
-
-- https://www.amsil.com/book/benskymateriamedica3th.pdf
-
 Note:
 
-- User will send the exact office TCM materia medica title when available. Keep this layer open until the exact title/edition is confirmed.
-
-#### Chinese Herbal Medicine: Formulas and Strategies
-
-Role:
-
-- Formula architecture
-- Herb interactions
-- Formula relationships
+- User will send the exact office TCM materia medica title when available. Keep this layer open until the exact title/edition is confirmed. No other TCM materia medica or formula text is currently part of the core canon.
 
 ### Homeopathy: Foundational Theory
 
@@ -392,15 +341,6 @@ Access rule:
 Traditional-system rule:
 
 - General herbal references should support safety and cross-checking, not override Ayurveda or TCM materia medica logic.
-
-### Homeopathy: Additional Materia Medica
-
-#### Lectures on Homeopathic Materia Medica
-
-Role:
-
-- Constitutional interpretation
-- Remedy psychology
 
 ### Yoga / Consciousness / Communication Layer
 

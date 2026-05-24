@@ -1,6 +1,6 @@
 # Core Book Canon
 
-This document records the current core book set for the Pattern App. It is the working canon for Homeopathy, Ayurveda, Traditional Chinese Medicine, and general herbal source prioritization.
+This document records the current user-approved core book set for the Pattern App. It is the working canon for Homeopathy, Ayurveda, Traditional Chinese Medicine, and general herbal source prioritization.
 
 The app remains a practitioner-facing research and comparison tool. These books support citation-based traditional-system analysis; they do not turn the app into a diagnostic or prescribing system.
 
@@ -10,9 +10,11 @@ Classical public-domain or open-access texts can be ingested into extracted text
 
 Modern copyrighted books should be treated as private/local or metadata-only sources unless explicit permission or lawful open access is confirmed. Do not commit extracted full text from private/current copyrighted books. For those sources, preserve bibliographic metadata, chapter/section references when available, user-owned local paths if supplied, and short internal notes needed for retrieval architecture.
 
-## Practitioner-Recommended Medicine Canon
+## User-Approved Medicine Canon
 
-The following list reflects the current medicine-book canon for Patterns. Communication-style references and case-study/outcome evidence are separate layers and should not be mixed into the core medicine canon.
+The following list combines the user's practitioner-supplied book lists and replaces prior generic/ChatGPT-suggested canon candidates. Communication-style references and case-study/outcome evidence are separate layers and should not be mixed into the core medicine canon.
+
+Only the sources below should be treated as core guiding medicine texts unless the user explicitly adds another book later.
 
 ## Homeopathy Core Books
 
@@ -106,10 +108,11 @@ The following list reflects the current medicine-book canon for Patterns. Commun
    - App layer: constitution language, prakriti framing, philosophical bridge for practitioner explanation.
    - Access handling: modern copyrighted text; private/local or metadata-only unless rights are clear.
 
-9. Works by Robert Svoboda
+9. Other works by Robert Svoboda
    - Role: supporting Ayurveda philosophy and practitioner interpretation layer.
-   - App layer: secondary interpretive/reference layer after specific titles are supplied.
+   - App layer: candidate secondary interpretive/reference layer only after specific titles are supplied.
    - Access handling: metadata-only until specific titles and rights/access status are clarified.
+   - Core handling: `Prakriti` is the named core title; other Svoboda works are not individually core until the user names them.
 
 ## Traditional Chinese Medicine Core Books
 

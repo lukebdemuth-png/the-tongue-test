@@ -142,7 +142,7 @@ It should say:
 
 Current implementation note: Boericke/Homeoint is the first source-backed remedy-differential layer in the prototype. Selected Kent/Homeoint repertory sections are also used as the first rubric-cluster layer. Remedy directions must remain differentials for practitioner review until repertory rubrics, full case generals, modalities, contraindications, and practitioner judgment are added. The app should show why each remedy or rubric surfaced, including matched concepts, source snippets, citation IDs, and confidence scores below the highest tier when only partial support is available.
 
-Current Ayurveda implementation note: the prototype includes a first-pass Ayurveda pattern-to-treatment category engine. It maps the unified intake packet into vata/pitta/kapha, agni, ama, sleep, appetite, digestion, and energy tags, then produces cited practitioner-review categories. Herb and formula outputs remain safety-held categories until Dravyaguna, materia medica, formulation, and contraindication data are stronger.
+Current Ayurveda implementation note: the prototype includes a first-pass Ayurveda pattern-to-treatment category engine. It maps the unified intake packet into vata/pitta/kapha, agni, ama, sleep, appetite, digestion, and energy tags, then produces cited practitioner-review categories. Herb and formula outputs remain safety-held categories until user-approved materia medica, formulation, and contraindication data are stronger.
 
 ## 3. Treatment Direction Object
 

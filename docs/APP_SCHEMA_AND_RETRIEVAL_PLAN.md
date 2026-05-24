@@ -158,23 +158,25 @@ The app should rank traditional-system relevance, not medical truth.
 
 Verify copyright and access status before committing extracted text. Prefer sources with downloadable PDF, OCR text, structured text, stable URLs, and clear rights metadata. Avoid relying on Archive viewer pages alone.
 
+These priorities must follow the user-approved core canon. Prior generic candidate texts are not active ingestion targets unless the user explicitly re-approves them.
+
 ### Ayurveda
 
 1. Charaka Samhita: Sharma/Dash or P. V. Sharma English editions where usable text is available.
 2. Ashtanga Hridayam: K. R. Srikantha Murthy English translation.
 3. Sushruta Samhita: English translation.
-4. Dravyaguna Vijnana / Ayurvedic materia medica sources.
-5. Indian Materia Medica: K. M. Nadkarni.
+4. Vasant Lad's `Textbook of Ayurveda` Vols. 1-3 as private/local or metadata-only unless rights are clear.
+5. Sebastian Pole's `Ayurvedic Medicine: The Principles of Traditional Practice` as private/local or metadata-only unless rights are clear.
+6. Robert Svoboda's `Prakriti` as private/local or metadata-only unless rights are clear.
 
 Useful known sources include Archive.org entries for Charaka Samhita and Ashtanga Hridayam, including versions with PDF/text assets. Verify copyright and access status before committing extracted text.
 
 ### Traditional Chinese Medicine
 
 1. Huang Di Nei Jing Su Wen.
-2. Shang Han Lun.
-3. Jin Gui Yao Lue.
-4. Open-access materia medica or formula references.
-5. Peer-reviewed case studies later.
+2. Ted Kaptchuk's `The Web That Has No Weaver` as private/local or metadata-only unless rights are clear.
+3. User-confirmed TCM materia medica title pending.
+4. Peer-reviewed case studies later.
 
 Prioritize sources with downloadable PDF, OCR text, or structured text. Avoid relying on Archive viewer pages alone.
 
@@ -187,7 +189,8 @@ Prioritize sources with downloadable PDF, OCR text, or structured text. Avoid re
 5. Desktop Guide to Keynotes and Confirmatory Symptoms: Roger Morrison, M.D.
 6. Desktop Companion to Physical Pathology: Roger Morrison, M.D.
 7. Kent's Final General Repertory: James Tyler Kent.
-8. Homeoint public online materia medica/repertory pages where usable.
+8. Homeopathic Medical Repertory, 3rd ed.: Robin Murphy.
+9. Homeoint public online materia medica/repertory pages where usable.
 
 Boericke is available in structured web form through Homeoint, which may be easier to parse than a scanned PDF. Verify terms, robots.txt, and access status before scraping.
 

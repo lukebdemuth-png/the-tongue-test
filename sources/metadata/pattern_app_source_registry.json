@@ -14,6 +14,7 @@
     "ranking_target": "source-supported traditional-system relevance, not medical truth",
     "safety_position": "educational, citation-based practitioner research support; not diagnosis or prescription"
   },
+  "core_policy": "Core guiding medicine texts are limited to the user-approved canon in docs/CORE_BOOK_CANON.md. Prior generic or ChatGPT-suggested candidates are retained only as excluded audit entries unless the user explicitly re-approves them.",
   "status_definitions": {
     "local_file_status": {
       "present": "A raw/local source file exists in the repo workspace.",
@@ -316,7 +317,7 @@
         "doshic actions",
         "herb properties"
       ],
-      "priority": "P0",
+      "priority": "P2",
       "authors": [
         "Priya Vrat Sharma"
       ],
@@ -325,10 +326,10 @@
       "local_raw_path": null,
       "local_outputs": {},
       "local_file_status": "missing",
-      "ingestion_status": "missing_source",
+      "ingestion_status": "metadata_only",
       "rights_access_status": "verify Archive access status and rights before downloading/extracting",
-      "text_quality_notes": "Needed for Ayurveda herbs and materia medica layer.",
-      "next_action": "Locate permitted download/text asset or ask user/ChatGPT for rights/access notes."
+      "text_quality_notes": "Excluded from the current user-approved core canon; retained only as an audit/candidate entry.",
+      "next_action": "No ingestion action unless the user explicitly re-approves this as a core or expansion source."
     },
     {
       "source_id": "ayurveda_indian_materia_medica_nadkarni",
@@ -342,7 +343,7 @@
         "medicinal actions",
         "botanical references"
       ],
-      "priority": "P1",
+      "priority": "P2",
       "authors": [
         "K. M. Nadkarni"
       ],
@@ -351,10 +352,10 @@
       "local_raw_path": null,
       "local_outputs": {},
       "local_file_status": "missing",
-      "ingestion_status": "missing_source",
+      "ingestion_status": "metadata_only",
       "rights_access_status": "verify public-domain/access status before downloading/extracting",
-      "text_quality_notes": "Useful expansion for herbs and botanical references.",
-      "next_action": "Locate permitted download/text asset or ask user/ChatGPT for rights/access notes."
+      "text_quality_notes": "Excluded from the current user-approved core canon; retained only as an audit/candidate entry.",
+      "next_action": "No ingestion action unless the user explicitly re-approves this as a core or expansion source."
     },
     {
       "source_id": "tcm_huangdi_neijing_suwen",
@@ -425,7 +426,7 @@
         "disease staging",
         "formula logic"
       ],
-      "priority": "P0",
+      "priority": "P2",
       "authors": [
         "Zhang Zhongjing"
       ],
@@ -434,10 +435,10 @@
       "local_raw_path": null,
       "local_outputs": {},
       "local_file_status": "missing",
-      "ingestion_status": "missing_source",
+      "ingestion_status": "metadata_only",
       "rights_access_status": "source and translation rights needed",
-      "text_quality_notes": "Needed for TCM clinical pattern and formula direction.",
-      "next_action": "Ask user/ChatGPT for public/open-access source options with rights/access notes."
+      "text_quality_notes": "Excluded from the current user-approved core canon; retained only as an audit/candidate entry.",
+      "next_action": "No ingestion action unless the user explicitly re-approves this as a core or expansion source."
     },
     {
       "source_id": "tcm_jin_gui_yao_lue",
@@ -451,7 +452,7 @@
         "syndrome interpretation",
         "classical formulas"
       ],
-      "priority": "P1",
+      "priority": "P2",
       "authors": [
         "Zhang Zhongjing"
       ],
@@ -460,10 +461,10 @@
       "local_raw_path": null,
       "local_outputs": {},
       "local_file_status": "missing",
-      "ingestion_status": "missing_source",
+      "ingestion_status": "metadata_only",
       "rights_access_status": "source and translation rights needed",
-      "text_quality_notes": "Needed for TCM internal medicine formula reasoning.",
-      "next_action": "Ask user/ChatGPT for public/open-access source options with rights/access notes."
+      "text_quality_notes": "Excluded from the current user-approved core canon; retained only as an audit/candidate entry.",
+      "next_action": "No ingestion action unless the user explicitly re-approves this as a core or expansion source."
     },
     {
       "source_id": "tcm_chinese_herbal_medicine_materia_medica",
@@ -479,17 +480,17 @@
         "contraindications",
         "herb functions"
       ],
-      "priority": "P0",
+      "priority": "P2",
       "authors": [],
       "translator_authors": [],
       "known_source_url": "https://www.amsil.com/book/benskymateriamedica3th.pdf",
       "local_raw_path": null,
       "local_outputs": {},
       "local_file_status": "missing",
-      "ingestion_status": "missing_source",
+      "ingestion_status": "metadata_only",
       "rights_access_status": "likely copyrighted; verify permission/open-access status before downloading or extracting",
-      "text_quality_notes": "Needed for TCM herbs and contraindications; may require metadata-only handling if rights are unclear.",
-      "next_action": "Clarify rights or identify open licensed alternative."
+      "text_quality_notes": "Excluded from the current user-approved core canon; retained only as an audit/candidate entry.",
+      "next_action": "No ingestion action unless the user explicitly re-approves this as a core or expansion source."
     },
     {
       "source_id": "tcm_user_confirmed_materia_medica_pending",
@@ -528,17 +529,17 @@
         "herb interactions",
         "formula relationships"
       ],
-      "priority": "P1",
+      "priority": "P2",
       "authors": [],
       "translator_authors": [],
       "known_source_url": null,
       "local_raw_path": null,
       "local_outputs": {},
       "local_file_status": "missing",
-      "ingestion_status": "missing_source",
+      "ingestion_status": "metadata_only",
       "rights_access_status": "likely copyrighted; verify permission/open-access status before downloading or extracting",
-      "text_quality_notes": "Needed for formula relationships; may require metadata-only handling if rights are unclear.",
-      "next_action": "Clarify rights or identify open licensed alternative."
+      "text_quality_notes": "Excluded from the current user-approved core canon; retained only as an audit/candidate entry.",
+      "next_action": "No ingestion action unless the user explicitly re-approves this as a core or expansion source."
     },
     {
       "source_id": "homeopathy_organon_fifth_sixth",
@@ -835,7 +836,7 @@
         "remedy psychology",
         "remedy differentials"
       ],
-      "priority": "P1",
+      "priority": "P2",
       "authors": [
         "James Tyler Kent"
       ],
@@ -844,10 +845,10 @@
       "local_raw_path": null,
       "local_outputs": {},
       "local_file_status": "missing",
-      "ingestion_status": "missing_source",
+      "ingestion_status": "metadata_only",
       "rights_access_status": "source and access rights needed",
-      "text_quality_notes": "Useful for remedy psychology and constitutional notes.",
-      "next_action": "Ask user/ChatGPT for public/open-access source options with rights/access notes."
+      "text_quality_notes": "Excluded from the current user-approved core canon; retained only as an audit/candidate entry.",
+      "next_action": "No ingestion action unless the user explicitly re-approves this as a core or expansion source."
     },
     {
       "source_id": "general_herbal_chevallier_encyclopedia",
@@ -883,7 +884,8 @@
     "Normalize existing Charaka, Ashtanga Hridayam, Huang Di Nei Jing, and Organon chunks to the master metadata schema.",
     "Complete Charaka OCR quality pass.",
     "Ingest Sushruta after schema normalization.",
-    "Locate or verify missing P0 materia medica/repertory sources for each healing mode.",
+    "Collect or register private/metadata-only copies for the missing user-approved core texts.",
+    "Add the exact user-confirmed TCM materia medica title when supplied.",
     "Build first retrieval/ranking prototype only after citations and schema validation are stable."
   ]
 }
