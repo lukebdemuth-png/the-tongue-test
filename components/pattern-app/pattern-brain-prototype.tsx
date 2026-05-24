@@ -65,6 +65,29 @@ const sampleIntake = {
   requested_output_depth: "standard",
 };
 
+const systemOutputCards = [
+  {
+    title: "Pattern Summary",
+    body: "Structured overview of recurring signals across the whole case.",
+  },
+  {
+    title: "Cross-Tradition Interpretation",
+    body: "Independent Homeopathy, Ayurveda, and Chinese medicine readings, then overlap.",
+  },
+  {
+    title: "Traditional Recommendations",
+    body: "Herbs, remedies, formulas, dietary observations, lifestyle considerations, and supportive practices when source support and safety context allow.",
+  },
+  {
+    title: "Source References",
+    body: "Citations connected to the closed source canon and reviewed case-study evidence.",
+  },
+  {
+    title: "Refinement Questions",
+    body: "Next questions that narrow modalities, relationships, timing, safety, and pattern fit.",
+  },
+];
+
 type Candidate = {
   candidate_name: string;
   confidence_score: number;
@@ -629,6 +652,44 @@ function RecommendationList({ title, items }: { title: string; items: PracticalR
   );
 }
 
+function SystemOutputMap({ trace }: { trace: BrainTrace }) {
+  const output = trace.practical_output;
+  return (
+    <section className="rounded-lg border border-ink/10 bg-white/80 p-4 shadow-card">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="eyebrow mb-2">What the system produces</p>
+          <h2 className="text-2xl font-semibold leading-tight">Practical cross-tradition direction</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/68">
+            The app compares the same presentation through the three traditions independently, then organizes
+            overlapping insights into practitioner-facing recommendations, source references, and refinement questions.
+          </p>
+        </div>
+        <span className="rounded-full border border-ink/10 px-3 py-1.5 text-sm text-ink/65">
+          {output.confidence.label}
+        </span>
+      </div>
+      <div className="mt-4 grid gap-3 md:grid-cols-2">
+        {systemOutputCards.map((card, index) => (
+          <article
+            key={card.title}
+            className={
+              index === 2
+                ? "rounded-md border border-moss/20 bg-fog/70 p-3 md:col-span-2"
+                : "rounded-md border border-ink/10 bg-fog/55 p-3"
+            }
+          >
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">
+              {String(index + 1).padStart(2, "0")} · {card.title}
+            </p>
+            <p className="mt-2 text-sm leading-6 text-ink/70">{card.body}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function PracticalOutput({ trace }: { trace: BrainTrace }) {
   const output = trace.practical_output;
   return (
@@ -636,7 +697,7 @@ function PracticalOutput({ trace }: { trace: BrainTrace }) {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="eyebrow mb-2">Working Prototype Output</p>
-          <h2 className="text-2xl font-semibold leading-tight">Patterns</h2>
+          <h2 className="text-2xl font-semibold leading-tight">Practical recommendations</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/68">{output.scope}</p>
         </div>
         <span className="rounded-full bg-ink px-3 py-1.5 text-sm text-white">
@@ -933,6 +994,7 @@ export function PatternBrainPrototype() {
               </section>
 
               <CrossTraditionOutcome trace={trace} />
+              <SystemOutputMap trace={trace} />
               <PracticalOutput trace={trace} />
 
               <section className="rounded-lg border border-ink/10 bg-white/80 p-4">
