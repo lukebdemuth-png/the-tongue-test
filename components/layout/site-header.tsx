@@ -10,7 +10,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-ink/6 bg-fog/88 backdrop-blur-2xl">
       <div className="container-shell flex items-center justify-between gap-6 py-4 md:py-5">
         <Link href="/" className="flex min-w-0 items-center gap-3">
-          <span className="relative h-12 w-12 shrink-0 overflow-hidden border border-ink/10 bg-[#e4a207] shadow-card">
+          <span className="relative h-12 w-12 shrink-0 overflow-hidden border border-ink/10 bg-white/86 shadow-card">
             <Image
               src={siteConfig.logo}
               alt=""
