@@ -3,9 +3,10 @@ import Image from "next/image";
 
 import { WaitlistForm } from "@/components/landing/waitlist-form";
 import { buildMetadata } from "@/lib/metadata";
+import { siteConfig } from "@/lib/site";
 
 export const metadata = buildMetadata({
-  title: "Patterns / Three Traditions",
+  title: "3-patterns",
   description:
     "A source-backed pattern recognition app for practitioners working across Homeopathy, Ayurveda, and Chinese medicine.",
   path: "/",
@@ -68,6 +69,10 @@ const landingImages = {
     src: "/images/landing/free-content-newsletter.png",
     alt: "Editorial desk with a phone, printed educational notes, notebook, tea, and botanical reference material.",
   },
+  logo: {
+    src: siteConfig.logo,
+    alt: "3-patterns logo mark.",
+  },
 };
 
 const trustItems = [
@@ -109,7 +114,23 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(246,242,234,0.98)_0%,rgba(246,242,234,0.9)_38%,rgba(246,242,234,0.56)_68%,rgba(246,242,234,0.22)_100%)]" />
         <div className="container-shell relative flex min-h-[calc(100vh-6rem)] flex-col justify-center py-16 md:min-h-[calc(100vh-7rem)] md:py-24">
           <div className="max-w-3xl">
-            <p className="eyebrow">Patterns / Three Traditions</p>
+            <div className="mb-5 flex items-center gap-3">
+              <span className="relative h-14 w-14 overflow-hidden border border-ink/10 bg-[#e8a900] shadow-card">
+                <Image
+                  src={landingImages.logo.src}
+                  alt={landingImages.logo.alt}
+                  fill
+                  sizes="56px"
+                  className="object-cover"
+                />
+              </span>
+              <div>
+                <p className="eyebrow mb-1">3-patterns</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-ink/52">
+                  Three Traditions
+                </p>
+              </div>
+            </div>
             <h1 className="max-w-4xl text-[3.2rem] leading-[0.96] sm:text-6xl lg:text-[6.5rem]">
               Source-backed pattern intelligence for practitioners.
             </h1>
@@ -146,7 +167,7 @@ export default function HomePage() {
                 Turns intake into tradition-separated reasoning.
               </h2>
               <p className="section-copy mt-6">
-                Patterns is being built as a practical research tool: less
+                3-patterns is being built as a practical research tool: less
                 mystical guessing, more structured comparison, source trace,
                 and clear boundaries around what still needs practitioner
                 judgment.
@@ -335,7 +356,7 @@ export default function HomePage() {
             <h2 className="section-title">Join the waitlist while the app is tested.</h2>
             <p className="section-copy mt-6">
               This is the product lane: join for launch updates, invitations to
-              test Patterns, and access as the source-backed reasoning gets
+              test 3-patterns, and access as the source-backed reasoning gets
               sharper.
             </p>
           </div>
@@ -344,7 +365,7 @@ export default function HomePage() {
               source="product-waitlist"
               buttonLabel="Join the Waitlist"
               successMessage="You are on the product waitlist. I will send launch and testing updates as the app develops."
-              interestPlaceholder="What would make Patterns useful enough for you to test?"
+              interestPlaceholder="What would make 3-patterns useful enough for you to test?"
             />
           </div>
         </div>
@@ -354,7 +375,7 @@ export default function HomePage() {
         <div className="container-shell">
           <div className="border-y border-ink/12 py-10 lg:grid lg:grid-cols-[1fr_34rem] lg:items-center lg:gap-12">
             <div>
-              <p className="eyebrow">Patterns / Three Traditions</p>
+              <p className="eyebrow">3-patterns</p>
               <h2 className="max-w-3xl text-[2.3rem] leading-[1.04] sm:text-5xl">
                 Help shape a careful tool for integrative pattern recognition.
               </h2>

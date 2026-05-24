@@ -1,9 +1,10 @@
 export const siteConfig = {
-  name: "Patterns",
+  name: "3-patterns",
   description:
     "A source-backed pattern recognition app across Homeopathy, Ayurveda, and Chinese medicine.",
   url: "https://example.com",
-  email: "hello@patterns.example",
+  email: "hello@3-patterns.example",
+  logo: "/images/brand/3-patterns-logo.png",
 };
 
 export const navItems = [

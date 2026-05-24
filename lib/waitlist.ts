@@ -95,14 +95,14 @@ async function sendResendEmail(input: { from: string; to: string; subject: strin
 
 async function notifyViaResend(submission: WaitlistSubmission) {
   const to = process.env.WAITLIST_NOTIFY_EMAIL;
-  const from = process.env.WAITLIST_FROM_EMAIL || "waitlist@patterns.app";
+  const from = process.env.WAITLIST_FROM_EMAIL || "waitlist@3-patterns.app";
   if (!process.env.RESEND_API_KEY) return;
 
   if (to) {
     await sendResendEmail({
       from,
       to,
-      subject: "New Patterns waitlist signup",
+      subject: "New 3-patterns waitlist signup",
       text: [
         `Email: ${submission.email}`,
         `Name: ${submission.name ?? ""}`,
@@ -116,9 +116,9 @@ async function notifyViaResend(submission: WaitlistSubmission) {
     await sendResendEmail({
       from,
       to: submission.email,
-      subject: "You are on the Patterns waitlist",
+      subject: "You are on the 3-patterns waitlist",
       text: [
-        "Thanks for joining the Patterns / Three Traditions waitlist.",
+        "Thanks for joining the 3-patterns waitlist.",
         "",
         "We will send practical updates as the practitioner-facing prototype develops.",
         "",

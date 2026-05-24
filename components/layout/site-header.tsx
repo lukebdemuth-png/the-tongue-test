@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 import { navItems, siteConfig } from "@/lib/site";
 
@@ -8,12 +9,24 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-ink/6 bg-fog/88 backdrop-blur-2xl">
       <div className="container-shell flex items-center justify-between gap-6 py-4 md:py-5">
-        <Link href="/" className="min-w-0">
-          <span className="block font-serif text-[1.4rem] tracking-tight text-ink md:text-[1.55rem]">
-            {siteConfig.name}
+        <Link href="/" className="flex min-w-0 items-center gap-3">
+          <span className="relative h-11 w-11 shrink-0 overflow-hidden border border-ink/10 bg-[#e8a900]">
+            <Image
+              src={siteConfig.logo}
+              alt=""
+              fill
+              sizes="44px"
+              className="object-cover"
+              priority
+            />
           </span>
-          <span className="mt-1 block text-[11px] uppercase tracking-[0.2em] text-moss/90">
-            Three Traditions
+          <span className="min-w-0">
+            <span className="block font-serif text-[1.4rem] tracking-tight text-ink md:text-[1.55rem]">
+              {siteConfig.name}
+            </span>
+            <span className="mt-1 block text-[11px] uppercase tracking-[0.2em] text-moss/90">
+              Three Traditions
+            </span>
           </span>
         </Link>
 

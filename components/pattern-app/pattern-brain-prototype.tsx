@@ -636,7 +636,7 @@ function PracticalOutput({ trace }: { trace: BrainTrace }) {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="eyebrow mb-2">Working Prototype Output</p>
-          <h2 className="text-2xl font-semibold leading-tight">Patterns / Three Traditions</h2>
+          <h2 className="text-2xl font-semibold leading-tight">3-patterns</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/68">{output.scope}</p>
         </div>
         <span className="rounded-full bg-ink px-3 py-1.5 text-sm text-white">
@@ -774,7 +774,7 @@ export function PatternBrainPrototype() {
     <main className="container-shell py-10 md:py-14">
       <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="eyebrow mb-3">Pattern App Prototype</p>
+          <p className="eyebrow mb-3">3-patterns Prototype</p>
           <h1 className="text-3xl leading-tight md:text-5xl">Brain trace tester</h1>
           <p className="mt-3 max-w-3xl text-ink/70">
             Enter as little as a chief complaint and a few symptoms, or add modalities, safety context, and tradition-specific notes for a stronger trace.

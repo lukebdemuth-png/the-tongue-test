@@ -1,6 +1,6 @@
 # Landing Page Images
 
-These images are replaceable placeholders for the Patterns / Three Traditions landing page.
+These images are replaceable placeholders for the 3-patterns landing page.
 
 Current files:
 
