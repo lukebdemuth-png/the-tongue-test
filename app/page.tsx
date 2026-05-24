@@ -3,7 +3,7 @@ import Image from "next/image";
 import { WaitlistForm } from "@/components/landing/waitlist-form";
 import { buildMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/lib/site";
-import { sourceCanonGroups } from "@/lib/source-canon";
+import { caseStudyEvidencePolicy, sourceCanonGroups } from "@/lib/source-canon";
 
 export const metadata = buildMetadata({
   title: siteConfig.formalName,
@@ -236,9 +236,10 @@ export default function HomePage() {
               Built for traceability before confidence.
             </h2>
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/68">
-              The app is being organized around a closed-loop book canon, source
-              manifests, chunk-level citations, and daily test runs so weak
-              outputs can be found and improved before launch.
+              The app is being organized around a closed-loop book canon,
+              reviewed case-study evidence, source manifests, chunk-level
+              citations, and daily test runs so weak outputs can be found and
+              improved before launch.
             </p>
             <div className="relative mt-8 aspect-[16/10] overflow-hidden border border-white/12 bg-white/5">
               <Image
@@ -266,10 +267,10 @@ export default function HomePage() {
                   Closed source canon
                 </p>
                 <h3 className="mt-4 max-w-md text-3xl leading-9 text-white">
-                  Only these books shape the app brain.
+                  Only these books and reviewed case studies shape the app brain.
                 </h3>
                 <p className="mt-4 text-sm leading-7 text-white/66">
-                  If a book is not in this canon, it is not used as a core source for
+                  If a source is not in this canon, it is not used as a core source for
                   the closed-loop reasoning system unless it is deliberately added later.
                 </p>
                 <a href="/source-canon" className="button-secondary mt-6 border-white/20 text-white hover:bg-white/10">
@@ -285,6 +286,13 @@ export default function HomePage() {
                     </p>
                   </article>
                 ))}
+                <article className="border-t border-white/14 pt-4">
+                  <p className="text-sm font-semibold text-white">{caseStudyEvidencePolicy.title}</p>
+                  <p className="mt-2 text-sm leading-7 text-white/62">
+                    Applied case reports and case series with clear citations, outcomes,
+                    limitations, and safety notes.
+                  </p>
+                </article>
               </div>
             </div>
           </div>

@@ -11,7 +11,21 @@ export type SourceCanonGroup = {
 };
 
 export const sourceCanonPolicy =
-  "The Patterns brain is being built as a closed-loop source system. Core reasoning is limited to the books listed here unless a new source is deliberately reviewed and added later.";
+  "The Patterns brain is being built as a closed-loop source system. Core reasoning is limited to the books listed here plus reviewed case-study evidence unless a new source is deliberately reviewed and added later.";
+
+export const caseStudyEvidencePolicy = {
+  title: "Case-study evidence",
+  description:
+    "Case studies are included as the applied reasoning and outcome layer. They help test practitioner-style reasoning, follow-up questions, safety limits, response tracking, and real-case uncertainty. They do not replace the core books, repertories, materia medica, or classical foundations.",
+  allowedUse: [
+    "symptoms, signs, and traditional pattern interpretation",
+    "treatment-category rationale and practitioner reasoning",
+    "follow-up, outcome tracking, adverse events, and limitations",
+    "next-best-question testing and confidence calibration",
+  ],
+  authorityRule:
+    "Case studies sit below the core books in authority ranking, but high in applied reasoning value when they include clear citations, follow-up, outcomes, and limitations.",
+};
 
 export const sourceCanonGroups: SourceCanonGroup[] = [
   {
