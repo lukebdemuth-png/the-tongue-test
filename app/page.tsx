@@ -94,13 +94,13 @@ export default function HomePage() {
         <div className="container-shell relative flex min-h-[calc(100vh-6rem)] flex-col justify-center py-16 md:min-h-[calc(100vh-7rem)] md:py-24">
           <div className="max-w-3xl">
             <div className="mb-5 flex items-center gap-3">
-              <span className="relative h-14 w-14 overflow-hidden border border-ink/10 bg-[#e8a900] shadow-card">
+              <span className="relative h-16 w-16 overflow-hidden border border-ink/10 bg-[#e4a207] shadow-card">
                 <Image
                   src={landingImages.logo.src}
                   alt={landingImages.logo.alt}
                   fill
-                  sizes="56px"
-                  className="object-contain p-1"
+                  sizes="64px"
+                  className="object-contain"
                 />
               </span>
               <div>
