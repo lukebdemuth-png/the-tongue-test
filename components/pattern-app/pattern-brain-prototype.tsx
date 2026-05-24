@@ -168,6 +168,8 @@ type PracticalRecommendation = {
   safety_notes: string[];
 };
 
+type CitationReference = BrainTrace["practical_output"]["cited_source_references"][number];
+
 type TraditionEvaluationPacket = {
   evaluation_focus: string;
   possible_dosha_flags?: string[];
@@ -468,37 +470,95 @@ function SymptomPicker({
   );
 }
 
-function ActionBucket({
-  title,
-  items,
+function sourceLabel(citationIds: string[], references: CitationReference[]) {
+  if (!citationIds.length) return "Book source: current on-file canon, stronger citation pending.";
+  const labels = citationIds.slice(0, 3).map((id) => {
+    const reference = references.find((item) => item.citation_id === id);
+    if (!reference) return id;
+    return `${reference.source}${reference.locator ? `, ${reference.locator}` : ""}${reference.pages ? `, p. ${reference.pages}` : ""}`;
+  });
+  return `Book source: ${labels.join(" | ")}`;
+}
+
+function categoryTitle(category: string) {
+  const labels: Record<string, string> = {
+    acupuncture_moxibustion: "Acupuncture / Moxibustion",
+    avoid_reduce: "Avoid / Reduce",
+    breathwork: "Breathwork",
+    constitution_notes: "Constitution Notes",
+    diet: "Foods / Diet",
+    formulas: "Formulas",
+    herbs: "Herbs",
+    lifestyle: "Lifestyle",
+    meditation: "Meditation",
+    modalities: "Modalities",
+    movement: "Movement",
+    observation: "Observation Notes",
+    practitioner_follow_up: "Practitioner Follow-Up",
+    remedy_differential: "Remedy Differential",
+    rubric_cluster: "Repertory Rubrics",
+    sleep: "Sleep",
+    yoga_breath: "Yoga / Breath",
+  };
+  return labels[category] || category.replaceAll("_", " ");
+}
+
+function OutcomeItemCard({
+  item,
+  references,
 }: {
-  title: string;
-  items: PracticalRecommendation[];
+  item: PracticalRecommendation;
+  references: CitationReference[];
 }) {
   return (
-    <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{title}</p>
-      <div className="mt-3 space-y-3">
-        {items.length ? (
-          items.slice(0, 3).map((item, index) => (
-            <div key={`${title}-${item.direction}-${index}`} className="space-y-1">
-              <p className="text-sm leading-6 text-ink/72">{item.practitioner_action}</p>
-              <p className="text-xs leading-5 text-ink/45">
-                {item.tradition}
-                {item.citations.length ? ` · ${item.citations.slice(0, 2).join(", ")}` : ""}
-              </p>
-            </div>
-          ))
-        ) : (
-          <p className="text-sm leading-6 text-ink/55">No source-backed item yet. Add more intake detail to refine this area.</p>
-        )}
+    <article className="rounded-lg border border-ink/10 bg-white/78 p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{categoryTitle(item.category)}</p>
+          <h4 className="mt-2 text-base font-semibold leading-6 text-ink">{item.tradition}</h4>
+        </div>
+        <span className="rounded-full border border-ink/10 bg-fog px-2.5 py-1 text-xs text-ink/55">
+          {item.review_priority.replaceAll("_", " ")}
+        </span>
+      </div>
+      <div className="mt-4 space-y-3">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">Outcome</p>
+          <p className="mt-1 text-sm leading-6 text-ink/76">{item.direction}</p>
+        </div>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">What To Do With It</p>
+          <p className="mt-1 text-sm leading-6 text-ink/76">{item.practitioner_action}</p>
+        </div>
+        <p className="text-xs leading-5 text-ink/48">{sourceLabel(item.citations, references)}</p>
+        {item.source_basis ? <p className="text-xs leading-5 text-ink/48">{item.source_basis}</p> : null}
+        {item.safety_notes.length ? <p className="text-xs leading-5 text-ink/48">{item.safety_notes[0]}</p> : null}
       </div>
     </article>
   );
 }
 
+function groupedOutcomeItems(items: PracticalRecommendation[]) {
+  const seen = new Set<string>();
+  const unique = items.filter((item) => {
+    const key = `${item.category}-${item.tradition}-${item.practitioner_action}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+  return unique.sort((a, b) => {
+    const priority = { review_first: 3, review_second: 2, exploratory: 1, hold_until_clarified: 0 };
+    return (
+      (priority[b.review_priority as keyof typeof priority] ?? 0) -
+        (priority[a.review_priority as keyof typeof priority] ?? 0) ||
+      b.confidence_score - a.confidence_score
+    );
+  });
+}
+
 function OutcomePanel({ trace }: { trace: BrainTrace }) {
   const output = trace.practical_output;
+  const references = output.cited_source_references;
   const actionItems = output.lifestyle_diet_practice_actions;
   const reviewItems = output.herbs_formulas_remedies_to_consider;
   const summary =
@@ -537,7 +597,7 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{item.tradition}</p>
               <p className="mt-3 text-sm leading-6 text-ink/76">{item.direction}</p>
               {item.citations?.length ? (
-                <p className="mt-3 text-xs leading-5 text-ink/45">Source layer: {item.citations.slice(0, 2).join(", ")}</p>
+                <p className="mt-3 text-xs leading-5 text-ink/45">{sourceLabel(item.citations, references)}</p>
               ) : null}
             </article>
           ))}
@@ -555,8 +615,7 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
                   <span>
                     {item.practitioner_action}
                     <span className="mt-1 block text-xs leading-5 text-ink/45">
-                      {item.tradition}
-                      {item.citations.length ? ` · ${item.citations.slice(0, 2).join(", ")}` : ""}
+                      {item.tradition} · {sourceLabel(item.citations, references)}
                     </span>
                   </span>
                 </li>
@@ -589,8 +648,7 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
               <li key={`${item.category}-${item.practitioner_action}`}>
                 {item.practitioner_action}
                 <span className="mt-1 block text-xs leading-5 text-ink/45">
-                  {item.tradition}
-                  {item.citations.length ? ` · ${item.citations.slice(0, 2).join(", ")}` : ""}
+                  {item.tradition} · {sourceLabel(item.citations, references)}
                 </span>
               </li>
             ))}
@@ -741,15 +799,11 @@ function CrossTraditionOutcome({ trace }: { trace: BrainTrace }) {
 
 function PracticalOutput({ trace }: { trace: BrainTrace }) {
   const output = trace.practical_output;
-  const allActions = [
+  const references = output.cited_source_references;
+  const allActions = groupedOutcomeItems([
     ...output.herbs_formulas_remedies_to_consider,
     ...output.lifestyle_diet_practice_actions,
-  ];
-  const herbs = output.herbs_formulas_remedies_to_consider;
-  const foods = allActions.filter((item) => /diet|food|nutrition|meal|appetite|digest/i.test(`${item.category} ${item.practitioner_action}`));
-  const sleep = allActions.filter((item) => /sleep|night|rest/i.test(`${item.category} ${item.practitioner_action}`));
-  const practices = allActions.filter((item) => /routine|practice|daily|breath|movement|meditation|yoga|qigong/i.test(`${item.category} ${item.practitioner_action}`));
-  const avoid = allActions.filter((item) => /avoid|reduce|caution|contraindication|hold|review/i.test(`${item.category} ${item.practitioner_action}`));
+  ]);
   const observationNotes = [
     ...output.questions_still_needed.slice(0, 4),
     ...output.likely_pattern_summary.shared_pattern_signals.slice(0, 3),
@@ -759,10 +813,10 @@ function PracticalOutput({ trace }: { trace: BrainTrace }) {
     <section className="rounded-xl border border-moss/25 bg-white p-5 shadow-card md:p-7">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="eyebrow mb-2">Here Is What To Do</p>
-          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">Practical guidance</h2>
+          <p className="eyebrow mb-2">Organized Outcome Boxes</p>
+          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">Full source-based outcomes</h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-ink/68">
-            {output.likely_pattern_summary.plain_language_summary || output.likely_pattern_summary.case_snapshot || output.scope}
+            Each box below is written as a usable outcome from the books currently on file. Missing modern books will sharpen the details later, but these boxes should stand on the current canon.
           </p>
         </div>
         <span className="rounded-full border border-ink/10 bg-fog px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-ink/62">
@@ -771,19 +825,13 @@ function PracticalOutput({ trace }: { trace: BrainTrace }) {
       </div>
 
       <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-        <ActionBucket title="Herbs / Remedies / Formulas" items={herbs} />
-        <ActionBucket title="Foods" items={foods.length ? foods : output.lifestyle_diet_practice_actions.slice(0, 2)} />
-        <ActionBucket title="Daily Practices" items={practices.length ? practices : output.lifestyle_diet_practice_actions.slice(0, 2)} />
-        <ActionBucket title="Sleep Recommendations" items={sleep.length ? sleep : output.lifestyle_diet_practice_actions.slice(0, 1)} />
-        <ActionBucket title="Avoid / Reduce" items={avoid} />
-        <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Practitioner Follow-Up</p>
-          <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/72">
-            {output.questions_still_needed.slice(0, 4).map((question) => (
-              <li key={question}>{question}</li>
-            ))}
-          </ul>
-        </article>
+        {allActions.slice(0, 12).map((item) => (
+          <OutcomeItemCard
+            key={`${item.category}-${item.tradition}-${item.practitioner_action}`}
+            item={item}
+            references={references}
+          />
+        ))}
       </div>
 
       <div className="mt-4 grid gap-3 lg:grid-cols-2">

@@ -1522,10 +1522,23 @@ def outcome_row(
     tradition: str = "Cross-tradition intake",
     source_basis: str = "",
 ) -> dict[str, Any]:
+    direction_prefix = {
+        "diet": "Food and digestion outcome",
+        "sleep": "Sleep and recovery outcome",
+        "movement": "Movement outcome",
+        "observation": "Observation outcome",
+        "practitioner_follow_up": "Practitioner review outcome",
+        "avoid_reduce": "Avoid/reduce outcome",
+        "breathwork": "Breathwork outcome",
+        "herbs": "Herb review outcome",
+        "formulas": "Formula review outcome",
+        "remedy_differential": "Remedy differential outcome",
+        "rubric_cluster": "Repertory outcome",
+    }.get(category, "Practical outcome")
     return {
         "tradition": tradition,
         "category": category,
-        "direction": action,
+        "direction": f"{direction_prefix}: {action}",
         "practitioner_action": action,
         "confidence_score": confidence,
         "review_priority": review_priority,
