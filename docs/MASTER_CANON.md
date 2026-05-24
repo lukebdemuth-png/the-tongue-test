@@ -109,6 +109,41 @@ Access rule:
 - Treat as private/local or metadata-only unless lawful open access or permission is confirmed.
 - Do not commit extracted full text from these books.
 
+#### Ayurvedic Medicine: The Principles of Traditional Practice
+
+Author:
+
+- Sebastian Pole
+
+Role:
+
+- Concise modern Ayurveda practice reference
+- Practical bridge between traditional principles and clinical application
+- Useful for herbs, treatment categories, and practitioner-facing organization
+
+Access rule:
+
+- Treat as private/local or metadata-only unless lawful open access or permission is confirmed.
+- Track the 2nd edition separately when available.
+- Do not commit extracted full text from copyrighted editions.
+
+#### Prakriti: Your Ayurvedic Constitution
+
+Author:
+
+- Robert Svoboda
+
+Role:
+
+- Concise philosophical Ayurveda text
+- Constitution and prakriti framing
+- Practitioner-facing explanatory bridge
+
+Access rule:
+
+- Treat as private/local or metadata-only unless lawful open access or permission is confirmed.
+- Do not commit extracted full text from copyrighted editions.
+
 ### Ayurveda: Materia Medica
 
 #### Dravyaguna Vijnana
@@ -154,6 +189,23 @@ Primary source:
 
 - https://ia903101.us.archive.org/8/items/HuangDiNeiJingSuWen/Huang%20Di%20Nei%20jing%20su%20wen.pdf
 
+#### The Web That Has No Weaver
+
+Author:
+
+- Ted J. Kaptchuk
+
+Role:
+
+- Modern TCM philosophical and conceptual bridge
+- Practitioner-facing explanation of Chinese medicine pattern language
+- Longstanding interpretive reference for TCM worldview
+
+Access rule:
+
+- Treat as private/local or metadata-only unless lawful open access or permission is confirmed.
+- Do not commit extracted full text from copyrighted editions.
+
 #### Shang Han Lun
 
 Role:
@@ -186,6 +238,10 @@ Primary source:
 
 - https://www.amsil.com/book/benskymateriamedica3th.pdf
 
+Note:
+
+- User will send the exact office TCM materia medica title when available. Keep this layer open until the exact title/edition is confirmed.
+
 #### Chinese Herbal Medicine: Formulas and Strategies
 
 Role:
@@ -213,6 +269,11 @@ Local file status:
 
 - Present as `data/raw/organon_medicine.pdf`.
 - Additional local historical edition present as `data/raw/organon_homeopathic_medicine_1849_third_american.pdf`.
+
+Edition note:
+
+- Prefer the 6th edition when using `Organon of the Medical Art` as the core modern Organon reference.
+- Keep edition metadata explicit and do not merge editions without edition-aware citation handling.
 
 #### The Science of Homeopathy
 
@@ -291,6 +352,48 @@ Role:
 - Repertory logic
 - Symptom indexing
 - Remedy mapping
+
+#### Homeopathic Medical Repertory, 3rd ed.
+
+Author:
+
+- Robin Murphy
+
+Role:
+
+- Modern clinical repertory
+- Organ-system alphabetical organization
+- Clinical diagnosis bridge for practitioners moving between biomedical and homeopathic frameworks
+
+Access rule:
+
+- Treat as private/local or metadata-only unless lawful open access or permission is confirmed.
+- Do not commit extracted full text from copyrighted editions.
+
+### General Herbal Medicine
+
+#### Encyclopedia of Herbal Medicine
+
+Author:
+
+- Andrew Chevallier
+
+Role:
+
+- Broad Western/general herbal medicine reference
+- Botanical and herbal cross-checking layer
+- General herb safety/context support outside tradition-specific materia medica
+
+Access rule:
+
+- Treat as private/local or metadata-only unless lawful open access or permission is confirmed.
+- Do not commit extracted full text from copyrighted editions.
+
+Traditional-system rule:
+
+- General herbal references should support safety and cross-checking, not override Ayurveda or TCM materia medica logic.
+
+### Homeopathy: Additional Materia Medica
 
 #### Lectures on Homeopathic Materia Medica
 

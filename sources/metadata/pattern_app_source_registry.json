@@ -1,12 +1,15 @@
 {
   "registry_name": "Pattern App Core Source Registry",
-  "purpose": "Canonical source registry for the three healing modes: Ayurveda, Traditional Chinese Medicine, and Homeopathy.",
-  "last_updated": "2026-05-21",
+  "purpose": "Canonical source registry for the three healing modes: Ayurveda, Traditional Chinese Medicine, and Homeopathy, plus supporting general herbal references.",
+  "last_updated": "2026-05-24",
   "app_scope": {
     "primary_modes": [
       "Ayurveda",
       "Traditional Chinese Medicine",
       "Homeopathy"
+    ],
+    "supporting_modes": [
+      "General Herbal Medicine"
     ],
     "ranking_target": "source-supported traditional-system relevance, not medical truth",
     "safety_position": "educational, citation-based practitioner research support; not diagnosis or prescription"
@@ -247,6 +250,59 @@
       "next_action": "If user supplies a lawful local copy, register it as private-only and derive private treatment-category metadata."
     },
     {
+      "source_id": "ayurveda_pole_ayurvedic_medicine_principles",
+      "healing_mode": "Ayurveda",
+      "tradition": "Ayurveda",
+      "title": "Ayurvedic Medicine: The Principles of Traditional Practice",
+      "canonical_role": "clinical_reference",
+      "source_layer": "modern practitioner reference",
+      "app_role": [
+        "concise Ayurveda practice reference",
+        "assessment bridge",
+        "herb and treatment-category organization",
+        "practitioner-facing application"
+      ],
+      "priority": "P0",
+      "authors": [
+        "Sebastian Pole"
+      ],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "metadata_only",
+      "rights_access_status": "likely copyrighted; private/local or metadata-only unless lawful open access or permission is confirmed",
+      "text_quality_notes": "Practitioner-recommended concise Ayurveda reference used weekly by the source recommender; track 2nd edition separately when supplied or available.",
+      "next_action": "If user supplies a lawful local copy, register as private-only and derive private assessment/treatment-category metadata."
+    },
+    {
+      "source_id": "ayurveda_svoboda_prakriti",
+      "healing_mode": "Ayurveda",
+      "tradition": "Ayurveda",
+      "title": "Prakriti: Your Ayurvedic Constitution",
+      "canonical_role": "framework_text",
+      "source_layer": "constitution and philosophical framework",
+      "app_role": [
+        "prakriti and constitution framing",
+        "Ayurveda philosophy",
+        "practitioner-facing explanatory bridge"
+      ],
+      "priority": "P1",
+      "authors": [
+        "Robert Svoboda"
+      ],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "metadata_only",
+      "rights_access_status": "likely copyrighted; private/local or metadata-only unless lawful open access or permission is confirmed",
+      "text_quality_notes": "Practitioner-recommended concise philosophical Ayurveda work.",
+      "next_action": "If user supplies a lawful local copy, register as private-only and derive private constitution/communication metadata."
+    },
+    {
       "source_id": "ayurveda_dravyaguna_vijnana",
       "healing_mode": "Ayurveda",
       "tradition": "Ayurveda",
@@ -331,6 +387,33 @@
       "next_action": "Normalize chunks to master metadata schema and verify translator/edition metadata."
     },
     {
+      "source_id": "tcm_kaptchuk_web_that_has_no_weaver",
+      "healing_mode": "Traditional Chinese Medicine",
+      "tradition": "Traditional Chinese Medicine",
+      "title": "The Web That Has No Weaver",
+      "canonical_role": "framework_text",
+      "source_layer": "modern philosophical framework",
+      "app_role": [
+        "TCM worldview",
+        "pattern-language explanation",
+        "yin-yang and qi conceptual bridge",
+        "practitioner-facing communication"
+      ],
+      "priority": "P0",
+      "authors": [
+        "Ted J. Kaptchuk"
+      ],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "metadata_only",
+      "rights_access_status": "likely copyrighted; private/local or metadata-only unless lawful open access or permission is confirmed",
+      "text_quality_notes": "Practitioner-recommended longstanding TCM philosophical bridge; useful for explanation but not an herb/formula authority.",
+      "next_action": "If user supplies a lawful local copy, register as private-only and derive private TCM communication/framework metadata."
+    },
+    {
       "source_id": "tcm_shang_han_lun",
       "healing_mode": "Traditional Chinese Medicine",
       "tradition": "Traditional Chinese Medicine",
@@ -407,6 +490,31 @@
       "rights_access_status": "likely copyrighted; verify permission/open-access status before downloading or extracting",
       "text_quality_notes": "Needed for TCM herbs and contraindications; may require metadata-only handling if rights are unclear.",
       "next_action": "Clarify rights or identify open licensed alternative."
+    },
+    {
+      "source_id": "tcm_user_confirmed_materia_medica_pending",
+      "healing_mode": "Traditional Chinese Medicine",
+      "tradition": "Traditional Chinese Medicine",
+      "title": "User-confirmed TCM Materia Medica",
+      "canonical_role": "materia_medica",
+      "source_layer": "materia medica / herb reference",
+      "app_role": [
+        "TCM herb database",
+        "herb properties",
+        "channels and contraindications",
+        "practitioner office reference"
+      ],
+      "priority": "P0",
+      "authors": [],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "metadata_only",
+      "rights_access_status": "exact title and rights/access status pending user confirmation",
+      "text_quality_notes": "User will send the exact TCM materia medica title/edition from the office. Keep this as a placeholder until confirmed.",
+      "next_action": "On Tuesday, ask user for exact title, author/editor, edition, and whether a lawful local copy is available."
     },
     {
       "source_id": "tcm_chinese_herbal_medicine_formulas_strategies",
@@ -486,7 +594,8 @@
       "local_file_status": "missing",
       "ingestion_status": "metadata_only",
       "rights_access_status": "edition/translation rights needed; modern editions may be copyrighted",
-      "text_quality_notes": "User-designated core Organon title. Current processed Organon chunks use an available fifth/sixth edition source; do not merge editions without edition-aware metadata.",
+      "edition": "6th edition preferred when available",
+      "text_quality_notes": "User-designated core Organon title. Prefer the 6th edition when this edition is supplied, and keep edition metadata explicit because posthumous publication history may matter for interpretation. Current processed Organon chunks use an available fifth/sixth edition source; do not merge editions without edition-aware metadata.",
       "next_action": "If user supplies this edition, register private/local path and keep edition distinct from existing Organon chunks."
     },
     {
@@ -633,6 +742,34 @@
       "next_action": "Use selected Kent rubrics to support Homeopathy rubric clusters; expand parsing/normalization and map abbreviations to full remedy names."
     },
     {
+      "source_id": "homeopathy_murphy_medical_repertory_3rd",
+      "healing_mode": "Homeopathy",
+      "tradition": "Homeopathy",
+      "title": "Homeopathic Medical Repertory",
+      "canonical_role": "repertory",
+      "source_layer": "modern clinical repertory / biomedical bridge",
+      "app_role": [
+        "organ-system rubric organization",
+        "clinical diagnosis bridge",
+        "practitioner navigation between biomedical and homeopathic frameworks",
+        "modern repertory reference"
+      ],
+      "priority": "P0",
+      "authors": [
+        "Robin Murphy"
+      ],
+      "translator_authors": [],
+      "edition": "3rd ed., 2010",
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "metadata_only",
+      "rights_access_status": "likely copyrighted; private/local or metadata-only unless lawful open access or permission is confirmed",
+      "text_quality_notes": "Practitioner-recommended because it organizes rubrics by organ system alphabetically and clinical diagnosis, useful for biomedical/homeopathic bridge workflows.",
+      "next_action": "If user supplies a lawful local copy, register as private-only and derive private rubric navigation metadata."
+    },
+    {
       "source_id": "homeopathy_desktop_guide_keynotes_morrison",
       "healing_mode": "Homeopathy",
       "tradition": "Homeopathy",
@@ -711,6 +848,33 @@
       "rights_access_status": "source and access rights needed",
       "text_quality_notes": "Useful for remedy psychology and constitutional notes.",
       "next_action": "Ask user/ChatGPT for public/open-access source options with rights/access notes."
+    },
+    {
+      "source_id": "general_herbal_chevallier_encyclopedia",
+      "healing_mode": "General Herbal Medicine",
+      "tradition": "Western / General Herbal Medicine",
+      "title": "Encyclopedia of Herbal Medicine",
+      "canonical_role": "materia_medica",
+      "source_layer": "general herbal medicine reference",
+      "app_role": [
+        "general herb reference",
+        "botanical cross-checking",
+        "herbal safety context",
+        "non-TCM/non-Ayurveda herb support"
+      ],
+      "priority": "P1",
+      "authors": [
+        "Andrew Chevallier"
+      ],
+      "translator_authors": [],
+      "known_source_url": null,
+      "local_raw_path": null,
+      "local_outputs": {},
+      "local_file_status": "missing",
+      "ingestion_status": "metadata_only",
+      "rights_access_status": "likely copyrighted; private/local or metadata-only unless lawful open access or permission is confirmed",
+      "text_quality_notes": "Practitioner-recommended general herbal reference introduced through PRT. Use for cross-checking and safety support, not as a replacement for tradition-specific materia medica.",
+      "next_action": "If user supplies a lawful local copy, register as private-only and derive private herb safety/cross-reference metadata."
     }
   ],
   "next_development_order": [

@@ -1,6 +1,6 @@
 # Core Book Canon
 
-This document records the current core book set for the Pattern App. It is the working canon for Homeopathy and Ayurveda source prioritization.
+This document records the current core book set for the Pattern App. It is the working canon for Homeopathy, Ayurveda, Traditional Chinese Medicine, and general herbal source prioritization.
 
 The app remains a practitioner-facing research and comparison tool. These books support citation-based traditional-system analysis; they do not turn the app into a diagnostic or prescribing system.
 
@@ -10,6 +10,10 @@ Classical public-domain or open-access texts can be ingested into extracted text
 
 Modern copyrighted books should be treated as private/local or metadata-only sources unless explicit permission or lawful open access is confirmed. Do not commit extracted full text from private/current copyrighted books. For those sources, preserve bibliographic metadata, chapter/section references when available, user-owned local paths if supplied, and short internal notes needed for retrieval architecture.
 
+## Practitioner-Recommended Medicine Canon
+
+The following list reflects the current medicine-book canon for Patterns. Communication-style references and case-study/outcome evidence are separate layers and should not be mixed into the core medicine canon.
+
 ## Homeopathy Core Books
 
 ### Foundational And System Framework
@@ -17,6 +21,7 @@ Modern copyrighted books should be treated as private/local or metadata-only sou
 1. `Organon of the Medical Art` by Samuel Hahnemann
    - Role: foundational/authoritative philosophical text.
    - App layer: foundational theory, case methodology, philosophical frame.
+   - Edition preference: 6th edition preferred when edition-specific access is available; keep edition metadata distinct because 5th/6th edition history and posthumous publication questions matter for interpretation.
    - Access handling: modern editions/translations may be copyrighted; use public-domain Organon editions for publishable extracted text unless the user supplies a lawful private copy for private-only indexing.
 
 2. `The Science of Homeopathy` by George Vithoulkas
@@ -51,6 +56,11 @@ Modern copyrighted books should be treated as private/local or metadata-only sou
    - App layer: repertory, rubrics, remedy weighting.
    - Access handling: verify edition and rights. Public-domain Kent repertory sources may be used for publishable extraction; modern edited editions may be copyrighted.
 
+8. `Homeopathic Medical Repertory`, 3rd ed. by Robin Murphy
+   - Role: modern clinical repertory organized by organ system alphabetically and by clinical diagnosis.
+   - App layer: practitioner bridge between biomedical framing and homeopathic rubric navigation.
+   - Access handling: modern copyrighted text; private/local or metadata-only unless rights are clear.
+
 ## Ayurveda Core Books
 
 ### Classical Foundation
@@ -84,8 +94,57 @@ Modern copyrighted books should be treated as private/local or metadata-only sou
    - App layer: treatment categories, diet/lifestyle/herb/practice organization for practitioner review.
    - Access handling: likely modern copyrighted text; private/local or metadata-only unless rights are clear.
 
+### Concise Practitioner Ayurveda References
+
+7. `Ayurvedic Medicine: The Principles of Traditional Practice` by Sebastian Pole
+   - Role: thorough but concise Ayurveda practice reference.
+   - App layer: practical bridge for assessment, traditional interpretation, herbs, and practitioner-facing treatment-category organization.
+   - Access handling: modern copyrighted text; private/local or metadata-only unless rights are clear. Track the 2nd edition separately when available.
+
+8. `Prakriti: Your Ayurvedic Constitution` by Robert Svoboda
+   - Role: concise philosophical and constitutional Ayurveda work.
+   - App layer: constitution language, prakriti framing, philosophical bridge for practitioner explanation.
+   - Access handling: modern copyrighted text; private/local or metadata-only unless rights are clear.
+
+9. Works by Robert Svoboda
+   - Role: supporting Ayurveda philosophy and practitioner interpretation layer.
+   - App layer: secondary interpretive/reference layer after specific titles are supplied.
+   - Access handling: metadata-only until specific titles and rights/access status are clarified.
+
+## Traditional Chinese Medicine Core Books
+
+### Foundational And Philosophical Framework
+
+1. `Huangdi Neijing` / `Yellow Emperor's Inner Classic`
+   - Role: most revered classical TCM foundational text; yin/yang, qi, organ networks, seasonal physiology, and pattern logic.
+   - App layer: foundational theory and traditional pattern architecture.
+   - Current repo status: `Huang Di Nei Jing Su Wen` processed baseline exists; edition/translator metadata still needs verification.
+
+2. `The Web That Has No Weaver` by Ted J. Kaptchuk
+   - Role: modern philosophical and conceptual bridge for TCM.
+   - App layer: practitioner-facing explanation, TCM worldview, pattern-language communication.
+   - Access handling: modern copyrighted text; private/local or metadata-only unless rights are clear.
+
+### TCM Materia Medica
+
+3. TCM Materia Medica title pending user confirmation
+   - Role: TCM herb database, properties, channels, functions, contraindications, and formula support.
+   - App layer: herb/formula safety and practitioner review.
+   - Access handling: await exact title from user; treat as private/local or metadata-only unless rights are clear.
+
+## General Herbal Medicine Core Books
+
+1. `Encyclopedia of Herbal Medicine` by Andrew Chevallier
+   - Role: broad Western/general herbal medicine reference.
+   - App layer: general herb reference, botanical cross-checking, safety review, and non-TCM/non-Ayurveda herb context.
+   - Access handling: modern copyrighted text; private/local or metadata-only unless rights are clear.
+
 ## Priority Implication
 
-For Homeopathy, the app needs both foundational philosophy and practical clinical references. The highest missing practical layers are Boericke, Morrison, and Kent-style repertory/rubric data.
+For Homeopathy, the app needs both foundational philosophy and practical clinical references. The highest missing practical layers are Boericke, Morrison, Kent-style repertory/rubric data, and Murphy's modern clinical repertory.
 
-For Ayurveda, the app has the classical foundation started. The next useful private/metadata layer is Vasant Lad Vol. 2 because it directly improves practitioner intake and clinical assessment structure.
+For Ayurveda, the app has the classical foundation started. The next useful private/metadata layers are Vasant Lad Vol. 2 for clinical assessment, Sebastian Pole for concise practitioner application, and Svoboda's `Prakriti` for constitution/philosophy.
+
+For TCM, Huangdi Neijing remains the classical foundation. Kaptchuk should be treated as a modern explanatory bridge, and the exact TCM materia medica title should be added when the user sends it.
+
+For general herbs, Chevallier is a supporting herbal reference and should not override tradition-specific materia medica without practitioner review.

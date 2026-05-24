@@ -1,6 +1,6 @@
 # Holistic Medicine App Project Master
 
-This is the single starting reference for the project. It consolidates the app purpose, canon, source rules, ingestion standards, retrieval logic, output schema, safety boundaries, communication style, local source inventory, and development milestones. The current Homeopathy and Ayurveda core book list is maintained in `docs/CORE_BOOK_CANON.md`.
+This is the single starting reference for the project. It consolidates the app purpose, canon, source rules, ingestion standards, retrieval logic, output schema, safety boundaries, communication style, local source inventory, and development milestones. The current core medicine book list is maintained in `docs/CORE_BOOK_CANON.md`.
 
 This repository is not a generic PDF scraper. It is the ingestion and knowledge-architecture foundation for a practitioner-facing holistic medicine research application.
 
@@ -235,6 +235,38 @@ Local status:
 - Raw PDF present: `data/raw/ashtanga_hridayam.pdf`
 - Extracted/clean/chunk outputs present
 
+#### Vasant Lad Textbook of Ayurveda Volumes 1-3
+
+Role: modern Ayurveda educational framework, clinical assessment, management, and treatment principles.
+
+Local status:
+
+- Missing
+- Metadata-only / private-local handling required unless rights are clear
+
+#### Ayurvedic Medicine: The Principles of Traditional Practice
+
+Author: Sebastian Pole.
+
+Role: concise modern Ayurveda practice reference for assessment, herbs, treatment categories, and practitioner-facing application.
+
+Local status:
+
+- Missing
+- Metadata-only / private-local handling required unless rights are clear
+- Track the 2nd edition separately when supplied or available
+
+#### Prakriti: Your Ayurvedic Constitution
+
+Author: Robert Svoboda.
+
+Role: concise Ayurveda philosophical and constitutional reference.
+
+Local status:
+
+- Missing
+- Metadata-only / private-local handling required unless rights are clear
+
 #### Sushruta Samhita
 
 Role: surgery, anatomy, diagnostics, and classical expansion layer.
@@ -287,6 +319,17 @@ Local status:
 - Raw PDF present: `data/raw/huangdi_neijing.pdf`
 - Extracted/clean/chunk outputs present
 
+#### The Web That Has No Weaver
+
+Author: Ted J. Kaptchuk.
+
+Role: modern TCM philosophy and practitioner-facing explanation of Chinese medicine pattern language.
+
+Local status:
+
+- Missing
+- Metadata-only / private-local handling required unless rights are clear
+
 #### Shang Han Lun
 
 Role: pattern differentiation, disease staging, and formula logic.
@@ -321,6 +364,15 @@ Rights note:
 
 - Verify copyright/access status before committing extracted text.
 
+#### User-confirmed TCM Materia Medica
+
+Role: office TCM materia medica reference to be named by the user.
+
+Local status:
+
+- Pending exact title and edition from user
+- Metadata-only / private-local handling required unless rights are clear
+
 #### Chinese Herbal Medicine: Formulas and Strategies
 
 Role: formula architecture, herb interactions, and formula relationships.
@@ -349,6 +401,11 @@ Local status:
 - Additional historical edition present: `data/raw/organon_homeopathic_medicine_1849_third_american.pdf`
 - Extracted/clean/chunk outputs present
 
+Edition note:
+
+- Prefer the 6th edition when using `Organon of the Medical Art` as the core modern Organon reference.
+- Keep edition metadata explicit; do not merge Organon editions without edition-aware citations.
+
 ### Homeopathy: Materia Medica / Repertory
 
 #### Boericke Materia Medica
@@ -371,6 +428,34 @@ Role: repertory logic, symptom indexing, and remedy mapping.
 Local status:
 
 - Missing
+
+#### Homeopathic Medical Repertory, 3rd ed.
+
+Author: Robin Murphy.
+
+Role: modern clinical repertory organized by organ system alphabetically and by clinical diagnosis; useful as a bridge between biomedical and homeopathic frameworks.
+
+Local status:
+
+- Missing
+- Metadata-only / private-local handling required unless rights are clear
+
+### General Herbal Medicine
+
+#### Encyclopedia of Herbal Medicine
+
+Author: Andrew Chevallier.
+
+Role: broad Western/general herbal medicine reference for botanical cross-checking and safety/context support.
+
+Local status:
+
+- Missing
+- Metadata-only / private-local handling required unless rights are clear
+
+Use note:
+
+- This supports general herb context and safety review. It should not override Ayurveda or TCM materia medica logic.
 
 #### Lectures on Homeopathic Materia Medica
 
