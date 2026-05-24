@@ -16,7 +16,7 @@ export function SiteHeader() {
               alt=""
               fill
               sizes="44px"
-              className="object-cover"
+              className="object-contain p-1"
               priority
             />
           </span>

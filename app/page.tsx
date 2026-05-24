@@ -100,7 +100,7 @@ export default function HomePage() {
                   alt={landingImages.logo.alt}
                   fill
                   sizes="56px"
-                  className="object-cover"
+                  className="object-contain p-1"
                 />
               </span>
               <div>

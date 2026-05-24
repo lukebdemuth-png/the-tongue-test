@@ -7,7 +7,7 @@ export const siteConfig = {
     "3 Patterns analyzes symptoms, tendencies, and health context through the combined frameworks of Homeopathy, Ayurveda, and Chinese medicine — helping surface recurring patterns, traditional interpretations, practical considerations, and cross-system insights drawn from a closed library of classical source texts.",
   url: "https://example.com",
   email: "hello@empiricalpatterns.example",
-  logo: "/images/brand/3-patterns-logo.png",
+  logo: "/images/brand/patterns-logo-mark.png",
 };
 
 export const navItems = [
