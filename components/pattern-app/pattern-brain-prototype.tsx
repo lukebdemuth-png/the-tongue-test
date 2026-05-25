@@ -1053,10 +1053,11 @@ function groupedOutcomeItems(items: PracticalRecommendation[]) {
     return true;
   });
   const categoryRank = (category: string) =>
-    ["diet", "sleep", "movement", "breathwork", "lifestyle", "observation", "avoid_reduce"].includes(category) ? 2 :
-      ["remedy_differential", "rubric_cluster", "herbs", "formulas"].includes(category) ? 1 : 0;
+    category === "pattern_insight" ? 4 :
+    ["diet", "sleep", "movement", "breathwork", "lifestyle", "observation", "avoid_reduce"].includes(category) ? 3 :
+      ["remedy_differential", "rubric_cluster", "herbs", "formulas"].includes(category) ? 2 : 1;
   return unique.sort((a, b) => {
-    const priority = { review_first: 3, review_second: 2, exploratory: 1, hold_until_clarified: 0 };
+    const priority = { matched_pattern: 5, review_first: 4, context_first: 3, review_second: 2, exploratory: 1, hold_until_clarified: 0 };
     return (
       categoryRank(b.category) - categoryRank(a.category) ||
       (priority[b.review_priority as keyof typeof priority] ?? 0) -
@@ -1069,15 +1070,15 @@ function groupedOutcomeItems(items: PracticalRecommendation[]) {
 function OutcomePanel({ trace }: { trace: BrainTrace }) {
   const output = trace.practical_output;
   const references = output.cited_source_references;
-  const actionItems = output.lifestyle_diet_practice_actions;
-  const reviewItems = output.herbs_formulas_remedies_to_consider;
+  const actionItems = groupedOutcomeItems(output.lifestyle_diet_practice_actions);
+  const reviewItems = groupedOutcomeItems(output.herbs_formulas_remedies_to_consider);
   const summary =
     output.likely_pattern_summary.plain_language_summary ||
     output.likely_pattern_summary.case_snapshot ||
     "The intake does not yet contain enough recognized symptom detail for a useful first-pass outcome.";
-  const doFirst = actionItems.slice(0, 5);
-  const holdForReview = reviewItems.slice(0, 2);
-  const bookDirections = output.likely_pattern_summary.tradition_directions.slice(0, 6);
+  const doFirst = actionItems.slice(0, 10);
+  const holdForReview = reviewItems.slice(0, 8);
+  const bookDirections = output.likely_pattern_summary.tradition_directions.slice(0, 15);
   const nextQuestion = output.questions_still_needed[0] || trace.next_best_question;
   return (
     <section className="rounded-xl border border-ink/12 bg-white p-5 shadow-card md:p-7">
@@ -1333,7 +1334,7 @@ function PracticalOutput({ trace }: { trace: BrainTrace }) {
       </div>
 
       <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-        {allActions.slice(0, 12).map((item) => (
+        {allActions.map((item) => (
           <OutcomeItemCard
             key={`${item.category}-${item.tradition}-${item.practitioner_action}`}
             item={item}

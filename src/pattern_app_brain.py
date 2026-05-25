@@ -2712,7 +2712,7 @@ def apply_symptom_outcome_layer(
         signals: list[str] = ["urgent sorting", "context first"]
         tradition_directions: list[dict[str, Any]] = []
         seen_actions: set[tuple[str, str]] = set()
-        for normalized_symptom in recognized[:4]:
+        for normalized_symptom in recognized[:15]:
             profile = outcome_profile_for_symptom(normalized_symptom)
             summaries.append(profile["summary"])
             signals.extend(profile.get("signals", []))
@@ -2773,7 +2773,7 @@ def apply_symptom_outcome_layer(
                 "This presentation needs context-first sorting before deeper traditional interpretation. "
                 + " ".join(summaries[:2])
             ),
-            "tradition_directions": tradition_directions[:9],
+            "tradition_directions": tradition_directions[:30],
             "shared_pattern_signals": sorted(set(signals))[:10],
         }
         practical_output["confidence"] = {
@@ -2785,8 +2785,8 @@ def apply_symptom_outcome_layer(
             ),
         }
         practical_output["questions_still_needed"] = deduped_questions[:10]
-        practical_output["lifestyle_diet_practice_actions"] = action_rows[:8]
-        practical_output["herbs_formulas_remedies_to_consider"] = review_rows[:4]
+        practical_output["lifestyle_diet_practice_actions"] = action_rows
+        practical_output["herbs_formulas_remedies_to_consider"] = review_rows
         practical_output["warnings_and_professional_boundaries"] = [
             *practical_output.get("warnings_and_professional_boundaries", []),
             EMERGENCY_WARNING,
@@ -2803,7 +2803,7 @@ def apply_symptom_outcome_layer(
     intake_text = intake_to_query(intake).lower()
     matched_refinement_count = 0
 
-    for normalized_symptom in recognized[:6]:
+    for normalized_symptom in recognized[:15]:
         profile = outcome_profile_for_symptom(normalized_symptom)
         refinements = pattern_refinement_rows(normalized_symptom["canonical"], intake_text)
         matched_refinement_count += len(refinements)
@@ -2914,8 +2914,8 @@ def apply_symptom_outcome_layer(
     practical_output["likely_pattern_summary"] = {
         **practical_output.get("likely_pattern_summary", {}),
         "case_snapshot": case_snapshot,
-        "plain_language_summary": " ".join(summaries[:3]),
-        "tradition_directions": tradition_directions[:9],
+        "plain_language_summary": " ".join(summaries[:5]),
+        "tradition_directions": tradition_directions[:30],
         "shared_pattern_signals": sorted(set(signals))[:10],
     }
     practical_output["confidence"] = {
