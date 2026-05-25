@@ -195,7 +195,20 @@ CANONICAL_SYMPTOMS: dict[str, dict[str, Any]] = {
     },
     "insomnia": {
         "dimension": "sleep",
-        "aliases": ["insomnia", "can't sleep", "cant sleep", "sleepless", "poor sleep", "waking at night", "restless sleep"],
+        "aliases": [
+            "insomnia",
+            "can't sleep",
+            "cant sleep",
+            "sleepless",
+            "poor sleep",
+            "waking at night",
+            "restless sleep",
+            "trouble sleeping",
+            "sleep trouble",
+            "difficulty sleeping",
+            "hard to sleep",
+            "bad sleep",
+        ],
         "next_questions": [
             "Is the main issue falling asleep, staying asleep, waking too early, or non-restorative sleep?",
             "What time does waking happen, and is there heat, sweating, urination, hunger, worry, pain, or dreams?",
@@ -516,7 +529,9 @@ def normalize_intake_symptoms(intake: dict[str, Any]) -> list[dict[str, Any]]:
     normalized: list[dict[str, Any]] = []
     for value in values:
         canonical = canonical_for_phrase(value)
-        if not canonical or canonical in seen:
+        if not canonical:
+            canonical = "symptom"
+        if canonical in seen:
             continue
         seen.add(canonical)
         payload = CANONICAL_SYMPTOMS[canonical]

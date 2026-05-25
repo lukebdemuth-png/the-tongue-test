@@ -2752,6 +2752,8 @@ def matched_pattern_text(patterns: list[str]) -> str:
 
 def outcome_question_is_relevant(question: str, pattern_text: str) -> bool:
     text = question.lower()
+    if re.fullmatch(r"[a-z_]+", text) or text in {"chief complaint", "primary symptoms", "secondary symptoms"}:
+        return False
     topic_terms = {
         "rash": ["rash", "skin", "itch", "burning", "oozing", "redness", "lesion", "hive"],
         "headache": ["headache", "migraine", "head", "neck", "jaw", "screen"],
@@ -2776,6 +2778,7 @@ def build_twenty_item_outcome_sets(
     patterns = practical_output.get("matched_patterns", [])
     pattern_text = matched_pattern_text(patterns)
     questions = practical_output.get("questions_still_needed", [])
+    relevant_questions = [question for question in questions if outcome_question_is_relevant(question, pattern_text)]
     summary = practical_output.get("likely_pattern_summary", {})
     signals = summary.get("shared_pattern_signals", [])
 
@@ -2915,7 +2918,7 @@ def build_twenty_item_outcome_sets(
 
     tracking.extend(
         [
-            *questions,
+            *relevant_questions,
             *(f"Track signal: {signal}" for signal in signals),
             "Track exact symptom timing: waking, before meals, after meals, afternoon, evening, night, or after exertion.",
             "Track what improves the symptom: warmth, coolness, food, rest, movement, pressure, solitude, expression, or routine.",
@@ -2940,7 +2943,7 @@ def build_twenty_item_outcome_sets(
     )
 
     questions_refinement = [
-        *[question for question in questions if outcome_question_is_relevant(question, pattern_text)],
+        *relevant_questions,
         "Is the main pattern worse from cold, heat, stress, eating, exertion, night, morning, or irregular routine?",
         "Is appetite sharp, dull, variable, low, or steady?",
         "Is stool dry/hard, loose, sticky, urgent, incomplete, or normal?",
@@ -3105,6 +3108,8 @@ def apply_symptom_outcome_layer(
 ) -> dict[str, Any]:
     normalized = normalize_intake_symptoms(intake)
     recognized = [item for item in normalized if item.get("canonical") != "symptom"]
+    if not recognized and normalized:
+        recognized = normalized[:1]
     if not recognized:
         return practical_output
     citation_groups = citation_ids_by_tradition(citations)
