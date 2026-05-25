@@ -1503,6 +1503,306 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
             ("remedy_differential", "Homeopathy review should focus on fears, triggers, restlessness, consolation, temperature, sleep, and peculiar symptoms."),
         ],
     },
+    "brain_fog": {
+        "summary": "Brain fog becomes actionable when connected to timing: morning fog, post-meal fog, poor sleep, stress load, exertion, hydration, caffeine, or digestion.",
+        "signals": ["mind focus", "sleep relationship", "digestion relationship", "energy pattern"],
+        "tradition_directions": [
+            ("Ayurveda", "Review brain fog through agni, ama-like heaviness, meal timing, sleep, kapha sluggishness, and vata overstimulation."),
+            ("Traditional Chinese Medicine", "Review brain fog through damp/heavy tendencies, qi movement, sleep rhythm, digestion, and clear versus turbid sensory state."),
+            ("Homeopathy", "Review brain fog through mental clarity, modalities, time of day, food relationship, sleep quality, and the person’s distinctive mental-emotional state."),
+        ],
+        "actions": [
+            ("observation", "Track when the fog is worst: on waking, after meals, after screens, with stress, after poor sleep, or after exertion."),
+            ("diet", "Run a 3-meal test: warm simple meals, slower eating, no grazing, and note whether clarity changes 30-90 minutes after eating."),
+            ("sleep", "Compare brain fog against bedtime, waking time, night waking, dreams, and whether sleep feels restorative."),
+            ("movement", "Use a 10 minute walk or outdoor light break when fog appears and note whether clarity improves or energy drops."),
+            ("avoid_reduce", "Reduce the most obvious aggravator first: skipped meals, sugar swings, dehydration, heavy meals, late screens, or caffeine overuse."),
+        ],
+        "review": [
+            ("herbs", "Herb/formula categories should separate damp/heavy digestion, depletion, overstimulation, poor sleep, and stimulant-driven fog."),
+            ("remedy_differential", "Homeopathy review should focus on time of day, food effects, sleep, mental dullness, restlessness, and peculiar accompanying symptoms."),
+        ],
+    },
+    "reflux": {
+        "summary": "Reflux becomes useful when organized by burning/sour/bitter quality, timing after meals, lying down, late food, coffee/alcohol/spice, stress, nausea, cough, or throat irritation.",
+        "signals": ["upper digestion", "heat or acidity", "meal timing", "trigger pattern"],
+        "tradition_directions": [
+            ("Ayurveda", "Review reflux through agni disturbance, pitta/heat, meal timing, food quality, stress, and whether heaviness or acidity dominates."),
+            ("Traditional Chinese Medicine", "Review reflux through counterflow, heat, food stagnation, stress constraint, stomach relationship, and timing after eating or lying down."),
+            ("Homeopathy", "Review reflux through sour/bitter/burning character, modalities, food aggravations, timing, nausea, throat/chest relationship, and cravings/aversions."),
+        ],
+        "actions": [
+            ("diet", "For 3 days, test earlier lighter dinners, slower eating, smaller portions, and note reflux after coffee, alcohol, spicy/fatty foods, or late meals."),
+            ("avoid_reduce", "Do not change everything at once: first reduce the clearest trigger such as late eating, coffee, alcohol, spicy food, heavy fats, or lying down after meals."),
+            ("observation", "Record burning versus sour burps, nausea, cough/throat irritation, timing after meals, stress level, and whether upright posture helps."),
+            ("lifestyle", "Create a meal-to-bed gap and stay upright after the largest meal; note whether reflux intensity changes."),
+            ("breathwork", "Use gentle settling breath before meals if stress seems to drive rushing, tightness, or upper digestive tension."),
+        ],
+        "review": [
+            ("herbs", "Digestive herb categories should separate heat/acidity, stagnation, heaviness, cold digestion, and stress-driven counterflow."),
+            ("formulas", "Formula direction depends on whether the pattern is more heat, food stagnation, stress constraint, weak digestion, or mixed."),
+        ],
+    },
+    "diarrhea": {
+        "summary": "Loose stool becomes actionable when organized by frequency, urgency, watery versus loose quality, burning, mucus, food timing, stress, cold foods, morning pattern, and abdominal pain.",
+        "signals": ["stool pattern", "digestion", "urgency", "trigger pattern"],
+        "tradition_directions": [
+            ("Ayurveda", "Review loose stool through agni, ama-like signs, pitta heat, vata irregularity, food triggers, and whether weakness or urgency dominates."),
+            ("Traditional Chinese Medicine", "Review loose stool through dampness, cold/heat, spleen-style digestive weakness, stress relationship, and morning or post-meal timing."),
+            ("Homeopathy", "Review diarrhea through stool character, urgency, timing, pain, food triggers, temperature, modalities, and accompanying mental-emotional state."),
+        ],
+        "actions": [
+            ("observation", "Track stool count, urgency, watery/loose quality, burning, mucus, pain, foods, stress, and time of day."),
+            ("diet", "Use a simple-food test for 24-48 hours: warm, plain, easy-to-digest meals and pause cold/raw/heavy foods to see whether frequency settles."),
+            ("avoid_reduce", "Temporarily reduce likely aggravators: alcohol, rich/fatty foods, dairy if suspect, cold drinks, excess caffeine, and rushing meals."),
+            ("lifestyle", "Keep meals smaller and steady; note whether stool worsens after stress, travel, or irregular eating."),
+            ("observation", "Note thirst, dry mouth, dizziness, weakness, fever, blood, or severe pain because those change the next step."),
+        ],
+        "review": [
+            ("herbs", "Herb categories should separate acute irritation, damp/heavy digestion, cold digestion, heat/burning, stress-triggered stool, and depletion."),
+            ("remedy_differential", "Homeopathy review should focus on stool character, urgency, timing, triggers, pains, thirst, and modalities."),
+        ],
+    },
+    "nausea": {
+        "summary": "Nausea becomes clearer by timing: before eating, after eating, morning, motion, odors, stress, pregnancy possibility, reflux, headache, or bowel changes.",
+        "signals": ["upper digestion", "timing", "trigger pattern", "motion or odor sensitivity"],
+        "tradition_directions": [
+            ("Ayurveda", "Review nausea through agni, ama-like heaviness, pitta heat, kapha heaviness, vata motion sensitivity, and food timing."),
+            ("Traditional Chinese Medicine", "Review nausea through counterflow, stomach relationship, phlegm/damp, heat/cold, food stagnation, and stress constraint."),
+            ("Homeopathy", "Review nausea through timing, odors, motion, food desires/aversions, vomiting relief, temperature, and peculiar accompanying symptoms."),
+        ],
+        "actions": [
+            ("observation", "Track whether nausea is worse before food, after food, with motion, odors, stress, morning, night, reflux, headache, or bowel changes."),
+            ("diet", "Test smaller warm simple meals and avoid rushing, heavy fats, alcohol, and strong odors for one day; note whether nausea changes."),
+            ("avoid_reduce", "Pause the clearest trigger first: late meals, coffee, alcohol, rich foods, motion exposure, strong smells, or eating too quickly."),
+            ("breathwork", "Use slow nasal breathing or fresh air as a pattern test when nausea rises; note whether settling the nervous system changes the stomach."),
+            ("observation", "Record whether vomiting relieves nausea, whether thirst changes, and whether abdominal pain, fever, or dizziness appears."),
+        ],
+        "review": [
+            ("herbs", "Digestive herb categories should separate heat/reflux, cold digestion, damp/heaviness, motion sensitivity, and stress counterflow."),
+            ("remedy_differential", "Homeopathy review should focus on nausea timing, odors, motion, vomiting relief, thirst, food aversions, and modalities."),
+        ],
+    },
+    "cold_hands": {
+        "summary": "Cold hands or feet become useful when connected to time of day, weather, stress, food, fatigue, color change, numbness, movement response, and warmth response.",
+        "signals": ["temperature", "circulation", "stress relationship", "movement response"],
+        "tradition_directions": [
+            ("Ayurveda", "Review cold extremities through vata/cold/dry tendencies, routine, nourishment, circulation, and whether fatigue or anxiety travels with the coldness."),
+            ("Traditional Chinese Medicine", "Review cold extremities through cold/heat balance, qi movement, yang-style warming function, constraint, and response to movement or warmth."),
+            ("Homeopathy", "Review cold hands/feet through thermal state, modalities, time of day, emotional state, circulation sensations, and individual generals."),
+        ],
+        "actions": [
+            ("observation", "Track when hands/feet get cold: morning, evening, after meals, with stress, after caffeine, outdoors, or while sitting."),
+            ("movement", "Use a 5-10 minute brisk-but-easy walk or hand/foot mobility test and note whether warmth returns."),
+            ("diet", "Compare coldness after warm meals versus skipped meals, cold drinks, or coffee-only mornings."),
+            ("lifestyle", "Use warmth as a pattern test: warm socks, warm drink, warm meal, and steady routine; note what changes fastest."),
+            ("avoid_reduce", "Reduce cold exposure and long unmoving screen blocks for one test day and track circulation response."),
+        ],
+        "review": [
+            ("herbs", "Warming/circulation herb categories should wait until the pattern separates cold constitution, stress constraint, depletion, and circulation concern."),
+            ("remedy_differential", "Homeopathy review should focus on thermal state, cold extremities, emotional state, modalities, and what restores warmth."),
+        ],
+    },
+    "hot_flashes": {
+        "summary": "Hot flashes become clearer when organized by timing, night sweats, menstrual/perimenopause relationship, stress, alcohol/spicy food, sleep disruption, palpitations, and cooling response.",
+        "signals": ["heat", "sweating", "sleep relationship", "hormonal rhythm"],
+        "tradition_directions": [
+            ("Ayurveda", "Review hot flashes through pitta/heat, depletion, sleep rhythm, stress, menstrual stage, and food/alcohol aggravation."),
+            ("Traditional Chinese Medicine", "Review hot flashes through heat, yin/fluids, night timing, sweating, spirit/rest relationship, and trigger pattern."),
+            ("Homeopathy", "Review hot flashes through timing, sweating, flushing, emotional trigger, menstrual relationship, thermal modalities, and peculiar features."),
+        ],
+        "actions": [
+            ("observation", "Track time, trigger, sweating, flushing, heart racing, stress, alcohol/spice, sleep disruption, and menstrual/cycle context."),
+            ("avoid_reduce", "Run a 3-day trigger test: reduce alcohol, spicy foods, late meals, overheated rooms, and intense evening work."),
+            ("sleep", "Note whether hot flashes wake you, what time they happen, and whether there is thirst, sweating, dreams, or anxiety."),
+            ("breathwork", "Use slow cooling/settling breath at the first sign of heat and note whether intensity or duration changes."),
+            ("lifestyle", "Use layers, cooler sleep environment, and a consistent wind-down to reduce heat accumulation before bed."),
+        ],
+        "review": [
+            ("herbs", "Cooling or nourishing herb categories need pattern separation: heat excess, depletion heat, stress heat, hormonal transition, or food-triggered heat."),
+            ("remedy_differential", "Homeopathy review should focus on flash timing, sweat, flush, emotions, menstrual relationship, and thermal modalities."),
+        ],
+    },
+    "irritability": {
+        "summary": "Irritability becomes more useful when linked to hunger, poor sleep, heat, stress, overstimulation, menstrual timing, pain, or needing solitude/structure.",
+        "signals": ["stress response", "heat or tension", "sleep relationship", "food relationship"],
+        "tradition_directions": [
+            ("Ayurveda", "Review irritability through pitta intensity/heat, vata overstimulation, hunger rhythm, sleep, and routine disruption."),
+            ("Traditional Chinese Medicine", "Review irritability through constraint, heat, qi movement, sleep, digestion, and stress location in chest/throat/head/digestion."),
+            ("Homeopathy", "Review irritability through triggers, consolation/solitude, anger expression, hunger, sleep, heat, and repeating emotional pattern."),
+        ],
+        "actions": [
+            ("observation", "Track irritability against hunger, caffeine, poor sleep, heat, overstimulation, pain, deadlines, and menstrual timing."),
+            ("diet", "Use regular meals and protein/fat/fiber balance for one day and see whether mood steadies when hunger dips are reduced."),
+            ("avoid_reduce", "Reduce the clearest irritant first: skipped meals, heat, noise, conflict overload, late screens, or over-scheduling."),
+            ("lifestyle", "Create a decompression block after high-stimulation periods: quiet, walk, lower light, or no-input time."),
+            ("breathwork", "Use a 2-minute pause with longer exhale before responding when irritation rises; note whether intensity drops."),
+        ],
+        "review": [
+            ("herbs", "Herb/formula categories should separate heat/intensity, constraint/tension, depletion, poor sleep, and blood-sugar-related irritability."),
+            ("remedy_differential", "Homeopathy review should focus on triggers, anger style, consolation, hunger, sleep, heat, and peculiar emotional patterns."),
+        ],
+    },
+    "cravings": {
+        "summary": "Cravings become useful when organized by taste, timing, stress, fatigue, sleep, menstrual pattern, meals skipped, blood-sugar dips, and what happens after eating the craved food.",
+        "signals": ["taste pattern", "blood sugar rhythm", "stress relationship", "digestion"],
+        "tradition_directions": [
+            ("Ayurveda", "Review cravings through rasa/taste, dosha tendency, agni, ama-like heaviness, routine, and emotional/stress eating patterns."),
+            ("Traditional Chinese Medicine", "Review cravings through digestion, spleen/stomach relationship, damp/heavy tendencies, heat/cold, and emotional constraint."),
+            ("Homeopathy", "Review cravings and aversions as generals: sweet/salty/sour/spicy/fatty/cold/warm desires, timing, and accompanying symptoms."),
+        ],
+        "actions": [
+            ("observation", "Track the craved taste, time of day, hunger level, stress, sleep, menstrual timing, and whether the craving follows skipped meals."),
+            ("diet", "For 3 days, test steady meals before cravings usually appear and note whether intensity reduces."),
+            ("avoid_reduce", "Do not fight every craving at once; reduce the biggest trigger: skipped breakfast, late-night screen time, caffeine swings, or under-eating."),
+            ("lifestyle", "Pair the craving moment with a check-in: hungry, tired, stressed, overstimulated, or needing rhythm."),
+            ("observation", "Record how you feel 30-90 minutes after eating the craved food: clearer, heavier, sleepy, wired, bloated, or calmer."),
+        ],
+        "review": [
+            ("herbs", "Digestive/metabolic herb categories should wait until cravings are separated by taste, timing, digestion, stress, and blood-sugar rhythm."),
+            ("remedy_differential", "Homeopathy review should use cravings/aversions as generals alongside modalities, mental state, sleep, and thermal state."),
+        ],
+    },
+    "low_appetite": {
+        "summary": "Low appetite becomes actionable when connected to morning pattern, stress, nausea, bloating, heaviness, sadness, fever, early fullness, or taste changes.",
+        "signals": ["appetite", "digestion", "mood relationship", "meal rhythm"],
+        "tradition_directions": [
+            ("Ayurveda", "Review low appetite through agni, ama-like heaviness, vata irregularity, kapha dullness, stress, and meal timing."),
+            ("Traditional Chinese Medicine", "Review low appetite through digestive qi, damp/heaviness, stomach relationship, stress constraint, and cold/heat signs."),
+            ("Homeopathy", "Review low appetite through aversions, nausea, thirst, timing, mental-emotional state, food desires, and modalities."),
+        ],
+        "actions": [
+            ("diet", "Use small warm simple meals at steady times for 3 meals and note whether appetite wakes up with rhythm."),
+            ("movement", "Take a short easy walk before a meal and note whether hunger appears or digestion feels clearer."),
+            ("avoid_reduce", "Pause grazing, heavy late meals, cold drinks, and coffee-only mornings if they seem to dull appetite."),
+            ("observation", "Track appetite morning/midday/evening, nausea, bloating, mood, stress, taste, and early fullness."),
+            ("lifestyle", "Create a predictable first-meal window so the body has a repeated signal for hunger."),
+        ],
+        "review": [
+            ("herbs", "Digestive/appetite herb categories should separate weak digestion, heaviness, nausea, heat, cold, stress, and sadness-linked low appetite."),
+            ("remedy_differential", "Homeopathy review should focus on appetite loss with aversions, nausea, mood, thirst, timing, and modalities."),
+        ],
+    },
+    "dry_skin": {
+        "summary": "Dry skin becomes useful when connected to itching, cracking, season, cold weather, bathing, hydration/thirst, constipation, stress, sleep, and food/fat rhythm.",
+        "signals": ["dryness", "skin", "fluid relationship", "elimination relationship"],
+        "tradition_directions": [
+            ("Ayurveda", "Review dry skin through vata dryness, tissue nourishment, routine, oils/fats, hydration, stool dryness, and seasonal aggravation."),
+            ("Traditional Chinese Medicine", "Review dry skin through fluids, dryness, blood/yin-style nourishment categories, heat/cold, and lung/skin relationship language."),
+            ("Homeopathy", "Review dry skin through location, itching/burning/cracking, modalities, season, bathing effects, and accompanying generals."),
+        ],
+        "actions": [
+            ("observation", "Track dryness location, itch, cracking, redness, bathing products, weather, thirst, stool dryness, and sleep."),
+            ("diet", "For 3 days, note whether regular warm meals, adequate fluids, and healthy fats change dryness or itching."),
+            ("lifestyle", "Use a consistent external moisture/oil routine after bathing and note whether skin comfort changes."),
+            ("avoid_reduce", "Reduce the clearest aggravator first: hot showers, harsh products, cold wind, low humidity, or skipped meals/fluids."),
+            ("observation", "Record whether dryness travels with constipation, anxiety, poor sleep, or feeling cold."),
+        ],
+        "review": [
+            ("herbs", "Skin/supportive herb categories should separate dryness, heat, itch, inflammation, depletion, and digestive triggers."),
+            ("remedy_differential", "Homeopathy review should focus on skin location, sensation, modalities, seasonality, and concomitant dryness/stool/thirst patterns."),
+        ],
+    },
+    "neck_tension": {
+        "summary": "Neck tension becomes actionable when connected to screen posture, jaw clenching, stress, headache, sleep position, cold exposure, movement response, and exact location.",
+        "signals": ["pain location", "stress relationship", "posture", "headache relationship"],
+        "tradition_directions": [
+            ("Ayurveda", "Review neck tension through vata movement/tension, stress, cold/dry aggravation, sleep position, and routine."),
+            ("Traditional Chinese Medicine", "Review neck tension through qi movement, channel/location logic, wind/cold exposure, constraint, and headache relationship."),
+            ("Homeopathy", "Review neck tension through exact sensation, modalities, posture, stress trigger, headache connection, and thermal state."),
+        ],
+        "actions": [
+            ("observation", "Map exact location, sensation, headache link, jaw tension, screen time, sleep position, cold exposure, and stress level."),
+            ("movement", "Use a gentle 2-minute mobility test every few hours and note whether movement relieves or aggravates tension."),
+            ("avoid_reduce", "Reduce the clearest aggravator: long unmoving screen blocks, cold wind on the neck, jaw clenching, or sleeping awkwardly."),
+            ("lifestyle", "Add a heat or warmth test when tension appears and note whether warmth changes pain, range of motion, or headache."),
+            ("breathwork", "Use slow exhale with shoulder drop for 1-2 minutes and note whether the neck softens when the nervous system settles."),
+        ],
+        "review": [
+            ("herbs", "Herb/formula categories depend on whether the pattern is cold/tight, heat/inflamed, stress constraint, injury, or depletion."),
+            ("rubric_cluster", "Homeopathy repertory review should focus on neck location, stiffness, modalities, headache connection, and exact sensation."),
+        ],
+    },
+    "joint_pain": {
+        "summary": "Joint pain becomes useful when organized by which joints, swelling, heat, redness, stiffness, morning pattern, cold/damp weather, activity, rest, and movement response.",
+        "signals": ["joint location", "stiffness", "weather relationship", "movement response"],
+        "tradition_directions": [
+            ("Ayurveda", "Review joint pain through vata dryness/movement, ama-like heaviness, heat/inflammation, stiffness, digestion, and weather sensitivity."),
+            ("Traditional Chinese Medicine", "Review joint pain through obstruction-style patterning, cold/damp/heat clues, channel location, movement response, and swelling."),
+            ("Homeopathy", "Review joint pain through location, sensation, stiffness, modalities, weather, movement/rest response, and accompanying generals."),
+        ],
+        "actions": [
+            ("observation", "Track which joints, swelling, heat/redness, stiffness, morning duration, weather, activity, rest, and what changes pain."),
+            ("movement", "Use gentle range-of-motion or walking as a test; note whether joints warm and loosen or become more painful."),
+            ("avoid_reduce", "Reduce the clearest aggravator: cold/damp exposure, overuse, long immobility, inflammatory food triggers, or sleep loss."),
+            ("diet", "Note whether heavy foods, alcohol, sugar swings, or digestive heaviness appear alongside joint flares."),
+            ("lifestyle", "Use warmth versus coolness as a careful pattern test and record which one the joint prefers."),
+        ],
+        "review": [
+            ("herbs", "Joint herb/formula categories should separate cold/damp stiffness, heat/inflammation, dryness, digestion-linked heaviness, and overuse/injury."),
+            ("rubric_cluster", "Homeopathy repertory review should focus on joint location, weather, motion/rest, sensation, stiffness, and concomitants."),
+        ],
+    },
+    "dizziness": {
+        "summary": "Dizziness becomes clearer when separated into spinning, lightheadedness, imbalance, standing-related faintness, motion sensitivity, meal timing, hydration, anxiety, ear symptoms, or medication context.",
+        "signals": ["dizziness type", "timing", "food/fluid relationship", "nervous-system relationship"],
+        "tradition_directions": [
+            ("Ayurveda", "Review dizziness through vata instability, depletion, digestion, hydration, sleep, movement, and overstimulation."),
+            ("Traditional Chinese Medicine", "Review dizziness through wind/movement language, qi/blood/fluid relationships, phlegm/damp heaviness, sleep, and digestion."),
+            ("Homeopathy", "Review dizziness through type, position, motion, timing, nausea, anxiety, thermal state, and modalities."),
+        ],
+        "actions": [
+            ("observation", "Define the dizziness type: spinning, lightheaded, faint, off-balance, motion-sensitive, or standing-related."),
+            ("diet", "Track whether dizziness follows skipped meals, caffeine, dehydration, heavy meals, or blood-sugar dips."),
+            ("avoid_reduce", "Reduce rapid position changes, dehydration, skipped meals, and overexertion while tracking the pattern."),
+            ("breathwork", "If anxiety-linked, use gentle longer-exhale breathing only while seated and note whether dizziness changes."),
+            ("observation", "Record ear symptoms, headache, nausea, palpitations, visual changes, stress, sleep, and medications/supplements."),
+        ],
+        "review": [
+            ("herbs", "Herb/formula categories need the dizziness type first: phlegm/heaviness, depletion, heat, movement/wind, digestion, or anxiety-linked."),
+            ("remedy_differential", "Homeopathy review should focus on position, motion, nausea, visual symptoms, timing, and modalities."),
+        ],
+    },
+    "heavy_feeling": {
+        "summary": "A heavy feeling becomes useful when located: whole body, head, limbs, digestion, chest, or mood, then connected to meals, sleep, damp weather, stress, and movement response.",
+        "signals": ["heaviness", "digestion relationship", "sleep relationship", "movement response"],
+        "tradition_directions": [
+            ("Ayurveda", "Review heaviness through kapha sluggishness, ama-like heaviness, agni, sleep, food quality, and whether movement clears it."),
+            ("Traditional Chinese Medicine", "Review heaviness through damp/heavy tendency, qi movement, digestion, fluids, and whether weather or food worsens it."),
+            ("Homeopathy", "Review heaviness through location, time, modalities, sleep, food, mood, and peculiar accompanying symptoms."),
+        ],
+        "actions": [
+            ("observation", "Locate the heaviness: head, limbs, digestion, chest, whole body, or mood, and track when it appears."),
+            ("diet", "For 3 meals, choose lighter warm cooked food and pause heavy/greasy/cold foods to see whether heaviness changes."),
+            ("movement", "Use a short walk or gentle sweating/movement test and note whether heaviness lifts or worsens."),
+            ("avoid_reduce", "Reduce late meals, oversleeping, grazing, heavy foods, and long sedentary blocks for one test day."),
+            ("lifestyle", "Start the day with one activating rhythm cue: light, movement, warm drink, or a consistent first meal."),
+        ],
+        "review": [
+            ("herbs", "Herb/formula categories should separate damp/heavy digestion, low metabolism, poor sleep, depression-like heaviness, and depletion."),
+            ("remedy_differential", "Homeopathy review should focus on location, timing, food effects, sleep, mood, and what lifts heaviness."),
+        ],
+    },
+    "night_sweats": {
+        "summary": "Night sweats become clearer when organized by timing, soaking versus mild sweat, heat, chills, dreams, thirst, fever, stress, alcohol/spice, menstrual transition, and sleep disruption.",
+        "signals": ["night timing", "sweating", "heat/fluid relationship", "sleep relationship"],
+        "tradition_directions": [
+            ("Ayurveda", "Review night sweats through pitta/heat, depletion, sleep rhythm, stress, hormonal timing, and food/alcohol triggers."),
+            ("Traditional Chinese Medicine", "Review night sweats through yin/fluid/heat language, sleep timing, spirit/rest relationship, and accompanying thirst or heat."),
+            ("Homeopathy", "Review night sweats through timing, amount, body location, dreams, thirst, temperature, and modalities."),
+        ],
+        "actions": [
+            ("observation", "Track time of sweating, amount, body area, heat/chills, thirst, dreams, stress, alcohol/spice, and menstrual/cycle context."),
+            ("sleep", "Note whether sweats wake you, whether sleep feels restored, and whether sweating clusters at the same time each night."),
+            ("avoid_reduce", "For 3 nights, reduce alcohol, spicy/heavy late meals, overheated room, and intense evening work."),
+            ("lifestyle", "Use a cooler sleep environment and consistent wind-down; note whether intensity or timing changes."),
+            ("breathwork", "Use a short settling breath practice before bed if stress heat or activation seems involved."),
+        ],
+        "review": [
+            ("herbs", "Cooling/nourishing herb categories need separation between heat, depletion heat, hormonal transition, infection concern, and food/alcohol triggers."),
+            ("remedy_differential", "Homeopathy review should focus on sweat timing, location, amount, dreams, thirst, and thermal modalities."),
+        ],
+    },
 }
 
 

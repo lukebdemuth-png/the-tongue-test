@@ -1078,7 +1078,7 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
     output.likely_pattern_summary.case_snapshot ||
     "The intake does not yet contain enough recognized symptom detail for a useful first-pass outcome.";
   const doFirst = actionItems.slice(0, 5);
-  const holdForReview = reviewItems.slice(0, 4);
+  const holdForReview = reviewItems.slice(0, 2);
   const bookDirections = output.likely_pattern_summary.tradition_directions.slice(0, 6);
   const nextQuestion = output.questions_still_needed[0] || trace.next_best_question;
   return (

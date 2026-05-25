@@ -131,6 +131,9 @@ def production_view(trace: dict[str, Any]) -> dict[str, Any]:
 
 
 def render_preview(output: dict[str, Any]) -> str:
+    practical = output.get("practical_output", {})
+    actions = practical.get("lifestyle_diet_practice_actions", [])
+    next_actions = practical.get("herbs_formulas_remedies_to_consider", [])
     lines = [
         f"# {output['input'].title()}",
         "",
@@ -152,13 +155,23 @@ def render_preview(output: dict[str, Any]) -> str:
     if not summary.get("tradition_directions"):
         lines.append("- No tradition-specific direction matched strongly enough yet.")
 
+    lines.extend(["", "## Do First", ""])
+    if actions:
+        for item in actions[:5]:
+            lines.append(f"- **{item.get('category', 'action').replace('_', ' ').title()}**: {item.get('practitioner_action') or item.get('direction')}")
+    else:
+        lines.append("- No practical actions generated yet.")
+
+    lines.extend(["", "## Explore Next", ""])
+    if next_actions:
+        for item in next_actions[:2]:
+            lines.append(f"- **{item.get('category', 'review').replace('_', ' ').title()}**: {item.get('practitioner_action') or item.get('direction')}")
+    else:
+        lines.append("- No tradition-specific explore-next items generated yet.")
+
     lines.extend(["", "## Questions Still Needed", ""])
     for item in output.get("practical_output", {}).get("questions_still_needed", [])[:8]:
         lines.append(f"- {item}")
-
-    lines.extend(["", "## Practical Boundaries", ""])
-    for warning in output.get("warnings", [])[:8]:
-        lines.append(f"- {warning}")
 
     lines.extend(["", "## Source References", ""])
     for citation in output.get("cited_source_references", [])[:8]:
