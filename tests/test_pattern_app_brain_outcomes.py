@@ -95,6 +95,7 @@ def test_sparse_inputs_generate_twenty_outcomes_per_category() -> None:
         "lifestyle_practices",
         "tracking",
         "questions_refinement",
+        "additional_insights",
     }
 
     for intake in sparse_cases:

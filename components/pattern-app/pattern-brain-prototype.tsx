@@ -204,6 +204,7 @@ type BrainTrace = {
         lifestyle_practices: string[];
         tracking: string[];
         questions_refinement: string[];
+        additional_insights: string[];
       };
     };
     missing_outcome_sources?: string[];
@@ -1218,6 +1219,7 @@ function StepwiseOutcome({ trace }: { trace: BrainTrace }) {
             ["Lifestyle / Practice", outcome.category_outcomes.lifestyle_practices],
             ["Tracking", outcome.category_outcomes.tracking],
             ["Questions / Refinement", outcome.category_outcomes.questions_refinement],
+            ["Additional Useful Notes", outcome.category_outcomes.additional_insights],
           ].map(([title, items]) => (
             <details key={title as string} open className="rounded-md border border-ink/10 bg-fog/55 p-3">
               <summary className="cursor-pointer text-sm font-semibold text-ink">

@@ -2966,6 +2966,29 @@ def build_twenty_item_outcome_sets(
         "What would make this result wrong?",
     ]
 
+    additional_insights = [
+        *(f"Pattern signal worth keeping: {signal}" for signal in signals),
+        *(f"Useful but uncategorized action note: {text}" for text in action_texts if text),
+        *(f"Useful but uncategorized explore note: {text}" for text in explore_texts if text),
+        "Do not throw away odd details; the strange detail may become the strongest clue once more context is added.",
+        "Keep a separate note for anything that feels important but does not fit diet, herbs, lifestyle, tracking, or questions.",
+        "Notice whether the person describes the pattern as heavy, scattered, hot, cold, dry, stuck, depleted, restless, sharp, dull, or variable.",
+        "Notice whether the pattern feels more like rhythm disruption, overload, depletion, stagnation, heat, cold, dampness, dryness, or sensitivity.",
+        "Notice whether the symptom behaves like a moving pattern, a stuck pattern, a rising pattern, a sinking pattern, or a cyclical pattern.",
+        "Notice whether the person feels better from being alone, being supported, moving, resting, warmth, coolness, pressure, expression, or structure.",
+        "Notice whether the case has a repeating life-pattern theme: overwork, irregularity, overstimulation, suppression, depletion, reactivity, or heaviness.",
+        "Notice whether the language is physical, emotional, sensory, timing-based, food-based, weather-based, relational, or performance-based.",
+        "Notice if one tradition names the pattern clearly while the others only show partial overlap; this may become a useful cross-tradition clue.",
+        "Keep contradictions visible instead of smoothing them over; heat with cold aggravation or fatigue with restlessness may be diagnostically useful later.",
+        "If the input is too thin, preserve the broad possibility instead of forcing a specific remedy, herb, formula, or constitution.",
+        "If the same clue appears in multiple sections of the intake, raise its importance in the next review pass.",
+        "If a suggestion feels plausible but not actionable yet, hold it as a pattern note until the missing question is answered.",
+        "If the user gives a metaphor, phrase, or repeated word, keep it; it may reveal how the person experiences the pattern.",
+        "If the pattern changes quickly, prioritize timing, triggers, and rhythm before fixed constitution labels.",
+        "If the pattern has been present for years, separate baseline constitution from the current aggravation.",
+        "If the outcome feels too generic, the next refinement should ask for what makes the symptom better, worse, stranger, or more specific.",
+    ]
+
     if heat_pattern:
         diet.insert(0, "Because heat/acidity is present, prioritize cooling-simple meals and reduce spicy, fried, alcoholic, and late-heavy inputs before warming herbs.")
     if nervous_pattern:
@@ -2979,6 +3002,7 @@ def build_twenty_item_outcome_sets(
         "lifestyle_practices": unique_strings(lifestyle, 20),
         "tracking": unique_strings(tracking, 20),
         "questions_refinement": unique_strings(questions_refinement, 20),
+        "additional_insights": unique_strings(additional_insights, 20),
     }
 
 
