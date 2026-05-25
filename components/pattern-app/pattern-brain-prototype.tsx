@@ -1183,6 +1183,20 @@ export function PatternBrainPrototype() {
             <PatternProfileBuilder form={form} selectedSymptoms={selectedSymptoms} />
 
             <section className="rounded-xl border border-ink/10 bg-white/80 p-5 shadow-card">
+              <p className="eyebrow mb-2">Describe Your Symptoms</p>
+              <h2 className="text-2xl font-semibold leading-tight">Start with your own words.</h2>
+              <p className="mt-2 text-sm leading-6 text-ink/60">
+                Plain language is enough. The three sections below will help translate your experience through each tradition.
+              </p>
+              <textarea
+                className="mt-5 min-h-[13rem] w-full resize-y rounded-lg border border-ink/10 bg-fog/60 p-4 text-base leading-7 text-ink outline-none transition focus:border-moss focus:bg-white"
+                value={form.practitionerNotes}
+                onChange={(event) => updateForm("practitionerNotes", event.target.value)}
+                placeholder="Symptoms, emotional state, timeline, odd details, what you have noticed, what you keep wondering about..."
+              />
+            </section>
+
+            <section className="rounded-xl border border-ink/10 bg-white/80 p-5 shadow-card">
               <div className="mb-4">
                 <p className="eyebrow mb-2">Intake</p>
                 <h2 className="text-2xl font-semibold leading-tight">Three traditions, one unfolding picture.</h2>
@@ -1358,20 +1372,6 @@ export function PatternBrainPrototype() {
                     <TextField label="Allergies" value={form.allergies} onChange={(value) => updateForm("allergies", value)} rows={2} />
                   </div>
                 </IntakeSection>
-
-                <section className="rounded-xl border border-ink/10 bg-white/80 p-5 shadow-card">
-                  <p className="eyebrow mb-2">In Your Own Words</p>
-                  <h2 className="text-2xl font-semibold leading-tight">Now describe what you understand about what is happening.</h2>
-                  <p className="mt-2 text-sm leading-6 text-ink/60">
-                    After moving through the three lenses, use this space for anything the questions helped you notice: symptoms, emotional state, timeline, odd details, repeating patterns, or what feels most important.
-                  </p>
-                  <textarea
-                    className="mt-5 min-h-[13rem] w-full resize-y rounded-lg border border-ink/10 bg-fog/60 p-4 text-base leading-7 text-ink outline-none transition focus:border-moss focus:bg-white"
-                    value={form.practitionerNotes}
-                    onChange={(event) => updateForm("practitionerNotes", event.target.value)}
-                    placeholder="After answering, I notice... The pattern seems to be... What I keep wondering about is..."
-                  />
-                </section>
               </div>
 
               <div className="mt-6 rounded-xl border border-moss/20 bg-[#f1eee6] p-5">
