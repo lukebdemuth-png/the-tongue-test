@@ -2785,6 +2785,18 @@ def repeat_to_twenty(items: list[str]) -> list[str]:
     return output[:20]
 
 
+def practical_outcome_items(items: list[str]) -> list[str]:
+    low_value_markers = (
+        "Source lane:",
+        "TCM source lane:",
+        "Ayurveda source lane:",
+        "General herb source lane:",
+        "Useful but uncategorized",
+        "Pattern signal worth keeping:",
+    )
+    return [item for item in items if not item.startswith(low_value_markers)]
+
+
 def expanded_category_buckets(
     diet: list[str],
     herbs: list[str],
@@ -2794,7 +2806,46 @@ def expanded_category_buckets(
     additional_insights: list[str],
     pattern_text: str,
 ) -> dict[str, list[str]]:
+    diet_starters = [
+        "Ayurveda: read diet through agni first. If appetite is weak or variable, begin with warm, cooked, regular meals before changing many foods.",
+        "Ayurveda: if the pattern feels vata-like--gas, variable appetite, coldness, anxiety, poor sleep--favor moist warm foods, steady timing, soups, stews, rice, oats, and cooked roots.",
+        "Ayurveda: if the pattern feels pitta-like--heat, acidity, irritability, thirst, flushing--favor simpler cooling meals, reduce alcohol/spice/fried food, and avoid late heavy dinners.",
+        "Ayurveda: if the pattern feels kapha/ama-like--heaviness, sticky stool, puffiness, fog, sluggish appetite--simplify rich, sweet, greasy, cold, and late foods for a short test.",
+        "Chinese medicine: if bloating, post-meal fatigue, fog, or loose stool appear, treat the food plan as a Spleen-qi/dampness experiment: warm, cooked, plain, consistent meals.",
+        "Chinese medicine: if stress tightens digestion, compare a liver-qi constraint food pattern: slow meals, less rushing, less alcohol, fewer greasy late foods, and a walk after eating.",
+        "Chinese medicine: if heat signs appear with digestion, reduce spicy, fried, alcohol, coffee-on-empty-stomach, and late food before using warming digestive spices.",
+        "Homeopathy: use food cravings, aversions, thirst, and aggravations as case clues; do not treat the food list as the remedy choice by itself.",
+    ]
+    herb_starters = [
+        "Ayurveda herb lane: ginger-cumin-fennel belongs with cold, weak, gassy digestion when reflux, burning, thirst, or heat signs are not dominant.",
+        "Ayurveda herb lane: coriander-fennel-mint belongs more with bloating plus heat, acidity, thirst, flushing, or irritability than with cold weak digestion.",
+        "Ayurveda herb lane: triphala is a bowel-pattern comparison lane when constipation, dryness, irregular stool, or incomplete elimination is central.",
+        "Ayurveda herb lane: trikatu is only a cold/sluggish/agni comparison lane; do not prioritize it when acidity, reflux, heat, or irritability dominates.",
+        "Chinese medicine formula lane: Xiao Yao San / Jia Wei Xiao Yao San is a stress-constraint comparison family when irritability, tension, digestion changes, and heat signs need sorting.",
+        "Chinese medicine formula lane: Bao He Wan is a food-stagnation comparison family when bloating, belching, heaviness, and clear food-trigger timing dominate.",
+        "Chinese medicine formula lane: Liu Jun Zi Tang / Xiang Sha Liu Jun Zi Tang is a weak-digestion/dampness comparison family when fatigue, bloating, low appetite, and loose stool cluster.",
+        "Chinese medicine sleep lane: Suan Zao Ren Tang, Gui Pi Tang, and related shen-support formula families require the sleep subtype before comparison.",
+        "Homeopathy differential lane: Nux vomica belongs in the comparison set when overwork, stimulants, irritability, digestive tension, sleep disruption, and excess aggravation fit.",
+        "Homeopathy differential lane: Lycopodium belongs in the comparison set when gas/bloating, post-meal aggravation, confidence/tension themes, and clear modalities fit.",
+        "Homeopathy differential lane: Coffea belongs in the comparison set when sleep is blocked by mental activity, stimulation, excitement, or racing thoughts.",
+        "Homeopathy differential lane: Ignatia belongs in the comparison set when grief, contradiction, sighing, emotional suppression, spasmodic tension, or stress-triggered shifts fit.",
+    ]
+    lifestyle_starters = [
+        "Cross-tradition first move: make one small experiment at a time so the body teaches whether the pattern is heat, cold, damp, dryness, depletion, tension, or irregularity.",
+        "Ayurveda rhythm lane: regular waking, regular meals, and a predictable evening downshift are the first test when vata-like variability, sleep disruption, or scattered energy appears.",
+        "Chinese medicine qi-movement lane: when stress changes digestion, mood, breath, or headache tension, use meal pace, walking, breath, and expression before stronger inputs.",
+        "Homeopathy observation lane: note what reliably makes the person better or worse--warmth, cold, pressure, movement, rest, company, solitude, food, sleep, or timing.",
+    ]
     sleep_recovery = [
+        "Ayurveda: vata-style sleep disturbance looks like difficulty settling, light sleep, variable waking, worry, dryness, coldness, or irregular routine.",
+        "Ayurveda: pitta-style sleep disturbance looks like heat, vivid dreams, irritability, thirst, 2-4am waking, intensity, or late-night mental work.",
+        "Ayurveda: kapha-style sleep disturbance looks like heavy sleep, groggy waking, morning fog, congestion, and sluggish motivation.",
+        "Chinese medicine: shen unrest is the comparison lane when sleep is light, dream-disturbed, anxious, startled, or emotionally activated.",
+        "Chinese medicine: liver constraint/heat is the comparison lane when stress, irritability, tension, heat, and repeated night waking cluster.",
+        "Chinese medicine: stomach/digestion disturbing sleep is the comparison lane when late meals, bloating, reflux, nausea, or heaviness precede waking.",
+        "Homeopathy: Coffea is a sleep differential when the mind is too awake, excited, stimulated, or full of ideas.",
+        "Homeopathy: Nux vomica is a sleep differential when overwork, stimulants, irritability, digestive tension, and waking after excess cluster.",
+        "Homeopathy: Ignatia is a sleep differential when grief, contradiction, sighing, emotional suppression, or stress shock colors the sleep pattern.",
         "For sleep, separate the issue into falling asleep, staying asleep, early waking, vivid dreams, night heat, urination, hunger, pain, or waking unrefreshed.",
         "Use a 4-night sleep rhythm test: earlier lighter dinner, dim light, no late caffeine, reduced evening stimulation, and a repeated wind-down cue.",
         "If waking happens at a repeated hour, record the time, body sensation, emotion, temperature, thirst, urination, hunger, dream, and next-morning energy.",
@@ -2805,9 +2856,6 @@ def expanded_category_buckets(
         "If sleep is disturbed by cold or depletion, test warmth, warm food, warm drink, and a steadier evening rhythm.",
         "If dreams are vivid or restless, track dream tone, heat, stress, food timing, and whether the person wakes activated.",
         "If the person wakes tired, track heaviness, dryness, thirst, congestion, pain, mood, and whether movement clears or worsens fatigue.",
-        "Source lane: Vasant Lad Vol. 2/3 refines sleep by agni, dosha, routine, and depletion/heaviness patterns.",
-        "Source lane: Chinese Herbal Medicine: Formulas and Strategies refines sleep formula categories by heat, deficiency, phlegm/damp, digestion, or shen disturbance.",
-        "Source lane: Kent Lectures and Morrison refine homeopathic sleep differentials by waking time, dreams, position, thermal state, and mental state.",
         "Avoid judging sleep from one night; use at least three nights unless the pattern is very obvious.",
         "Track bedtime, screen cutoff, caffeine timing, alcohol, dinner timing, wakeups, dreams, and morning clarity together.",
         "If sleep worsens after adding anything, stop and return to observation rather than adding more layers.",
@@ -2817,6 +2865,11 @@ def expanded_category_buckets(
         "The sleep outcome should answer: what pattern is disturbing restoration, and what is the smallest rhythm test?",
     ]
     movement_body = [
+        "Ayurveda: vata tension often shows as shifting pain, tightness, dryness, restlessness, cold sensitivity, and symptoms worse with irregularity.",
+        "Ayurveda: pitta tension often shows as heat, sharpness, intensity, inflammation feeling, irritability, and worse from heat or overwork.",
+        "Chinese medicine: qi constraint often shows as tight chest, neck/jaw/shoulder tension, sighing, irritability, stress-triggered digestion, or moving pain.",
+        "Chinese medicine: cold/stagnation comparison becomes stronger when pain or stiffness improves with warmth and worsens with cold.",
+        "Homeopathy: movement is a modality clue. Record better/worse from motion, rest, pressure, darkness, warmth, cold, and position.",
         "Use movement as a pattern test: does gentle movement improve the symptom, worsen it, or create next-day depletion?",
         "For low energy, start with a 10-minute easy walk and track energy immediately, two hours later, and the next morning.",
         "For heaviness or sluggishness, test morning light plus gentle movement before stronger interventions.",
@@ -2831,14 +2884,17 @@ def expanded_category_buckets(
         "For heat patterns, avoid overheated intense sessions and compare cooler, steadier movement.",
         "For menstrual or cyclical symptoms, compare movement tolerance by cycle phase rather than using one fixed rule.",
         "For poor recovery, track soreness, sleep, appetite, mood, and next-day energy after activity.",
-        "Source lane: Ayurveda practical texts refine movement by constitution, depletion, heaviness, and routine.",
-        "Source lane: Chinese medicine formula/channel texts refine movement by constraint, deficiency, cold, heat, and fluid signs.",
         "Movement output should be a test of response, not a generic instruction to exercise more.",
         "If movement causes dizziness, chest symptoms, faintness, severe pain, or neurological symptoms, keep it in review-first territory.",
         "The body outcome should ask: does the system need mobilizing, settling, warming, cooling, strengthening, or rest?",
         "Keep the first movement experiment small enough that the result is readable within 3 days.",
     ]
     breathwork_meditation = [
+        "Ayurveda: use breath as a vata-settling test when scattered thoughts, variable appetite, poor sleep, coldness, or overwhelm appear.",
+        "Ayurveda: use cooling, non-competitive quiet practice when irritability, heat, acidity, intensity, or pressure appear.",
+        "Chinese medicine: use breath and gentle movement as qi-regulation tests when stress creates chest, throat, stomach, head, or rib tension.",
+        "Chinese medicine: use quiet sensory grounding when shen disturbance appears as anxiety, restless sleep, vivid dreams, or emotional activation.",
+        "Homeopathy: record whether stillness helps or worsens; the response to solitude, consolation, movement, and quiet is part of the case.",
         "Use breathwork as a nervous-system test, not as a universal fix; track whether it settles, agitates, or does nothing.",
         "Start with 2-3 minutes of gentle nasal breathing and a slightly longer exhale.",
         "If extended exhale increases anxiety, switch to simple breath awareness or walking instead.",
@@ -2852,8 +2908,6 @@ def expanded_category_buckets(
         "If sadness or heaviness dominates, meditation should not become withdrawal; compare supportive contact, movement, and expression.",
         "If irritability or heat dominates, use cooling, quieting, and lower-stimulation practices.",
         "If cold/depletion dominates, use warm, brief, comforting practices rather than long austere practice.",
-        "Source lane: yoga/breath source material refines practice choices by energy, mind, digestion, and tolerance.",
-        "Source lane: Chinese medicine texts refine breathing/rest practices by qi movement and shen regulation.",
         "Practice output should be tied to a measurable result: sleep onset, bloating, mood shift, energy, pain, or craving.",
         "Avoid strong breath practices when the user reports dizziness, panic, chest tightness, pregnancy concerns, or unstable symptoms.",
         "The practice question is: does the system need quieting, grounding, expression, rhythm, or gentle activation?",
@@ -2861,6 +2915,12 @@ def expanded_category_buckets(
         "If a practice feels helpful, repeat it for three days before adding another.",
     ]
     avoid_reduce = [
+        "Ayurveda: reduce cold/raw/irregular inputs first when vata-like gas, coldness, dryness, poor sleep, or variable appetite dominate.",
+        "Ayurveda: reduce spicy/fried/alcohol/late-heavy inputs first when pitta-like heat, acidity, irritability, thirst, or flushing dominate.",
+        "Ayurveda: reduce sweet/greasy/heavy/cold/late inputs first when kapha-ama heaviness, stickiness, puffiness, or fog dominate.",
+        "Chinese medicine: reduce damp-producing food patterns first when bloating, heaviness, fog, sticky stool, loose stool, or post-meal fatigue dominate.",
+        "Chinese medicine: reduce constraint triggers first when stress, tightness, irritability, sighing, headache, and digestive change cluster.",
+        "Homeopathy: reduce only the clearest aggravator; over-restriction can hide the modalities needed for remedy comparison.",
         "Reduce only one clear aggravator first so the result remains readable.",
         "If heat/acidity appears, reduce alcohol, spicy foods, fried foods, coffee on an empty stomach, and late heavy meals.",
         "If cold/sluggish digestion appears, reduce iced drinks, smoothies, raw-heavy meals, cold snacks, and irregular meals.",
@@ -2875,14 +2935,21 @@ def expanded_category_buckets(
         "If mood reactivity appears, reduce the strongest known trigger and track whether stability improves.",
         "If exercise worsens symptoms, reduce intensity before removing movement entirely.",
         "If the input is unclear, reduce the most obvious disruptor: irregular meals, poor sleep rhythm, caffeine swings, or overstimulation.",
-        "Source lane: Sebastian Pole and Vasant Lad refine Ayurveda-specific avoid/reduce logic.",
-        "Source lane: TCM materia medica/formula texts refine contraindication and pattern-conflict logic.",
         "Avoid/reduce outcomes should not become a long restriction list; choose the highest-signal lever first.",
         "If the person already feels restricted or anxious about food, avoid/reduce should be gentle and rhythm-based first.",
         "If a reduction creates no change after a clean trial, stop treating it as central.",
         "The avoid/reduce outcome should answer: what is most likely muddying the pattern right now?",
     ]
     practitioner_follow_up = [
+        "Ayurveda next question: is appetite sharp, dull, variable, or steady, and what happens after warm cooked meals?",
+        "Ayurveda next question: is stool dry/hard, loose, sticky/heavy, urgent, incomplete, or regular?",
+        "Ayurveda next question: does the person feel more light/scattered, hot/intense, or heavy/sluggish under stress?",
+        "Chinese medicine next question: what does the tongue look like--coating, color, moisture, cracks, teeth marks--if the user can safely observe it?",
+        "Chinese medicine next question: is thirst strong, absent, for cold drinks, for warm drinks, or paired with dry mouth?",
+        "Chinese medicine next question: where does stress land first--chest, throat, ribs, stomach, head, bowels, sleep, or mood?",
+        "Homeopathy next question: what is the most peculiar detail of the whole case, even if it seems unrelated?",
+        "Homeopathy next question: what reliably makes the person better or worse--pressure, motion, rest, warmth, cold, company, solitude, eating, fasting, or sleep?",
+        "Homeopathy next question: what emotional state repeats with the symptom--irritability, fear, grief, sensitivity, impatience, withdrawal, or over-control?",
         "Clarify medications, supplements, pregnancy/postpartum status, known conditions, allergies, and major recent changes before stronger herb/formula/remedy direction.",
         "Ask what would make this unsafe or inappropriate before selecting any named herb, formula, remedy, or practice.",
         "Ask what the user has already tried and what happened; failed attempts are pattern information.",
@@ -2897,8 +2964,6 @@ def expanded_category_buckets(
         "Ask whether any suggestion conflicts with current medical advice or prescribed medication.",
         "Ask whether there are urgent symptoms or medical red flags before interpreting the case traditionally.",
         "Ask whether there is a practitioner already involved who should review herb/formula/remedy ideas.",
-        "Source lane: approved clinical case-study sources refine practitioner follow-up prompts.",
-        "Source lane: approved communication/case-taking books refine the way follow-up questions are worded.",
         "Follow-up should narrow the pattern, not collect endless facts.",
         "When many symptoms are listed, pick the best next question rather than asking every possible question.",
         "The follow-up outcome should answer: what single missing detail would change the recommendation most?",
@@ -2939,17 +3004,17 @@ def expanded_category_buckets(
     if "stress" in pattern_text or "anxiety" in pattern_text:
         breathwork_meditation.insert(0, "Because stress activation is part of the pattern, compare breath, movement, food rhythm, solitude, and structure as calming routes.")
     return {
-        "diet": repeat_to_twenty(diet),
-        "herbs_formulas_remedies": repeat_to_twenty(herbs),
-        "lifestyle_practices": repeat_to_twenty(lifestyle),
-        "sleep_recovery": repeat_to_twenty(sleep_recovery),
-        "movement_body": repeat_to_twenty(movement_body),
-        "breathwork_meditation": repeat_to_twenty(breathwork_meditation),
-        "avoid_reduce": repeat_to_twenty(avoid_reduce),
-        "practitioner_follow_up": repeat_to_twenty(practitioner_follow_up),
-        "tracking": repeat_to_twenty(tracking),
-        "questions_refinement": repeat_to_twenty(questions_refinement),
-        "additional_insights": repeat_to_twenty(additional_insights),
+        "diet": repeat_to_twenty(practical_outcome_items([*diet_starters, *diet])),
+        "herbs_formulas_remedies": repeat_to_twenty(practical_outcome_items([*herb_starters, *herbs])),
+        "lifestyle_practices": repeat_to_twenty(practical_outcome_items([*lifestyle_starters, *lifestyle])),
+        "sleep_recovery": repeat_to_twenty(practical_outcome_items(sleep_recovery)),
+        "movement_body": repeat_to_twenty(practical_outcome_items(movement_body)),
+        "breathwork_meditation": repeat_to_twenty(practical_outcome_items(breathwork_meditation)),
+        "avoid_reduce": repeat_to_twenty(practical_outcome_items(avoid_reduce)),
+        "practitioner_follow_up": repeat_to_twenty(practical_outcome_items(practitioner_follow_up)),
+        "tracking": repeat_to_twenty(practical_outcome_items(tracking)),
+        "questions_refinement": repeat_to_twenty(practical_outcome_items(questions_refinement)),
+        "additional_insights": repeat_to_twenty(practical_outcome_items(additional_insights)),
         "source_basis": repeat_to_twenty(source_basis),
     }
 
@@ -2990,7 +3055,7 @@ def build_twenty_item_outcome_sets(
     tracking = [
         item
         for row in actions
-        if row.get("category") in {"observation", "pattern_insight"}
+        if row.get("category") == "observation"
         for item in [row.get("practitioner_action") or row.get("direction", "")]
     ]
 
@@ -3102,8 +3167,6 @@ def build_twenty_item_outcome_sets(
 
     tracking.extend(
         [
-            *relevant_questions,
-            *(f"Track signal: {signal}" for signal in signals),
             "Track exact symptom timing: waking, before meals, after meals, afternoon, evening, night, or after exertion.",
             "Track what improves the symptom: warmth, coolness, food, rest, movement, pressure, solitude, expression, or routine.",
             "Track what worsens the symptom: cold, heat, stress, skipped meals, late meals, screens, alcohol, caffeine, exertion, or poor sleep.",
@@ -3122,7 +3185,7 @@ def build_twenty_item_outcome_sets(
             "Track what happens when the strongest suspected aggravator is removed for 3 days.",
             "Track what happens when the most supportive rhythm is repeated for 3 days.",
             "Track any contradiction: heat signs with cold aggravation, dry signs with damp signs, hunger with low appetite, fatigue with restlessness.",
-            "Track which tradition-specific question would sharpen the result most: digestion, temperature, sleep timing, stress response, stool, thirst, modality, or mental-emotional state.",
+            "Track which tradition-specific detail would sharpen the result most: digestion, temperature, sleep timing, stress response, stool, thirst, modality, or mental-emotional state.",
         ]
     )
 
@@ -3145,32 +3208,32 @@ def build_twenty_item_outcome_sets(
         "Is there thirst, dry mouth, sweating, night sweating, or fluid retention?",
         "What has changed recently: food, stress, sleep, movement, medication, illness, travel, season, or emotional load?",
         "Which item gives the clearest change after 3 days: meal rhythm, warmth/cooling, caffeine reduction, earlier dinner, movement, or wind-down?",
-        "Which source lane best supports this category: Ayurveda, Chinese medicine, homeopathy, general herbs, or case-taking?",
+        "Which tradition best clarifies this category right now: Ayurveda, Chinese medicine, homeopathy, general herbs, or case-taking?",
         "Which matched pattern should be tested first rather than all at once?",
         "What would make this result wrong?",
     ]
 
     additional_insights = [
-        *(f"Pattern signal worth keeping: {signal}" for signal in signals),
-        *(f"Useful but uncategorized action note: {text}" for text in action_texts if text),
-        *(f"Useful but uncategorized explore note: {text}" for text in explore_texts if text),
-        "Do not throw away odd details; the strange detail may become the strongest clue once more context is added.",
-        "Keep a separate note for anything that feels important but does not fit diet, herbs, lifestyle, tracking, or questions.",
-        "Notice whether the person describes the pattern as heavy, scattered, hot, cold, dry, stuck, depleted, restless, sharp, dull, or variable.",
-        "Notice whether the pattern feels more like rhythm disruption, overload, depletion, stagnation, heat, cold, dampness, dryness, or sensitivity.",
-        "Notice whether the symptom behaves like a moving pattern, a stuck pattern, a rising pattern, a sinking pattern, or a cyclical pattern.",
-        "Notice whether the person feels better from being alone, being supported, moving, resting, warmth, coolness, pressure, expression, or structure.",
-        "Notice whether the case has a repeating life-pattern theme: overwork, irregularity, overstimulation, suppression, depletion, reactivity, or heaviness.",
-        "Notice whether the language is physical, emotional, sensory, timing-based, food-based, weather-based, relational, or performance-based.",
-        "Notice if one tradition names the pattern clearly while the others only show partial overlap; this may become a useful cross-tradition clue.",
-        "Keep contradictions visible instead of smoothing them over; heat with cold aggravation or fatigue with restlessness may be diagnostically useful later.",
-        "If the input is too thin, preserve the broad possibility instead of forcing a specific remedy, herb, formula, or constitution.",
-        "If the same clue appears in multiple sections of the intake, raise its importance in the next review pass.",
-        "If a suggestion feels plausible but not actionable yet, hold it as a pattern note until the missing question is answered.",
-        "If the user gives a metaphor, phrase, or repeated word, keep it; it may reveal how the person experiences the pattern.",
-        "If the pattern changes quickly, prioritize timing, triggers, and rhythm before fixed constitution labels.",
-        "If the pattern has been present for years, separate baseline constitution from the current aggravation.",
-        "If the outcome feels too generic, the next refinement should ask for what makes the symptom better, worse, stranger, or more specific.",
+        "Cross-tradition overlap: stress plus digestion often points first to rhythm, meal pace, qi movement, vata settling, and remedy modalities rather than one isolated symptom.",
+        "Ayurveda insight: the first split is agni and dosha behavior--variable/cold/scattered, sharp/hot/intense, or heavy/slow/sticky.",
+        "Chinese medicine insight: the first split is movement and transformation--constraint, dampness, heat, cold, deficiency, or stomach counterflow.",
+        "Homeopathy insight: the first split is individuality--what is peculiar, what changes the symptom, what emotional state repeats, and what general cravings/temperatures stand out.",
+        "If bloating, stress, and poor sleep appear together, the strongest early hypothesis is a nervous-system/digestion rhythm pattern until stool, appetite, thirst, and modalities refine it.",
+        "If headache joins the pattern, track whether it is driven by stress/neck/jaw constraint, heat, skipped meals, caffeine change, sleep loss, or digestive disturbance.",
+        "If low energy joins the pattern, separate depletion from heaviness: depletion worsens with exertion, heaviness often clears with light movement and simpler meals.",
+        "If heat and cold signs both appear, keep them both visible; this may show mixed pattern behavior rather than a clean single constitution.",
+        "If the user improves quickly from meal rhythm and lower stimulation, the app should weight lifestyle rhythm higher than herbs or remedies on the first pass.",
+        "If the user does not improve from rhythm changes, the next pass should ask sharper questions about stool, sleep timing, thirst, thermal state, and exact modalities.",
+        "A useful outcome should name the pattern, give a small experiment, identify what to track, and say what answer would change the next direction.",
+        "The app should compare traditions without pretending they say the same thing: overlap means similar behavior, not identical theory.",
+        "The clearest next step is the one that makes the pattern more readable within 3-5 days, not the one that sounds most impressive.",
+        "Food suggestions should be pattern tests: warm/cooked, cooling/simple, damp-reducing, regular meals, or stress-before-meal regulation.",
+        "Herb/formula/remedy suggestions should stay in comparison families until the intake captures modalities, safety context, and tradition-specific details.",
+        "Contradictions are useful: cold hands with stress flushing, fatigue with restlessness, or bloating with sharp appetite can point to mixed or layered patterns.",
+        "Repeated timing matters: waking at the same hour, post-meal bloating, afternoon crash, or morning heaviness should shape the next recommendation set.",
+        "Repeated language matters: words like stuck, scattered, heavy, wired, hot, dry, tight, depleted, or foggy should be carried into the pattern profile.",
+        "When the input is thin, produce broad but useful next steps; when the input is rich, narrow toward a smaller, sharper outcome set.",
+        "The result should feel practical first and explanatory second: what to try, what to watch, and what question changes the interpretation.",
     ]
 
     if heat_pattern:

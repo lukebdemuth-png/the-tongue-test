@@ -38,6 +38,27 @@ def minimal_intake(*symptoms: str) -> dict:
     }
 
 
+def rich_stress_digestion_sleep_intake() -> dict:
+    intake = minimal_intake("bloating", "trouble sleeping", "headace", "stress")
+    intake["patient_context"]["current_medications"] = ["none"]
+    intake["symptoms"].update(
+        {
+            "duration": "2 weeks",
+            "severity": "moderate",
+            "worse_from": ["stress"],
+            "time_patterns": ["wakes at 3am", "low afternoon"],
+            "temperature_patterns": ["cold hands", "flushed when stressed"],
+            "digestion": "bloating after meals, worse with stress",
+            "sleep": "hard to fall asleep and wakes at 3am",
+            "energy": "low afternoon",
+            "mood": "stressed and irritable",
+            "pain_location": "head and neck",
+            "pain_quality": "tension",
+        }
+    )
+    return intake
+
+
 def test_single_word_symptoms_generate_practical_outcome_layer() -> None:
     trace = build_brain_trace(minimal_intake("low energy", "headace"), limit=1)
     output = trace["practical_output"]
@@ -159,3 +180,42 @@ def test_source_basis_includes_researched_working_books() -> None:
         "Organon of the Medical Art",
     ]:
         assert expected in source_basis
+
+
+def test_rich_case_outputs_are_not_source_padding() -> None:
+    trace = build_brain_trace(rich_stress_digestion_sleep_intake(), limit=1)
+    outcomes = trace["practical_output"]["stepwise_outcome"]["category_outcomes"]
+
+    for category, items in outcomes.items():
+        if category == "source_basis":
+            continue
+        joined = " ".join(items)
+        assert "Source lane:" not in joined
+        assert "working source lane" not in joined
+        assert "Useful but uncategorized" not in joined
+        assert "Pattern signal worth keeping" not in joined
+        assert "Refinement pass" not in joined
+
+
+def test_rich_case_has_tradition_specific_practical_material() -> None:
+    trace = build_brain_trace(rich_stress_digestion_sleep_intake(), limit=1)
+    outcomes = trace["practical_output"]["stepwise_outcome"]["category_outcomes"]
+
+    diet = " ".join(outcomes["diet"])
+    herbs = " ".join(outcomes["herbs_formulas_remedies"])
+    sleep = " ".join(outcomes["sleep_recovery"])
+    follow_up = " ".join(outcomes["practitioner_follow_up"])
+    insights = " ".join(outcomes["additional_insights"])
+
+    assert "Ayurveda" in diet and "Chinese medicine" in diet and "Homeopathy" in diet
+    assert "triphala" in herbs
+    assert "Xiao Yao San" in herbs
+    assert "Nux vomica" in herbs
+    assert "Lycopodium" in herbs
+    assert "Coffea" in sleep
+    assert "shen" in sleep
+    assert "vata" in sleep
+    assert "Ayurveda next question" in follow_up
+    assert "Chinese medicine next question" in follow_up
+    assert "Homeopathy next question" in follow_up
+    assert "Cross-tradition overlap" in insights
