@@ -776,21 +776,6 @@ const traditionToneClasses: Record<TraditionTone, string> = {
   homeopathy: "border-ink/10 bg-white text-ink",
 };
 
-const sourceIntakeBasis: Record<TraditionTone, string[]> = {
-  tcm: [
-    "Huangdi Neijing: cold/heat, sweating, sleep, urine, pain, chest/abdomen, qi movement",
-    "Current app translation: rhythm, temperature, fluids, elimination, stress location, surface signs",
-  ],
-  ayurveda: [
-    "Sushruta / Ashtanga Hridayam: dosha, agni, ama, mala, sleep, taste, routine, age/day/diet timing",
-    "Current app translation: constitution, appetite, heaviness, routine, food tendencies, grounding",
-  ],
-  homeopathy: [
-    "Organon aphorisms 84-104: narrative first, precise particulars, non-leading questions, modalities, mental state, stools, urine, sleep, thirst, peculiarities",
-    "Current app translation: personal story, better/worse, exact sensation, triggers, repeating emotional pattern",
-  ],
-};
-
 const traditionMicrocopy: Record<TraditionTone, string> = {
   tcm: "This lens watches rhythm: heat and cold, movement and blockage, fullness and depletion.",
   ayurveda: "This lens listens for constitution: what steadies you, what scatters you, and how digestion carries the story.",
@@ -828,13 +813,6 @@ function TraditionIntakeSection({
         <p className="mt-4 border-l-2 border-moss/40 pl-3 text-sm leading-6 text-ink/62">
           {traditionMicrocopy[tone]}
         </p>
-        <div className="mt-4 grid gap-2 md:grid-cols-2">
-          {sourceIntakeBasis[tone].map((basis) => (
-            <p key={basis} className="border border-ink/10 bg-white/68 px-3 py-2 text-xs leading-5 text-ink/54">
-              {basis}
-            </p>
-          ))}
-        </div>
       </div>
       <div className="grid gap-4 border-t border-ink/8 bg-[#fbfaf6] p-5 md:p-6">
         {children}
@@ -1430,9 +1408,6 @@ export function PatternBrainPrototype() {
                   reflection="What you are learning here: the way a pattern begins, repeats, and changes often matters as much as the symptom name itself."
                   defaultOpen
                 >
-                  <p className="border-l-2 border-moss/35 pl-3 text-xs leading-5 text-ink/54">
-                    Source basis: the Organon case method begins with the person describing the history in their own words before the system asks for particulars.
-                  </p>
                   <TextField
                     label="Main concern, in your own words"
                     value={form.chiefComplaint}
@@ -1769,7 +1744,7 @@ export function PatternBrainPrototype() {
                   <ReflectionCard title="Temperature + Rhythm" insight="This lens asks whether your system tends to run cold, hot, mixed, dry, restless, full, or depleted.">
                     <ChoicePills
                       prompt="Do you tend to feel more hot, cold, mixed, or changing?"
-                      note="Book-derived logic: Huangdi Neijing material repeatedly separates cold, heat, sweating, dryness, and alternating states."
+                      note="This helps separate temperature, dryness, sweating, and changing states."
                       value={form.temperature}
                       choices={["cold easily", "runs hot", "alternating hot and cold", "hot flashes", "night sweats", "dry mouth", "thirsty", "changes day to day"]}
                       onChange={(value) => updateForm("temperature", value)}
@@ -1824,7 +1799,7 @@ export function PatternBrainPrototype() {
                   <ReflectionCard title="Constitution + Routine" insight="This lens looks for what steadies you, what scatters you, and what your baseline nature seems to prefer.">
                     <ChoicePills
                       prompt="What happens when your schedule becomes irregular?"
-                      note="Book-derived logic: Ashtanga Hridayam links dosha patterns with age, day, night, diet timing, and digestion."
+                      note="This helps notice whether rhythm changes make you scattered, intense, heavy, hungry, tired, or unsteady."
                       value={form.ayurvedaNotes}
                       choices={["scattered", "anxious", "irritable", "heavy or sluggish", "cravings increase", "sleep gets off", "digestion changes"]}
                       onChange={(value) => updateForm("ayurvedaNotes", value)}
@@ -1840,7 +1815,7 @@ export function PatternBrainPrototype() {
                   <ReflectionCard title="Agni: Your Digestive Fire" insight="Agni is the everyday question of how well you take in, transform, and feel clear after food and experience.">
                     <ChoicePills
                       prompt="How would you describe your appetite?"
-                      note="Book-derived logic: Sushruta and Ashtanga distinguish regular, variable, sharp, and dull digestive fire."
+                      note="This helps distinguish steady, variable, sharp, dull, heavy, or irritated digestion."
                       value={form.digestion}
                       choices={["regular appetite", "variable appetite", "strong appetite", "low appetite", "heavy after meals", "bloating", "burning or acidity", "skipping meals throws me off"]}
                       onChange={(value) => updateForm("digestion", value)}
@@ -1885,7 +1860,7 @@ export function PatternBrainPrototype() {
                   <ReflectionCard title="Sensitivity + Response" insight="This section watches your individual style: what drains you, what overwhelms you, and how you adapt.">
                     <ChoicePills
                       prompt="What happens when you feel emotionally overwhelmed?"
-                      note="Book-derived logic: Organon case-taking looks for the person’s own words, mental state, and what is most individual."
+                      note="This helps find your individual response pattern, not just the symptom name."
                       value={form.homeopathyNotes}
                       choices={["withdraw", "need reassurance", "become restless", "push through", "get irritable", "shut down", "cry easily", "feel stuck"]}
                       onChange={(value) => updateForm("homeopathyNotes", value)}
@@ -1899,9 +1874,6 @@ export function PatternBrainPrototype() {
                   </ReflectionCard>
 
                   <ReflectionCard title="What Changes Symptoms" insight="Better and worse are not small details. They are often the details that make your pattern more specific.">
-                    <p className="border-l-2 border-moss/35 pl-3 text-xs leading-5 text-ink/54">
-                      Source basis: Organon 86-88 emphasizes each symptom’s timing, exact sensation, exact place, and what changes it, while avoiding yes/no leading questions.
-                    </p>
                     <div className="grid gap-3 md:grid-cols-2">
                       <TextField label="Better from" value={form.betterFrom} onChange={(value) => updateForm("betterFrom", value)} placeholder="rest, heat, cold, pressure, movement, eating, being alone..." rows={3} />
                       <TextField label="Worse from" value={form.worseFrom} onChange={(value) => updateForm("worseFrom", value)} placeholder="night, stress, cold, heat, motion, noise, certain foods..." rows={3} />
