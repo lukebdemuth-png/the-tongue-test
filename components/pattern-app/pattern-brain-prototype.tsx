@@ -992,6 +992,7 @@ function categoryTitle(category: string) {
     modalities: "Modalities",
     movement: "Movement",
     observation: "Observation Notes",
+    pattern_insight: "Pattern Insight",
     practitioner_follow_up: "Follow-Up",
     remedy_differential: "Remedy Differential",
     rubric_cluster: "Repertory Rubrics",
@@ -1006,7 +1007,9 @@ function priorityLabel(priority: string) {
     review_first: "Start here",
     review_second: "Explore next",
     exploratory: "Optional",
+    matched_pattern: "Matched pattern",
     hold_until_clarified: "Needs more detail",
+    context_first: "Context first",
   };
   return labels[priority] || priority.replaceAll("_", " ");
 }

@@ -2426,6 +2426,228 @@ def outcome_profile_for_symptom(normalized_symptom: dict[str, Any]) -> dict[str,
     }
 
 
+def has_any(text: str, terms: set[str]) -> bool:
+    return any(term in text for term in terms)
+
+
+def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, Any]]:
+    """Return intake-specific pattern refinements for the first real outcome layer.
+
+    These are deliberately plain structured rules: they turn intake clues such as
+    heat/cold, timing, stool, appetite, stress, sleep, and modalities into a more
+    specific result than symptom-only output.
+    """
+    hot = has_any(intake_text, {"hot", "heat", "burning", "flushing", "sweat", "thirst", "spicy", "irritable"})
+    cold = has_any(intake_text, {"cold", "chilly", "cold hands", "cold feet", "better from warmth", "warmth helps", "cold drinks worsen"})
+    damp_heavy = has_any(intake_text, {"heavy", "sluggish", "sticky", "mucus", "puffy", "swelling", "damp", "after meals", "sleepy after eating"})
+    dry = has_any(intake_text, {"dry", "dry mouth", "dry skin", "hard stool", "constipation", "thirst"})
+    variable = has_any(intake_text, {"variable", "irregular", "scattered", "travel", "racing", "anxious", "restless"})
+    stress = has_any(intake_text, {"stress", "pressure", "overwhelmed", "work", "racing thoughts", "tension", "irritability"})
+    post_meal = has_any(intake_text, {"after meals", "after eating", "post-meal", "post meal", "after lunch", "bloating", "burping", "sluggishness"})
+    night = has_any(intake_text, {"night", "2-4", "3 a.m", "waking", "dream", "sweat"})
+    morning = has_any(intake_text, {"morning", "waking tired", "on waking", "wake up"})
+    exertion = has_any(intake_text, {"after exertion", "exertion", "workout", "exercise exhaust", "next-day depletion"})
+
+    rows: list[dict[str, Any]] = []
+
+    def add(
+        pattern: str,
+        plain: str,
+        ayurveda: str,
+        tcm: str,
+        homeopathy: str,
+        actions: list[tuple[str, str]],
+        explore: list[tuple[str, str]],
+        signals: list[str],
+    ) -> None:
+        rows.append(
+            {
+                "pattern": pattern,
+                "plain": plain,
+                "tradition_directions": [
+                    ("Ayurveda", ayurveda),
+                    ("Traditional Chinese Medicine", tcm),
+                    ("Homeopathy", homeopathy),
+                ],
+                "actions": actions,
+                "review": explore,
+                "signals": signals,
+            }
+        )
+
+    if canonical in {"fatigue", "brain_fog", "weight_gain", "heavy_feeling"}:
+        if post_meal or damp_heavy:
+            add(
+                "post-meal heaviness / weak digestive fire",
+                "The strongest clue is that energy and clarity appear tied to digestion. This points less to generic tiredness and more to a food-rhythm, heaviness, and digestive-processing pattern.",
+                "Agni/ama is the first Ayurveda lane: variable or weak appetite, post-meal heaviness, sticky stool, cravings, and low energy after eating make digestion the first pattern to clarify.",
+                "Spleen-qi/damp-style language is the first Chinese medicine lane: heaviness, bloating, post-meal fatigue, and fog suggest food transformation and fluid movement should be sorted before tonics.",
+                "Homeopathy should prioritize generals and modalities around food: worse after eating, morning heaviness, sluggishness, cravings, and what improves energy.",
+                [
+                    ("pattern_insight", "Treat the first experiment as a digestion-energy test, not an energy supplement test."),
+                    ("diet", "For 3 days: warm cooked breakfast, steady lunch, no grazing, no cold drinks with meals, and write energy/fog 30, 60, and 120 minutes after eating."),
+                    ("avoid_reduce", "Reduce the heaviest digestive load first: late meals, cold/raw meals, excess sweets, greasy foods, or rushing while eating."),
+                ],
+                [
+                    ("herbs", "Explore digestive-support categories only if low appetite, heaviness, belching, bloating, or sticky stool remain clear confirming signs."),
+                    ("formulas", "Formula categories should separate weak digestion from damp/heaviness before anything more specific is named."),
+                ],
+                ["post-meal pattern", "heaviness", "agni/ama", "damp tendency"],
+            )
+        if morning or exertion:
+            add(
+                "poor restoration / recovery depletion",
+                "The core clue is poor restoration: sleep, rest, or exercise is not reliably rebuilding energy. The practical direction is to test recovery before adding intensity.",
+                "Ayurveda lane: vata depletion or irregular routine should be checked against sleep quality, meal rhythm, and whether exertion drains the next day.",
+                "Chinese medicine lane: qi/blood-style insufficiency language should be compared with exertion intolerance, morning fatigue, and recovery time.",
+                "Homeopathy lane: focus on fatigue modalities: worse morning, worse after exertion, better rest or food, and mental-emotional state.",
+                [
+                    ("pattern_insight", "Make recovery the main experiment: what restores energy, what spends it, and how long payback lasts."),
+                    ("movement", "Use a low-intensity movement floor for 5 days and record next-day energy. If payback appears, reduce intensity before increasing frequency."),
+                    ("sleep", "Track sleep as restoration, not just hours: bedtime, waking, night waking, dreams, morning heaviness, and energy by late morning."),
+                ],
+                [
+                    ("herbs", "Explore restorative categories only after digestion, sleep quality, and exertion payback are separated."),
+                    ("remedy_differential", "Homeopathic comparison should center on exhaustion after exertion, morning heaviness, sleep quality, and what restores vitality."),
+                ],
+                ["recovery", "morning energy", "exertion response", "sleep restoration"],
+            )
+
+    if canonical in {"bloating", "reflux", "stomach_pain", "nausea", "constipation", "diarrhea", "low_appetite", "cravings"}:
+        if stress:
+            add(
+                "stress-digestion movement pattern",
+                "Digestion appears to change under stress. The first outcome should test nervous-system load, meal pace, and gas/movement before focusing on food lists.",
+                "Ayurveda lane: vata disturbance around irregular meals, stress, variable appetite, gas, and sleep disruption should be clarified.",
+                "Chinese medicine lane: liver-qi/stomach-spleen movement language is the first comparator when stress changes appetite, bloating, reflux, or stool.",
+                "Homeopathy lane: prioritize what stress does to the person: tightness, appetite change, stool change, reassurance needs, irritability, and better/worse from motion or pressure.",
+                [
+                    ("pattern_insight", "This looks like digestion plus stress response, not digestion alone."),
+                    ("lifestyle", "For 3 meals: sit down, slow the first 5 bites, no screen/rushing, and note bloating/reflux/stool response."),
+                    ("breathwork", "Before the largest meal, use 60 seconds of slow breathing and relaxed belly/jaw; record whether symptoms change."),
+                ],
+                [
+                    ("formulas", "Explore movement/regulation formula categories only if stress reliably changes digestion or stool."),
+                    ("remedy_differential", "Homeopathic review should focus on stress triggers, appetite, pressure, gas movement, stool timing, and emotional response."),
+                ],
+                ["stress digestion", "qi movement", "vata irregularity", "meal pace"],
+            )
+        if hot:
+            add(
+                "heat / acidity digestive pattern",
+                "Heat signs change the digestive result: burning, thirst, irritability, reflux, spicy/alcohol triggers, or sour/bitter rising point toward cooling and reducing aggravation first.",
+                "Ayurveda lane: pitta/agni irritation should be checked through burning, thirst, sharp appetite, loose stool, irritability, and heat triggers.",
+                "Chinese medicine lane: stomach heat or counterflow language should be compared with reflux, thirst, burning, bitter/sour taste, and irritability.",
+                "Homeopathy lane: focus on burning quality, thirst, food triggers, timing, position, and what cools or aggravates.",
+                [
+                    ("pattern_insight", "The first practical move is to reduce heat triggers and observe acidity/irritation, not to stimulate digestion."),
+                    ("diet", "For 3 days, reduce alcohol, late heavy meals, coffee on an empty stomach, very spicy foods, and large fatty meals; record burning/reflux/thirst."),
+                    ("lifestyle", "Keep a meal-to-bed gap and stay upright after dinner if symptoms rise after eating."),
+                ],
+                [
+                    ("herbs", "Explore cooling/digestive categories only if heat signs remain clear after trigger reduction."),
+                    ("formulas", "Formula categories should separate heat/acidity from food stagnation and weak digestion."),
+                ],
+                ["heat", "acidity", "counterflow", "pitta"],
+            )
+        if cold:
+            add(
+                "cold / weak digestive pattern",
+                "Cold sensitivity changes the digestive result: symptoms worse from cold drinks/raw foods and better from warmth point toward warming, simplifying, and regularizing first.",
+                "Ayurveda lane: weak/variable agni with vata-kapha coldness should be checked through appetite, gas, stool, warmth preference, and low energy.",
+                "Chinese medicine lane: cold/deficiency-style digestion should be compared with loose stool, low appetite, cold limbs, and better warmth.",
+                "Homeopathy lane: emphasize thermal state, desire for warm drinks/food, stool, bloating, and better/worse from warmth or cold.",
+                [
+                    ("pattern_insight", "The first experiment should warm and simplify digestion before adding complex food changes."),
+                    ("diet", "For 3 days, use warm cooked meals, warm drinks, and fewer raw/cold foods; track bloating, appetite, stool, and energy."),
+                    ("avoid_reduce", "Pause iced drinks, cold smoothies, raw-heavy meals, and late cold snacks while testing the pattern."),
+                ],
+                [
+                    ("herbs", "Explore warming digestive categories only if cold sensitivity, low appetite, bloating, or loose stool remain consistent."),
+                    ("remedy_differential", "Homeopathic review should compare cold aggravation, warmth relief, stool, and appetite modalities."),
+                ],
+                ["cold digestion", "weak agni", "warmth better", "low appetite"],
+            )
+
+    if canonical in {"insomnia", "anxiety", "restlessness", "stress", "irritability", "sadness"}:
+        if night or has_any(intake_text, {"waking", "2-4", "3 a.m", "dream"}):
+            add(
+                "night activation / unsettled sleep pattern",
+                "The result should focus on why the system activates at night: dreams, heat, worry, digestion, urination, or stress load.",
+                "Ayurveda lane: vata night activation and pitta heat should be distinguished through dreams, waking time, dryness/heat, and evening rhythm.",
+                "Chinese medicine lane: shen unrest, heat, digestion, and night timing should be compared rather than treating sleep as one generic symptom.",
+                "Homeopathy lane: sleep timing, dreams, mental state at night, fears, temperature, and modalities become the center of the case.",
+                [
+                    ("pattern_insight", "This is a night-activation pattern until proven otherwise."),
+                    ("sleep", "For 4 nights, record exact waking time and the first clue: heat, urination, hunger, worry, dream, pain, noise, or no obvious reason."),
+                    ("avoid_reduce", "Run one clean evening: lighter earlier dinner, no alcohol, no late caffeine, dim screens, and no intense work in the final hour."),
+                ],
+                [
+                    ("formulas", "Explore sleep formula categories only after night timing is separated into heat, worry, digestion, depletion, or rhythm disruption."),
+                    ("remedy_differential", "Homeopathic comparison should focus on waking time, dreams, mental state, heat/cold, and what helps return to sleep."),
+                ],
+                ["night waking", "shen/vata activation", "dream pattern", "sleep timing"],
+            )
+        if stress or variable:
+            add(
+                "overstimulation / nervous-system variability",
+                "The strongest clue is a system that shifts quickly under pressure: racing thoughts, scattered focus, restless sleep, variable appetite, or tension.",
+                "Ayurveda lane: vata aggravation should be checked through variability, irregular routine, sensitivity, sleep, appetite, and nervous-system depletion.",
+                "Chinese medicine lane: qi constraint with shen activation should be compared through chest/throat/stomach tension, irritability, sleep, and stress response.",
+                "Homeopathy lane: the individual stress response matters most: consolation, solitude, fears, irritability, pacing, cravings, and peculiar triggers.",
+                [
+                    ("pattern_insight", "The first outcome should reduce stimulation and create rhythm before adding many interventions."),
+                    ("lifestyle", "Choose one daily anchor for 5 days: same wake time, same first meal window, same 10-minute decompression ritual."),
+                    ("breathwork", "Test whether still breathing or gentle walking works better; use the one that actually settles the body."),
+                ],
+                [
+                    ("herbs", "Explore calming categories only after distinguishing restless heat, depletion, digestive anxiety, stimulant load, or irritability."),
+                    ("remedy_differential", "Homeopathic review should focus on stress expression, fears, consolation, restlessness, sleep, cravings, and thermal state."),
+                ],
+                ["overstimulation", "vata variability", "qi constraint", "stress response"],
+            )
+
+    if canonical == "headache":
+        if stress or has_any(intake_text, {"neck", "shoulder", "jaw", "screen", "tension"}):
+            add(
+                "tension / constraint headache pattern",
+                "The headache reads more like a stress-neck-jaw-screen pattern than an isolated head symptom.",
+                "Ayurveda lane: vata tension and pitta intensity should be checked through stress, sleep, heat, jaw/neck tightness, and routine disruption.",
+                "Chinese medicine lane: qi constraint/channel tension should be compared with neck/shoulder tightness, irritability, screen strain, and movement response.",
+                "Homeopathy lane: location, sensation, pressure, neck/jaw relationship, stress trigger, and better/worse from motion or rest are decisive.",
+                [
+                    ("pattern_insight", "Start with the neck/jaw/stress pathway before treating this as a generic headache."),
+                    ("movement", "Use a 2-minute neck/shoulder/jaw release every 90 minutes during screen work and record headache change."),
+                    ("avoid_reduce", "Reduce the clearest trigger: long screen blocks, jaw clenching, skipped meals, dehydration, or late-night work."),
+                ],
+                [
+                    ("rubric_cluster", "Homeopathy repertory review should begin with head location, neck connection, sensation, pressure, timing, and stress modality."),
+                    ("herbs", "Explore formula/herb categories only after separating tension constraint from heat, deficiency, digestion, or menstrual timing."),
+                ],
+                ["head-neck link", "stress constraint", "screen/jaw tension", "modality"],
+            )
+        if hot:
+            add(
+                "heat / irritability headache pattern",
+                "Heat clues make this headache more specific: irritability, flushing, thirst, burning/throbbing, afternoon worsening, alcohol/spice, or light sensitivity.",
+                "Ayurveda lane: pitta-style heat should be compared with thirst, irritability, sharp appetite, burning, and heat triggers.",
+                "Chinese medicine lane: heat or rising yang language should be compared with red/heat signs, irritability, throbbing, and stress escalation.",
+                "Homeopathy lane: focus on heat, thirst, light/noise sensitivity, pulsation, timing, and better from cool/dark/rest.",
+                [
+                    ("pattern_insight", "The first experiment should lower heat/load and identify triggers."),
+                    ("avoid_reduce", "For one cycle, reduce alcohol, overheating, intense late work, skipped meals, and spicy/heavy meals; track headache timing."),
+                    ("lifestyle", "Use cool/dark/quiet rest as a modality test and record whether it clearly helps."),
+                ],
+                [
+                    ("herbs", "Explore cooling/headache categories only if heat signs remain clear."),
+                    ("remedy_differential", "Homeopathic comparison should focus on throbbing, heat, thirst, light sensitivity, timing, and modalities."),
+                ],
+                ["heat", "throbbing", "irritability", "cool/dark better"],
+            )
+
+    return rows
+
+
 def citation_ids_by_tradition(citations: list[dict[str, Any]]) -> dict[str, list[str]]:
     grouped: dict[str, list[str]] = {"Ayurveda": [], "Traditional Chinese Medicine": [], "Homeopathy": []}
     for citation in citations:
@@ -2578,9 +2800,64 @@ def apply_symptom_outcome_layer(
     tradition_directions: list[dict[str, Any]] = []
     seen_actions: set[tuple[str, str]] = set()
     seen_directions: set[tuple[str, str]] = set()
+    intake_text = intake_to_query(intake).lower()
+    matched_refinement_count = 0
 
     for normalized_symptom in recognized[:6]:
         profile = outcome_profile_for_symptom(normalized_symptom)
+        refinements = pattern_refinement_rows(normalized_symptom["canonical"], intake_text)
+        matched_refinement_count += len(refinements)
+        for refinement in refinements:
+            summaries.append(f"{refinement['pattern'].title()}: {refinement['plain']}")
+            signals.extend(refinement.get("signals", []))
+            for tradition, direction in refinement.get("tradition_directions", []):
+                direction_key = (tradition, direction)
+                if direction_key in seen_directions:
+                    continue
+                seen_directions.add(direction_key)
+                tradition_directions.append(
+                    {
+                        "tradition": tradition,
+                        "direction": direction,
+                        "confidence_score": 78 if safety["status"] == "clear" else 70,
+                        "priority": "matched_pattern",
+                        "citations": default_citations_by_tradition.get(tradition, cross_citations),
+                    }
+                )
+            for category, action in refinement.get("actions", []):
+                key = (category, action)
+                if key in seen_actions:
+                    continue
+                seen_actions.add(key)
+                tradition = "Ayurveda" if category in {"diet", "movement"} else "Traditional Chinese Medicine" if category in {"sleep", "breathwork"} else "Cross-tradition intake"
+                action_rows.append(
+                    outcome_row(
+                        category,
+                        action,
+                        default_citations_by_tradition.get(tradition, cross_citations),
+                        80 if safety["status"] == "clear" else 72,
+                        "matched_pattern",
+                        tradition=tradition,
+                        source_basis=f"Matched refinement: {refinement['pattern']}. Triggered by symptom plus intake details.",
+                    )
+                )
+            for category, action in refinement.get("review", []):
+                key = (category, action)
+                if key in seen_actions:
+                    continue
+                seen_actions.add(key)
+                tradition = "Homeopathy" if category in {"remedy_differential", "rubric_cluster"} else "Ayurveda" if category in {"herbs", "formulas"} else "Cross-tradition intake"
+                review_rows.append(
+                    outcome_row(
+                        category,
+                        action,
+                        default_citations_by_tradition.get(tradition, cross_citations),
+                        74 if safety["status"] == "clear" else 66,
+                        "matched_pattern",
+                        tradition=tradition,
+                        source_basis=f"Matched refinement: {refinement['pattern']}. Triggered by symptom plus intake details.",
+                    )
+                )
         summaries.append(profile["summary"])
         signals.extend(profile.get("signals", []))
         for tradition, direction in profile.get("tradition_directions", []):
@@ -2643,10 +2920,15 @@ def apply_symptom_outcome_layer(
     }
     practical_output["confidence"] = {
         **practical_output.get("confidence", {}),
-        "score": 68 if safety["status"] == "caution" else practical_output.get("confidence", {}).get("score", 72),
-        "label": "first-pass pattern direction",
+        "score": (74 if safety["status"] == "caution" else 82)
+        if matched_refinement_count
+        else (68 if safety["status"] == "caution" else practical_output.get("confidence", {}).get("score", 72)),
+        "label": "matched pattern direction" if matched_refinement_count else "first-pass pattern direction",
         "basis": (
-            "Generated from recognized symptom profiles, intake signals, and available source-linked retrieval. "
+            f"Generated from recognized symptom profiles, {matched_refinement_count} intake-specific pattern refinement(s), "
+            "and available source-linked retrieval. The pattern becomes more specific as the missing intake questions are answered."
+            if matched_refinement_count
+            else "Generated from recognized symptom profiles, intake signals, and available source-linked retrieval. "
             "The pattern becomes more specific as the missing intake questions are answered."
         ),
     }
