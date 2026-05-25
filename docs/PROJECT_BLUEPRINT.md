@@ -54,13 +54,13 @@ The main app canon is defined in [MASTER_CANON.md](MASTER_CANON.md), with the cu
 - Ayurveda modern clinical framework: Vasant Lad's `Textbook of Ayurveda` Vol. 1, Vol. 2, and Vol. 3; Sebastian Pole's `Ayurvedic Medicine: The Principles of Traditional Practice`; Robert Svoboda's `Prakriti`, all handled as private/local or metadata-only unless rights are clear.
 - Ayurveda materia medica: no additional Ayurveda materia medica text is core unless the user names it later.
 - TCM foundational theory: Huang Di Nei Jing Su Wen and Ted Kaptchuk's `The Web That Has No Weaver`.
-- TCM materia medica/formulas: user-confirmed TCM materia medica title pending; no other TCM materia medica/formula text is core unless the user names it later.
+- TCM materia medica/formulas: `Chinese Herbal Medicine: Materia Medica`, `Chinese Herbal Medicine: Formulas and Strategies`, plus the user-confirmed office TCM materia medica title when supplied.
 - Homeopathy foundational/framework: Organon of the Medical Art, The Science of Homeopathy, The Soul of Remedies.
-- Homeopathy materia medica/repertory: Boericke's New Manual of Homeopathic Materia Medica with Repertory, Morrison's Desktop Guide, Morrison's Desktop Companion, Kent's Final General Repertory, Robin Murphy's `Homeopathic Medical Repertory`.
+- Homeopathy materia medica/repertory: Boericke's New Manual of Homeopathic Materia Medica with Repertory, Morrison's Desktop Guide, Morrison's Desktop Companion, Kent's Final General Repertory, Kent's `Lectures on Homeopathic Materia Medica`, Robin Murphy's `Homeopathic Medical Repertory`.
 - General herbal medicine: Andrew Chevallier's `Encyclopedia of Herbal Medicine` as a cross-checking/safety-support layer, not a replacement for tradition-specific materia medica.
 - Yoga / consciousness / communication: The Secret of the Yoga Sutra: Samadhi Pada, Science of Breath, Yoga and Psychotherapy, The Web That Has No Weaver.
 
-Prior generic candidate sources such as Dravyaguna Vijnana, Indian Materia Medica, Shang Han Lun, Jin Gui Yao Lue, Chinese Herbal Medicine: Materia Medica, Chinese Herbal Medicine: Formulas and Strategies, and Kent's Lectures on Homeopathic Materia Medica are not part of the core guiding canon unless the user explicitly re-approves them.
+Prior generic candidate sources such as Dravyaguna Vijnana, Indian Materia Medica, Shang Han Lun, and Jin Gui Yao Lue are not part of the core guiding canon unless the user explicitly re-approves them. The user re-approved `Chinese Herbal Medicine: Materia Medica`, `Chinese Herbal Medicine: Formulas and Strategies`, and Kent's `Lectures on Homeopathic Materia Medica` on 2026-05-25.
 
 Private or copyrighted style/source references must follow the private source rules below.
 

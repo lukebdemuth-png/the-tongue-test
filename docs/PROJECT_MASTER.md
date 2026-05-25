@@ -310,15 +310,33 @@ Local status:
 
 ### TCM: Materia Medica
 
-#### User-confirmed TCM Materia Medica
+#### Chinese Herbal Medicine: Materia Medica
 
 Role: TCM herb database, channels entered, temperatures, contraindications, and herb functions.
 
 Local status:
 
+- Missing
+- Metadata-only / private-local handling required unless rights are clear
+
+#### Chinese Herbal Medicine: Formulas and Strategies
+
+Role: TCM formula architecture, herb relationships, formula families, and modification logic.
+
+Local status:
+
+- Missing
+- Metadata-only / private-local handling required unless rights are clear
+
+#### User-confirmed office TCM Materia Medica
+
+Role: supplemental TCM materia medica once the exact office title and edition are supplied.
+
+Local status:
+
 - Pending exact title and edition from user
 - Metadata-only / private-local handling required unless rights are clear
-- Prior generic candidates such as Shang Han Lun, Jin Gui Yao Lue, Chinese Herbal Medicine: Materia Medica, and Chinese Herbal Medicine: Formulas and Strategies are excluded from core guiding use unless the user explicitly re-approves them.
+- Prior generic candidates such as Shang Han Lun and Jin Gui Yao Lue are excluded from core guiding use unless the user explicitly re-approves them.
 
 ### Homeopathy: Foundational Theory
 
@@ -363,6 +381,15 @@ Role: repertory logic, symptom indexing, and remedy mapping.
 Local status:
 
 - Missing
+
+#### Kent's Lectures on Homeopathic Materia Medica
+
+Role: materia medica, constitutional interpretation, remedy psychology, and remedy differentiation.
+
+Local status:
+
+- Missing
+- Metadata-only / private-local handling required unless rights are clear
 
 #### Homeopathic Medical Repertory, 3rd ed.
 

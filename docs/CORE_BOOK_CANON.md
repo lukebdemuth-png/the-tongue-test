@@ -58,7 +58,12 @@ Only the sources below should be treated as core guiding medicine texts unless t
    - App layer: repertory, rubrics, remedy weighting.
    - Access handling: verify edition and rights. Public-domain Kent repertory sources may be used for publishable extraction; modern edited editions may be copyrighted.
 
-8. `Homeopathic Medical Repertory`, 3rd ed. by Robin Murphy
+8. `Lectures on Homeopathic Materia Medica` by James Tyler Kent
+   - Role: materia medica, constitutional interpretation, and remedy differentiation.
+   - App layer: remedy pictures, constitutional tendencies, remedy psychology, and confirmation layer alongside Boericke and Kent repertory rubrics.
+   - Access handling: verify edition and rights. Public-domain editions may be used for publishable extraction after access review; modern edited editions must remain private/local or metadata-only unless rights are clear.
+
+9. `Homeopathic Medical Repertory`, 3rd ed. by Robin Murphy
    - Role: modern clinical repertory organized by organ system alphabetically and by clinical diagnosis.
    - App layer: practitioner bridge between biomedical framing and homeopathic rubric navigation.
    - Access handling: modern copyrighted text; private/local or metadata-only unless rights are clear.
@@ -128,11 +133,21 @@ Only the sources below should be treated as core guiding medicine texts unless t
    - App layer: practitioner-facing explanation, TCM worldview, pattern-language communication.
    - Access handling: modern copyrighted text; private/local or metadata-only unless rights are clear.
 
-### TCM Materia Medica
+### TCM Materia Medica And Formulas
 
-3. TCM Materia Medica title pending user confirmation
+3. `Chinese Herbal Medicine: Materia Medica`
    - Role: TCM herb database, properties, channels, functions, contraindications, and formula support.
    - App layer: herb/formula safety and practitioner review.
+   - Access handling: modern copyrighted text; private/local or metadata-only unless rights are clear. Do not commit extracted full text without permission or lawful open access.
+
+4. `Chinese Herbal Medicine: Formulas and Strategies`
+   - Role: TCM formula reference, formula architecture, herb interactions, and formula relationships.
+   - App layer: formula considerations, pattern-to-formula mapping, modification logic, and practitioner review.
+   - Access handling: modern copyrighted text; private/local or metadata-only unless rights are clear. Do not commit extracted full text without permission or lawful open access.
+
+5. User-confirmed office TCM materia medica title pending
+   - Role: additional practitioner office reference once the exact title and edition are supplied.
+   - App layer: supplemental TCM materia medica and clinical confirmation.
    - Access handling: await exact title from user; treat as private/local or metadata-only unless rights are clear.
 
 ## General Herbal Medicine Core Books
@@ -144,10 +159,10 @@ Only the sources below should be treated as core guiding medicine texts unless t
 
 ## Priority Implication
 
-For Homeopathy, the app needs both foundational philosophy and practical clinical references. The highest missing practical layers are Boericke, Morrison, Kent-style repertory/rubric data, and Murphy's modern clinical repertory.
+For Homeopathy, the app needs both foundational philosophy and practical clinical references. The highest missing practical layers are Boericke, Morrison, Kent's repertory/rubric data, Kent's materia medica lectures, and Murphy's modern clinical repertory.
 
 For Ayurveda, the app has the classical foundation started. The next useful private/metadata layers are Vasant Lad Vol. 2 for clinical assessment, Sebastian Pole for concise practitioner application, and Svoboda's `Prakriti` for constitution/philosophy.
 
-For TCM, Huangdi Neijing remains the classical foundation. Kaptchuk should be treated as a modern explanatory bridge, and the exact TCM materia medica title should be added when the user sends it.
+For TCM, Huangdi Neijing remains the classical foundation. Kaptchuk should be treated as a modern explanatory bridge. `Chinese Herbal Medicine: Materia Medica` and `Chinese Herbal Medicine: Formulas and Strategies` are active core TCM herb/formula targets; the separate office materia medica title can be added when the user sends it.
 
 For general herbs, Chevallier is a supporting herbal reference and should not override tradition-specific materia medica without practitioner review.

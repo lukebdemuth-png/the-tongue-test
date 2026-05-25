@@ -1,7 +1,7 @@
 {
   "registry_name": "Pattern App Core Source Registry",
   "purpose": "Canonical source registry for the three healing modes: Ayurveda, Traditional Chinese Medicine, and Homeopathy, plus supporting general herbal references.",
-  "last_updated": "2026-05-24",
+  "last_updated": "2026-05-25",
   "app_scope": {
     "primary_modes": [
       "Ayurveda",
@@ -480,7 +480,7 @@
         "contraindications",
         "herb functions"
       ],
-      "priority": "P2",
+      "priority": "P0",
       "authors": [],
       "translator_authors": [],
       "known_source_url": "https://www.amsil.com/book/benskymateriamedica3th.pdf",
@@ -489,8 +489,8 @@
       "local_file_status": "missing",
       "ingestion_status": "metadata_only",
       "rights_access_status": "likely copyrighted; verify permission/open-access status before downloading or extracting",
-      "text_quality_notes": "Excluded from the current user-approved core canon; retained only as an audit/candidate entry.",
-      "next_action": "No ingestion action unless the user explicitly re-approves this as a core or expansion source."
+      "text_quality_notes": "User re-approved on 2026-05-25 as an active TCM materia medica source. Modern copyrighted source; use metadata/private-local handling unless rights are clear.",
+      "next_action": "If user supplies a lawful local copy or access path, register it as private-only and derive herb property, channel, function, indication, and contraindication metadata. Do not commit extracted full text without rights clearance."
     },
     {
       "source_id": "tcm_user_confirmed_materia_medica_pending",
@@ -529,7 +529,7 @@
         "herb interactions",
         "formula relationships"
       ],
-      "priority": "P2",
+      "priority": "P0",
       "authors": [],
       "translator_authors": [],
       "known_source_url": null,
@@ -538,8 +538,8 @@
       "local_file_status": "missing",
       "ingestion_status": "metadata_only",
       "rights_access_status": "likely copyrighted; verify permission/open-access status before downloading or extracting",
-      "text_quality_notes": "Excluded from the current user-approved core canon; retained only as an audit/candidate entry.",
-      "next_action": "No ingestion action unless the user explicitly re-approves this as a core or expansion source."
+      "text_quality_notes": "User re-approved on 2026-05-25 as an active TCM formula source. Modern copyrighted source; use metadata/private-local handling unless rights are clear.",
+      "next_action": "If user supplies a lawful local copy or access path, register it as private-only and derive formula family, chief/deputy/assistant/envoy, pattern indication, modification, and caution metadata. Do not commit extracted full text without rights clearance."
     },
     {
       "source_id": "homeopathy_organon_fifth_sixth",
@@ -836,7 +836,7 @@
         "remedy psychology",
         "remedy differentials"
       ],
-      "priority": "P2",
+      "priority": "P1",
       "authors": [
         "James Tyler Kent"
       ],
@@ -847,8 +847,8 @@
       "local_file_status": "missing",
       "ingestion_status": "metadata_only",
       "rights_access_status": "source and access rights needed",
-      "text_quality_notes": "Excluded from the current user-approved core canon; retained only as an audit/candidate entry.",
-      "next_action": "No ingestion action unless the user explicitly re-approves this as a core or expansion source."
+      "text_quality_notes": "User re-approved on 2026-05-25 as an active Homeopathy materia medica source. Verify edition/access before extraction.",
+      "next_action": "Locate or register a lawful public-domain or private-local copy, then derive remedy picture, constitutional tendency, keynote, modality, and differential metadata. Do not commit extracted full text without rights clearance."
     },
     {
       "source_id": "general_herbal_chevallier_encyclopedia",
@@ -885,7 +885,8 @@
     "Complete Charaka OCR quality pass.",
     "Ingest Sushruta after schema normalization.",
     "Collect or register private/metadata-only copies for the missing user-approved core texts.",
-    "Add the exact user-confirmed TCM materia medica title when supplied.",
+    "Register private-local or lawful public copies of Chinese Herbal Medicine: Materia Medica, Chinese Herbal Medicine: Formulas and Strategies, and Kent's Lectures on Homeopathic Materia Medica.",
+    "Add the exact user-confirmed office TCM materia medica title when supplied.",
     "Build first retrieval/ranking prototype only after citations and schema validation are stable."
   ]
 }

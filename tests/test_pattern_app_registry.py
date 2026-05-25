@@ -74,9 +74,6 @@ def test_excluded_chatgpt_candidate_sources_are_not_p0() -> None:
         "ayurveda_indian_materia_medica_nadkarni",
         "tcm_shang_han_lun",
         "tcm_jin_gui_yao_lue",
-        "tcm_chinese_herbal_medicine_materia_medica",
-        "tcm_chinese_herbal_medicine_formulas_strategies",
-        "homeopathy_kent_lectures_materia_medica",
     }
 
     sources = {source["source_id"]: source for source in registry["sources"]}
@@ -85,3 +82,20 @@ def test_excluded_chatgpt_candidate_sources_are_not_p0() -> None:
         assert source["priority"] == "P2"
         assert source["ingestion_status"] == "metadata_only"
         assert "Excluded from the current user-approved core canon" in source["text_quality_notes"]
+
+
+def test_user_reapproved_sources_are_active() -> None:
+    registry = load_registry()
+    reapproved_source_ids = {
+        "tcm_chinese_herbal_medicine_materia_medica",
+        "tcm_chinese_herbal_medicine_formulas_strategies",
+        "homeopathy_kent_lectures_materia_medica",
+    }
+
+    sources = {source["source_id"]: source for source in registry["sources"]}
+    for source_id in reapproved_source_ids:
+        source = sources[source_id]
+        assert source["priority"] in {"P0", "P1"}
+        assert source["ingestion_status"] == "metadata_only"
+        assert "User re-approved on 2026-05-25" in source["text_quality_notes"]
+        assert "Excluded from the current user-approved core canon" not in source["text_quality_notes"]
