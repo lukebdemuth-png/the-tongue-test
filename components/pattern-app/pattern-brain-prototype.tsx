@@ -3,6 +3,13 @@
 import { useMemo, useState } from "react";
 import type { ReactNode } from "react";
 
+import {
+  BasisOfInsightDisclosure,
+  EmergencyWarning,
+  FullMedicalDisclaimer,
+  ShortResultDisclaimer,
+} from "@/components/compliance/disclosures";
+
 const symptomLibrary = [
   "low energy",
   "headache",
@@ -696,6 +703,22 @@ function sourceLabel(citationIds: string[], references: CitationReference[]) {
   return `Book source: ${labels.join(" | ")}`;
 }
 
+function complianceText(value: string) {
+  return value
+    .replace(/\bdiagnosis\b/gi, "pattern insight")
+    .replace(/\bdiagnose\b/gi, "identify a pattern")
+    .replace(/\btreatment plan\b/gi, "wellness direction overview")
+    .replace(/\btreatment\b/gi, "wellness direction")
+    .replace(/\btreat\b/gi, "address")
+    .replace(/\bprescription\b/gi, "tradition-based suggestion")
+    .replace(/\bprescribe\b/gi, "make a tradition-based suggestion")
+    .replace(/\bpatient\b/gi, "user")
+    .replace(/\bpractitioner\b/gi, "qualified professional")
+    .replace(/\brecommendations\b/gi, "wellness directions")
+    .replace(/\brecommendation\b/gi, "wellness direction")
+    .replace(/\brecommended\b/gi, "suggested for educational review");
+}
+
 function categoryTitle(category: string) {
   const labels: Record<string, string> = {
     acupuncture_moxibustion: "Acupuncture / Moxibustion",
@@ -710,7 +733,7 @@ function categoryTitle(category: string) {
     modalities: "Modalities",
     movement: "Movement",
     observation: "Observation Notes",
-    practitioner_follow_up: "Practitioner Follow-Up",
+    practitioner_follow_up: "Qualified Professional Follow-Up",
     remedy_differential: "Remedy Differential",
     rubric_cluster: "Repertory Rubrics",
     sleep: "Sleep",
@@ -740,12 +763,13 @@ function OutcomeItemCard({
       <div className="mt-4 space-y-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">Outcome</p>
-          <p className="mt-1 text-sm leading-6 text-ink/76">{item.direction}</p>
+          <p className="mt-1 text-sm leading-6 text-ink/76">{complianceText(item.direction)}</p>
         </div>
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">What To Do With It</p>
-          <p className="mt-1 text-sm leading-6 text-ink/76">{item.practitioner_action}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">Educational Possibility</p>
+          <p className="mt-1 text-sm leading-6 text-ink/76">{complianceText(item.practitioner_action)}</p>
         </div>
+        <ShortResultDisclaimer />
         <p className="text-xs leading-5 text-ink/48">{sourceLabel(item.citations, references)}</p>
         {item.source_basis ? <p className="text-xs leading-5 text-ink/48">{item.source_basis}</p> : null}
         {item.safety_notes.length ? <p className="text-xs leading-5 text-ink/48">{item.safety_notes[0]}</p> : null}
@@ -794,7 +818,7 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="eyebrow mb-2">Outcome</p>
-          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">Working practical direction</h2>
+          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">Working wellness direction</h2>
         </div>
         <span className="rounded-full border border-ink/10 bg-fog px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-ink/62">
           {output.confidence.label}
@@ -803,7 +827,10 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
 
       <div className="mt-5 rounded-lg border border-moss/20 bg-[#f8f7f1] p-4">
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Working Interpretation</p>
-        <p className="mt-3 text-base leading-7 text-ink/78">{summary}</p>
+        <p className="mt-3 text-base leading-7 text-ink/78">{complianceText(summary)}</p>
+        <div className="mt-4">
+          <ShortResultDisclaimer />
+        </div>
       </div>
 
       {bookDirections.length ? (
@@ -811,7 +838,7 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
           {bookDirections.map((item) => (
             <article key={`${item.tradition}-${item.direction}`} className="rounded-lg border border-ink/10 bg-white/75 p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{item.tradition}</p>
-              <p className="mt-3 text-sm leading-6 text-ink/76">{item.direction}</p>
+              <p className="mt-3 text-sm leading-6 text-ink/76">{complianceText(item.direction)}</p>
               {item.citations?.length ? (
                 <p className="mt-3 text-xs leading-5 text-ink/45">{sourceLabel(item.citations, references)}</p>
               ) : null}
@@ -822,14 +849,14 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
 
       <div className="mt-4 grid gap-3 lg:grid-cols-[1.1fr_0.9fr]">
         <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Do First</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Explore First</p>
           {doFirst.length ? (
             <ol className="mt-3 space-y-3 text-sm leading-6 text-ink/76">
               {doFirst.map((item, index) => (
                 <li key={`${item.category}-${item.practitioner_action}`} className="grid grid-cols-[1.6rem_1fr] gap-2">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full bg-ink text-xs text-white">{index + 1}</span>
                   <span>
-                    {item.practitioner_action}
+                    {complianceText(item.practitioner_action)}
                     <span className="mt-1 block text-xs leading-5 text-ink/45">
                       {item.tradition} · {sourceLabel(item.citations, references)}
                     </span>
@@ -847,22 +874,22 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
         <div className="space-y-3">
           <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Next Question</p>
-            <p className="mt-3 text-sm leading-6 text-ink/76">{nextQuestion}</p>
+            <p className="mt-3 text-sm leading-6 text-ink/76">{complianceText(nextQuestion)}</p>
           </article>
           <article className="rounded-lg border border-amber-200/70 bg-amber-50/70 p-4">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-800">Safety Boundary</p>
-            <p className="mt-3 text-sm leading-6 text-ink/76">{safetyBoundary}</p>
+            <p className="mt-3 text-sm leading-6 text-ink/76">{complianceText(safetyBoundary)}</p>
           </article>
         </div>
       </div>
 
       <article className="mt-4 rounded-lg border border-ink/10 bg-white/75 p-4">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Hold For Practitioner Review</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Hold For Qualified Review</p>
         {holdForReview.length ? (
           <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/72">
             {holdForReview.map((item) => (
               <li key={`${item.category}-${item.practitioner_action}`}>
-                {item.practitioner_action}
+                {complianceText(item.practitioner_action)}
                 <span className="mt-1 block text-xs leading-5 text-ink/45">
                   {item.tradition} · {sourceLabel(item.citations, references)}
                 </span>
@@ -871,7 +898,7 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
           </ul>
         ) : (
           <p className="mt-3 text-sm leading-6 text-ink/60">
-            Herbs, formulas, remedies, and supplements remain held until safety context and pattern details are clearer.
+            Herbs, formulas, remedies, and supplements remain educational possibilities only until safety context and pattern details are clearer.
           </p>
         )}
       </article>
@@ -937,7 +964,7 @@ function CrossTraditionOutcome({ trace }: { trace: BrainTrace }) {
           <p className="eyebrow mb-2">Main Outcome</p>
           <h2 className="text-2xl font-semibold leading-tight">Cross-Tradition Outcome</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/68">
-            This is the front-door synthesis: where Ayurveda, TCM, and Homeopathy appear to overlap, where they need to stay distinct, and what a practitioner should review first.
+            This is the front-door synthesis: where Ayurveda, TCM, and Homeopathy appear to overlap, where they need to stay distinct, and what a qualified professional can review first.
           </p>
         </div>
         <span className="rounded-full bg-ink px-3 py-1.5 text-sm text-white">
@@ -945,7 +972,7 @@ function CrossTraditionOutcome({ trace }: { trace: BrainTrace }) {
         </span>
       </div>
 
-      <p className="mt-4 rounded-md bg-fog/70 p-3 text-sm leading-6 text-ink/72">{trace.synthesis_trace.note}</p>
+      <p className="mt-4 rounded-md bg-fog/70 p-3 text-sm leading-6 text-ink/72">{complianceText(trace.synthesis_trace.note)}</p>
       {trace.synthesis_trace.confidence_label ? (
         <p className="mt-2 text-sm text-ink/60">{trace.synthesis_trace.confidence_label}</p>
       ) : null}
@@ -962,7 +989,7 @@ function CrossTraditionOutcome({ trace }: { trace: BrainTrace }) {
               <div className="h-2 overflow-hidden rounded-full bg-fog">
                 <div className="h-full rounded-full bg-moss" style={{ width: `${direction.percentage}%` }} />
               </div>
-              <p className="mt-1.5 text-xs text-ink/50">Use as {direction.priority.toLowerCase()} guidance</p>
+              <p className="mt-1.5 text-xs text-ink/50">Use as {direction.priority.toLowerCase()} educational guidance</p>
             </div>
           ))}
         </div>
@@ -998,7 +1025,7 @@ function CrossTraditionOutcome({ trace }: { trace: BrainTrace }) {
           {trace.practitioner_summary.primary_traditional_directions.map((direction) => (
             <div key={`${direction.tradition}-${direction.direction}`} className="rounded-md bg-white/75 p-3">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{direction.tradition}</p>
-              <p className="mt-2 text-sm leading-6 text-ink/72">{direction.direction}</p>
+              <p className="mt-2 text-sm leading-6 text-ink/72">{complianceText(direction.direction)}</p>
               <p className="mt-2 text-xs text-ink/50">{direction.confidence_score} · {direction.priority}</p>
             </div>
           ))}
@@ -1006,8 +1033,8 @@ function CrossTraditionOutcome({ trace }: { trace: BrainTrace }) {
       </div>
 
       <div className="mt-4 rounded-md border border-ink/10 bg-white/75 p-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Practitioner Review Focus</p>
-        <p className="mt-2 text-sm leading-6 text-ink/72">{trace.next_best_question}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Review Focus</p>
+        <p className="mt-2 text-sm leading-6 text-ink/72">{complianceText(trace.next_best_question)}</p>
       </div>
     </section>
   );
@@ -1029,10 +1056,10 @@ function PracticalOutput({ trace }: { trace: BrainTrace }) {
     <section className="rounded-xl border border-moss/25 bg-white p-5 shadow-card md:p-7">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="eyebrow mb-2">Organized Outcome Boxes</p>
-          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">Full source-based outcomes</h2>
+          <p className="eyebrow mb-2">Organized Insight Boxes</p>
+          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">Full source-based wellness directions</h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-ink/68">
-            Each box below is written as a usable outcome from the books currently on file. Missing modern books will sharpen the details later, but these boxes should stand on the current canon.
+            Each box below is an informational, tradition-based possibility from the books currently on file. Missing modern books will sharpen the details later, but these boxes should stand on the current canon.
           </p>
         </div>
         <span className="rounded-full border border-ink/10 bg-fog px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-ink/62">
@@ -1063,14 +1090,14 @@ function PracticalOutput({ trace }: { trace: BrainTrace }) {
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-800">Review Boundaries</p>
           <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/70">
             {output.warnings_and_professional_boundaries.slice(0, 8).map((warning) => (
-              <li key={warning}>{warning}</li>
+              <li key={warning}>{complianceText(warning)}</li>
             ))}
           </ul>
         </article>
       </div>
 
       <p className="mt-5 text-xs leading-5 text-ink/50">
-        Educational, source-based traditional-system output for qualified practitioner review. Not a diagnosis or prescription.
+        Informational only. Not medical advice. Consult a qualified healthcare professional for medical concerns.
       </p>
     </section>
   );
@@ -1172,8 +1199,11 @@ export function PatternBrainPrototype() {
                   Your pattern interpretation is ready.
                 </h1>
                 <p className="mt-4 max-w-3xl text-base leading-7 text-ink/68">
-                  The system has read your intake across Chinese Medicine, Ayurveda, and Homeopathy. This result keeps the traditions distinct, then shows the practical pattern signals that overlap.
+                  The system has read your intake across Chinese Medicine, Ayurveda, and Homeopathy for wellness education, self-reflection, and pattern exploration. This result keeps the traditions distinct, then shows practical pattern signals that overlap.
                 </p>
+                <div className="mt-5">
+                  <FullMedicalDisclaimer compact />
+                </div>
               </div>
               <button
                 className="button-secondary min-h-9 px-3 py-2 text-xs"
@@ -1185,6 +1215,8 @@ export function PatternBrainPrototype() {
           </section>
 
           <section className="space-y-5">
+            <EmergencyWarning />
+            <BasisOfInsightDisclosure />
             <OutcomePanel trace={trace} />
             <PracticalOutput trace={trace} />
 
@@ -1194,10 +1226,10 @@ export function PatternBrainPrototype() {
                 <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
                   <h2 className="text-lg font-semibold">Safety + Intake State</h2>
                   <p className="mt-2 text-sm leading-6 text-ink/68">
-                    Safety gate: {trace.safety_gate.status}. {trace.safety_gate.notes.join(" ")}
+                    Safety gate: {trace.safety_gate.status}. {complianceText(trace.safety_gate.notes.join(" "))}
                   </p>
                   <p className="mt-2 text-sm leading-6 text-ink/68">
-                    {trace.intake_state.minimum_complete ? "Minimum intake is complete." : "Minimum intake still needs details."} Next question: {trace.next_best_question}
+                    {trace.intake_state.minimum_complete ? "Minimum intake is complete." : "Minimum intake still needs details."} Next question: {complianceText(trace.next_best_question)}
                   </p>
                 </section>
 
@@ -1221,18 +1253,18 @@ export function PatternBrainPrototype() {
                 </section>
 
                 <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
-                  <h2 className="text-lg font-semibold">Practitioner Summary</h2>
-                  <p className="mt-2 text-sm leading-6 text-ink/75">{trace.practitioner_summary.case_snapshot}</p>
+                  <h2 className="text-lg font-semibold">Pattern Insight Summary</h2>
+                  <p className="mt-2 text-sm leading-6 text-ink/75">{complianceText(trace.practitioner_summary.case_snapshot)}</p>
                   <div className="mt-3 grid gap-3 md:grid-cols-3">
                     {trace.practitioner_summary.primary_traditional_directions.map((direction) => (
                       <div key={direction.tradition} className="rounded-md bg-fog/70 p-3">
                         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{direction.tradition}</p>
-                        <p className="mt-2 text-sm leading-6 text-ink/70">{direction.direction}</p>
+                        <p className="mt-2 text-sm leading-6 text-ink/70">{complianceText(direction.direction)}</p>
                         <p className="mt-2 text-xs text-ink/50">{direction.confidence_score} · {direction.priority}</p>
                       </div>
                     ))}
                   </div>
-                  <p className="mt-3 text-sm text-ink/60">{trace.practitioner_summary.confidence_summary}</p>
+                  <p className="mt-3 text-sm text-ink/60">{complianceText(trace.practitioner_summary.confidence_summary)}</p>
                 </section>
 
                 <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
@@ -1297,8 +1329,11 @@ export function PatternBrainPrototype() {
               Move through the three lenses.
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-ink/68">
-              The intake is the first experience: a guided self-understanding flow through Chinese Medicine, Ayurveda, and Homeopathy before any interpretation appears.
+              The intake is the first experience: a guided wellness education and self-understanding flow through Chinese Medicine, Ayurveda, and Homeopathy before any pattern insight appears.
             </p>
+            <div className="mt-5 max-w-2xl">
+              <FullMedicalDisclaimer compact />
+            </div>
           </div>
         </section>
 
@@ -1312,8 +1347,14 @@ export function PatternBrainPrototype() {
                 <p className="eyebrow mb-2">Intake</p>
                 <h2 className="text-2xl font-semibold leading-tight">Three traditions, one unfolding picture.</h2>
                 <p className="mt-2 text-sm leading-6 text-ink/60">
-                  Move through each lens. The questions are simple, but they are collecting the kinds of details each tradition uses to see patterns.
+                  Move through each lens. The questions are simple, but they collect details for wellness education, self-reflection, and traditional pattern exploration.
                 </p>
+                <div className="mt-4 grid gap-3 md:grid-cols-2">
+                  <ShortResultDisclaimer />
+                  <p className="border-l-2 border-amber-300/70 pl-3 text-xs leading-5 text-ink/54">
+                    If you are experiencing a medical emergency, call emergency services immediately.
+                  </p>
+                </div>
               </div>
               <div className="space-y-4">
                 <IntakeSection title="Main Concern" description="A few basics are enough for a first pass." defaultOpen>
@@ -1473,7 +1514,7 @@ export function PatternBrainPrototype() {
                   </ReflectionCard>
                 </TraditionIntakeSection>
 
-                <IntakeSection title="Safety + Preferences" description="Keep herbs, remedies, formulas, and practices inside practitioner review.">
+                <IntakeSection title="Safety + Preferences" description="Keep herbs, remedies, formulas, and practices inside qualified professional review.">
                   <div className="grid gap-3 md:grid-cols-2">
                     <TextField label="Cautions" value={form.cautions} onChange={(value) => updateForm("cautions", value)} placeholder="red flags, sensitivities, prior reactions..." rows={2} />
                     <TextField label="Preferences" value={form.preferences} onChange={(value) => updateForm("preferences", value)} placeholder="gentle first, food only, avoid herbs..." rows={2} />
@@ -1503,7 +1544,7 @@ export function PatternBrainPrototype() {
                 <p className="eyebrow mb-2">Complete the Intake</p>
                 <h2 className="text-2xl font-semibold leading-tight">Looking across your patterns through multiple traditions.</h2>
                 <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/64">
-                  When you finish, the system will build an interpretation from your symptoms, rhythms, constitution, sensitivities, goals, and safety context.
+                  When you finish, the system will build a wellness pattern insight from your symptoms, rhythms, constitution, sensitivities, goals, and safety context.
                 </p>
                 {loading ? (
                   <div className="mt-4 border border-ink/10 bg-white/70 p-4">

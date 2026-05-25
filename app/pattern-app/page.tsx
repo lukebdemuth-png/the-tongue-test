@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 export const metadata = buildMetadata({
   title: "Patterns Brain Prototype",
-  description: "A local practitioner-facing test surface for the Empirical Patterns reasoning trace.",
+  description: "A wellness education and self-reflection intake for exploring traditional pattern insights across Ayurveda, Chinese Medicine, and Homeopathy.",
   path: "/pattern-app",
 });
 

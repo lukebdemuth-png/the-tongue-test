@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { FullMedicalDisclaimer } from "@/components/compliance/disclosures";
 import { navItems, siteConfig } from "@/lib/site";
 
 export function SiteFooter() {
@@ -10,9 +11,12 @@ export function SiteFooter() {
           <div className="section-divider max-w-md" />
           <p className="font-serif text-[1.9rem] text-ink">{siteConfig.name}</p>
           <p className="mt-5 text-ink/68">
-            A source-backed pattern recognition app across Homeopathy,
-            Ayurveda, and Chinese medicine.
+            A wellness education and self-reflection app for pattern exploration
+            across Homeopathy, Ayurveda, and Chinese medicine.
           </p>
+          <div className="mt-5">
+            <FullMedicalDisclaimer compact />
+          </div>
         </div>
 
         <div className="grid gap-8 sm:grid-cols-2">

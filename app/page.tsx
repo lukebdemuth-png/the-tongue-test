@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { FullMedicalDisclaimer, ShortResultDisclaimer } from "@/components/compliance/disclosures";
 import { WaitlistForm } from "@/components/landing/waitlist-form";
 import { buildMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/lib/site";
@@ -25,7 +26,7 @@ const processSteps = [
   {
     label: "Results",
     title: "Receive a pattern interpretation.",
-    body: "After completion, the user moves into a results page with a source-based pattern profile, next questions, practical categories, and safety boundaries.",
+    body: "After completion, the user moves into a results page with a source-based pattern profile, reflection questions, suggested wellness directions, and safety boundaries.",
   },
 ];
 
@@ -33,7 +34,7 @@ const traditions = [
   {
     name: "Homeopathy",
     signal: "Rubrics + materia medica",
-    body: "Modalities, generals, peculiar symptoms, repertory rubrics, and remedy differentials remain source-linked for practitioner review.",
+    body: "Modalities, generals, peculiar symptoms, repertory rubrics, and remedy differentials remain source-linked for educational pattern exploration.",
   },
   {
     name: "Ayurveda",
@@ -65,8 +66,8 @@ const producedOutputs = [
     body: "See how Homeopathy, Ayurveda, and Chinese medicine each interpret the same presentation differently, then where those interpretations overlap.",
   },
   {
-    title: "Traditional Recommendations",
-    body: "The system organizes traditional recommendations that may include herbs, remedies, formulas, dietary observations, lifestyle patterns, and supportive practices drawn from traditional medical frameworks.",
+    title: "Suggested Wellness Directions",
+    body: "The system organizes tradition-based educational possibilities that may mention herbs, remedies, formulas, dietary observations, lifestyle patterns, and supportive practices as topics to discuss with qualified professionals.",
   },
   {
     title: "Source References",
@@ -80,9 +81,9 @@ const producedOutputs = [
 
 const futureApps = [
   {
-    title: "Tongue Diagnostic",
+    title: "Tongue Pattern Insight",
     tradition: "Chinese Medicine",
-    body: "A focused visual intake for tongue color, coat, shape, moisture, and pattern clues.",
+    body: "A focused visual reflection for tongue color, coat, shape, moisture, and traditional pattern clues.",
     status: "Coming soon",
   },
   {
@@ -92,9 +93,9 @@ const futureApps = [
     status: "Coming soon",
   },
   {
-    title: "Find Your Master Remedy",
+    title: "Find Your Remedy Pattern",
     tradition: "Homeopathy",
-    body: "A reflective quiz for sensitivities, modalities, emotional patterns, and remedy-direction clues.",
+    body: "A reflective quiz for sensitivities, modalities, emotional patterns, and remedy-direction clues for educational exploration.",
     status: "Coming soon",
   },
 ];
@@ -117,16 +118,16 @@ const sourceCanonSections = [
     books: [
       ["Charaka Samhita", "Ayurveda / classical source text"],
       ["Sushruta Samhita", "Ayurveda / classical source text"],
-      ["Vagbhata Samhita / Ashtanga Hridayam", "Ayurveda / classical clinical canon"],
+      ["Vagbhata Samhita / Ashtanga Hridayam", "Ayurveda / classical pattern canon"],
       ["Huangdi Neijing / Yellow Emperor's Inner Classic", "Chinese Medicine / classical source text"],
     ],
   },
   {
-    category: "Clinical Framework",
-    note: "Modern practitioner frameworks for assessment, case structure, and clinical relationships.",
+    category: "Assessment Framework",
+    note: "Modern tradition-based frameworks for assessment, case structure, and pattern relationships.",
     books: [
       ["Textbook of Ayurveda, Vol. 1", "Ayurveda / Vasant Lad / fundamentals"],
-      ["Textbook of Ayurveda, Vol. 2", "Ayurveda / Vasant Lad / clinical assessment"],
+      ["Textbook of Ayurveda, Vol. 2", "Ayurveda / Vasant Lad / assessment"],
       ["Textbook of Ayurveda, Vol. 3", "Ayurveda / Vasant Lad / management principles"],
       ["Ayurvedic Medicine: The Principles of Traditional Practice", "Ayurveda / Sebastian Pole / practice reference"],
       ["Desktop Guide to Keynotes and Confirmatory Symptoms", "Homeopathy / Morrison / keynotes"],
@@ -140,7 +141,7 @@ const sourceCanonSections = [
       ["Boericke's New Manual of Homeopathic Materia Medica with Repertory", "Homeopathy / Boericke / materia medica"],
       ["Kent's Final General Repertory", "Homeopathy / Kent / repertory"],
       ["Lectures on Homeopathic Materia Medica", "Homeopathy / Kent / materia medica"],
-      ["Homeopathic Medical Repertory, 3rd ed.", "Homeopathy / Murphy / clinical repertory"],
+      ["Homeopathic Medical Repertory, 3rd ed.", "Homeopathy / Murphy / repertory"],
       ["Chinese Herbal Medicine: Materia Medica", "Chinese Medicine / herb reference"],
       ["Chinese Herbal Medicine: Formulas and Strategies", "Chinese Medicine / formula reference"],
       ["Encyclopedia of Herbal Medicine", "General herbal / Chevallier / cross-checking"],
@@ -169,7 +170,7 @@ const trustItems = [
   "Confidence levels based on source support and missing data",
   "Warnings before herbs, formulas, remedies, diet, or practices",
   "Daily validation tests for single-word and messy symptom inputs",
-  "Practitioner-facing language, not diagnosis or prescription",
+  "Clear informational language, not diagnosis or prescription",
 ];
 
 export default function HomePage() {
@@ -213,12 +214,14 @@ export default function HomePage() {
             <p className="mt-7 max-w-2xl text-lg leading-8 text-ink/72 md:text-xl">
               {siteConfig.description}
             </p>
+            <div className="mt-6 max-w-2xl">
+              <FullMedicalDisclaimer compact />
+            </div>
             <div className="mt-8 max-w-2xl border border-ink/10 bg-white/82 p-4 shadow-card backdrop-blur md:p-5">
               <WaitlistForm compact source="hero" />
             </div>
             <p className="mt-6 max-w-xl text-sm leading-6 text-ink/58">
-              Educational research support for qualified review. Not diagnosis,
-              prescription, or a substitute for appropriate medical care.
+              Wellness education, self-reflection, and pattern exploration only.
             </p>
           </div>
         </div>
@@ -233,7 +236,7 @@ export default function HomePage() {
               <p className="section-copy mt-6">
                 The app brain is organized around named source texts, reviewed
                 case-study evidence, pattern recognition, constitutional
-                tendencies, and clinical relationships. Sources are grouped by
+                tendencies, and traditional pattern relationships. Sources are grouped by
                 their role in interpretation.
               </p>
               <a href="/source-canon" className="button-secondary mt-8">
@@ -279,6 +282,9 @@ export default function HomePage() {
                 moves through three traditions, watches a pattern profile begin
                 to form, then completes the intake before seeing their results.
               </p>
+              <div className="mt-6">
+                <ShortResultDisclaimer />
+              </div>
               <a href="/pattern-app" className="button-primary mt-8">
                 Begin Intake
               </a>
@@ -314,7 +320,7 @@ export default function HomePage() {
               <p className="section-copy mt-6">
                 Patterns is being built as an interpretive source instrument:
                 structured comparison, visible source trails, and clear
-                boundaries around what still needs practitioner judgment.
+                boundaries around what still needs qualified professional judgment.
               </p>
             </div>
             <div className="divide-y divide-ink/10 border-y border-ink/10">
@@ -332,7 +338,7 @@ export default function HomePage() {
                 {
                   label: "Interpretation",
                   title: "Show what is useful next.",
-                  body: "The app returns a source-based pattern profile, confidence, next questions, review categories, warnings, and source references.",
+                  body: "The app returns a source-based pattern profile, confidence language, reflection questions, wellness direction categories, warnings, and source references.",
                 },
               ].map((step) => (
                 <article key={step.label} className="grid gap-4 py-7 sm:grid-cols-[9rem_1fr]">
@@ -412,11 +418,11 @@ export default function HomePage() {
               <p className="section-copy mt-6">
                 Multiple traditions read the same presentation independently, then
                 the system organizes overlapping insights into a practical
-                framework for practitioner review.
+                framework for qualified professional review.
               </p>
               <p className="mt-5 text-base leading-8 text-ink/68">
                 The result is a source-connected map of likely pattern signals,
-                traditional recommendations, useful comparisons, clinical
+                suggested wellness directions, useful comparisons, traditional
                 relationships to explore, and the next questions that would
                 refine the case.
               </p>
@@ -445,10 +451,13 @@ export default function HomePage() {
           <div className="mt-12 border-y border-ink/12 py-7">
             <p className="max-w-4xl text-2xl leading-9 text-ink md:text-3xl md:leading-10">
               This app helps organize symptoms into practical cross-tradition
-              recommendations rooted in classical medical systems, with source
+              wellness directions rooted in traditional source systems, with source
               references, safety boundaries, and refinement questions kept
               visible.
             </p>
+            <div className="mt-5 max-w-3xl">
+              <ShortResultDisclaimer />
+            </div>
           </div>
         </div>
       </section>
@@ -461,14 +470,17 @@ export default function HomePage() {
             <p className="section-copy mt-6">
               The first version is designed to be honest with sparse input.
               If someone types “headace,” it normalizes the symptom, asks the
-              next useful question, and keeps recommendations exploratory until
+              next useful question, and keeps wellness directions exploratory until
               enough safety and pattern detail exists.
             </p>
+            <div className="mt-5">
+              <ShortResultDisclaimer />
+            </div>
           </div>
           <div className="border border-ink/10 bg-[#20211f] p-5 text-white shadow-panel">
             <div className="border-b border-white/12 pb-5">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-sage">
-                Practitioner view
+                Pattern insight preview
               </p>
               <h3 className="mt-4 text-3xl leading-9 text-white">Single symptom: headache</h3>
             </div>
@@ -568,10 +580,13 @@ export default function HomePage() {
                 Help shape a careful tool for integrative pattern recognition.
               </h2>
               <p className="mt-5 max-w-2xl text-base leading-8 text-ink/68">
-                The system is not trying to replace practitioners. It is being
+                The system is not trying to replace doctors, licensed clinicians, emergency care, or prescribed medication. It is being
                 shaped to make reasoning, uncertainty, and source support easier
                 to see.
               </p>
+              <div className="mt-5">
+                <FullMedicalDisclaimer compact />
+              </div>
             </div>
             <div className="mt-8 lg:mt-0">
               <WaitlistForm compact source="final-cta" />
