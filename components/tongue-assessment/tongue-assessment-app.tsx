@@ -41,6 +41,19 @@ type ChoiceKey =
   | "looseStool"
   | "constipation";
 
+type VisualChoiceKey = Exclude<
+  ChoiceKey,
+  | "bloating"
+  | "poorSleep"
+  | "stress"
+  | "lowEnergy"
+  | "heat"
+  | "cold"
+  | "thirst"
+  | "looseStool"
+  | "constipation"
+>;
+
 type Choice = {
   key: ChoiceKey;
   label: string;
@@ -67,6 +80,23 @@ type Theme = {
   tryFirst: string[];
   observe: string[];
   questions: string[];
+};
+
+type VisionResult = {
+  image_quality?: {
+    usable?: boolean;
+    notes?: string;
+    lighting?: string;
+    blur?: string;
+  };
+  detected_signs: Array<{
+    key: VisualChoiceKey;
+    label: string;
+    confidence: "low" | "medium" | "high";
+    evidence: string;
+  }>;
+  uncertain_signs?: string[];
+  overall_note?: string;
 };
 
 const observationGroups: Array<{ title: string; note: string; choices: Choice[] }> = [
@@ -131,6 +161,12 @@ const observationGroups: Array<{ title: string; note: string; choices: Choice[] 
     ],
   },
 ];
+
+const visualChoiceKeys = new Set<ChoiceKey>(
+  observationGroups
+    .filter((group) => group.title !== "How You Feel")
+    .flatMap((group) => group.choices.map((choice) => choice.key)),
+);
 
 const tongueZones = [
   {
@@ -465,6 +501,10 @@ export function TongueAssessmentApp() {
   const [selected, setSelected] = useState<Set<ChoiceKey>>(new Set(["thinCoat", "bloating", "poorSleep"]));
   const [notes, setNotes] = useState("Bloating after meals, poor sleep, low morning energy.");
   const [imagePreview, setImagePreview] = useState("");
+  const [imageDataUrl, setImageDataUrl] = useState("");
+  const [visionResult, setVisionResult] = useState<VisionResult | null>(null);
+  const [visionLoading, setVisionLoading] = useState(false);
+  const [visionError, setVisionError] = useState("");
   const themes = useMemo(() => scoreThemes(selected), [selected]);
   const primary = themes[0];
 
@@ -475,6 +515,37 @@ export function TongueAssessmentApp() {
       else next.add(key);
       return next;
     });
+  }
+
+  async function analyzeTonguePhoto() {
+    if (!imageDataUrl) {
+      setVisionError("Upload a tongue photo first.");
+      return;
+    }
+    setVisionError("");
+    setVisionLoading(true);
+    try {
+      const response = await fetch("/api/tongue-vision", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageDataUrl }),
+      });
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.error || "Could not analyze this tongue photo.");
+      const result = body as VisionResult;
+      setVisionResult(result);
+      setSelected((current) => {
+        const next = new Set([...current].filter((key) => !visualChoiceKeys.has(key)));
+        for (const sign of result.detected_signs) {
+          next.add(sign.key);
+        }
+        return next;
+      });
+    } catch (error) {
+      setVisionError(error instanceof Error ? error.message : "Could not analyze this tongue photo.");
+    } finally {
+      setVisionLoading(false);
+    }
   }
 
   return (
@@ -520,7 +591,20 @@ export function TongueAssessmentApp() {
                   className="mt-3 block w-full text-xs"
                   onChange={(event) => {
                     const file = event.target.files?.[0];
-                    setImagePreview(file ? URL.createObjectURL(file) : "");
+                    setVisionResult(null);
+                    setVisionError("");
+                    if (!file) {
+                      setImagePreview("");
+                      setImageDataUrl("");
+                      return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                      const result = typeof reader.result === "string" ? reader.result : "";
+                      setImagePreview(result);
+                      setImageDataUrl(result);
+                    };
+                    reader.readAsDataURL(file);
                   }}
                 />
               </label>
@@ -532,6 +616,32 @@ export function TongueAssessmentApp() {
                   Preview appears here
                 </div>
               )}
+              <button
+                type="button"
+                className="button-primary mt-4 w-full"
+                disabled={!imageDataUrl || visionLoading}
+                onClick={analyzeTonguePhoto}
+              >
+                {visionLoading ? "Reading Photo..." : "Analyze Tongue Photo With AI"}
+              </button>
+              {visionError ? (
+                <p className="mt-3 border border-red-200 bg-red-50 p-3 text-sm leading-6 text-red-700">{visionError}</p>
+              ) : null}
+              {visionResult ? (
+                <article className="mt-4 border border-ink/10 bg-white/70 p-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">AI Visible Signs</p>
+                  <p className="mt-2 text-xs leading-5 text-ink/50">
+                    {visionResult.image_quality?.notes || visionResult.overall_note || "First-pass visual read."}
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {visionResult.detected_signs.map((sign) => (
+                      <span key={sign.key} className="border border-ink/10 bg-fog px-2.5 py-1 text-xs text-ink/64">
+                        {sign.label} · {sign.confidence}
+                      </span>
+                    ))}
+                  </div>
+                </article>
+              ) : null}
             </div>
           </div>
         </section>
