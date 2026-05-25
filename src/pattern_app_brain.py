@@ -1384,7 +1384,7 @@ ACTION_CATEGORY_GROUPS = {
 
 SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
     "fatigue": {
-        "summary": "Low energy is a broad signal. First-pass review should look for sleep debt, digestion/appetite changes, stress load, timing after meals or exertion, and safety context before choosing any traditional direction.",
+        "summary": "Low energy looks most useful when it is organized by timing: morning energy, post-meal crashes, recovery after sleep, and whether movement restores or drains the person.",
         "signals": ["energy pattern", "sleep relationship", "digestion relationship", "stress load"],
         "tradition_directions": [
             ("Ayurveda", "Use the available Ayurveda canon to review whether low energy clusters with weak/variable digestion, ama-like heaviness, vata irregularity, or kapha sluggishness before choosing diet, routine, herbs, or formulas."),
@@ -1392,19 +1392,19 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
             ("Homeopathy", "Use Organon method, Boericke materia medica, and Kent repertory support to clarify the totality: generals, modalities, mental-emotional state, thermal state, and what changes the fatigue."),
         ],
         "actions": [
-            ("diet", "Track whether energy drops after meals, with skipped meals, or with heavy foods; review meal timing and digestibility before adding stronger interventions."),
-            ("sleep", "Review sleep quantity, waking time, dreams, night sweats, and whether rest actually restores energy."),
-            ("movement", "Consider gentle, capacity-matched movement only if it improves energy without next-day depletion."),
-            ("observation", "Log morning, afternoon, after-meal, and after-exertion energy for several days to identify the strongest pattern."),
-            ("practitioner_follow_up", "Clarify medications, pregnancy status, anemia history, thyroid history, fever, weight loss, shortness of breath, dizziness, or bleeding with a qualified professional before using herbs or formulas."),
+            ("diet", "For the next 3 days, compare energy after a warm simple breakfast versus skipped breakfast or coffee-only mornings. Note whether energy is steadier with food rhythm."),
+            ("sleep", "Track whether sleep actually restores energy: bedtime, waking time, night waking, dreams, and morning heaviness."),
+            ("movement", "Use a 10-15 minute easy walk as a test. If energy improves afterward, movement may be supportive; if there is next-day depletion, keep intensity lower."),
+            ("observation", "Log energy at waking, late morning, after lunch, mid-afternoon, and after exertion. The strongest dip is the first pattern clue."),
+            ("lifestyle", "Create one steady anchor for 3 days: same wake time, same first meal window, and one short outdoor walk."),
         ],
         "review": [
-            ("herbs", "Herbs or formulas should stay on hold until a qualified professional clarifies whether the fatigue pattern is digestive, sleep-related, depletion-type, stress-related, or medically concerning."),
-            ("remedy_differential", "Homeopathic remedy review should focus on modalities, generals, mental-emotional state, thermal state, and what kind of rest or exertion changes the fatigue."),
+            ("herbs", "If the pattern is clearly digestive heaviness, low appetite, or post-meal fatigue, digestive/supportive herb categories can be explored after the missing action books are added."),
+            ("remedy_differential", "Homeopathic review should compare remedies around fatigue after eating, morning heaviness, poor recovery from sleep, and what improves or worsens energy."),
         ],
     },
     "headache": {
-        "summary": "Headache needs safety screening first, then pattern review by location, quality, timing, triggers, digestion, sleep, stress, and temperature sensitivity.",
+        "summary": "Headache becomes more useful when organized by exact location, sensation, timing, food/caffeine relationship, sleep relationship, stress pattern, and heat/cold sensitivity.",
         "signals": ["pain location", "pain quality", "trigger pattern", "safety screen"],
         "tradition_directions": [
             ("Ayurveda", "Use the available Ayurveda canon to review headache through digestion/agni, heat/cold, dryness, sleep, routine, and dosha-pattern clues after urgent causes are screened out."),
@@ -1412,19 +1412,19 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
             ("Homeopathy", "Use Kent rubrics and Boericke materia medica only after location, sensation, modalities, timing, concomitants, and peculiar features are clarified."),
         ],
         "actions": [
-            ("avoid_reduce", "Do not treat traditionally first if headache is sudden, the worst of life, follows head injury, or comes with neurological symptoms, fever, stiff neck, vision changes, pregnancy concern, or severe hypertension concern."),
-            ("observation", "Record location, quality, onset, duration, light sensitivity, nausea, menstrual timing, food/caffeine relationship, and what makes it better or worse."),
-            ("sleep", "Review whether sleep loss, waking time, screens, jaw tension, or late meals are part of the headache pattern."),
-            ("diet", "Review hydration, missed meals, alcohol, caffeine change, heavy foods, and food triggers before considering herb or formula categories."),
-            ("practitioner_follow_up", "Clarify medication use, migraine history, blood pressure context, injury, fever, neurological symptoms, and pregnancy status."),
+            ("observation", "Create a headache map: location, sensation, time started, what was eaten, caffeine change, sleep quality, stress level, light sensitivity, nausea, and what helped."),
+            ("avoid_reduce", "For one test cycle, reduce the most likely aggravator: skipped meals, dehydration, alcohol, excess screen strain, jaw tension, or late-night work."),
+            ("sleep", "Check whether the headache follows poor sleep, late meals, jaw clenching, or waking at the same hour."),
+            ("diet", "Keep meals regular for 24-48 hours and note whether headaches improve when blood-sugar dips and caffeine swings are reduced."),
+            ("lifestyle", "Pair screen breaks with shoulder/jaw release and hydration notes so the pattern is not treated as only a head symptom."),
         ],
         "review": [
-            ("herbs", "Herbs, formulas, and supplements for headache require qualified professional review because medication interactions and red flags matter."),
+            ("herbs", "Herb/formula exploration depends on whether the headache pattern looks more heat, tension/stagnation, deficiency, digestion-related, menstrual, or externally triggered."),
             ("rubric_cluster", "Homeopathy repertory review should begin with location, sensation, modalities, timing, accompanying symptoms, and distinctive features."),
         ],
     },
     "insomnia": {
-        "summary": "Poor sleep should be separated into trouble falling asleep, staying asleep, early waking, restless sleep, or non-restorative sleep, then linked to heat, worry, digestion, pain, urination, dreams, or stimulant use.",
+        "summary": "Poor sleep should first be separated into falling asleep, staying asleep, early waking, restless dreaming, or waking unrefreshed. The next layer is what wakes the person: heat, worry, digestion, pain, urination, dreams, or stimulants.",
         "signals": ["sleep phase", "night timing", "nervous-system load", "digestion relationship"],
         "tradition_directions": [
             ("Ayurveda", "Use the available Ayurveda canon to review sleep through routine, vata-style irregularity, digestion, heat, dryness, and depletion/heaviness clues."),
@@ -1432,19 +1432,19 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
             ("Homeopathy", "Use Organon case method plus Boericke and Kent to review sleep timing, dreams, waking pattern, mental state, temperature, and modalities."),
         ],
         "actions": [
-            ("sleep", "Identify the main sleep problem: falling asleep, staying asleep, early waking, restless dreaming, or waking unrefreshed."),
-            ("avoid_reduce", "Review caffeine, alcohol, late meals, screens, intense evening work, and late exercise as possible pattern aggravators."),
-            ("breathwork", "Consider gentle downshifting breath only if it is calming and does not cause dizziness, anxiety escalation, or air hunger."),
-            ("observation", "Track waking time, body temperature, sweating, urination, hunger, worry, pain, and dreams."),
-            ("practitioner_follow_up", "Clarify medications, pregnancy/postpartum status, sleep apnea signs, panic symptoms, severe depression, or manic symptoms."),
+            ("sleep", "For 3 nights, write the sleep type: hard to fall asleep, waking often, waking too early, restless dreams, or waking unrefreshed."),
+            ("avoid_reduce", "Run one clean evening test: no caffeine after midday, no alcohol, lighter earlier dinner, dimmer screens, and no intense work in the final hour."),
+            ("breathwork", "Try 3-5 minutes of slow nasal breathing or extended exhale before bed and note whether the body settles or becomes more restless."),
+            ("observation", "If waking happens, record the time and the clue: heat, sweating, urination, hunger, worry, pain, dream, noise, or no obvious reason."),
+            ("lifestyle", "Build a consistent wind-down sequence: same bedtime window, warm low-stimulation routine, and one repeated cue that tells the body the day is ending."),
         ],
         "review": [
-            ("formulas", "Sleep formulas should remain qualified-review only until the sleep pattern, medications, pregnancy status, and contraindications are clear."),
+            ("formulas", "Formula direction needs the sleep subtype first: restless heat, digestive disturbance, depletion, worry, or rhythm disruption."),
             ("remedy_differential", "Homeopathic review should focus on sleep timing, mental state at night, dreams, temperature, and modalities."),
         ],
     },
     "bloating": {
-        "summary": "Bloating should be reviewed through timing after meals, food triggers, stool pattern, gas movement, appetite, stress, and whether warmth, movement, pressure, or passing stool/gas changes it.",
+        "summary": "Bloating becomes actionable when tied to meal timing, food quality, appetite, stool pattern, stress, gas movement, and whether warmth, pressure, walking, or passing stool/gas changes it.",
         "signals": ["digestion", "food timing", "stool relationship", "gas movement"],
         "tradition_directions": [
             ("Ayurveda", "Use Charaka/Ashtanga/Sushruta layers to review agni, ama-like heaviness, appetite, stool, meal timing, and whether the pattern points more to vata movement or kapha heaviness."),
@@ -1452,19 +1452,19 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
             ("Homeopathy", "Use Boericke and Kent to review bloating through modalities, food aggravations, pressure/movement effects, stool relationship, and remedy differentials."),
         ],
         "actions": [
-            ("diet", "Track which meals, food qualities, speed of eating, and meal timing make bloating better or worse."),
-            ("movement", "Review whether light walking after meals improves gas movement or whether movement worsens discomfort."),
-            ("avoid_reduce", "Reduce guesswork: avoid adding multiple herbs, supplements, or restrictive diet changes before stool, appetite, and trigger patterns are clear."),
-            ("observation", "Record appetite, belching, gas, stool frequency, stool form, abdominal pain, nausea, and relation to stress."),
-            ("practitioner_follow_up", "Escalate for severe, persistent, worsening, painful, feverish, bloody, or unexplained weight-loss-associated digestive symptoms."),
+            ("diet", "For 3 meals, choose warm cooked simple food, eat slower, and stop before heaviness. Compare bloating to raw/cold/heavy or late meals."),
+            ("movement", "Use a 10 minute easy walk after the largest meal and note whether gas/bloating moves, settles, or worsens."),
+            ("avoid_reduce", "Pause the biggest likely aggravator for a short test: cold drinks, late meals, rushing, grazing, dairy, carbonated drinks, or very heavy foods."),
+            ("observation", "Record appetite before eating, belching, gas, stool frequency, stool form, abdominal pain, nausea, and stress level."),
+            ("lifestyle", "Keep one steady meal window for 3 days so the app can tell whether rhythm alone changes digestion."),
         ],
         "review": [
-            ("herbs", "Digestive herbs should wait for qualified professional review of pregnancy status, medications, reflux, ulcers, gallbladder history, and stool pattern."),
-            ("formulas", "Formula review should clarify whether the pattern looks more weak digestion, stagnation, dampness/heaviness, heat, cold, or food intolerance."),
+            ("herbs", "Digestive herb categories should be separated by pattern: weak appetite, gas movement, heaviness/dampness, heat/reflux, cold digestion, or food intolerance."),
+            ("formulas", "Formula review should clarify whether the pattern looks more like weak digestion, stagnation, dampness/heaviness, heat, cold, or food intolerance."),
         ],
     },
     "constipation": {
-        "summary": "Constipation needs stool frequency, dryness, difficulty, incomplete evacuation, pain, bloating, fluids, movement, travel, stress, and medication context before any traditional intervention is chosen.",
+        "summary": "Constipation should be organized by stool frequency, dryness, straining, incomplete evacuation, bloating, fluids, movement, travel, stress, and routine disruption.",
         "signals": ["stool pattern", "dryness", "motility", "medication context"],
         "tradition_directions": [
             ("Ayurveda", "Use the available Ayurveda canon to review stool dryness, vata movement, agni, fluids/oiliness, routine, and abdominal symptoms before any bowel-moving herb direction."),
@@ -1472,19 +1472,19 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
             ("Homeopathy", "Use Kent stool rubrics and Boericke materia medica after clarifying urging, stool character, sensations, modalities, timing, and concomitants."),
         ],
         "actions": [
-            ("diet", "Review fluids, meal regularity, fiber tolerance, oils/fats, and whether dry or heavy foods are aggravating."),
-            ("movement", "Review gentle daily movement and abdominal ease if appropriate for the person’s condition."),
+            ("diet", "For 3 days, pair regular meals with warm fluids and notice whether stool improves with rhythm, warmth, and softer/moister foods."),
+            ("movement", "Use gentle daily walking and abdominal ease practices; note whether movement improves urge or gas movement."),
             ("observation", "Track stool frequency, form, straining, dryness, incomplete feeling, pain, gas, and what changes it."),
-            ("avoid_reduce", "Avoid stimulant laxative or strong herb assumptions without qualified professional review, especially with pregnancy, medications, abdominal pain, or chronic disease."),
-            ("practitioner_follow_up", "Clarify severe pain, vomiting, blood, unexplained weight loss, new constipation, medication causes, and pregnancy status."),
+            ("avoid_reduce", "Watch whether very dry foods, skipped meals, travel, stress, low fluids, or inactivity are the clearest aggravators."),
+            ("lifestyle", "Set a calm morning bathroom window after warm fluid or breakfast so routine can become part of the pattern test."),
         ],
         "review": [
-            ("herbs", "Laxative or bowel-moving herbs require careful qualified professional review and are not appropriate as automatic suggestions."),
+            ("herbs", "Herb categories should separate dryness/moistening, motility, heat, cold, tension, and depletion rather than jumping straight to laxatives."),
             ("remedy_differential", "Homeopathy review should focus on urging, stool character, sensations, timing, and modalities."),
         ],
     },
     "anxiety": {
-        "summary": "Anxiety should be reviewed by trigger, timing, body sensations, sleep, digestion, caffeine/stimulant use, panic features, and safety context.",
+        "summary": "Anxiety becomes clearer when organized by trigger, timing, body sensations, sleep, digestion, caffeine/stimulant use, and what reliably calms or worsens it.",
         "signals": ["trigger", "body sensations", "sleep relationship", "stimulant relationship"],
         "tradition_directions": [
             ("Ayurveda", "Use the available Ayurveda canon to review anxiety through vata-style instability, sleep, digestion, routine, depletion, and stimulant/stress relationships."),
@@ -1492,14 +1492,14 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
             ("Homeopathy", "Use Organon case method, Boericke, and Kent after clarifying fears, triggers, consolation, restlessness, sleep, temperature, and peculiar symptoms."),
         ],
         "actions": [
-            ("breathwork", "Use only gentle, comfortable breath awareness; stop if breath practices increase panic, dizziness, or air hunger."),
-            ("sleep", "Review whether anxiety is worse at night, on waking, after poor sleep, or with dreams."),
-            ("avoid_reduce", "Review caffeine, stimulants, alcohol rebound, skipped meals, and doom-scrolling as possible aggravators."),
-            ("observation", "Track triggers, time of day, chest sensations, breath changes, digestion, restlessness, and what reliably helps."),
-            ("practitioner_follow_up", "Escalate urgently for chest pain, fainting, suicidal thoughts, mania, psychosis, severe panic, or substance withdrawal concerns."),
+            ("breathwork", "Use 2-3 minutes of gentle breath awareness with a longer exhale. Track whether it settles the system or makes it feel more activated."),
+            ("sleep", "Check whether anxiety is worse at night, on waking, after poor sleep, or after vivid/restless dreams."),
+            ("avoid_reduce", "For one test day, reduce caffeine swings, skipped meals, alcohol rebound, and late-night scrolling to see how much the pattern changes."),
+            ("observation", "Track trigger, time of day, chest/breath sensations, digestion, restlessness, temperature, and what reliably helps."),
+            ("lifestyle", "Choose one grounding cue after stress: warm drink, quiet walk, simple meal, lower light, or a predictable routine block."),
         ],
         "review": [
-            ("herbs", "Calming herbs or formulas require qualified professional review for medications, pregnancy status, sedation, bipolar history, and interactions."),
+            ("herbs", "Calming herb/formula categories should wait until the pattern is clearer: restless heat, depletion, digestive anxiety, stimulant-driven anxiety, or sleep-related anxiety."),
             ("remedy_differential", "Homeopathy review should focus on fears, triggers, restlessness, consolation, temperature, sleep, and peculiar symptoms."),
         ],
     },
@@ -1521,28 +1521,28 @@ GENERIC_OUTCOME_BY_DIMENSION: dict[str, dict[str, Any]] = {
         ],
     },
     "digestion": {
-        "summary": "Digestive symptoms should be reviewed through appetite, stool, timing after meals, food triggers, gas, nausea, pain, thirst, and stress relationship.",
+        "summary": "Digestive symptoms should be organized through appetite, stool, timing after meals, food triggers, gas, nausea, pain, thirst, and stress relationship.",
         "signals": ["digestion", "food timing", "stool relationship", "trigger pattern"],
         "actions": [
-            ("diet", "Track meal timing, food qualities, appetite, stool, gas, nausea, and which foods reliably improve or worsen the symptom."),
-            ("observation", "Record whether the symptom changes with warmth, pressure, movement, passing stool/gas, fasting, or smaller meals."),
-            ("practitioner_follow_up", "Escalate digestive symptoms with severe pain, blood, fever, dehydration, persistent vomiting, unexplained weight loss, or pregnancy concern."),
+            ("diet", "Run a 3-meal pattern test: warm cooked simple food, slower eating, no rushing, and note appetite, gas, stool, nausea, and bloating afterward."),
+            ("observation", "Record whether the symptom changes with warmth, pressure, walking, passing stool/gas, fasting, smaller meals, or stress relief."),
+            ("lifestyle", "Keep meal timing steady for 3 days so the app can separate food choice from rhythm disruption."),
         ],
         "review": [
-            ("herbs", "Digestive herbs should wait for qualified professional review of medications, pregnancy status, reflux/ulcer history, gallbladder history, and stool pattern."),
-            ("formulas", "Formula review should clarify whether the pattern looks more weak digestion, stagnation, dampness/heaviness, heat, cold, or food intolerance."),
+            ("herbs", "Digestive herb categories should separate weak appetite, gas movement, heaviness/dampness, heat/reflux, cold digestion, and food intolerance."),
+            ("formulas", "Formula review should clarify whether the pattern looks more like weak digestion, stagnation, dampness/heaviness, heat, cold, or food intolerance."),
         ],
     },
     "mental_emotional": {
-        "summary": "Mental-emotional symptoms should be reviewed through trigger, timing, sleep, digestion, body sensations, stimulant use, safety context, and what reliably helps.",
+        "summary": "Mental-emotional symptoms should be organized through trigger, timing, sleep, digestion, body sensations, stimulant use, and what reliably helps.",
         "signals": ["trigger", "sleep relationship", "body sensations", "stress load"],
         "actions": [
-            ("observation", "Track triggers, time of day, sleep, food/caffeine, body sensations, digestion, and what reliably helps."),
-            ("breathwork", "Use only gentle, comfortable breath awareness; stop if breathing practices increase panic, dizziness, or air hunger."),
-            ("practitioner_follow_up", "Clarify safety concerns, medications, substance use, severe depression, panic, mania, psychosis, or self-harm thoughts."),
+            ("observation", "Track trigger, time of day, sleep, food/caffeine, body sensations, digestion, temperature, and what reliably helps."),
+            ("breathwork", "Use 2-3 minutes of gentle breath awareness with a longer exhale and note whether the body settles or becomes more activated."),
+            ("lifestyle", "Choose one grounding cue after stress: warm drink, quiet walk, simple meal, lower light, or a predictable routine block."),
         ],
         "review": [
-            ("herbs", "Calming herbs or formulas require qualified professional review for medications, pregnancy status, sedation, bipolar history, and interactions."),
+            ("herbs", "Calming herb/formula categories should be separated by pattern: restless heat, depletion, digestive anxiety, stimulant-driven anxiety, or sleep-related anxiety."),
             ("remedy_differential", "Homeopathy review should focus on triggers, fears, consolation, restlessness, sleep, temperature, and peculiar symptoms."),
         ],
     },
@@ -1573,12 +1573,12 @@ GENERIC_OUTCOME_BY_DIMENSION: dict[str, dict[str, Any]] = {
         ],
     },
     "general": {
-        "summary": "This symptom needs timing, severity, triggers, what changes it, related body systems, and safety context before stronger traditional wellness directions are appropriate.",
+        "summary": "This symptom becomes useful when it is connected to timing, severity, triggers, what changes it, and related body systems.",
         "signals": ["timing", "severity", "trigger pattern", "missing details"],
         "actions": [
-            ("observation", "Record when it happens, how severe it is, what improves it, what worsens it, and what symptoms appear with it."),
-            ("practitioner_follow_up", "Clarify medications, pregnancy status, known conditions, recent changes, and any severe or rapidly worsening features."),
-            ("avoid_reduce", "Avoid strong herbs, formulas, remedies, or practices until the symptom pattern is more specific."),
+            ("observation", "Record when it happens, how severe it is, what improves it, what worsens it, and what appears with it."),
+            ("lifestyle", "Run one simple pattern test for 3 days: steady sleep window, steady meals, gentle movement, and a short daily note."),
+            ("avoid_reduce", "Reduce the clearest likely aggravator first rather than changing many things at once."),
         ],
         "review": [
             ("remedy_differential", "Homeopathy review should wait for clearer modalities, generals, mental-emotional state, and peculiar symptoms."),
@@ -1641,23 +1641,10 @@ def outcome_row(
     tradition: str = "Cross-tradition intake",
     source_basis: str = "",
 ) -> dict[str, Any]:
-    direction_prefix = {
-        "diet": "Food and digestion outcome",
-        "sleep": "Sleep and recovery outcome",
-        "movement": "Movement outcome",
-        "observation": "Observation outcome",
-        "practitioner_follow_up": "Qualified review outcome",
-        "avoid_reduce": "Avoid/reduce outcome",
-        "breathwork": "Breathwork outcome",
-        "herbs": "Herb review outcome",
-        "formulas": "Formula review outcome",
-        "remedy_differential": "Remedy differential outcome",
-        "rubric_cluster": "Repertory outcome",
-    }.get(category, "Practical outcome")
     return {
         "tradition": tradition,
         "category": category,
-        "direction": f"{direction_prefix}: {action}",
+        "direction": action,
         "practitioner_action": action,
         "confidence_score": confidence,
         "review_priority": review_priority,
@@ -1769,7 +1756,7 @@ def apply_symptom_outcome_layer(
                     default_citations_by_tradition.get(tradition, cross_citations),
                     74 if safety["status"] == "clear" else 66,
                     tradition=tradition,
-                    source_basis="Uses currently processed source layers; missing modern books will improve specificity later.",
+                    source_basis="Drawn from the currently processed source layers and the recognized symptom profile.",
                 )
             )
         for category, action in profile.get("review", []):
@@ -1786,7 +1773,7 @@ def apply_symptom_outcome_layer(
                     68 if safety["status"] == "clear" else 58,
                     "review_second",
                     tradition=tradition,
-                    source_basis="Uses currently processed source layers; held for qualified professional review until pattern and safety details are clearer.",
+                    source_basis="Drawn from the currently processed source layers; new action books will make this more specific.",
                 )
             )
 

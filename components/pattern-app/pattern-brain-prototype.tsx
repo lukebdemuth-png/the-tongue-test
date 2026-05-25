@@ -997,13 +997,23 @@ function categoryTitle(category: string) {
     modalities: "Modalities",
     movement: "Movement",
     observation: "Observation Notes",
-    practitioner_follow_up: "Qualified Professional Follow-Up",
+    practitioner_follow_up: "Follow-Up",
     remedy_differential: "Remedy Differential",
     rubric_cluster: "Repertory Rubrics",
     sleep: "Sleep",
     yoga_breath: "Yoga / Breath",
   };
   return labels[category] || category.replaceAll("_", " ");
+}
+
+function priorityLabel(priority: string) {
+  const labels: Record<string, string> = {
+    review_first: "Start here",
+    review_second: "Explore next",
+    exploratory: "Optional",
+    hold_until_clarified: "Needs more detail",
+  };
+  return labels[priority] || priority.replaceAll("_", " ");
 }
 
 function OutcomeItemCard({
@@ -1021,17 +1031,13 @@ function OutcomeItemCard({
           <h4 className="mt-2 text-base font-semibold leading-6 text-ink">{item.tradition}</h4>
         </div>
         <span className="rounded-full border border-ink/10 bg-fog px-2.5 py-1 text-xs text-ink/55">
-          {item.review_priority.replaceAll("_", " ")}
+          {priorityLabel(item.review_priority)}
         </span>
       </div>
       <div className="mt-4 space-y-3">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">Outcome</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">Practical Outcome</p>
           <p className="mt-1 text-sm leading-6 text-ink/76">{complianceText(item.direction)}</p>
-        </div>
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">Educational Possibility</p>
-          <p className="mt-1 text-sm leading-6 text-ink/76">{complianceText(item.practitioner_action)}</p>
         </div>
         <p className="text-xs leading-5 text-ink/48">{sourceLabel(item.citations, references)}</p>
         {item.source_basis ? <p className="text-xs leading-5 text-ink/48">{item.source_basis}</p> : null}
@@ -1048,9 +1054,13 @@ function groupedOutcomeItems(items: PracticalRecommendation[]) {
     seen.add(key);
     return true;
   });
+  const categoryRank = (category: string) =>
+    ["diet", "sleep", "movement", "breathwork", "lifestyle", "observation", "avoid_reduce"].includes(category) ? 2 :
+      ["remedy_differential", "rubric_cluster", "herbs", "formulas"].includes(category) ? 1 : 0;
   return unique.sort((a, b) => {
     const priority = { review_first: 3, review_second: 2, exploratory: 1, hold_until_clarified: 0 };
     return (
+      categoryRank(b.category) - categoryRank(a.category) ||
       (priority[b.review_priority as keyof typeof priority] ?? 0) -
         (priority[a.review_priority as keyof typeof priority] ?? 0) ||
       b.confidence_score - a.confidence_score
@@ -1076,7 +1086,7 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="eyebrow mb-2">Outcome</p>
-          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">Working wellness direction</h2>
+          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">Here is what to do first.</h2>
         </div>
         <span className="rounded-full border border-ink/10 bg-fog px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-ink/62">
           {output.confidence.label}
@@ -1084,7 +1094,7 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
       </div>
 
       <div className="mt-5 rounded-lg border border-moss/20 bg-[#f8f7f1] p-4">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Working Interpretation</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Pattern Summary</p>
         <p className="mt-3 text-base leading-7 text-ink/78">{complianceText(summary)}</p>
       </div>
 
@@ -1104,7 +1114,7 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
 
       <div className="mt-4 grid gap-3 lg:grid-cols-[1.1fr_0.9fr]">
         <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Explore First</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Do First</p>
           {doFirst.length ? (
             <ol className="mt-3 space-y-3 text-sm leading-6 text-ink/76">
               {doFirst.map((item, index) => (
@@ -1141,7 +1151,7 @@ function OutcomePanel({ trace }: { trace: BrainTrace }) {
       </div>
 
       <article className="mt-4 rounded-lg border border-ink/10 bg-white/75 p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Explore With Support</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Explore Next</p>
         {holdForReview.length ? (
           <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/72">
             {holdForReview.map((item) => (
@@ -1313,10 +1323,10 @@ function PracticalOutput({ trace }: { trace: BrainTrace }) {
     <section className="rounded-xl border border-moss/25 bg-white p-5 shadow-card md:p-7">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="eyebrow mb-2">Organized Insight Boxes</p>
-          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">Full source-based wellness directions</h2>
+          <p className="eyebrow mb-2">Outcome Cards</p>
+          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">Practical directions from this intake</h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-ink/68">
-            Each box below is an informational, tradition-based possibility from the books currently on file. Missing modern books will sharpen the details later, but these boxes should stand on the current canon.
+            These are the first usable pattern-based outputs from the books currently on file. They are organized so a person can see what to observe, adjust, and explore next.
           </p>
         </div>
         <span className="rounded-full border border-ink/10 bg-fog px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-ink/62">
