@@ -1116,6 +1116,7 @@ export function PatternBrainPrototype() {
     "low energy",
   ]);
   const [trace, setTrace] = useState<BrainTrace | null>(null);
+  const [view, setView] = useState<"intake" | "results">("intake");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -1145,6 +1146,7 @@ export function PatternBrainPrototype() {
       const body = await response.json();
       if (!response.ok) throw new Error(body.error || "Brain analysis failed");
       setTrace(body);
+      setView("results");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not analyze this intake");
     } finally {
@@ -1159,6 +1161,133 @@ export function PatternBrainPrototype() {
   function toggleSymptom(symptom: string) {
     setSelectedSymptoms((current) =>
       current.includes(symptom) ? current.filter((item) => item !== symptom) : [...current, symptom],
+    );
+  }
+
+  if (view === "results" && trace) {
+    return (
+      <main className="min-h-screen bg-[#fbfaf6]">
+        <div className="container-shell max-w-6xl py-10 md:py-14">
+          <section className="mb-8 rounded-xl border border-moss/25 bg-white p-5 shadow-card md:p-7">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <p className="eyebrow mb-2">Results</p>
+                <h1 className="max-w-4xl text-4xl font-semibold leading-[1.04] md:text-6xl">
+                  Your pattern interpretation is ready.
+                </h1>
+                <p className="mt-4 max-w-3xl text-base leading-7 text-ink/68">
+                  The system has read your intake across Chinese Medicine, Ayurveda, and Homeopathy. This result keeps the traditions distinct, then shows the practical pattern signals that overlap.
+                </p>
+              </div>
+              <button
+                className="button-secondary min-h-9 px-3 py-2 text-xs"
+                onClick={() => setView("intake")}
+              >
+                Back To Intake
+              </button>
+            </div>
+          </section>
+
+          <section className="space-y-5">
+            <OutcomePanel trace={trace} />
+            <PracticalOutput trace={trace} />
+
+            <details className="rounded-lg border border-ink/10 bg-white/80 p-4">
+              <summary className="cursor-pointer text-lg font-semibold">How We Arrived Here</summary>
+              <div className="mt-4 space-y-4">
+                <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
+                  <h2 className="text-lg font-semibold">Safety + Intake State</h2>
+                  <p className="mt-2 text-sm leading-6 text-ink/68">
+                    Safety gate: {trace.safety_gate.status}. {trace.safety_gate.notes.join(" ")}
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-ink/68">
+                    {trace.intake_state.minimum_complete ? "Minimum intake is complete." : "Minimum intake still needs details."} Next question: {trace.next_best_question}
+                  </p>
+                </section>
+
+                <CrossTraditionOutcome trace={trace} />
+
+                <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
+                  <h2 className="text-lg font-semibold">Autofilled Tradition Evaluations</h2>
+                  <p className="mt-2 text-sm leading-6 text-ink/65">
+                    One unified intake generated these hidden packets before the separate tradition scoring ran.
+                  </p>
+                  <div className="mt-3 grid gap-3 md:grid-cols-3">
+                    <EvaluationPacketCard title="Ayurveda Packet" packet={trace.derived_evaluation_packets.ayurveda} />
+                    <EvaluationPacketCard title="TCM Packet" packet={trace.derived_evaluation_packets.tcm} />
+                    <EvaluationPacketCard title="Homeopathy Packet" packet={trace.derived_evaluation_packets.homeopathy} />
+                  </div>
+                </section>
+
+                <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
+                  <h2 className="text-lg font-semibold">Next Best Question</h2>
+                  <p className="mt-2 text-ink/75">{trace.next_best_question}</p>
+                </section>
+
+                <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
+                  <h2 className="text-lg font-semibold">Practitioner Summary</h2>
+                  <p className="mt-2 text-sm leading-6 text-ink/75">{trace.practitioner_summary.case_snapshot}</p>
+                  <div className="mt-3 grid gap-3 md:grid-cols-3">
+                    {trace.practitioner_summary.primary_traditional_directions.map((direction) => (
+                      <div key={direction.tradition} className="rounded-md bg-fog/70 p-3">
+                        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{direction.tradition}</p>
+                        <p className="mt-2 text-sm leading-6 text-ink/70">{direction.direction}</p>
+                        <p className="mt-2 text-xs text-ink/50">{direction.confidence_score} · {direction.priority}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-3 text-sm text-ink/60">{trace.practitioner_summary.confidence_summary}</p>
+                </section>
+
+                <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
+                  <h2 className="text-lg font-semibold">Feature Map</h2>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {featureSummary.map(([dimension, count]) => (
+                      <span key={dimension} className="rounded-full bg-fog px-3 py-1.5 text-sm text-ink/70">
+                        {dimension}: {count}
+                      </span>
+                    ))}
+                  </div>
+                </section>
+
+                <div className="grid gap-4">
+                  <CandidateList title="Ayurveda" items={trace.candidates.ayurveda} />
+                  <CandidateList title="Traditional Chinese Medicine" items={trace.candidates.tcm} />
+                  <CandidateList title="Homeopathy" items={trace.candidates.homeopathy} />
+                </div>
+
+                <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
+                  <h2 className="text-lg font-semibold">Citations</h2>
+                  <div className="mt-3 space-y-2">
+                    {trace.app_output.citations.slice(0, 8).map((citation) => (
+                      <details key={citation.citation_id} className="rounded-md bg-fog/70 p-3 text-sm text-ink/70">
+                        <summary className="cursor-pointer">
+                          <span className="font-semibold text-ink">{citation.tradition}</span> · {citation.source} · {citation.locator} · pages {citation.pages}
+                        </summary>
+                        <div className="mt-3 space-y-1 text-xs leading-5 text-ink/60">
+                          <p>ID: {citation.citation_id}</p>
+                          <p>Book: {citation.book || citation.source}</p>
+                          <p>Author / translator: {citation.author_or_translator || "Unknown"}</p>
+                          <p>Section: {citation.section || "Unknown"} · Chapter: {citation.chapter || "Unknown"}</p>
+                          <p>Edition: {citation.edition || "Unknown"}</p>
+                          <p>Rights: {citation.rights_note || "Unknown"}</p>
+                          {citation.url ? (
+                            <a className="underline" href={citation.url} target="_blank" rel="noreferrer">
+                              Open source
+                            </a>
+                          ) : null}
+                        </div>
+                      </details>
+                    ))}
+                  </div>
+                </section>
+              </div>
+            </details>
+
+            <p className="rounded-lg border border-ink/10 bg-white/70 p-4 text-sm text-ink/60">{trace.prototype_warning}</p>
+          </section>
+        </div>
+      </main>
     );
   }
 
@@ -1408,6 +1537,7 @@ export function PatternBrainPrototype() {
                     setForm(sampleForm);
                     setSelectedSymptoms(["poor sleep", "bloating", "low energy"]);
                     setTrace(null);
+                    setView("intake");
                     setError("");
                   }}
                 >
@@ -1416,115 +1546,6 @@ export function PatternBrainPrototype() {
               </div>
             </section>
 
-            {trace ? (
-              <section className="mt-8 space-y-5" aria-live="polite">
-                <div className="rounded-xl border border-moss/25 bg-white p-5 shadow-card md:p-7">
-                  <p className="eyebrow mb-2">Interpretation Built</p>
-                  <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-                    Your intake is now being read across the three traditions.
-                  </h2>
-                  <p className="mt-3 max-w-3xl text-sm leading-6 text-ink/64">
-                    This appears only after the intake flow, so the form remains the main experience and the output becomes the next chapter.
-                  </p>
-                </div>
-                <OutcomePanel trace={trace} />
-                <PracticalOutput trace={trace} />
-
-              <details className="rounded-lg border border-ink/10 bg-white/80 p-4">
-                <summary className="cursor-pointer text-lg font-semibold">How We Arrived Here</summary>
-                <div className="mt-4 space-y-4">
-                  <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
-                    <h2 className="text-lg font-semibold">Safety + Intake State</h2>
-                    <p className="mt-2 text-sm leading-6 text-ink/68">
-                      Safety gate: {trace.safety_gate.status}. {trace.safety_gate.notes.join(" ")}
-                    </p>
-                    <p className="mt-2 text-sm leading-6 text-ink/68">
-                      {trace.intake_state.minimum_complete ? "Minimum intake is complete." : "Minimum intake still needs details."} Next question: {trace.next_best_question}
-                    </p>
-                  </section>
-
-                  <CrossTraditionOutcome trace={trace} />
-
-                  <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
-                    <h2 className="text-lg font-semibold">Autofilled Tradition Evaluations</h2>
-                    <p className="mt-2 text-sm leading-6 text-ink/65">
-                      One unified intake generated these hidden packets before the separate tradition scoring ran.
-                    </p>
-                    <div className="mt-3 grid gap-3 md:grid-cols-3">
-                      <EvaluationPacketCard title="Ayurveda Packet" packet={trace.derived_evaluation_packets.ayurveda} />
-                      <EvaluationPacketCard title="TCM Packet" packet={trace.derived_evaluation_packets.tcm} />
-                      <EvaluationPacketCard title="Homeopathy Packet" packet={trace.derived_evaluation_packets.homeopathy} />
-                    </div>
-                  </section>
-
-                  <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
-                    <h2 className="text-lg font-semibold">Next Best Question</h2>
-                    <p className="mt-2 text-ink/75">{trace.next_best_question}</p>
-                  </section>
-
-                  <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
-                    <h2 className="text-lg font-semibold">Practitioner Summary</h2>
-                    <p className="mt-2 text-sm leading-6 text-ink/75">{trace.practitioner_summary.case_snapshot}</p>
-                    <div className="mt-3 grid gap-3 md:grid-cols-3">
-                      {trace.practitioner_summary.primary_traditional_directions.map((direction) => (
-                        <div key={direction.tradition} className="rounded-md bg-fog/70 p-3">
-                          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{direction.tradition}</p>
-                          <p className="mt-2 text-sm leading-6 text-ink/70">{direction.direction}</p>
-                          <p className="mt-2 text-xs text-ink/50">{direction.confidence_score} · {direction.priority}</p>
-                        </div>
-                      ))}
-                    </div>
-                    <p className="mt-3 text-sm text-ink/60">{trace.practitioner_summary.confidence_summary}</p>
-                  </section>
-
-                  <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
-                    <h2 className="text-lg font-semibold">Feature Map</h2>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {featureSummary.map(([dimension, count]) => (
-                        <span key={dimension} className="rounded-full bg-fog px-3 py-1.5 text-sm text-ink/70">
-                          {dimension}: {count}
-                        </span>
-                      ))}
-                    </div>
-                  </section>
-
-                  <div className="grid gap-4">
-                    <CandidateList title="Ayurveda" items={trace.candidates.ayurveda} />
-                    <CandidateList title="Traditional Chinese Medicine" items={trace.candidates.tcm} />
-                    <CandidateList title="Homeopathy" items={trace.candidates.homeopathy} />
-                  </div>
-
-                  <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
-                    <h2 className="text-lg font-semibold">Citations</h2>
-                    <div className="mt-3 space-y-2">
-                      {trace.app_output.citations.slice(0, 8).map((citation) => (
-                        <details key={citation.citation_id} className="rounded-md bg-fog/70 p-3 text-sm text-ink/70">
-                          <summary className="cursor-pointer">
-                            <span className="font-semibold text-ink">{citation.tradition}</span> · {citation.source} · {citation.locator} · pages {citation.pages}
-                          </summary>
-                          <div className="mt-3 space-y-1 text-xs leading-5 text-ink/60">
-                            <p>ID: {citation.citation_id}</p>
-                            <p>Book: {citation.book || citation.source}</p>
-                            <p>Author / translator: {citation.author_or_translator || "Unknown"}</p>
-                            <p>Section: {citation.section || "Unknown"} · Chapter: {citation.chapter || "Unknown"}</p>
-                            <p>Edition: {citation.edition || "Unknown"}</p>
-                            <p>Rights: {citation.rights_note || "Unknown"}</p>
-                            {citation.url ? (
-                              <a className="underline" href={citation.url} target="_blank" rel="noreferrer">
-                                Open source
-                              </a>
-                            ) : null}
-                          </div>
-                        </details>
-                      ))}
-                    </div>
-                  </section>
-                </div>
-              </details>
-
-              <p className="rounded-lg border border-ink/10 bg-white/70 p-4 text-sm text-ink/60">{trace.prototype_warning}</p>
-              </section>
-            ) : null}
           </section>
         </div>
       </div>

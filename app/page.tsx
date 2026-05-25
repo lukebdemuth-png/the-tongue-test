@@ -13,19 +13,19 @@ export const metadata = buildMetadata({
 
 const processSteps = [
   {
+    label: "Landing",
+    title: "Understand the experience before entering.",
+    body: "The homepage explains the three-tradition pattern system, the source canon, and what kind of result the user receives.",
+  },
+  {
     label: "Intake",
-    title: "Start with the whole case.",
-    body: "Symptoms, constitution, tendencies, cautions, medications, goals, and preferences are held together before any tradition-specific interpretation begins.",
+    title: "Move through the three lenses.",
+    body: "The intake is the main experience: a self-understanding flow through Chinese Medicine, Ayurveda, and Homeopathy before interpretation begins.",
   },
   {
-    label: "Reasoning",
-    title: "Keep each tradition distinct.",
-    body: "Homeopathy, Ayurveda, and Chinese medicine are read through their own pattern language first, with citations and uncertainty kept visible.",
-  },
-  {
-    label: "Output",
-    title: "Show what is useful next.",
-    body: "The app returns a source-based pattern profile, confidence, next questions, practitioner review categories, warnings, and source references.",
+    label: "Results",
+    title: "Receive a pattern interpretation.",
+    body: "After completion, the user moves into a results page with a source-based pattern profile, next questions, practical categories, and safety boundaries.",
   },
 ];
 
@@ -78,6 +78,27 @@ const producedOutputs = [
   },
 ];
 
+const futureApps = [
+  {
+    title: "Tongue Diagnostic",
+    tradition: "Chinese Medicine",
+    body: "A focused visual intake for tongue color, coat, shape, moisture, and pattern clues.",
+    status: "Coming soon",
+  },
+  {
+    title: "Learn Your Dosha",
+    tradition: "Ayurveda",
+    body: "A lightweight constitution quiz that helps users notice elemental and routine tendencies.",
+    status: "Coming soon",
+  },
+  {
+    title: "Find Your Master Remedy",
+    tradition: "Homeopathy",
+    body: "A reflective quiz for sensitivities, modalities, emotional patterns, and remedy-direction clues.",
+    status: "Coming soon",
+  },
+];
+
 const sourceCanonSections = [
   {
     category: "Philosophy",
@@ -118,8 +139,10 @@ const sourceCanonSections = [
     books: [
       ["Boericke's New Manual of Homeopathic Materia Medica with Repertory", "Homeopathy / Boericke / materia medica"],
       ["Kent's Final General Repertory", "Homeopathy / Kent / repertory"],
+      ["Lectures on Homeopathic Materia Medica", "Homeopathy / Kent / materia medica"],
       ["Homeopathic Medical Repertory, 3rd ed.", "Homeopathy / Murphy / clinical repertory"],
-      ["User-confirmed TCM Materia Medica", "Chinese Medicine / pending exact office reference"],
+      ["Chinese Herbal Medicine: Materia Medica", "Chinese Medicine / herb reference"],
+      ["Chinese Herbal Medicine: Formulas and Strategies", "Chinese Medicine / formula reference"],
       ["Encyclopedia of Herbal Medicine", "General herbal / Chevallier / cross-checking"],
     ],
   },
@@ -245,6 +268,41 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section id="experience" className="section-space archival-texture bg-[#fcfaf5]">
+        <div className="container-shell">
+          <div className="grid gap-10 lg:grid-cols-[0.72fr_1fr] lg:items-start">
+            <div>
+              <p className="eyebrow">The experience</p>
+              <h2 className="section-title">The intake is the doorway.</h2>
+              <p className="section-copy mt-6">
+                Patterns begins as a guided self-understanding process. The user
+                moves through three traditions, watches a pattern profile begin
+                to form, then completes the intake before seeing their results.
+              </p>
+              <a href="/pattern-app" className="button-primary mt-8">
+                Begin Intake
+              </a>
+            </div>
+            <div className="grid gap-4">
+              {processSteps.map((step, index) => (
+                <article key={step.label} className="border border-ink/10 bg-white/76 p-5 shadow-card">
+                  <div className="grid gap-4 sm:grid-cols-[4rem_1fr]">
+                    <p className="font-serif text-4xl leading-none text-clay">
+                      {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-moss">{step.label}</p>
+                      <h3 className="mt-3 font-sans text-xl font-semibold tracking-normal text-ink">{step.title}</h3>
+                      <p className="mt-3 text-sm leading-7 text-ink/68">{step.body}</p>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="how-it-works" className="section-space archival-texture">
         <div className="container-shell">
           <div className="grid gap-12 lg:grid-cols-[0.7fr_1fr] lg:items-start">
@@ -260,7 +318,23 @@ export default function HomePage() {
               </p>
             </div>
             <div className="divide-y divide-ink/10 border-y border-ink/10">
-              {processSteps.map((step) => (
+              {[
+                {
+                  label: "Source intake",
+                  title: "Start with the whole person.",
+                  body: "Symptoms, constitution, tendencies, cautions, goals, and preferences are held together before tradition-specific interpretation begins.",
+                },
+                {
+                  label: "Distinct lenses",
+                  title: "Keep each tradition distinct.",
+                  body: "Homeopathy, Ayurveda, and Chinese medicine are read through their own pattern language first, with citations and uncertainty kept visible.",
+                },
+                {
+                  label: "Interpretation",
+                  title: "Show what is useful next.",
+                  body: "The app returns a source-based pattern profile, confidence, next questions, review categories, warnings, and source references.",
+                },
+              ].map((step) => (
                 <article key={step.label} className="grid gap-4 py-7 sm:grid-cols-[9rem_1fr]">
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-moss">
                     {step.label}
@@ -292,6 +366,35 @@ export default function HomePage() {
                 </p>
                 <h3 className="mt-4 text-3xl leading-8">{tradition.name}</h3>
                 <p className="mt-4 text-sm leading-7 text-ink/68">{tradition.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="tools" className="archival-texture border-b border-ink/10 bg-[#f9f6ef] py-20 md:py-28">
+        <div className="container-shell">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="eyebrow">Focused tools</p>
+              <h2 className="section-title">Three smaller apps will follow.</h2>
+            </div>
+            <p className="max-w-xl text-sm leading-7 text-ink/62">
+              These stay small and clean on the homepage for now. They become
+              separate experiences after the main Patterns app is dialed in.
+            </p>
+          </div>
+          <div className="mt-10 grid gap-4 lg:grid-cols-3">
+            {futureApps.map((app) => (
+              <article key={app.title} className="border border-ink/10 bg-white/72 p-5 shadow-card">
+                <div className="flex items-start justify-between gap-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-moss">{app.tradition}</p>
+                  <span className="rounded-full border border-ink/10 px-2.5 py-1 text-[10px] uppercase tracking-[0.14em] text-ink/46">
+                    {app.status}
+                  </span>
+                </div>
+                <h3 className="mt-5 font-sans text-xl font-semibold tracking-normal text-ink">{app.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-ink/66">{app.body}</p>
               </article>
             ))}
           </div>
