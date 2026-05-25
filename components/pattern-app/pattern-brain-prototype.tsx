@@ -310,6 +310,15 @@ function splitList(value: string) {
 }
 
 function intakeFromForm(form: IntakeForm) {
+  const thirstPattern = [form.temperature, form.cravings]
+    .filter((value) => /thirst|dry mouth|cold drinks|warm drinks/i.test(value))
+    .join("\n");
+  const sweatingPattern = [form.temperature, form.circulation]
+    .filter((value) => /sweat|night sweats|flushing|flush/i.test(value))
+    .join("\n");
+  const amaSigns = splitList([form.ayurvedaNotes, form.digestion, form.energy, form.elimination].join(", "))
+    .filter((item) => /heavy|sluggish|coating|sticky|mucus|foul|bloat|low energy|after meals/i.test(item));
+
   return {
     case_id: "browser-intake",
     patient_context: {
@@ -345,8 +354,8 @@ function intakeFromForm(form: IntakeForm) {
         prakriti: "",
         vikriti: form.ayurvedaNotes,
         agni: form.digestion,
-        ama_signs: [],
-        bowel_pattern: "",
+        ama_signs: amaSigns,
+        bowel_pattern: form.elimination,
         tongue_notes: "",
         pulse_notes: "",
       },
@@ -354,8 +363,8 @@ function intakeFromForm(form: IntakeForm) {
         tongue: "",
         pulse: "",
         temperature: [form.temperature, form.circulation].filter(Boolean).join("\n"),
-        sweating: "",
-        thirst: "",
+        sweating: sweatingPattern,
+        thirst: thirstPattern,
         appetite: [form.digestion, form.cravings].filter(Boolean).join("\n"),
         bowel_urine: form.elimination,
         emotional_pattern: [form.mood, form.stress, form.tcmNotes].filter(Boolean).join("\n"),
@@ -369,7 +378,7 @@ function intakeFromForm(form: IntakeForm) {
           ...splitList(form.temperature),
           ...splitList(form.cravings),
         ],
-        peculiar_symptoms: [],
+        peculiar_symptoms: splitList([form.pain, form.skin, form.reproductive].filter(Boolean).join(", ")),
         food_cravings_aversions: splitList(form.cravings),
         thermal_state: [form.temperature, form.circulation].filter(Boolean).join("\n"),
       },
@@ -519,6 +528,21 @@ const traditionToneClasses: Record<TraditionTone, string> = {
   homeopathy: "border-ink/10 bg-white text-ink",
 };
 
+const sourceIntakeBasis: Record<TraditionTone, string[]> = {
+  tcm: [
+    "Huangdi Neijing: cold/heat, sweating, sleep, urine, pain, chest/abdomen, qi movement",
+    "Current app translation: rhythm, temperature, fluids, elimination, stress location, surface signs",
+  ],
+  ayurveda: [
+    "Sushruta / Ashtanga Hridayam: dosha, agni, ama, mala, sleep, taste, routine, age/day/diet timing",
+    "Current app translation: constitution, appetite, heaviness, routine, food tendencies, grounding",
+  ],
+  homeopathy: [
+    "Organon aphorisms 84-104: narrative first, precise particulars, non-leading questions, modalities, mental state, stools, urine, sleep, thirst, peculiarities",
+    "Current app translation: personal story, better/worse, exact sensation, triggers, repeating emotional pattern",
+  ],
+};
+
 const traditionMicrocopy: Record<TraditionTone, string> = {
   tcm: "This lens watches rhythm: heat and cold, movement and blockage, fullness and depletion.",
   ayurveda: "This lens listens for constitution: what steadies you, what scatters you, and how digestion carries the story.",
@@ -556,6 +580,13 @@ function TraditionIntakeSection({
         <p className="mt-4 border-l-2 border-moss/40 pl-3 text-sm leading-6 text-ink/62">
           {traditionMicrocopy[tone]}
         </p>
+        <div className="mt-4 grid gap-2 md:grid-cols-2">
+          {sourceIntakeBasis[tone].map((basis) => (
+            <p key={basis} className="border border-ink/10 bg-white/68 px-3 py-2 text-xs leading-5 text-ink/54">
+              {basis}
+            </p>
+          ))}
+        </div>
       </div>
       <div className="grid gap-4 border-t border-ink/8 bg-[#fbfaf6] p-5 md:p-6">
         {children}
@@ -1358,12 +1389,28 @@ export function PatternBrainPrototype() {
               </div>
               <div className="space-y-4">
                 <IntakeSection title="Main Concern" description="A few basics are enough for a first pass." defaultOpen>
-                  <TextField label="Main concern" value={form.chiefComplaint} onChange={(value) => updateForm("chiefComplaint", value)} rows={2} />
+                  <p className="border-l-2 border-moss/35 pl-3 text-xs leading-5 text-ink/54">
+                    Source basis: the Organon case method begins with the person describing the history in their own words before the system asks for particulars.
+                  </p>
+                  <TextField
+                    label="Main concern, in your own words"
+                    value={form.chiefComplaint}
+                    onChange={(value) => updateForm("chiefComplaint", value)}
+                    placeholder="Tell the story simply: what started, what changed, what you notice most..."
+                    rows={3}
+                  />
                   <TextField label="Other symptoms" value={form.secondarySymptoms} onChange={(value) => updateForm("secondarySymptoms", value)} placeholder="Anything not covered by the symptom taps" rows={2} />
                   <div className="grid gap-3 md:grid-cols-2">
                     <Field label="Duration" value={form.duration} onChange={(value) => updateForm("duration", value)} placeholder="days, weeks, months" />
                     <Field label="Severity" value={form.severity} onChange={(value) => updateForm("severity", value)} placeholder="mild, moderate, severe, 0-10" />
                   </div>
+                  <TextField
+                    label="What was happening around the time it started?"
+                    value={form.stress}
+                    onChange={(value) => updateForm("stress", value)}
+                    placeholder="stress, illness, travel, loss, weather change, food change, medication change, overwork..."
+                    rows={2}
+                  />
                 </IntakeSection>
 
                 <TraditionIntakeSection
@@ -1375,9 +1422,9 @@ export function PatternBrainPrototype() {
                   <ReflectionCard title="Temperature + Rhythm">
                     <ChoicePills
                       prompt="Do you tend to feel more hot, cold, mixed, or changing?"
-                      note="This helps the system notice heat/cold patterns without asking you to know the theory."
+                      note="Book-derived logic: Huangdi Neijing material repeatedly separates cold, heat, sweating, dryness, and alternating states."
                       value={form.temperature}
-                      choices={["cold easily", "runs hot", "hot flashes", "night sweats", "dry mouth", "thirsty", "changes day to day"]}
+                      choices={["cold easily", "runs hot", "alternating hot and cold", "hot flashes", "night sweats", "dry mouth", "thirsty", "changes day to day"]}
                       onChange={(value) => updateForm("temperature", value)}
                     />
                     <ChoicePills
@@ -1388,12 +1435,19 @@ export function PatternBrainPrototype() {
                     />
                   </ReflectionCard>
 
-                  <ReflectionCard title="Flow + Stress">
+                  <ReflectionCard title="Flow + Body Location">
                     <ChoicePills
                       prompt="Where does stress affect you first?"
                       value={form.tcmNotes}
                       choices={["chest", "throat", "stomach", "head", "sleep", "bowels", "jaw or shoulders"]}
                       onChange={(value) => updateForm("tcmNotes", value)}
+                    />
+                    <ChoicePills
+                      prompt="What surface or fluid signs show up?"
+                      note="This maps to sweating, swelling, dryness, urination, and exterior/interior clues."
+                      value={form.circulation}
+                      choices={["sweats easily", "rarely sweats", "night sweats", "cold hands or feet", "flushing", "swelling", "dry skin", "frequent urination"]}
+                      onChange={(value) => updateForm("circulation", value)}
                     />
                     <TextField
                       label="How stress changes digestion, sleep, or body tension"
@@ -1404,12 +1458,12 @@ export function PatternBrainPrototype() {
                     />
                   </ReflectionCard>
 
-                  <ReflectionCard title="Digestion + Sleep">
+                  <ReflectionCard title="Digestion + Sleep + Elimination">
                     <div className="grid gap-3 md:grid-cols-2">
                       <TextField label="Digestion under stress" value={form.digestion} onChange={(value) => updateForm("digestion", value)} placeholder="bloating, appetite, reflux, heaviness, nausea..." rows={3} />
                       <TextField label="Sleep rhythm" value={form.sleep} onChange={(value) => updateForm("sleep", value)} placeholder="falling asleep, waking time, dreams, restless sleep..." rows={3} />
-                      <TextField label="Bowel / urine rhythm" value={form.elimination} onChange={(value) => updateForm("elimination", value)} placeholder="constipation, loose stool, frequency, urination..." rows={3} />
-                      <TextField label="Circulation / surface signs" value={form.circulation} onChange={(value) => updateForm("circulation", value)} placeholder="cold hands, flushing, swelling, sweating..." rows={3} />
+                      <TextField label="Bowel / urine rhythm" value={form.elimination} onChange={(value) => updateForm("elimination", value)} placeholder="constipation, loose stool, frequency, color, urgency, urination..." rows={3} />
+                      <TextField label="Chest, abdomen, head, or pain pattern" value={form.pain} onChange={(value) => updateForm("pain", value)} placeholder="where it is, what it feels like, whether it moves or stays..." rows={3} />
                     </div>
                   </ReflectionCard>
                 </TraditionIntakeSection>
@@ -1423,7 +1477,7 @@ export function PatternBrainPrototype() {
                   <ReflectionCard title="Constitution + Routine">
                     <ChoicePills
                       prompt="What happens when your schedule becomes irregular?"
-                      note="Ayurveda pays close attention to routine, appetite, energy, and the nervous system."
+                      note="Book-derived logic: Ashtanga Hridayam links dosha patterns with age, day, night, diet timing, and digestion."
                       value={form.ayurvedaNotes}
                       choices={["scattered", "anxious", "irritable", "heavy or sluggish", "cravings increase", "sleep gets off", "digestion changes"]}
                       onChange={(value) => updateForm("ayurvedaNotes", value)}
@@ -1439,13 +1493,20 @@ export function PatternBrainPrototype() {
                   <ReflectionCard title="Agni: Your Digestive Fire">
                     <ChoicePills
                       prompt="How would you describe your appetite?"
-                      note="This translates the traditional agni question into everyday language."
+                      note="Book-derived logic: Sushruta and Ashtanga distinguish regular, variable, sharp, and dull digestive fire."
                       value={form.digestion}
-                      choices={["variable appetite", "strong appetite", "low appetite", "heavy after meals", "bloating", "burning or acidity", "skipping meals throws me off"]}
+                      choices={["regular appetite", "variable appetite", "strong appetite", "low appetite", "heavy after meals", "bloating", "burning or acidity", "skipping meals throws me off"]}
                       onChange={(value) => updateForm("digestion", value)}
                     />
+                    <ChoicePills
+                      prompt="Do any ama-like heaviness signs fit?"
+                      note="This does not diagnose ama; it helps notice traditional signs of heaviness, coating, sluggishness, and incomplete digestion."
+                      value={form.ayurvedaNotes}
+                      choices={["heavy after eating", "coated tongue", "sticky mucus", "sluggish on waking", "foul gas or stool", "brain fog after meals", "low appetite with bloating"]}
+                      onChange={(value) => updateForm("ayurvedaNotes", value)}
+                    />
                     <div className="grid gap-3 md:grid-cols-2">
-                      <TextField label="Food tendencies" value={form.cravings} onChange={(value) => updateForm("cravings", value)} placeholder="sweet, salty, spicy, cold drinks, warm foods, aversions..." rows={3} />
+                      <TextField label="Food tastes, cravings, aversions" value={form.cravings} onChange={(value) => updateForm("cravings", value)} placeholder="sweet, salty, sour, spicy, bitter, cold drinks, warm foods, aversions..." rows={3} />
                       <TextField label="Daily rhythm" value={form.energy} onChange={(value) => updateForm("energy", value)} placeholder="when you feel steady, scattered, intense, or heavy..." rows={3} />
                     </div>
                   </ReflectionCard>
@@ -1477,7 +1538,7 @@ export function PatternBrainPrototype() {
                   <ReflectionCard title="Sensitivity + Response">
                     <ChoicePills
                       prompt="What happens when you feel emotionally overwhelmed?"
-                      note="Homeopathy looks for the individual pattern: what is most characteristic for you."
+                      note="Book-derived logic: Organon case-taking looks for the person’s own words, mental state, and what is most individual."
                       value={form.homeopathyNotes}
                       choices={["withdraw", "need reassurance", "become restless", "push through", "get irritable", "shut down", "cry easily", "feel stuck"]}
                       onChange={(value) => updateForm("homeopathyNotes", value)}
@@ -1491,6 +1552,9 @@ export function PatternBrainPrototype() {
                   </ReflectionCard>
 
                   <ReflectionCard title="What Changes Symptoms">
+                    <p className="border-l-2 border-moss/35 pl-3 text-xs leading-5 text-ink/54">
+                      Source basis: Organon 86-88 emphasizes each symptom’s timing, exact sensation, exact place, and what changes it, while avoiding yes/no leading questions.
+                    </p>
                     <div className="grid gap-3 md:grid-cols-2">
                       <TextField label="Better from" value={form.betterFrom} onChange={(value) => updateForm("betterFrom", value)} placeholder="rest, heat, cold, pressure, movement, eating, being alone..." rows={3} />
                       <TextField label="Worse from" value={form.worseFrom} onChange={(value) => updateForm("worseFrom", value)} placeholder="night, stress, cold, heat, motion, noise, certain foods..." rows={3} />
@@ -1506,7 +1570,7 @@ export function PatternBrainPrototype() {
 
                   <ReflectionCard title="Individual Details">
                     <div className="grid gap-3 md:grid-cols-2">
-                      <TextField label="Pain or sensation details" value={form.pain} onChange={(value) => updateForm("pain", value)} placeholder="location, quality, timing, what changes it..." rows={3} />
+                      <TextField label="Exact sensation and place" value={form.pain} onChange={(value) => updateForm("pain", value)} placeholder="location, quality, timing, what changes it, what it reminds you of..." rows={3} />
                       <TextField label="Skin / surface patterns" value={form.skin} onChange={(value) => updateForm("skin", value)} placeholder="rash, dryness, itching, acne, sensitivity..." rows={3} />
                       <TextField label="Menstrual / reproductive patterns" value={form.reproductive} onChange={(value) => updateForm("reproductive", value)} rows={3} />
                       <TextField label="Preferences or avoidances" value={form.preferences} onChange={(value) => updateForm("preferences", value)} placeholder="gentle first, avoid herbs, food-based, slow changes..." rows={3} />
