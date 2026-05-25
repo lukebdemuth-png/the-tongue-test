@@ -42,9 +42,9 @@ def test_single_word_symptoms_generate_practical_outcome_layer() -> None:
     trace = build_brain_trace(minimal_intake("low energy", "headace"), limit=1)
     output = trace["practical_output"]
 
-    assert output["confidence"]["label"] == "first-pass practical guidance, practitioner review required"
-    assert "Low energy is a broad signal" in output["likely_pattern_summary"]["plain_language_summary"]
-    assert "Headache needs safety screening first" in output["likely_pattern_summary"]["plain_language_summary"]
+    assert output["confidence"]["label"] == "first-pass pattern direction"
+    assert "Low energy looks most useful" in output["likely_pattern_summary"]["plain_language_summary"]
+    assert "Headache becomes more useful" in output["likely_pattern_summary"]["plain_language_summary"]
     directions = output["likely_pattern_summary"]["tradition_directions"]
 
     assert any(item["tradition"] == "Ayurveda" and "available Ayurveda canon" in item["direction"] for item in directions)
@@ -54,10 +54,10 @@ def test_single_word_symptoms_generate_practical_outcome_layer() -> None:
     actions = " ".join(item["practitioner_action"] for item in output["lifestyle_diet_practice_actions"])
     review_items = " ".join(item["practitioner_action"] for item in output["herbs_formulas_remedies_to_consider"])
 
-    assert "Track whether energy drops after meals" in actions
-    assert "Do not treat traditionally first if headache is sudden" in actions
-    assert "Herbs or formulas should stay on hold" in review_items
-    assert "Homeopathic remedy review should focus on modalities" in review_items
+    assert "Log energy at waking" in actions
+    assert "Create a headache map" in actions
+    assert "Herb/formula exploration depends" in review_items
+    assert "Homeopathy repertory review" in review_items
     assert all("tradition" in item and "citations" in item for item in output["lifestyle_diet_practice_actions"][:3])
 
 
@@ -73,8 +73,34 @@ def test_new_top_symptoms_get_generic_book_backed_outcomes() -> None:
     trace = build_brain_trace(minimal_intake("palpitations", "acne", "back pain"), limit=1)
     output = trace["practical_output"]
 
-    assert "Palpitations first-pass outcome" in output["likely_pattern_summary"]["plain_language_summary"]
-    assert "Skin Acne first-pass outcome" in output["likely_pattern_summary"]["plain_language_summary"]
+    assert "Back pain becomes useful" in output["likely_pattern_summary"]["plain_language_summary"]
+    assert "Acne becomes useful" in output["likely_pattern_summary"]["plain_language_summary"]
     assert output["likely_pattern_summary"]["tradition_directions"]
     assert output["lifestyle_diet_practice_actions"]
     assert all(item["direction"] for item in output["lifestyle_diet_practice_actions"][:3])
+
+
+def test_sparse_inputs_generate_twenty_outcomes_per_category() -> None:
+    sparse_cases = [
+        minimal_intake("low energy"),
+        minimal_intake("headace"),
+        minimal_intake("consitation"),
+        minimal_intake("stress"),
+        minimal_intake("trouble sleeping"),
+        minimal_intake("weird cloudy feeling"),
+    ]
+    expected_categories = {
+        "diet",
+        "herbs_formulas_remedies",
+        "lifestyle_practices",
+        "tracking",
+        "questions_refinement",
+    }
+
+    for intake in sparse_cases:
+        trace = build_brain_trace(intake, limit=1)
+        outcomes = trace["practical_output"]["stepwise_outcome"]["category_outcomes"]
+
+        assert set(outcomes) == expected_categories
+        assert all(len(items) == 20 for items in outcomes.values())
+        assert all(items[0] for items in outcomes.values())

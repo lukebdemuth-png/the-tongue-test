@@ -28,7 +28,7 @@ def test_brain_trace_includes_core_sections() -> None:
     assert trace["normalized_features"]
     assert set(trace["candidates"]) == {"ayurveda", "tcm", "homeopathy"}
     assert trace["practitioner_summary"]["case_snapshot"]
-    assert trace["treatment_plan_draft"]["scope"].startswith("Practitioner-review")
+    assert trace["treatment_plan_draft"]["scope"].startswith("Source-based")
     assert trace["practitioner_output"]["schema"] == "schemas/pattern_app_output.schema.json"
     assert trace["practitioner_output"]["cross_tradition_outcome"]["tradition_weighting"]
     assert trace["practical_output"]["likely_pattern_summary"]["tradition_directions"]
@@ -80,7 +80,7 @@ def test_practical_output_matches_three_traditions_core_loop() -> None:
     practical = trace["practical_output"]
 
     traditions = {item["tradition"] for item in practical["likely_pattern_summary"]["tradition_directions"]}
-    assert {"ayurveda", "tcm", "homeopathy"} <= traditions
+    assert {"Ayurveda", "Traditional Chinese Medicine", "Homeopathy"} <= traditions
     assert practical["confidence"]["label"]
     assert practical["questions_still_needed"]
     assert any(item["tradition"] == "Homeopathy" for item in practical["herbs_formulas_remedies_to_consider"])
@@ -112,7 +112,7 @@ def test_normalize_features_adds_canonical_symptom_for_typos() -> None:
     assert any(item["feature"] == "headache" and item["source"] == "symptom_normalizer" for item in features)
 
 
-def test_generic_symptoms_input_asks_for_main_concern_without_plan_categories() -> None:
+def test_generic_symptoms_input_still_generates_expanded_outcome_pool() -> None:
     intake = {
         "case_id": "generic-symptoms",
         "symptoms": {"chief_complaint": "symptoms", "primary_symptoms": ["symptoms"]},
@@ -121,11 +121,11 @@ def test_generic_symptoms_input_asks_for_main_concern_without_plan_categories() 
         "practitioner_notes": "",
     }
     trace = build_brain_trace(intake, limit=1)
+    outcomes = trace["practical_output"]["stepwise_outcome"]["category_outcomes"]
 
     assert trace["next_best_question"] == "What is the single main symptom or concern?"
-    assert trace["practical_output"]["confidence"]["score"] == 0
-    assert trace["practical_output"]["herbs_formulas_remedies_to_consider"] == []
-    assert trace["practical_output"]["lifestyle_diet_practice_actions"] == []
+    assert all(len(items) == 20 for items in outcomes.values())
+    assert trace["practical_output"]["lifestyle_diet_practice_actions"]
 
 
 def test_single_symptom_gets_symptom_specific_next_question_before_medication_question() -> None:
