@@ -4,9 +4,9 @@ import { buildMetadata } from "@/lib/metadata";
 export const metadata = buildMetadata({
   title: "Tongue Assessment",
   description: "A Chinese medicine-inspired wellness education tool for organizing tongue observations into practical pattern reflections.",
-  path: "/pattern-app",
+  path: "/tongue-assessment",
 });
 
-export default function PatternAppPage() {
+export default function TongueAssessmentPage() {
   return <TongueAssessmentApp />;
 }
