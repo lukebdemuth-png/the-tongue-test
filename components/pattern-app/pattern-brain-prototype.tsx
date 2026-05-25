@@ -1109,6 +1109,40 @@ function groupedOutcomeItems(items: PracticalRecommendation[]) {
   });
 }
 
+function OutcomeTextList({ items, limit = 5 }: { items: string[]; limit?: number }) {
+  const usefulItems = items
+    .filter((item) => item && !item.startsWith("Current source basis:") && !item.includes("source lane"))
+    .slice(0, limit);
+  if (!usefulItems.length) return null;
+  return (
+    <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/74">
+      {usefulItems.map((item) => (
+        <li key={item}>{complianceText(item)}</li>
+      ))}
+    </ul>
+  );
+}
+
+function PracticalDirectionBlock({
+  title,
+  eyebrow,
+  items,
+  limit = 5,
+}: {
+  title: string;
+  eyebrow: string;
+  items: string[];
+  limit?: number;
+}) {
+  return (
+    <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{eyebrow}</p>
+      <h3 className="mt-2 text-lg font-semibold leading-6 text-ink">{title}</h3>
+      <OutcomeTextList items={items} limit={limit} />
+    </article>
+  );
+}
+
 function StepwiseOutcome({ trace }: { trace: BrainTrace }) {
   const output = trace.practical_output;
   const outcome = output.stepwise_outcome;
@@ -1193,9 +1227,9 @@ function StepwiseOutcome({ trace }: { trace: BrainTrace }) {
       </div>
 
       <article className="mt-4 rounded-lg border border-ink/10 bg-white/75 p-4">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Step 5 · Explore Next</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Step 5 · Explore Carefully</p>
         <div className="mt-3 grid gap-3 md:grid-cols-2">
-          {outcome.step_5_explore_next.items.map((item) => (
+          {outcome.step_5_explore_next.items.slice(0, 6).map((item) => (
             <div key={`${item.category}-${item.practitioner_action}`} className="rounded-md bg-fog/65 p-3">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">{categoryTitle(item.category)}</p>
               <p className="mt-2 text-sm leading-6 text-ink/72">{complianceText(item.practitioner_action)}</p>
@@ -1204,6 +1238,47 @@ function StepwiseOutcome({ trace }: { trace: BrainTrace }) {
           ))}
         </div>
       </article>
+
+      <section className="mt-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Practical Direction</p>
+        <div className="mt-3 grid gap-3 lg:grid-cols-2">
+          <PracticalDirectionBlock
+            eyebrow="Food Pattern"
+            title="Use food to clarify the pattern"
+            items={outcome.category_outcomes.diet}
+            limit={5}
+          />
+          <PracticalDirectionBlock
+            eyebrow="Herbs / Formulas / Remedies"
+            title="Compare these as tradition-based possibilities"
+            items={outcome.category_outcomes.herbs_formulas_remedies}
+            limit={6}
+          />
+          <PracticalDirectionBlock
+            eyebrow="Sleep / Recovery"
+            title="Read sleep as a pattern clue"
+            items={outcome.category_outcomes.sleep_recovery}
+            limit={4}
+          />
+          <PracticalDirectionBlock
+            eyebrow="Avoid / Reduce"
+            title="Remove the clearest aggravator first"
+            items={outcome.category_outcomes.avoid_reduce}
+            limit={4}
+          />
+        </div>
+      </section>
+
+      <section className="mt-4 grid gap-3 lg:grid-cols-2">
+        <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">What To Track</p>
+          <OutcomeTextList items={outcome.category_outcomes.tracking} limit={6} />
+        </article>
+        <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">What Would Sharpen This</p>
+          <OutcomeTextList items={outcome.category_outcomes.questions_refinement} limit={5} />
+        </article>
+      </section>
 
       {outcome.missing_source_notes.length ? (
         <article className="mt-4 rounded-lg border border-amber-300/35 bg-[#fffaf0] p-4">
@@ -1216,39 +1291,15 @@ function StepwiseOutcome({ trace }: { trace: BrainTrace }) {
         </article>
       ) : null}
 
-      <section className="mt-4 rounded-lg border border-ink/10 bg-white/75 p-4">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Expanded Outcomes By Category</p>
+      <details className="mt-4 rounded-lg border border-ink/10 bg-fog/45 p-4">
+        <summary className="cursor-pointer text-sm font-semibold text-ink">More pattern notes</summary>
         <div className="mt-3 grid gap-3 lg:grid-cols-2">
-          {[
-            ["Diet", outcome.category_outcomes.diet],
-            ["Herbs / Formulas / Remedies", outcome.category_outcomes.herbs_formulas_remedies],
-            ["Lifestyle / Practice", outcome.category_outcomes.lifestyle_practices],
-            ["Sleep / Recovery", outcome.category_outcomes.sleep_recovery],
-            ["Movement / Body", outcome.category_outcomes.movement_body],
-            ["Breathwork / Meditation", outcome.category_outcomes.breathwork_meditation],
-            ["Avoid / Reduce", outcome.category_outcomes.avoid_reduce],
-            ["Practitioner Follow-Up", outcome.category_outcomes.practitioner_follow_up],
-            ["Tracking", outcome.category_outcomes.tracking],
-            ["Questions / Refinement", outcome.category_outcomes.questions_refinement],
-            ["Additional Useful Notes", outcome.category_outcomes.additional_insights],
-            ["Source Basis", outcome.category_outcomes.source_basis],
-          ].map(([title, items]) => (
-            <details key={title as string} open className="rounded-md border border-ink/10 bg-fog/55 p-3">
-              <summary className="cursor-pointer text-sm font-semibold text-ink">
-                {title as string} · {(items as string[]).length}
-              </summary>
-              <ol className="mt-3 space-y-2 text-sm leading-6 text-ink/72">
-                {(items as string[]).map((item, index) => (
-                  <li key={`${title}-${item}`} className="grid grid-cols-[1.6rem_1fr] gap-2">
-                    <span className="text-xs font-semibold text-moss">{index + 1}</span>
-                    <span>{complianceText(item)}</span>
-                  </li>
-                ))}
-              </ol>
-            </details>
-          ))}
+          <PracticalDirectionBlock eyebrow="Lifestyle" title="Daily rhythm and practice" items={outcome.category_outcomes.lifestyle_practices} limit={6} />
+          <PracticalDirectionBlock eyebrow="Movement" title="Body response tests" items={outcome.category_outcomes.movement_body} limit={5} />
+          <PracticalDirectionBlock eyebrow="Breath / Meditation" title="Nervous-system experiments" items={outcome.category_outcomes.breathwork_meditation} limit={5} />
+          <PracticalDirectionBlock eyebrow="Follow-Up" title="Questions for a better result" items={outcome.category_outcomes.practitioner_follow_up} limit={6} />
         </div>
-      </section>
+      </details>
     </section>
   );
 }
