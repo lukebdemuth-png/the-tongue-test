@@ -9,20 +9,16 @@ export const EMERGENCY_WARNING =
 
 export function FullMedicalDisclaimer({ compact = false }: { compact?: boolean }) {
   return (
-    <aside className={`border border-ink/10 bg-white/72 ${compact ? "p-3" : "p-4"}`}>
-      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Informational Use</p>
-      <p className="mt-2 text-xs leading-5 text-ink/62">{FULL_MEDICAL_DISCLAIMER}</p>
-      <p className="mt-2 text-xs leading-5 text-ink/58">
-        Patterns is not a substitute for a doctor, licensed practitioner,
-        emergency care, or prescribed medication.
-      </p>
+    <aside className={`${compact ? "border-l border-ink/12 pl-3" : "border border-ink/10 bg-white/72 p-4"}`}>
+      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink/40">Informational</p>
+      <p className="mt-1 text-xs leading-5 text-ink/48">{FULL_MEDICAL_DISCLAIMER}</p>
     </aside>
   );
 }
 
 export function ShortResultDisclaimer() {
   return (
-    <p className="border-l-2 border-moss/35 pl-3 text-xs leading-5 text-ink/54">
+    <p className="text-[0.72rem] leading-5 text-ink/42">
       {SHORT_RESULT_DISCLAIMER}
     </p>
   );
@@ -44,9 +40,8 @@ export function BasisOfInsightDisclosure() {
 
 export function EmergencyWarning() {
   return (
-    <aside className="border border-amber-200/80 bg-amber-50/70 p-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-amber-800">Emergency Care</p>
-      <p className="mt-2 text-sm leading-6 text-ink/70">{EMERGENCY_WARNING}</p>
+    <aside className="border-l border-amber-300/70 pl-3">
+      <p className="text-xs leading-5 text-ink/48">{EMERGENCY_WARNING}</p>
     </aside>
   );
 }
