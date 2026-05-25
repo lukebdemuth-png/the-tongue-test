@@ -59,6 +59,11 @@ type Theme = {
   plain: string;
   signs: string[];
   organs: OrganSignal[];
+  support: {
+    foods: string[];
+    lifestyle: string[];
+    formulaFamilies: string[];
+  };
   tryFirst: string[];
   observe: string[];
   questions: string[];
@@ -173,6 +178,20 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
         why: "The middle of the tongue and digestive symptoms are read together rather than separately.",
       },
     ],
+    support: {
+      foods: [
+        "Favor warm cooked meals, soups, congee, rice, squash, cooked greens, and simple proteins.",
+        "Reduce iced drinks, cold smoothies, grazing, greasy foods, late heavy meals, and excess sugar during the test.",
+      ],
+      lifestyle: [
+        "Use a consistent meal rhythm and a short walk after the largest meal.",
+        "Eat without screens or rushing for the first five minutes of the meal.",
+      ],
+      formulaFamilies: [
+        "TCM formula families commonly discussed for damp/sluggish digestion include Liu Jun Zi Tang, Xiang Sha Liu Jun Zi Tang, and related Spleen-transforming approaches.",
+        "Use practitioner review before herbs or formulas, especially with medications, pregnancy, chronic illness, or strong symptoms.",
+      ],
+    },
     tryFirst: [
       "Use warm, simple cooked meals for three days: soup, congee, rice, cooked vegetables, easy protein.",
       "Pause iced drinks, grazing, raw-heavy meals, late heavy meals, and very greasy foods during the test.",
@@ -205,6 +224,20 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
         why: "The sides are commonly used as a Liver/Gallbladder map area in tongue observation.",
       },
     ],
+    support: {
+      foods: [
+        "Favor simple cooling foods when tolerated: cooked greens, rice, cucumber, melon, mung-style foods, and lighter evening meals.",
+        "Reduce alcohol, spicy foods, fried foods, coffee on an empty stomach, and late heavy meals.",
+      ],
+      lifestyle: [
+        "Lower evening heat load: cooler room, lighter dinner, less late work, and reduced stimulation before sleep.",
+        "Track whether heat signs respond better to cooling or whether cooling weakens digestion.",
+      ],
+      formulaFamilies: [
+        "TCM formula families commonly discussed for heat signs depend on location, such as Stomach heat, Heart heat, Liver/Gallbladder heat, or yin-fluid deficiency heat.",
+        "A practitioner should decide whether the pattern is excess heat, deficient heat, damp-heat, or heat mixed with weak digestion before herbs are considered.",
+      ],
+    },
     tryFirst: [
       "For a short test, reduce alcohol, spicy foods, fried foods, coffee on an empty stomach, and late heavy dinners.",
       "Use simpler meals: rice, cooked greens, cucumber if tolerated, soups, lighter evening food.",
@@ -237,6 +270,20 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
         why: "Chinese medicine often reads stress and digestion together when qi movement affects the middle burner.",
       },
     ],
+    support: {
+      foods: [
+        "Favor steady meals that prevent stress-related skipping, caffeine spikes, and late heavy eating.",
+        "If digestion tightens under stress, choose warm easy meals before adding strong cleansing or restrictive diets.",
+      ],
+      lifestyle: [
+        "Use movement to move constraint: walking, gentle stretching, shaking out tension, or breath before meals.",
+        "Create a decompression ritual after high-pressure blocks before eating or sleeping.",
+      ],
+      formulaFamilies: [
+        "TCM formula families commonly discussed for Liver qi constraint include Xiao Yao San and Jia Wei Xiao Yao San when the pattern fits.",
+        "Practitioner review is important because constraint can combine with heat, dampness, blood deficiency, or weak digestion.",
+      ],
+    },
     tryFirst: [
       "Before meals, take 60 seconds to unclench jaw, lower shoulders, and breathe slowly.",
       "Use a walk, gentle stretching, or quiet expression after stressful blocks instead of pushing straight into the next task.",
@@ -269,6 +316,20 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
         why: "Sleep and tip signs can shift the read toward Heart/shen involvement.",
       },
     ],
+    support: {
+      foods: [
+        "Favor moist cooked foods: soups, stews, porridges, warm fluids, cooked pears if tolerated, sesame/tahini-style moist foods, and adequate meal substance.",
+        "Reduce dehydrating routines: late caffeine, alcohol, dry snacks, overwork, under-sleeping, and excessive heat exposure.",
+      ],
+      lifestyle: [
+        "Protect recovery and sleep before adding stronger interventions.",
+        "Track hydration, stool dryness, dry mouth, skin dryness, and whether warm fluids change the tongue surface.",
+      ],
+      formulaFamilies: [
+        "TCM formula families for dryness/fluid depletion depend on whether the pattern is Stomach yin, Kidney yin, blood deficiency, or heat damaging fluids.",
+        "Do not self-select nourishing formulas if there is thick greasy coating or strong dampness; that combination needs practitioner sorting.",
+      ],
+    },
     tryFirst: [
       "Use warm fluids, soups, stews, cooked moist foods, and steady meals rather than dry snacks or erratic eating.",
       "Reduce dehydrating routines for a short test: late caffeine, alcohol, dry foods, overwork, and too little sleep.",
@@ -301,6 +362,20 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
         why: "Root area coating, cold signs, and chronic depletion clues help decide whether the pattern is deeper than digestion.",
       },
     ],
+    support: {
+      foods: [
+        "Favor warm breakfasts, warm drinks, soups, stews, cooked grains, and gentle warming spices if heat/reflux is not present.",
+        "Reduce cold drinks, cold smoothies, raw-heavy meals, and irregular meal timing.",
+      ],
+      lifestyle: [
+        "Use morning light, warmth to abdomen/feet, and gentle walking to test energy and digestion response.",
+        "Avoid pushing intense exercise if it creates next-day fatigue.",
+      ],
+      formulaFamilies: [
+        "TCM formula families commonly discussed for cold/low transformation depend on whether the focus is Spleen qi, Spleen yang, Kidney yang, or cold-damp.",
+        "Practitioner review is needed before warming herbs/formulas, especially if heat signs, reflux, hypertension concerns, pregnancy, or medications are present.",
+      ],
+    },
     tryFirst: [
       "Use warm breakfast and warm drinks for three mornings; avoid starting the day with cold smoothies or iced drinks.",
       "Choose cooked meals with gentle spices such as ginger, cumin, or fennel if heat/reflux is not present.",
@@ -557,6 +632,7 @@ export function TongueAssessmentApp() {
                   <ResultList title="What To Try First" items={primary.tryFirst} />
                   <ResultList title="What To Observe Next" items={primary.observe} />
                   <ResultList title="What Would Confirm Or Change This" items={primary.questions} />
+                  <SupportDirection support={primary.support} />
 
                   {themes.slice(1).length ? (
                     <article className="border border-ink/10 bg-fog/50 p-4">
@@ -588,6 +664,35 @@ export function TongueAssessmentApp() {
         </div>
       </div>
     </main>
+  );
+}
+
+function SupportDirection({ support }: { support: Theme["support"] }) {
+  return (
+    <article className="border border-moss/20 bg-[#f8f7f1] p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Final Step · TCM Support Direction</p>
+      <p className="mt-2 text-sm leading-6 text-ink/62">
+        These are traditional support categories to discuss or explore carefully. They are not a prescription.
+      </p>
+      <div className="mt-4 grid gap-3">
+        <SupportColumn title="Food Direction" items={support.foods} />
+        <SupportColumn title="Lifestyle Direction" items={support.lifestyle} />
+        <SupportColumn title="Formula / Herb Families" items={support.formulaFamilies} />
+      </div>
+    </article>
+  );
+}
+
+function SupportColumn({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div className="border border-ink/10 bg-white/70 p-3">
+      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">{title}</p>
+      <ul className="mt-2 space-y-2 text-sm leading-6 text-ink/68">
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
