@@ -2485,12 +2485,12 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                 "Homeopathy should prioritize generals and modalities around food: worse after eating, morning heaviness, sluggishness, cravings, and what improves energy.",
                 [
                     ("pattern_insight", "Treat the first experiment as a digestion-energy test, not an energy supplement test."),
-                    ("diet", "For 3 days: warm cooked breakfast, steady lunch, no grazing, no cold drinks with meals, and write energy/fog 30, 60, and 120 minutes after eating."),
+                    ("diet", "For 3 days: warm cooked breakfast such as oatmeal/congee/rice porridge or soup; steady lunch with cooked vegetables and simple protein; no grazing; no cold drinks with meals; write energy/fog 30, 60, and 120 minutes after eating."),
                     ("avoid_reduce", "Reduce the heaviest digestive load first: late meals, cold/raw meals, excess sweets, greasy foods, or rushing while eating."),
                 ],
                 [
-                    ("herbs", "Explore digestive-support categories only if low appetite, heaviness, belching, bloating, or sticky stool remain clear confirming signs."),
-                    ("formulas", "Formula categories should separate weak digestion from damp/heaviness before anything more specific is named."),
+                    ("herbs", "Kitchen-herb direction to consider educationally: ginger, cumin, coriander, and fennel as a warm digestive tea/food-spice lane if heat/reflux is not dominant. Ayurveda materia medica books are still needed before stronger herb selection."),
+                    ("formulas", "Missing source layer: Vasant Lad Vol. 3, Sebastian Pole, or another approved Ayurveda treatment/formula text is needed before naming classical Ayurveda formulas for this pattern."),
                 ],
                 ["post-meal pattern", "heaviness", "agni/ama", "damp tendency"],
             )
@@ -2504,10 +2504,10 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                 [
                     ("pattern_insight", "Make recovery the main experiment: what restores energy, what spends it, and how long payback lasts."),
                     ("movement", "Use a low-intensity movement floor for 5 days and record next-day energy. If payback appears, reduce intensity before increasing frequency."),
-                    ("sleep", "Track sleep as restoration, not just hours: bedtime, waking, night waking, dreams, morning heaviness, and energy by late morning."),
+                    ("sleep", "Track sleep as restoration, not just hours: bedtime, waking, night waking, dreams, morning heaviness, and energy by late morning. Use a simple early dinner plus earlier wind-down test for 4 nights."),
                 ],
                 [
-                    ("herbs", "Explore restorative categories only after digestion, sleep quality, and exertion payback are separated."),
+                    ("herbs", "Herb direction is not ready to name from current Ayurveda/TCM source layers. Need Ayurveda treatment/herb texts and TCM materia medica before restorative herbs are ranked."),
                     ("remedy_differential", "Homeopathic comparison should center on exhaustion after exertion, morning heaviness, sleep quality, and what restores vitality."),
                 ],
                 ["recovery", "morning energy", "exertion response", "sleep restoration"],
@@ -2523,11 +2523,11 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                 "Homeopathy lane: prioritize what stress does to the person: tightness, appetite change, stool change, reassurance needs, irritability, and better/worse from motion or pressure.",
                 [
                     ("pattern_insight", "This looks like digestion plus stress response, not digestion alone."),
-                    ("lifestyle", "For 3 meals: sit down, slow the first 5 bites, no screen/rushing, and note bloating/reflux/stool response."),
+                    ("diet", "For 3 meals: warm simple food, smaller portions, no screen/rushing, slow the first 5 bites, and note bloating/reflux/stool response. Favor soups, rice/congee, cooked vegetables, and easy protein over salads, iced drinks, and greasy late meals during the test."),
                     ("breathwork", "Before the largest meal, use 60 seconds of slow breathing and relaxed belly/jaw; record whether symptoms change."),
                 ],
                 [
-                    ("formulas", "Explore movement/regulation formula categories only if stress reliably changes digestion or stool."),
+                    ("formulas", "Missing source layer: Chinese Herbal Medicine: Formulas and Strategies is needed before naming TCM formulas for stress-digestion patterns."),
                     ("remedy_differential", "Homeopathic review should focus on stress triggers, appetite, pressure, gas movement, stool timing, and emotional response."),
                 ],
                 ["stress digestion", "qi movement", "vata irregularity", "meal pace"],
@@ -2541,12 +2541,12 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                 "Homeopathy lane: focus on burning quality, thirst, food triggers, timing, position, and what cools or aggravates.",
                 [
                     ("pattern_insight", "The first practical move is to reduce heat triggers and observe acidity/irritation, not to stimulate digestion."),
-                    ("diet", "For 3 days, reduce alcohol, late heavy meals, coffee on an empty stomach, very spicy foods, and large fatty meals; record burning/reflux/thirst."),
+                    ("diet", "For 3 days, use a cooling-simple diet test: oatmeal/rice porridge, soups, cooked greens, cucumber or melon if tolerated, and earlier lighter dinners. Reduce alcohol, coffee on an empty stomach, very spicy foods, fried/greasy foods, and late heavy meals; record burning/reflux/thirst."),
                     ("lifestyle", "Keep a meal-to-bed gap and stay upright after dinner if symptoms rise after eating."),
                 ],
                 [
-                    ("herbs", "Explore cooling/digestive categories only if heat signs remain clear after trigger reduction."),
-                    ("formulas", "Formula categories should separate heat/acidity from food stagnation and weak digestion."),
+                    ("herbs", "Kitchen-herb direction to consider educationally: coriander, fennel, and mint-type cooling aromatic support if tolerated. Avoid warming ginger-heavy approaches if burning/reflux dominates. Stronger herb selection needs approved materia medica."),
+                    ("formulas", "Missing source layer: TCM Formulas and Strategies plus Ayurveda treatment texts are needed before naming formulas for heat/acidity patterns."),
                 ],
                 ["heat", "acidity", "counterflow", "pitta"],
             )
@@ -2559,11 +2559,11 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                 "Homeopathy lane: emphasize thermal state, desire for warm drinks/food, stool, bloating, and better/worse from warmth or cold.",
                 [
                     ("pattern_insight", "The first experiment should warm and simplify digestion before adding complex food changes."),
-                    ("diet", "For 3 days, use warm cooked meals, warm drinks, and fewer raw/cold foods; track bloating, appetite, stool, and energy."),
+                    ("diet", "For 3 days, use warm cooked meals: oatmeal/congee/rice porridge, soups/stews, cooked vegetables, ginger-cumin style seasoning if tolerated, and warm water/tea. Reduce raw salads, smoothies, iced drinks, and late cold snacks; track bloating, appetite, stool, and energy."),
                     ("avoid_reduce", "Pause iced drinks, cold smoothies, raw-heavy meals, and late cold snacks while testing the pattern."),
                 ],
                 [
-                    ("herbs", "Explore warming digestive categories only if cold sensitivity, low appetite, bloating, or loose stool remain consistent."),
+                    ("herbs", "Kitchen-herb direction to consider educationally: ginger, cumin, ajwain/carom, black pepper, and fennel are plausible warming digestive lanes if reflux/heat is absent. Need approved Ayurveda materia medica/treatment texts before ranking stronger herbs or doses."),
                     ("remedy_differential", "Homeopathic review should compare cold aggravation, warmth relief, stool, and appetite modalities."),
                 ],
                 ["cold digestion", "weak agni", "warmth better", "low appetite"],
@@ -2580,10 +2580,11 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                 [
                     ("pattern_insight", "This is a night-activation pattern until proven otherwise."),
                     ("sleep", "For 4 nights, record exact waking time and the first clue: heat, urination, hunger, worry, dream, pain, noise, or no obvious reason."),
-                    ("avoid_reduce", "Run one clean evening: lighter earlier dinner, no alcohol, no late caffeine, dim screens, and no intense work in the final hour."),
+                    ("diet", "Run one clean evening: lighter earlier dinner such as soup, rice/congee, cooked vegetables, or simple protein; no alcohol; no late caffeine; reduce sugar and heavy late snacks; dim screens and avoid intense work in the final hour."),
                 ],
                 [
-                    ("formulas", "Explore sleep formula categories only after night timing is separated into heat, worry, digestion, depletion, or rhythm disruption."),
+                    ("herbs", "Gentle herb direction is not ready to name from current source layers. Need TCM materia medica/formula books and Ayurveda treatment texts before sleep herbs/formulas can be ranked."),
+                    ("formulas", "Missing source layer: Chinese Herbal Medicine: Formulas and Strategies is needed before naming formulas for night waking/shen-style patterns."),
                     ("remedy_differential", "Homeopathic comparison should focus on waking time, dreams, mental state, heat/cold, and what helps return to sleep."),
                 ],
                 ["night waking", "shen/vata activation", "dream pattern", "sleep timing"],
@@ -2598,10 +2599,11 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                 [
                     ("pattern_insight", "The first outcome should reduce stimulation and create rhythm before adding many interventions."),
                     ("lifestyle", "Choose one daily anchor for 5 days: same wake time, same first meal window, same 10-minute decompression ritual."),
+                    ("diet", "Use a nervous-system steadiness food test: protein-containing breakfast, warm lunch, fewer skipped meals, and reduced caffeine spikes. Track whether anxiety, irritability, and cravings change."),
                     ("breathwork", "Test whether still breathing or gentle walking works better; use the one that actually settles the body."),
                 ],
                 [
-                    ("herbs", "Explore calming categories only after distinguishing restless heat, depletion, digestive anxiety, stimulant load, or irritability."),
+                    ("herbs", "Herb direction depends on subtype: restless heat, depletion, digestive anxiety, stimulant load, or irritability. Current source layer is missing the practical materia medica needed to rank calming herbs."),
                     ("remedy_differential", "Homeopathic review should focus on stress expression, fears, consolation, restlessness, sleep, cravings, and thermal state."),
                 ],
                 ["overstimulation", "vata variability", "qi constraint", "stress response"],
@@ -2618,11 +2620,12 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                 [
                     ("pattern_insight", "Start with the neck/jaw/stress pathway before treating this as a generic headache."),
                     ("movement", "Use a 2-minute neck/shoulder/jaw release every 90 minutes during screen work and record headache change."),
+                    ("diet", "For headache days, keep food rhythm steady: do not skip breakfast/lunch, hydrate steadily, and reduce alcohol, excess caffeine swings, and heavy late meals while tracking location and intensity."),
                     ("avoid_reduce", "Reduce the clearest trigger: long screen blocks, jaw clenching, skipped meals, dehydration, or late-night work."),
                 ],
                 [
                     ("rubric_cluster", "Homeopathy repertory review should begin with head location, neck connection, sensation, pressure, timing, and stress modality."),
-                    ("herbs", "Explore formula/herb categories only after separating tension constraint from heat, deficiency, digestion, or menstrual timing."),
+                    ("herbs", "Herb/formula direction is missing practical source support for headache subtypes. Need TCM materia medica/formulas and Ayurveda treatment references before naming herbs/formulas."),
                 ],
                 ["head-neck link", "stress constraint", "screen/jaw tension", "modality"],
             )
@@ -2635,11 +2638,11 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                 "Homeopathy lane: focus on heat, thirst, light/noise sensitivity, pulsation, timing, and better from cool/dark/rest.",
                 [
                     ("pattern_insight", "The first experiment should lower heat/load and identify triggers."),
-                    ("avoid_reduce", "For one cycle, reduce alcohol, overheating, intense late work, skipped meals, and spicy/heavy meals; track headache timing."),
+                    ("diet", "For one cycle, use a cooling-trigger test: regular meals, steady hydration, reduced alcohol, reduced spicy/fried foods, no skipped meals, and lighter earlier dinners; track headache timing."),
                     ("lifestyle", "Use cool/dark/quiet rest as a modality test and record whether it clearly helps."),
                 ],
                 [
-                    ("herbs", "Explore cooling/headache categories only if heat signs remain clear."),
+                    ("herbs", "Cooling headache herb direction cannot be ranked from current TCM/Ayurveda practical source layers. Need materia medica/formula books to name herbs responsibly."),
                     ("remedy_differential", "Homeopathic comparison should focus on throbbing, heat, thirst, light sensitivity, timing, and modalities."),
                 ],
                 ["heat", "throbbing", "irritability", "cool/dark better"],
@@ -2720,6 +2723,15 @@ def dedupe_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return unique
 
 
+MISSING_OUTCOME_SOURCE_NOTES = [
+    "TCM named herbs and formulas: Chinese Herbal Medicine: Materia Medica and Chinese Herbal Medicine: Formulas and Strategies are still missing/not ingested, so TCM herb/formula outputs stay at category level.",
+    "Ayurveda named herbs and formulas: Vasant Lad Vol. 3, Sebastian Pole, or another approved Ayurveda treatment/materia medica source is still needed before ranking named herbs or formulas.",
+    "Ayurveda clinical assessment depth: Vasant Lad Vol. 2 is still needed to strengthen prakriti/vikriti, agni, ama, dhatu, mala, tongue/pulse-style assessment logic.",
+    "Homeopathy remedy depth: Boericke and Kent repertory are available; Kent's Lectures, Morrison, Sankaran, Vithoulkas, and Murphy are still missing, so remedy differentials are not mature yet.",
+    "General herbs: Chevallier is still missing/not ingested, so cross-tradition/general herb safety comparison is not ready.",
+]
+
+
 def build_stepwise_outcome(practical_output: dict[str, Any]) -> dict[str, Any]:
     summary = practical_output.get("likely_pattern_summary", {})
     confidence = practical_output.get("confidence", {})
@@ -2733,6 +2745,39 @@ def build_stepwise_outcome(practical_output: dict[str, Any]) -> dict[str, Any]:
     ranked_explore = sorted(explore, key=priority_value, reverse=True)
     matched_actions = [row for row in ranked_actions if row.get("review_priority") in {"matched_pattern", "context_first"}]
     matched_explore = [row for row in ranked_explore if row.get("review_priority") in {"matched_pattern", "context_first"}]
+    named_source_explore = [
+        row
+        for row in ranked_explore
+        if row not in matched_explore
+        and (
+            row.get("category") in {"remedy_differential", "rubric_cluster"}
+            or "Boericke" in row.get("source_basis", "")
+            or "Kent" in row.get("source_basis", "")
+            or "Review " in (row.get("practitioner_action") or row.get("direction", ""))
+        )
+    ]
+    def is_missing_source_row(row: dict[str, Any]) -> bool:
+        text = (row.get("practitioner_action") or row.get("direction", "")).lower()
+        return "missing" in text or "not ready" in text or "still needed" in text or "is needed" in text
+
+    def has_named_herb(row: dict[str, Any]) -> bool:
+        text = (row.get("practitioner_action") or row.get("direction", "")).lower()
+        return any(
+            herb in text
+            for herb in ["ginger", "cumin", "coriander", "fennel", "mint", "ajwain", "carom", "black pepper"]
+        )
+
+    actual_herb_explore = [
+        row
+        for row in matched_explore
+        if row.get("category") == "herbs" and has_named_herb(row)
+    ]
+    missing_source_explore = [row for row in matched_explore if is_missing_source_row(row) and row not in actual_herb_explore]
+    matched_non_missing_explore = [
+        row
+        for row in matched_explore
+        if row not in actual_herb_explore and row not in missing_source_explore
+    ]
     pattern_insights = [row for row in ranked_actions if row.get("category") == "pattern_insight"]
     first_steps = [row for row in ranked_actions if row.get("category") != "pattern_insight"]
 
@@ -2783,7 +2828,15 @@ def build_stepwise_outcome(practical_output: dict[str, Any]) -> dict[str, Any]:
         },
         "step_5_explore_next": {
             "label": "Explore next",
-            "items": (matched_explore or ranked_explore)[:6],
+            "items": dedupe_rows(
+                [
+                    *actual_herb_explore[:3],
+                    *named_source_explore[:4],
+                    *matched_non_missing_explore[:3],
+                    *missing_source_explore[:3],
+                    *ranked_explore,
+                ]
+            )[:10],
         },
         "counts": {
             "generated_actions": len(actions),
@@ -2791,6 +2844,7 @@ def build_stepwise_outcome(practical_output: dict[str, Any]) -> dict[str, Any]:
             "matched_actions": len(matched_actions),
             "matched_explore_next": len(matched_explore),
         },
+        "missing_source_notes": MISSING_OUTCOME_SOURCE_NOTES,
     }
 
 
@@ -2906,6 +2960,7 @@ def apply_symptom_outcome_layer(
             *practical_output.get("warnings_and_professional_boundaries", []),
             EMERGENCY_WARNING,
         ]
+        practical_output["missing_outcome_sources"] = MISSING_OUTCOME_SOURCE_NOTES
         practical_output["stepwise_outcome"] = build_stepwise_outcome(practical_output)
         return practical_output
 
@@ -3070,6 +3125,7 @@ def apply_symptom_outcome_layer(
         if question and question not in deduped_questions:
             deduped_questions.append(question)
     practical_output["questions_still_needed"] = deduped_questions[:10]
+    practical_output["missing_outcome_sources"] = MISSING_OUTCOME_SOURCE_NOTES
     practical_output["stepwise_outcome"] = build_stepwise_outcome(practical_output)
     return practical_output
 

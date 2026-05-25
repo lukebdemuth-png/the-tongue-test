@@ -197,7 +197,9 @@ type BrainTrace = {
         matched_actions: number;
         matched_explore_next: number;
       };
+      missing_source_notes: string[];
     };
+    missing_outcome_sources?: string[];
     warnings_and_professional_boundaries: string[];
     cited_source_references: Array<{
       citation_id: string;
@@ -1188,6 +1190,17 @@ function StepwiseOutcome({ trace }: { trace: BrainTrace }) {
           ))}
         </div>
       </article>
+
+      {outcome.missing_source_notes.length ? (
+        <article className="mt-4 rounded-lg border border-amber-300/35 bg-[#fffaf0] p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">What Is Still Missing For Stronger Outcomes</p>
+          <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/70">
+            {outcome.missing_source_notes.slice(0, 5).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+      ) : null}
     </section>
   );
 }
