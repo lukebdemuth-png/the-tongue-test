@@ -124,6 +124,7 @@ def test_generic_symptoms_input_still_generates_expanded_outcome_pool() -> None:
     outcomes = trace["practical_output"]["stepwise_outcome"]["category_outcomes"]
 
     assert trace["next_best_question"] == "What is the single main symptom or concern?"
+    assert len(outcomes) == 12
     assert all(len(items) == 20 for items in outcomes.values())
     assert trace["practical_output"]["lifestyle_diet_practice_actions"]
 

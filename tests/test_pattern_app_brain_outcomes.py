@@ -93,9 +93,15 @@ def test_sparse_inputs_generate_twenty_outcomes_per_category() -> None:
         "diet",
         "herbs_formulas_remedies",
         "lifestyle_practices",
+        "sleep_recovery",
+        "movement_body",
+        "breathwork_meditation",
+        "avoid_reduce",
+        "practitioner_follow_up",
         "tracking",
         "questions_refinement",
         "additional_insights",
+        "source_basis",
     }
 
     for intake in sparse_cases:

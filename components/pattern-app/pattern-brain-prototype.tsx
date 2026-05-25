@@ -202,9 +202,15 @@ type BrainTrace = {
         diet: string[];
         herbs_formulas_remedies: string[];
         lifestyle_practices: string[];
+        sleep_recovery: string[];
+        movement_body: string[];
+        breathwork_meditation: string[];
+        avoid_reduce: string[];
+        practitioner_follow_up: string[];
         tracking: string[];
         questions_refinement: string[];
         additional_insights: string[];
+        source_basis: string[];
       };
     };
     missing_outcome_sources?: string[];
@@ -1201,7 +1207,7 @@ function StepwiseOutcome({ trace }: { trace: BrainTrace }) {
 
       {outcome.missing_source_notes.length ? (
         <article className="mt-4 rounded-lg border border-amber-300/35 bg-[#fffaf0] p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">What Is Still Missing For Stronger Outcomes</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Temporary Source Lanes To Replace</p>
           <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/70">
             {outcome.missing_source_notes.slice(0, 5).map((item) => (
               <li key={item}>{item}</li>
@@ -1217,9 +1223,15 @@ function StepwiseOutcome({ trace }: { trace: BrainTrace }) {
             ["Diet", outcome.category_outcomes.diet],
             ["Herbs / Formulas / Remedies", outcome.category_outcomes.herbs_formulas_remedies],
             ["Lifestyle / Practice", outcome.category_outcomes.lifestyle_practices],
+            ["Sleep / Recovery", outcome.category_outcomes.sleep_recovery],
+            ["Movement / Body", outcome.category_outcomes.movement_body],
+            ["Breathwork / Meditation", outcome.category_outcomes.breathwork_meditation],
+            ["Avoid / Reduce", outcome.category_outcomes.avoid_reduce],
+            ["Practitioner Follow-Up", outcome.category_outcomes.practitioner_follow_up],
             ["Tracking", outcome.category_outcomes.tracking],
             ["Questions / Refinement", outcome.category_outcomes.questions_refinement],
             ["Additional Useful Notes", outcome.category_outcomes.additional_insights],
+            ["Source Basis", outcome.category_outcomes.source_basis],
           ].map(([title, items]) => (
             <details key={title as string} open className="rounded-md border border-ink/10 bg-fog/55 p-3">
               <summary className="cursor-pointer text-sm font-semibold text-ink">

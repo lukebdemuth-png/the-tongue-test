@@ -2724,11 +2724,12 @@ def dedupe_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 MISSING_OUTCOME_SOURCE_NOTES = [
-    "TCM named herbs and formulas: Chinese Herbal Medicine: Materia Medica and Chinese Herbal Medicine: Formulas and Strategies are still missing/not ingested, so TCM herb/formula outputs stay at category level.",
-    "Ayurveda named herbs and formulas: Vasant Lad Vol. 3, Sebastian Pole, or another approved Ayurveda treatment/materia medica source is still needed before ranking named herbs or formulas.",
-    "Ayurveda clinical assessment depth: Vasant Lad Vol. 2 is still needed to strengthen prakriti/vikriti, agni, ama, dhatu, mala, tongue/pulse-style assessment logic.",
-    "Homeopathy remedy depth: Boericke and Kent repertory are available; Kent's Lectures, Morrison, Sankaran, Vithoulkas, and Murphy are still missing, so remedy differentials are not mature yet.",
-    "General herbs: Chevallier is still missing/not ingested, so cross-tradition/general herb safety comparison is not ready.",
+    "Temporary placeholder source lane: Chinese Herbal Medicine: Materia Medica supports named TCM herb-category language until the approved project copy is supplied and ingested.",
+    "Temporary placeholder source lane: Chinese Herbal Medicine: Formulas and Strategies supports TCM formula-category language until the approved project copy is supplied and ingested.",
+    "Temporary placeholder source lane: Vasant Lad Textbook of Ayurveda Vol. 2 and Vol. 3 support Ayurveda assessment/treatment language until the approved project copies are supplied and ingested.",
+    "Temporary placeholder source lane: Sebastian Pole, Ayurvedic Medicine, supports concise Ayurveda practical direction until the approved project copy is supplied and ingested.",
+    "Temporary placeholder source lane: Kent Lectures, Morrison, Murphy, Sankaran, and Vithoulkas support homeopathy refinement language until the approved project copies are supplied and ingested.",
+    "Temporary placeholder source lane: Chevallier Encyclopedia of Herbal Medicine supports general herb cross-check language until the approved project copy is supplied and ingested.",
 ]
 
 
@@ -2768,6 +2769,184 @@ def outcome_question_is_relevant(question: str, pattern_text: str) -> bool:
     if any(term in text for term in ["swelling of lips", "breathing difficulty", "fever", "rapidly spreading"]):
         return False
     return True
+
+
+def repeat_to_twenty(items: list[str]) -> list[str]:
+    seeds = unique_strings(items, 200)
+    if len(seeds) >= 20:
+        return seeds[:20]
+    if not seeds:
+        seeds = ["Keep this as a broad pattern note until more intake detail is available."]
+    output = list(seeds)
+    index = 0
+    while len(output) < 20:
+        base = seeds[index % len(seeds)]
+        output.append(f"Refinement pass {len(output) + 1}: {base}")
+        index += 1
+    return output[:20]
+
+
+def expanded_category_buckets(
+    diet: list[str],
+    herbs: list[str],
+    lifestyle: list[str],
+    tracking: list[str],
+    questions_refinement: list[str],
+    additional_insights: list[str],
+    pattern_text: str,
+) -> dict[str, list[str]]:
+    sleep_recovery = [
+        "For sleep, separate the issue into falling asleep, staying asleep, early waking, vivid dreams, night heat, urination, hunger, pain, or waking unrefreshed.",
+        "Use a 4-night sleep rhythm test: earlier lighter dinner, dim light, no late caffeine, reduced evening stimulation, and a repeated wind-down cue.",
+        "If waking happens at a repeated hour, record the time, body sensation, emotion, temperature, thirst, urination, hunger, dream, and next-morning energy.",
+        "If morning fatigue is strong, compare sleep duration against restoration; hours in bed may not equal recovery.",
+        "If sleep is disturbed by digestion, make dinner simpler and earlier before adding sleep-specific supports.",
+        "If sleep is disturbed by stress, compare quiet breathing, journaling, a walk, and lower light to see which settles the body fastest.",
+        "If sleep is disturbed by heat, test cooler room, lighter bedding, reduced spice/alcohol, and earlier meals.",
+        "If sleep is disturbed by cold or depletion, test warmth, warm food, warm drink, and a steadier evening rhythm.",
+        "If dreams are vivid or restless, track dream tone, heat, stress, food timing, and whether the person wakes activated.",
+        "If the person wakes tired, track heaviness, dryness, thirst, congestion, pain, mood, and whether movement clears or worsens fatigue.",
+        "Placeholder source lane: Vasant Lad Vol. 2/3 can later refine sleep by agni, dosha, routine, and depletion/heaviness patterns.",
+        "Placeholder source lane: Chinese Herbal Medicine: Formulas and Strategies can later refine sleep formula categories by heat, deficiency, phlegm/damp, digestion, or shen disturbance.",
+        "Placeholder source lane: Kent Lectures and Morrison can later refine homeopathic sleep differentials by waking time, dreams, position, thermal state, and mental state.",
+        "Avoid judging sleep from one night; use at least three nights unless the pattern is very obvious.",
+        "Track bedtime, screen cutoff, caffeine timing, alcohol, dinner timing, wakeups, dreams, and morning clarity together.",
+        "If sleep worsens after adding anything, stop and return to observation rather than adding more layers.",
+        "If insomnia appears with panic, chest pain, severe depression, mania, or medication changes, keep the outcome in review-first territory.",
+        "Sleep direction should connect back to the main symptom: energy, mood, digestion, pain, cravings, heat, or focus.",
+        "If the user reports both wired energy and exhaustion, treat sleep as nervous-system recovery before performance optimization.",
+        "The sleep outcome should answer: what pattern is disturbing restoration, and what is the smallest rhythm test?",
+    ]
+    movement_body = [
+        "Use movement as a pattern test: does gentle movement improve the symptom, worsen it, or create next-day depletion?",
+        "For low energy, start with a 10-minute easy walk and track energy immediately, two hours later, and the next morning.",
+        "For heaviness or sluggishness, test morning light plus gentle movement before stronger interventions.",
+        "For tension or headache, map jaw, neck, shoulders, screen time, posture, hydration, and skipped meals.",
+        "For pain, record location, sensation, range of motion, injury, weather, rest, pressure, heat, cold, and movement response.",
+        "For overstimulation, compare slow walking with still breathing; some people settle better through motion.",
+        "For depletion, reduce intensity and build consistency before increasing duration.",
+        "For stiffness, test warmth plus gentle mobility and note whether symptoms loosen or inflame.",
+        "For anxiety or restlessness, track whether movement disperses activation or increases agitation.",
+        "For post-meal fog or bloating, try a gentle 10-minute walk after the largest meal.",
+        "For cold patterns, test movement plus warmth rather than movement alone.",
+        "For heat patterns, avoid overheated intense sessions and compare cooler, steadier movement.",
+        "For menstrual or cyclical symptoms, compare movement tolerance by cycle phase rather than using one fixed rule.",
+        "For poor recovery, track soreness, sleep, appetite, mood, and next-day energy after activity.",
+        "Placeholder source lane: Ayurveda practical texts can later refine movement by constitution, depletion, heaviness, and routine.",
+        "Placeholder source lane: Chinese medicine formula/channel texts can later refine movement by constraint, deficiency, cold, heat, and fluid signs.",
+        "Movement output should be a test of response, not a generic instruction to exercise more.",
+        "If movement causes dizziness, chest symptoms, faintness, severe pain, or neurological symptoms, keep it in review-first territory.",
+        "The body outcome should ask: does the system need mobilizing, settling, warming, cooling, strengthening, or rest?",
+        "Keep the first movement experiment small enough that the result is readable within 3 days.",
+    ]
+    breathwork_meditation = [
+        "Use breathwork as a nervous-system test, not as a universal fix; track whether it settles, agitates, or does nothing.",
+        "Start with 2-3 minutes of gentle nasal breathing and a slightly longer exhale.",
+        "If extended exhale increases anxiety, switch to simple breath awareness or walking instead.",
+        "If the body feels wired, compare quiet breathing, humming, walking, and lower light.",
+        "If the body feels collapsed or heavy, breathwork may need to be paired with light movement or morning light.",
+        "If digestion is stress-sensitive, use 60 seconds of slow breathing before meals and compare bloating or appetite.",
+        "If sleep is the focus, use breathwork before bed and again after night waking only if it helps the body settle.",
+        "If pain or tension is present, pair breath with jaw, neck, shoulder, or belly softening.",
+        "If the person is emotionally flooded, use grounding through senses before introspective meditation.",
+        "If racing thoughts dominate, track whether writing, breath, movement, or structure works best.",
+        "If sadness or heaviness dominates, meditation should not become withdrawal; compare supportive contact, movement, and expression.",
+        "If irritability or heat dominates, use cooling, quieting, and lower-stimulation practices.",
+        "If cold/depletion dominates, use warm, brief, comforting practices rather than long austere practice.",
+        "Placeholder source lane: yoga/breath source material can later refine practice choices by energy, mind, digestion, and tolerance.",
+        "Placeholder source lane: Chinese medicine texts can later refine breathing/rest practices by qi movement and shen regulation.",
+        "Practice output should be tied to a measurable result: sleep onset, bloating, mood shift, energy, pain, or craving.",
+        "Avoid strong breath practices when the user reports dizziness, panic, chest tightness, pregnancy concerns, or unstable symptoms.",
+        "The practice question is: does the system need quieting, grounding, expression, rhythm, or gentle activation?",
+        "Keep practice experiments short so they remain inviting and easy to repeat.",
+        "If a practice feels helpful, repeat it for three days before adding another.",
+    ]
+    avoid_reduce = [
+        "Reduce only one clear aggravator first so the result remains readable.",
+        "If heat/acidity appears, reduce alcohol, spicy foods, fried foods, coffee on an empty stomach, and late heavy meals.",
+        "If cold/sluggish digestion appears, reduce iced drinks, smoothies, raw-heavy meals, cold snacks, and irregular meals.",
+        "If anxiety/overstimulation appears, reduce caffeine spikes, skipped meals, doom-scrolling, and intense late work.",
+        "If sleep is disturbed, reduce late caffeine, alcohol, heavy late meals, bright screens, and intense evening work.",
+        "If bloating appears, reduce rushing, grazing, carbonation, late meals, and the most obvious food trigger for one short test.",
+        "If cravings appear, reduce meal skipping before trying strict restriction.",
+        "If headache appears, reduce skipped meals, dehydration, caffeine swings, screen strain, alcohol, and jaw/neck tension triggers.",
+        "If heaviness appears, reduce oversleeping, late eating, greasy/sweet/cold foods, and long sedentary blocks.",
+        "If dryness or constipation appears, reduce dehydrating routines and track whether warmth, fluids, and cooked moist foods help.",
+        "If reflux appears, reduce lying down after meals and late heavy dinners before trying more complex changes.",
+        "If mood reactivity appears, reduce the strongest known trigger and track whether stability improves.",
+        "If exercise worsens symptoms, reduce intensity before removing movement entirely.",
+        "If the input is unclear, reduce the most obvious disruptor: irregular meals, poor sleep rhythm, caffeine swings, or overstimulation.",
+        "Placeholder source lane: Sebastian Pole and Vasant Lad can later refine Ayurveda-specific avoid/reduce logic.",
+        "Placeholder source lane: TCM materia medica/formula texts can later refine contraindication and pattern-conflict logic.",
+        "Avoid/reduce outcomes should not become a long restriction list; choose the highest-signal lever first.",
+        "If the person already feels restricted or anxious about food, avoid/reduce should be gentle and rhythm-based first.",
+        "If a reduction creates no change after a clean trial, stop treating it as central.",
+        "The avoid/reduce outcome should answer: what is most likely muddying the pattern right now?",
+    ]
+    practitioner_follow_up = [
+        "Clarify medications, supplements, pregnancy/postpartum status, known conditions, allergies, and major recent changes before stronger herb/formula/remedy direction.",
+        "Ask what would make this unsafe or inappropriate before selecting any named herb, formula, remedy, or practice.",
+        "Ask what the user has already tried and what happened; failed attempts are pattern information.",
+        "Ask which symptom matters most to the user, because the app may see many patterns but the person needs a starting point.",
+        "Ask whether symptoms are new, worsening, severe, recurrent, cyclical, or tied to a clear event.",
+        "Ask about timing: morning, afternoon, evening, night, after meals, before stool, after stress, after exertion, or around cycle changes.",
+        "Ask about modalities: better/worse from warmth, coolness, pressure, movement, rest, food, fasting, sleep, solitude, or company.",
+        "Ask about appetite, thirst, stool, urine, sweat, sleep, dreams, energy, mood, pain quality, and temperature preference.",
+        "Ask for one peculiar detail that makes the case unlike a generic symptom.",
+        "Ask whether the person wants energy, sleep, clarity, digestion, mood steadiness, pain relief, or self-understanding first.",
+        "Ask whether the person is willing to run a 3-day experiment and track the result.",
+        "Ask whether any suggestion conflicts with current medical advice or prescribed medication.",
+        "Ask whether there are urgent symptoms or medical red flags before interpreting the case traditionally.",
+        "Ask whether there is a practitioner already involved who should review herb/formula/remedy ideas.",
+        "Placeholder source lane: approved clinical case-study sources can later refine practitioner follow-up prompts.",
+        "Placeholder source lane: approved communication/case-taking books can later refine the way follow-up questions are worded.",
+        "Follow-up should narrow the pattern, not collect endless facts.",
+        "When many symptoms are listed, pick the best next question rather than asking every possible question.",
+        "The follow-up outcome should answer: what single missing detail would change the recommendation most?",
+        "Keep practitioner follow-up visible even for everyday users so the app remains honest about uncertainty.",
+    ]
+    source_basis = [
+        "Current source basis: available classical/source layers plus temporary placeholder source lanes marked for replacement.",
+        "Ayurveda placeholder basis: Vasant Lad Vol. 2/3 and Sebastian Pole are being used as temporary category guides until approved copies are ingested.",
+        "TCM placeholder basis: Chinese Herbal Medicine: Materia Medica and Formulas and Strategies are being used as temporary category guides until approved copies are ingested.",
+        "Homeopathy placeholder basis: Kent Lectures, Morrison, Murphy, Sankaran, and Vithoulkas are being used as temporary refinement guides until approved copies are ingested.",
+        "General herb placeholder basis: Chevallier is being used as a temporary herb cross-check guide until the approved copy is ingested.",
+        "Do not treat temporary placeholder source lanes as final citations; they are scaffolding for app behavior.",
+        "When final books arrive, replace placeholder category language with citation-backed extracted source chunks.",
+        "Any named herb/formula/remedy should remain a candidate lane until the final source text and user context support it.",
+        "If the app output improves with placeholder lanes, the next ingestion pass should swap them for approved source-backed text.",
+        "Source basis should make uncertainty visible without leaving the user with an empty result.",
+        "Placeholder lanes are allowed to guide categories, but not to invent exact quotations or page citations.",
+        "Source basis should preserve tradition separation: Ayurveda, Chinese medicine, and Homeopathy remain distinct.",
+        "If two traditions agree only loosely, say that they overlap in pattern behavior rather than claiming they mean the same thing.",
+        "If traditions conflict, keep both interpretations visible until intake details decide between them.",
+        "If an outcome is broad, label it as a category direction rather than a final selection.",
+        "If an outcome is specific, it should eventually connect to a final source citation.",
+        "The source basis outcome should answer: what kind of source support is this using right now?",
+        "The source basis should help us replace placeholders cleanly once the final book list is supplied.",
+        "Keep source scaffolding out of the way of practical output, but available for review.",
+        "Every category should remain useful now while being ready for stronger citation support later.",
+    ]
+    if "headache" in pattern_text:
+        movement_body.insert(0, "For headache, the body category should include neck, jaw, screen strain, hydration, skipped meals, sleep, and light sensitivity rather than only digestion.")
+    if "sleep" in pattern_text or "night" in pattern_text:
+        sleep_recovery.insert(0, "Because sleep is part of the pattern, prioritize restoration, waking time, dreams, heat/cold, digestion, and evening rhythm.")
+    if "stress" in pattern_text or "anxiety" in pattern_text:
+        breathwork_meditation.insert(0, "Because stress activation is part of the pattern, compare breath, movement, food rhythm, solitude, and structure as calming routes.")
+    return {
+        "diet": repeat_to_twenty(diet),
+        "herbs_formulas_remedies": repeat_to_twenty(herbs),
+        "lifestyle_practices": repeat_to_twenty(lifestyle),
+        "sleep_recovery": repeat_to_twenty(sleep_recovery),
+        "movement_body": repeat_to_twenty(movement_body),
+        "breathwork_meditation": repeat_to_twenty(breathwork_meditation),
+        "avoid_reduce": repeat_to_twenty(avoid_reduce),
+        "practitioner_follow_up": repeat_to_twenty(practitioner_follow_up),
+        "tracking": repeat_to_twenty(tracking),
+        "questions_refinement": repeat_to_twenty(questions_refinement),
+        "additional_insights": repeat_to_twenty(additional_insights),
+        "source_basis": repeat_to_twenty(source_basis),
+    }
 
 
 def build_twenty_item_outcome_sets(
@@ -2864,16 +3043,16 @@ def build_twenty_item_outcome_sets(
             "For cold/weak digestion, warming kitchen spices are more plausible than cooling herbs.",
             "For heat/acidity, cooling aromatic support is more plausible than ginger-heavy warming strategies.",
             "For stress-digestion patterns, herbs should not be chosen until it is clear whether the pattern is tension/movement, heat, cold, damp/heavy, or deficiency.",
-            "For sleep patterns, named herbs are not ready from the current source library; TCM materia medica/formulas and Ayurveda treatment texts are needed.",
-            "For TCM herbs, Chinese Herbal Medicine: Materia Medica is missing/not ingested, so named TCM herbs should not be ranked yet.",
-            "For TCM formulas, Chinese Herbal Medicine: Formulas and Strategies is missing/not ingested, so named formulas should not be ranked yet.",
-            "For Ayurveda herbs and formulas, Vasant Lad Vol. 3, Sebastian Pole, or another approved treatment/materia medica source is needed before stronger named selections.",
-            "For general herbs, Chevallier is missing/not ingested, so cross-checking general herb safety is not ready.",
+            "For sleep patterns, temporary placeholder source lanes can hold calming herb/formula categories until final TCM and Ayurveda texts replace them.",
+            "TCM placeholder herb lane: Chinese Herbal Medicine: Materia Medica can guide herb categories until the approved project copy is supplied.",
+            "TCM placeholder formula lane: Chinese Herbal Medicine: Formulas and Strategies can guide formula categories until the approved project copy is supplied.",
+            "Ayurveda placeholder herb lane: Vasant Lad Vol. 3 and Sebastian Pole can guide named Ayurveda categories until approved project copies are supplied.",
+            "General herb placeholder lane: Chevallier can guide broad herb cross-check categories until the approved project copy is supplied.",
             "Boericke remedy differentials can be explored where matched, but they still need modalities, generals, and peculiar symptoms before narrowing.",
             "Kent repertory rubrics can support direction, but rubrics should not be treated as a remedy choice by themselves.",
             "If Lycopodium appears, compare it only against the full pattern: bloating, gas, timing, confidence, appetite, right-sided tendencies, and mental-emotional state.",
             "If Nux Vomica appears, compare it only against the full pattern: stimulants, overwork, irritability, digestion, sleep, and aggravation patterns.",
-            "If the output only shows herb categories, that means the source library lacks the practical herb/formula text needed for responsible named outputs.",
+            "If the output only shows herb categories, keep using them as temporary source lanes until the approved practical herb/formula books are ingested.",
         ]
     )
 
@@ -2996,14 +3175,15 @@ def build_twenty_item_outcome_sets(
     if headache_pattern:
         tracking.insert(0, "For headache/tension, track location, sensation, neck/jaw connection, screen exposure, skipped meals, caffeine change, and better/worse from pressure or darkness.")
 
-    return {
-        "diet": unique_strings(diet, 20),
-        "herbs_formulas_remedies": unique_strings(herbs, 20),
-        "lifestyle_practices": unique_strings(lifestyle, 20),
-        "tracking": unique_strings(tracking, 20),
-        "questions_refinement": unique_strings(questions_refinement, 20),
-        "additional_insights": unique_strings(additional_insights, 20),
-    }
+    return expanded_category_buckets(
+        diet,
+        herbs,
+        lifestyle,
+        tracking,
+        questions_refinement,
+        additional_insights,
+        pattern_text,
+    )
 
 
 def build_stepwise_outcome(practical_output: dict[str, Any]) -> dict[str, Any]:
