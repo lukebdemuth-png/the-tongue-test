@@ -47,11 +47,18 @@ type Choice = {
   hint: string;
 };
 
+type OrganSignal = {
+  system: string;
+  meaning: string;
+  why: string;
+};
+
 type Theme = {
   title: string;
   score: number;
   plain: string;
   signs: string[];
+  organs: OrganSignal[];
   tryFirst: string[];
   observe: string[];
   questions: string[];
@@ -120,11 +127,46 @@ const observationGroups: Array<{ title: string; note: string; choices: Choice[] 
   },
 ];
 
+const tongueZones = [
+  {
+    zone: "Tip",
+    systems: "Heart / Lung",
+    meaning: "sleep, spirit, chest, breath, emotional heat",
+  },
+  {
+    zone: "Sides",
+    systems: "Liver / Gallbladder",
+    meaning: "stress, constraint, tension, irritability, flow",
+  },
+  {
+    zone: "Center",
+    systems: "Spleen / Stomach",
+    meaning: "digestion, appetite, coating, fluids, post-meal comfort",
+  },
+  {
+    zone: "Root",
+    systems: "Kidney / Lower Burner",
+    meaning: "deep fluids, elimination, lower body, chronic depletion",
+  },
+];
+
 const themeRules: Omit<Theme, "score" | "signs">[] = [
   {
     title: "Damp / Sluggish Digestion Pattern",
     plain:
       "The clearest reading is heaviness in the digestive-fluid system: the body may be struggling to transform food and fluids cleanly.",
+    organs: [
+      {
+        system: "Spleen / Stomach",
+        meaning: "Food and fluid transformation may be the main area to watch.",
+        why: "Thick, greasy, swollen, tooth-marked, or center/root coating signs often point this way in Chinese medicine.",
+      },
+      {
+        system: "Middle Burner",
+        meaning: "The pattern may be strongest around meals, bloating, appetite, stool, and post-meal energy.",
+        why: "The middle of the tongue and digestive symptoms are read together rather than separately.",
+      },
+    ],
     tryFirst: [
       "Use warm, simple cooked meals for three days: soup, congee, rice, cooked vegetables, easy protein.",
       "Pause iced drinks, grazing, raw-heavy meals, late heavy meals, and very greasy foods during the test.",
@@ -145,6 +187,18 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
     title: "Heat / Irritation Pattern",
     plain:
       "The signs lean toward heat or irritation: the system may be running hotter, more reactive, or more inflamed in traditional observation language.",
+    organs: [
+      {
+        system: "Stomach / Heart",
+        meaning: "Heat signs may show through thirst, reflux, mouth irritation, sleep disturbance, or red tongue areas.",
+        why: "Yellow coat, red body, dry surface, and red tip can point toward heat patterns depending on location.",
+      },
+      {
+        system: "Liver / Gallbladder",
+        meaning: "If heat comes with irritability, tension, red sides, or stress reactivity, the sides of the tongue matter more.",
+        why: "The sides are commonly used as a Liver/Gallbladder map area in tongue observation.",
+      },
+    ],
     tryFirst: [
       "For a short test, reduce alcohol, spicy foods, fried foods, coffee on an empty stomach, and late heavy dinners.",
       "Use simpler meals: rice, cooked greens, cucumber if tolerated, soups, lighter evening food.",
@@ -165,6 +219,18 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
     title: "Constraint / Tension Pattern",
     plain:
       "The tongue and symptoms suggest a stress-movement pattern: pressure may be affecting digestion, sleep, head/neck tension, or mood.",
+    organs: [
+      {
+        system: "Liver / Gallbladder",
+        meaning: "Stress, tension, irritability, red sides, or purple tone may suggest constrained movement in Chinese medicine language.",
+        why: "The sides of the tongue plus stress-location symptoms are treated as a flow pattern, not just a mood pattern.",
+      },
+      {
+        system: "Spleen / Stomach",
+        meaning: "When stress changes appetite, bloating, stool, or reflux, digestion becomes part of the same pattern.",
+        why: "Chinese medicine often reads stress and digestion together when qi movement affects the middle burner.",
+      },
+    ],
     tryFirst: [
       "Before meals, take 60 seconds to unclench jaw, lower shoulders, and breathe slowly.",
       "Use a walk, gentle stretching, or quiet expression after stressful blocks instead of pushing straight into the next task.",
@@ -185,6 +251,18 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
     title: "Dryness / Fluid Depletion Pattern",
     plain:
       "The signs lean toward dryness or reduced nourishment: the system may need moisture, recovery, and less depletion before stronger changes.",
+    organs: [
+      {
+        system: "Stomach / Kidney Fluid",
+        meaning: "Dryness, cracks, peeled coat, thirst, or constipation may suggest fluids are not adequately moistening tissues.",
+        why: "Tongue coat, cracks, moisture, and stool/thirst signs are read together for fluid status.",
+      },
+      {
+        system: "Heart / Shen",
+        meaning: "If dryness appears with poor sleep or red tip, recovery and nighttime settling become important.",
+        why: "Sleep and tip signs can shift the read toward Heart/shen involvement.",
+      },
+    ],
     tryFirst: [
       "Use warm fluids, soups, stews, cooked moist foods, and steady meals rather than dry snacks or erratic eating.",
       "Reduce dehydrating routines for a short test: late caffeine, alcohol, dry foods, overwork, and too little sleep.",
@@ -205,6 +283,18 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
     title: "Cold / Low Transformation Pattern",
     plain:
       "The signs lean cold or underactive: digestion and energy may respond better to warmth, regularity, and gentle activation than restriction.",
+    organs: [
+      {
+        system: "Spleen / Stomach",
+        meaning: "Cold, pale, wet, swollen, tooth-marked, low-energy signs may point toward weak transformation.",
+        why: "Pale/wet/swollen tongue signs paired with bloating or loose stool often make digestion the first area to support.",
+      },
+      {
+        system: "Kidney Yang / Lower Burner",
+        meaning: "If cold is deep, chronic, or paired with low back, low libido, frequent urination, or deep fatigue, lower burner context matters.",
+        why: "Root area coating, cold signs, and chronic depletion clues help decide whether the pattern is deeper than digestion.",
+      },
+    ],
     tryFirst: [
       "Use warm breakfast and warm drinks for three mornings; avoid starting the day with cold smoothies or iced drinks.",
       "Choose cooked meals with gentle spices such as ginger, cumin, or fennel if heat/reflux is not present.",
@@ -332,8 +422,13 @@ export function TongueAssessmentApp() {
             <div className="border border-ink/10 bg-[#f7f4ed] p-4">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Photo Reference</p>
               <p className="mt-2 text-sm leading-6 text-ink/62">
-                Optional for now. The app does not automatically read the image yet; use it as a visual reference while selecting signs.
+                Upload a tongue photo, then use the cards below to mark what you see. Automatic image reading can be added after the visual reference library is ready.
               </p>
+              <div className="mt-3 grid gap-2 text-xs leading-5 text-ink/54 sm:grid-cols-3">
+                <span className="border border-ink/10 bg-white/62 p-2">Natural light</span>
+                <span className="border border-ink/10 bg-white/62 p-2">No flash or filters</span>
+                <span className="border border-ink/10 bg-white/62 p-2">Photo before food/coffee</span>
+              </div>
               <label className="mt-4 block border border-dashed border-ink/18 bg-white/70 p-4 text-sm text-ink/60">
                 Add tongue photo
                 <input
@@ -396,6 +491,21 @@ export function TongueAssessmentApp() {
                 />
               </label>
             </article>
+
+            <article className="border border-ink/10 bg-white p-5 shadow-card">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Tongue Map</p>
+              <p className="mt-2 text-sm leading-6 text-ink/58">
+                Chinese medicine reads tongue signs by location. This map helps explain why the result mentions specific organ systems.
+              </p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {tongueZones.map((zone) => (
+                  <div key={zone.zone} className="border border-ink/10 bg-fog/55 p-3">
+                    <p className="text-sm font-semibold text-ink">{zone.zone}: {zone.systems}</p>
+                    <p className="mt-1 text-xs leading-5 text-ink/58">{zone.meaning}</p>
+                  </div>
+                ))}
+              </div>
+            </article>
           </section>
 
           <aside className="lg:sticky lg:top-6 lg:self-start">
@@ -422,6 +532,7 @@ export function TongueAssessmentApp() {
                     <p className="mt-3 text-xs leading-5 text-ink/48">Matched: {primary.signs.join(", ")}</p>
                   </article>
 
+                  <OrganFocus organs={primary.organs} />
                   <ResultList title="Try First" items={primary.tryFirst} />
                   <ResultList title="Observe Next" items={primary.observe} />
                   <ResultList title="Questions That Sharpen This" items={primary.questions} />
@@ -456,6 +567,23 @@ export function TongueAssessmentApp() {
         </div>
       </div>
     </main>
+  );
+}
+
+function OrganFocus({ organs }: { organs: OrganSignal[] }) {
+  return (
+    <article className="border border-ink/10 bg-white/75 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Organ / System Focus</p>
+      <div className="mt-3 space-y-3">
+        {organs.map((organ) => (
+          <div key={organ.system} className="border-l-2 border-moss/35 pl-3">
+            <p className="text-sm font-semibold leading-6 text-ink">{organ.system}</p>
+            <p className="mt-1 text-sm leading-6 text-ink/68">{organ.meaning}</p>
+            <p className="mt-1 text-xs leading-5 text-ink/45">{organ.why}</p>
+          </div>
+        ))}
+      </div>
+    </article>
   );
 }
 
