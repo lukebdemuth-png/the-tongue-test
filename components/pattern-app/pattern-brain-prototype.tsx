@@ -457,6 +457,125 @@ function IntakeSection({
   );
 }
 
+function mergeChoice(current: string, choice: string) {
+  const parts = splitList(current);
+  if (parts.some((part) => part.toLowerCase() === choice.toLowerCase())) return current;
+  return [...parts, choice].join(", ");
+}
+
+function ChoicePills({
+  prompt,
+  value,
+  choices,
+  onChange,
+  note,
+}: {
+  prompt: string;
+  value: string;
+  choices: string[];
+  onChange: (value: string) => void;
+  note?: string;
+}) {
+  const selected = splitList(value).map((item) => item.toLowerCase());
+  return (
+    <div>
+      <p className="text-sm font-semibold leading-6 text-ink">{prompt}</p>
+      {note ? <p className="mt-1 text-xs leading-5 text-ink/52">{note}</p> : null}
+      <div className="mt-3 flex flex-wrap gap-2">
+        {choices.map((choice) => {
+          const active = selected.includes(choice.toLowerCase());
+          return (
+            <button
+              key={choice}
+              type="button"
+              className={`rounded-full border px-3.5 py-2 text-sm transition ${
+                active
+                  ? "border-ink bg-ink text-white"
+                  : "border-ink/10 bg-white/70 text-ink/70 hover:border-moss/35 hover:bg-white"
+              }`}
+              onClick={() => onChange(mergeChoice(value, choice))}
+            >
+              {choice}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+type TraditionTone = "tcm" | "ayurveda" | "homeopathy";
+
+const traditionToneClasses: Record<TraditionTone, string> = {
+  tcm: "border-[#3d3127]/18 bg-[linear-gradient(145deg,#2f2924_0%,#4d3a2d_42%,#e7ddd1_100%)] text-white",
+  ayurveda: "border-[#c89c58]/24 bg-[linear-gradient(145deg,#fff6df_0%,#ead3a4_48%,#f8f2e5_100%)] text-ink",
+  homeopathy: "border-[#b8b1a4]/34 bg-[linear-gradient(145deg,#f7f5f0_0%,#ece8df_52%,#ffffff_100%)] text-ink",
+};
+
+const traditionMicrocopy: Record<TraditionTone, string> = {
+  tcm: "This lens watches rhythm: heat and cold, movement and blockage, fullness and depletion.",
+  ayurveda: "This lens listens for constitution: what steadies you, what scatters you, and how digestion carries the story.",
+  homeopathy: "This lens looks for what is most individual: sensitivities, reactions, and the patterns that repeat under stress.",
+};
+
+function TraditionIntakeSection({
+  index,
+  tone,
+  title,
+  subtitle,
+  children,
+}: {
+  index: string;
+  tone: TraditionTone;
+  title: string;
+  subtitle: string;
+  children: ReactNode;
+}) {
+  const dark = tone === "tcm";
+  return (
+    <section className={`overflow-hidden rounded-xl border shadow-card ${traditionToneClasses[tone]}`}>
+      <div className="relative p-5 md:p-6">
+        <div className="absolute inset-0 opacity-[0.08] [background-image:radial-gradient(circle_at_18%_20%,currentColor_0_1px,transparent_1px),linear-gradient(120deg,currentColor_0_1px,transparent_1px)] [background-size:28px_28px,44px_44px]" />
+        <div className="relative">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${dark ? "text-white/62" : "text-moss"}`}>
+                Section {index}
+              </p>
+              <h2 className="mt-2 text-2xl font-semibold leading-tight md:text-3xl">{title}</h2>
+              <p className={`mt-3 max-w-2xl text-sm leading-6 ${dark ? "text-white/72" : "text-ink/66"}`}>{subtitle}</p>
+            </div>
+            <span className={`rounded-full border px-3 py-1.5 text-xs uppercase tracking-[0.14em] ${dark ? "border-white/18 bg-white/10 text-white/76" : "border-ink/10 bg-white/55 text-ink/58"}`}>
+              {tone === "tcm" ? "Flow" : tone === "ayurveda" ? "Constitution" : "Sensitivity"}
+            </span>
+          </div>
+          <p className={`mt-4 rounded-lg border p-3 text-sm leading-6 ${dark ? "border-white/14 bg-white/10 text-white/72" : "border-ink/8 bg-white/52 text-ink/62"}`}>
+            {traditionMicrocopy[tone]}
+          </p>
+        </div>
+      </div>
+      <div className={`grid gap-4 border-t p-5 md:p-6 ${dark ? "border-white/14 bg-[#f8f3ea] text-ink" : "border-ink/8 bg-white/62"}`}>
+        {children}
+      </div>
+    </section>
+  );
+}
+
+function ReflectionCard({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="rounded-lg border border-ink/10 bg-white/72 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{title}</p>
+      <div className="mt-3 grid gap-4">{children}</div>
+    </div>
+  );
+}
+
 function SymptomPicker({
   selected,
   onToggle,
@@ -493,6 +612,81 @@ function SymptomPicker({
         })}
       </div>
     </div>
+  );
+}
+
+function PatternProfileBuilder({
+  form,
+  selectedSymptoms,
+}: {
+  form: IntakeForm;
+  selectedSymptoms: string[];
+}) {
+  const lenses = [
+    {
+      name: "Chinese Medicine",
+      filled: [form.temperature, form.circulation, form.digestion, form.sleep, form.energy, form.elimination, form.tcmNotes].filter(Boolean).length,
+      total: 7,
+    },
+    {
+      name: "Ayurveda",
+      filled: [form.ayurvedaNotes, form.digestion, form.cravings, form.elimination, form.energy, form.sleep].filter(Boolean).length,
+      total: 6,
+    },
+    {
+      name: "Homeopathy",
+      filled: [form.homeopathyNotes, form.mood, form.stress, form.mindFocus, form.betterFrom, form.worseFrom, form.cravings].filter(Boolean).length,
+      total: 7,
+    },
+  ];
+  const signals = [
+    ...selectedSymptoms,
+    ...splitList(form.temperature),
+    ...splitList(form.cravings),
+    ...splitList(form.betterFrom),
+    ...splitList(form.worseFrom),
+  ].slice(0, 12);
+
+  return (
+    <section className="rounded-xl border border-ink/10 bg-[#f1eee6] p-5 shadow-card">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="eyebrow mb-2">Pattern Profile</p>
+          <h2 className="text-2xl font-semibold leading-tight">Your answers are building a multi-lens profile.</h2>
+          <p className="mt-2 max-w-xl text-sm leading-6 text-ink/62">
+            Each section adds a different kind of signal: rhythm, constitution, sensitivity, and what changes symptoms.
+          </p>
+        </div>
+        <span className="rounded-full border border-ink/10 bg-white/70 px-3 py-1.5 text-xs uppercase tracking-[0.14em] text-ink/58">
+          {selectedSymptoms.length} symptoms
+        </span>
+      </div>
+      <div className="mt-5 grid gap-3 md:grid-cols-3">
+        {lenses.map((lens) => {
+          const percent = Math.round((lens.filled / lens.total) * 100);
+          return (
+            <div key={lens.name} className="rounded-lg border border-ink/10 bg-white/65 p-3">
+              <div className="flex items-center justify-between gap-3 text-sm">
+                <span className="font-semibold">{lens.name}</span>
+                <span className="text-ink/50">{percent}%</span>
+              </div>
+              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-ink/8">
+                <div className="h-full rounded-full bg-moss transition-all" style={{ width: `${percent}%` }} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {signals.length ? (
+        <div className="mt-4 flex flex-wrap gap-2">
+          {signals.map((signal) => (
+            <span key={signal} className="rounded-full border border-ink/10 bg-white/72 px-3 py-1.5 text-xs text-ink/62">
+              {signal}
+            </span>
+          ))}
+        </div>
+      ) : null}
+    </section>
   );
 }
 
@@ -996,22 +1190,29 @@ export function PatternBrainPrototype() {
         <div className="grid gap-5 xl:grid-cols-[minmax(22rem,0.92fr)_minmax(0,1.08fr)]">
           <section className="space-y-4">
             <SymptomPicker selected={selectedSymptoms} onToggle={toggleSymptom} />
+            <PatternProfileBuilder form={form} selectedSymptoms={selectedSymptoms} />
 
             <section className="rounded-xl border border-ink/10 bg-white/80 p-5 shadow-card">
               <p className="eyebrow mb-2">Describe Your Symptoms</p>
-              <h2 className="text-2xl font-semibold leading-tight">Just tell us what is going on.</h2>
+              <h2 className="text-2xl font-semibold leading-tight">Start with your own words.</h2>
+              <p className="mt-2 text-sm leading-6 text-ink/60">
+                Plain language is enough. The three sections below will help translate your experience through each tradition.
+              </p>
               <textarea
                 className="mt-5 min-h-[13rem] w-full resize-y rounded-lg border border-ink/10 bg-fog/60 p-4 text-base leading-7 text-ink outline-none transition focus:border-moss focus:bg-white"
                 value={form.practitionerNotes}
                 onChange={(event) => updateForm("practitionerNotes", event.target.value)}
-                placeholder="Symptoms, emotional state, history, timeline, practitioner notes, odd details, client language, shorthand..."
+                placeholder="Symptoms, emotional state, timeline, odd details, what you have noticed, what you keep wondering about..."
               />
             </section>
 
             <section className="rounded-xl border border-ink/10 bg-white/80 p-5 shadow-card">
               <div className="mb-4">
                 <p className="eyebrow mb-2">Intake</p>
-                <h2 className="text-2xl font-semibold leading-tight">Add only what matters.</h2>
+                <h2 className="text-2xl font-semibold leading-tight">Three traditions, one unfolding picture.</h2>
+                <p className="mt-2 text-sm leading-6 text-ink/60">
+                  Move through each lens. The questions are simple, but they are collecting the kinds of details each tradition uses to see patterns.
+                </p>
               </div>
               <div className="space-y-3">
                 <IntakeSection title="Main Concern" description="A few basics are enough for a first pass." defaultOpen>
@@ -1023,38 +1224,153 @@ export function PatternBrainPrototype() {
                   </div>
                 </IntakeSection>
 
-                <IntakeSection title="Patterns Around Symptoms" description="Timing, triggers, better/worse, temperature, and pain qualities.">
-                  <div className="grid gap-3 md:grid-cols-2">
-                    <TextField label="Better from" value={form.betterFrom} onChange={(value) => updateForm("betterFrom", value)} placeholder="rest, heat, pressure, food, motion..." rows={2} />
-                    <TextField label="Worse from" value={form.worseFrom} onChange={(value) => updateForm("worseFrom", value)} placeholder="night, cold, stress, movement..." rows={2} />
-                  </div>
-                  <div className="grid gap-3 md:grid-cols-2">
-                    <TextField label="Temperature" value={form.temperature} onChange={(value) => updateForm("temperature", value)} placeholder="cold, hot, chills, thirst, dryness..." rows={2} />
-                    <TextField label="Pain" value={form.pain} onChange={(value) => updateForm("pain", value)} placeholder="location, quality, movement, timing..." rows={2} />
-                  </div>
-                </IntakeSection>
+                <TraditionIntakeSection
+                  index="1"
+                  tone="tcm"
+                  title="Chinese Medicine"
+                  subtitle="Chinese Medicine looks at how energy moves through the body and where imbalance begins to appear."
+                >
+                  <ReflectionCard title="Temperature + Rhythm">
+                    <ChoicePills
+                      prompt="Do you tend to feel more hot, cold, mixed, or changing?"
+                      note="This helps the system notice heat/cold patterns without asking you to know the theory."
+                      value={form.temperature}
+                      choices={["cold easily", "runs hot", "hot flashes", "night sweats", "dry mouth", "thirsty", "changes day to day"]}
+                      onChange={(value) => updateForm("temperature", value)}
+                    />
+                    <ChoicePills
+                      prompt="When do you feel most energized or most depleted?"
+                      value={form.energy}
+                      choices={["low morning energy", "afternoon crash", "wired at night", "depleted after meals", "better with movement", "worse after exertion"]}
+                      onChange={(value) => updateForm("energy", value)}
+                    />
+                  </ReflectionCard>
 
-                <IntakeSection title="Body Systems" description="Compact notes for digestion, elimination, sleep, skin, circulation, and reproductive context.">
-                  <div className="grid gap-3 md:grid-cols-2">
-                    <TextField label="Digestion" value={form.digestion} onChange={(value) => updateForm("digestion", value)} rows={2} />
-                    <TextField label="Elimination" value={form.elimination} onChange={(value) => updateForm("elimination", value)} placeholder="bowel, urine, frequency, consistency..." rows={2} />
-                    <TextField label="Sleep" value={form.sleep} onChange={(value) => updateForm("sleep", value)} rows={2} />
-                    <TextField label="Energy" value={form.energy} onChange={(value) => updateForm("energy", value)} rows={2} />
-                    <TextField label="Skin" value={form.skin} onChange={(value) => updateForm("skin", value)} rows={2} />
-                    <TextField label="Circulation" value={form.circulation} onChange={(value) => updateForm("circulation", value)} placeholder="cold hands, flushing, swelling..." rows={2} />
-                    <TextField label="Cravings" value={form.cravings} onChange={(value) => updateForm("cravings", value)} placeholder="sweet, salty, sour, aversions..." rows={2} />
-                    <TextField label="Menstrual / reproductive" value={form.reproductive} onChange={(value) => updateForm("reproductive", value)} rows={2} />
-                  </div>
-                </IntakeSection>
+                  <ReflectionCard title="Flow + Stress">
+                    <ChoicePills
+                      prompt="Where does stress affect you first?"
+                      value={form.tcmNotes}
+                      choices={["chest", "throat", "stomach", "head", "sleep", "bowels", "jaw or shoulders"]}
+                      onChange={(value) => updateForm("tcmNotes", value)}
+                    />
+                    <TextField
+                      label="How stress changes digestion, sleep, or body tension"
+                      value={form.stress}
+                      onChange={(value) => updateForm("stress", value)}
+                      placeholder="I get tight in my chest, digestion slows down, sleep gets restless..."
+                      rows={3}
+                    />
+                  </ReflectionCard>
 
-                <IntakeSection title="Mind, Stress, Goals" description="Emotional tone, focus, preferences, and what the practitioner is trying to clarify.">
-                  <div className="grid gap-3 md:grid-cols-2">
-                    <TextField label="Emotions" value={form.mood} onChange={(value) => updateForm("mood", value)} rows={2} />
-                    <TextField label="Stress" value={form.stress} onChange={(value) => updateForm("stress", value)} rows={2} />
-                    <TextField label="Mind / focus" value={form.mindFocus} onChange={(value) => updateForm("mindFocus", value)} rows={2} />
-                    <TextField label="Goals" value={form.goals} onChange={(value) => updateForm("goals", value)} rows={2} />
-                  </div>
-                </IntakeSection>
+                  <ReflectionCard title="Digestion + Sleep">
+                    <div className="grid gap-3 md:grid-cols-2">
+                      <TextField label="Digestion under stress" value={form.digestion} onChange={(value) => updateForm("digestion", value)} placeholder="bloating, appetite, reflux, heaviness, nausea..." rows={3} />
+                      <TextField label="Sleep rhythm" value={form.sleep} onChange={(value) => updateForm("sleep", value)} placeholder="falling asleep, waking time, dreams, restless sleep..." rows={3} />
+                      <TextField label="Bowel / urine rhythm" value={form.elimination} onChange={(value) => updateForm("elimination", value)} placeholder="constipation, loose stool, frequency, urination..." rows={3} />
+                      <TextField label="Circulation / surface signs" value={form.circulation} onChange={(value) => updateForm("circulation", value)} placeholder="cold hands, flushing, swelling, sweating..." rows={3} />
+                    </div>
+                  </ReflectionCard>
+                </TraditionIntakeSection>
+
+                <TraditionIntakeSection
+                  index="2"
+                  tone="ayurveda"
+                  title="Ayurveda"
+                  subtitle="Ayurveda explores your natural constitution and how your mind and body respond to daily life."
+                >
+                  <ReflectionCard title="Constitution + Routine">
+                    <ChoicePills
+                      prompt="What happens when your schedule becomes irregular?"
+                      note="Ayurveda pays close attention to routine, appetite, energy, and the nervous system."
+                      value={form.ayurvedaNotes}
+                      choices={["scattered", "anxious", "irritable", "heavy or sluggish", "cravings increase", "sleep gets off", "digestion changes"]}
+                      onChange={(value) => updateForm("ayurvedaNotes", value)}
+                    />
+                    <ChoicePills
+                      prompt="Which qualities feel most familiar in your body or mind?"
+                      value={form.ayurvedaNotes}
+                      choices={["light", "dry", "cold", "intense", "sharp", "hot", "heavy", "slow", "steady", "oily"]}
+                      onChange={(value) => updateForm("ayurvedaNotes", value)}
+                    />
+                  </ReflectionCard>
+
+                  <ReflectionCard title="Agni: Your Digestive Fire">
+                    <ChoicePills
+                      prompt="How would you describe your appetite?"
+                      note="This translates the traditional agni question into everyday language."
+                      value={form.digestion}
+                      choices={["variable appetite", "strong appetite", "low appetite", "heavy after meals", "bloating", "burning or acidity", "skipping meals throws me off"]}
+                      onChange={(value) => updateForm("digestion", value)}
+                    />
+                    <div className="grid gap-3 md:grid-cols-2">
+                      <TextField label="Food tendencies" value={form.cravings} onChange={(value) => updateForm("cravings", value)} placeholder="sweet, salty, spicy, cold drinks, warm foods, aversions..." rows={3} />
+                      <TextField label="Daily rhythm" value={form.energy} onChange={(value) => updateForm("energy", value)} placeholder="when you feel steady, scattered, intense, or heavy..." rows={3} />
+                    </div>
+                  </ReflectionCard>
+
+                  <ReflectionCard title="Grounding + Overstimulation">
+                    <TextField
+                      label="How overstimulation affects you"
+                      value={form.mindFocus}
+                      onChange={(value) => updateForm("mindFocus", value)}
+                      placeholder="too much noise, screens, travel, people, pressure, or change..."
+                      rows={3}
+                    />
+                    <TextField
+                      label="What helps you feel settled"
+                      value={form.goals}
+                      onChange={(value) => updateForm("goals", value)}
+                      placeholder="routine, warmth, movement, quiet, structure, food rhythm..."
+                      rows={3}
+                    />
+                  </ReflectionCard>
+                </TraditionIntakeSection>
+
+                <TraditionIntakeSection
+                  index="3"
+                  tone="homeopathy"
+                  title="Homeopathy"
+                  subtitle="Homeopathy looks at the unique ways your system responds physically, mentally, and emotionally."
+                >
+                  <ReflectionCard title="Sensitivity + Response">
+                    <ChoicePills
+                      prompt="What happens when you feel emotionally overwhelmed?"
+                      note="Homeopathy looks for the individual pattern: what is most characteristic for you."
+                      value={form.homeopathyNotes}
+                      choices={["withdraw", "need reassurance", "become restless", "push through", "get irritable", "shut down", "cry easily", "feel stuck"]}
+                      onChange={(value) => updateForm("homeopathyNotes", value)}
+                    />
+                    <ChoicePills
+                      prompt="What kind of environment drains you most?"
+                      value={form.homeopathyNotes}
+                      choices={["noise", "conflict", "crowds", "being watched", "too much responsibility", "lack of control", "uncertainty", "feeling unseen"]}
+                      onChange={(value) => updateForm("homeopathyNotes", value)}
+                    />
+                  </ReflectionCard>
+
+                  <ReflectionCard title="What Changes Symptoms">
+                    <div className="grid gap-3 md:grid-cols-2">
+                      <TextField label="Better from" value={form.betterFrom} onChange={(value) => updateForm("betterFrom", value)} placeholder="rest, heat, cold, pressure, movement, eating, being alone..." rows={3} />
+                      <TextField label="Worse from" value={form.worseFrom} onChange={(value) => updateForm("worseFrom", value)} placeholder="night, stress, cold, heat, motion, noise, certain foods..." rows={3} />
+                    </div>
+                    <TextField
+                      label="Repeating emotional patterns"
+                      value={form.mood}
+                      onChange={(value) => updateForm("mood", value)}
+                      placeholder="the same feeling, reaction, fear, pressure, or coping pattern that keeps returning..."
+                      rows={3}
+                    />
+                  </ReflectionCard>
+
+                  <ReflectionCard title="Individual Details">
+                    <div className="grid gap-3 md:grid-cols-2">
+                      <TextField label="Pain or sensation details" value={form.pain} onChange={(value) => updateForm("pain", value)} placeholder="location, quality, timing, what changes it..." rows={3} />
+                      <TextField label="Skin / surface patterns" value={form.skin} onChange={(value) => updateForm("skin", value)} placeholder="rash, dryness, itching, acne, sensitivity..." rows={3} />
+                      <TextField label="Menstrual / reproductive patterns" value={form.reproductive} onChange={(value) => updateForm("reproductive", value)} rows={3} />
+                      <TextField label="Preferences or avoidances" value={form.preferences} onChange={(value) => updateForm("preferences", value)} placeholder="gentle first, avoid herbs, food-based, slow changes..." rows={3} />
+                    </div>
+                  </ReflectionCard>
+                </TraditionIntakeSection>
 
                 <IntakeSection title="Safety + Preferences" description="Keep herbs, remedies, formulas, and practices inside practitioner review.">
                   <div className="grid gap-3 md:grid-cols-2">
