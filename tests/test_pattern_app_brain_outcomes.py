@@ -135,3 +135,27 @@ def test_expanded_outcomes_do_not_show_placeholder_language() -> None:
         for item in items:
             lowered = item.lower()
             assert not any(term in lowered for term in forbidden)
+
+
+def test_source_basis_includes_researched_working_books() -> None:
+    trace = build_brain_trace(minimal_intake("bloating", "trouble sleeping", "headace", "stress"), limit=1)
+    source_basis = " ".join(trace["practical_output"]["stepwise_outcome"]["category_outcomes"]["source_basis"])
+
+    for expected in [
+        "Bensky",
+        "John K. Chen",
+        "Formulas and Strategies",
+        "Vasant Lad Textbook of Ayurveda Vol. 2",
+        "Vasant Lad Textbook of Ayurveda Vol. 3",
+        "Sebastian Pole",
+        "Robert Svoboda",
+        "Roger Morrison",
+        "Robin Murphy",
+        "George Vithoulkas",
+        "Rajan Sankaran",
+        "Roger van Zandvoort",
+        "Andrew Chevallier",
+        "Anne McIntyre",
+        "Organon of the Medical Art",
+    ]:
+        assert expected in source_basis

@@ -2748,6 +2748,12 @@ def outcome_question_is_relevant(question: str, pattern_text: str) -> bool:
     text = question.lower()
     if re.fullmatch(r"[a-z_]+", text) or text in {"chief complaint", "primary symptoms", "secondary symptoms"}:
         return False
+    generic_questions = {
+        "what is the single main symptom or concern?",
+        "when did it start, how severe is it, and what changes it?",
+    }
+    if text in generic_questions and pattern_text:
+        return False
     topic_terms = {
         "rash": ["rash", "skin", "itch", "burning", "oozing", "redness", "lesion", "hive"],
         "headache": ["headache", "migraine", "head", "neck", "jaw", "screen"],
@@ -2900,25 +2906,31 @@ def expanded_category_buckets(
     ]
     source_basis = [
         "Current source basis: available classical/source layers plus working reference lanes for practical category behavior.",
-        "Ayurveda source basis: Vasant Lad Vol. 2/3 and Sebastian Pole guide assessment, diet, rhythm, herb-category, and treatment-category language.",
-        "TCM source basis: Chinese Herbal Medicine: Materia Medica and Formulas and Strategies guide herb and formula category language.",
-        "Homeopathy source basis: Kent Lectures, Morrison, Murphy, Sankaran, and Vithoulkas guide remedy refinement and case-taking language.",
-        "General herb source basis: Chevallier guides broad herb cross-check categories.",
+        "TCM materia medica lane: Chinese Herbal Medicine: Materia Medica by Bensky, Clavey, Stoger, and Gamble guides temperature, taste, channel, action, and pattern-fit categories.",
+        "TCM safety/pharmacology lane: Chinese Medical Herbology and Pharmacology by John K. Chen and Tina T. Chen guides herb-drug interaction and modern safety cross-check categories.",
+        "TCM formula lane: Chinese Herbal Medicine: Formulas and Strategies by Scheid, Bensky, Ellis, and Barolet guides formula strategy, modification, and pattern-to-formula categories.",
+        "TCM formula application lane: Chinese Herbal Formulas and Applications by John K. Chen and Tina T. Chen guides formula application and modern research/safety categories.",
+        "Ayurveda assessment lane: Vasant Lad Textbook of Ayurveda Vol. 2 guides prakriti/vikriti, agni, ama, dhatu/mala, tongue, pulse, and clinical observation categories.",
+        "Ayurveda treatment lane: Vasant Lad Textbook of Ayurveda Vol. 3 guides management, treatment, diet, lifestyle, herb-category, and practice-category logic.",
+        "Ayurveda concise practice lane: Sebastian Pole's Ayurvedic Medicine guides practical treatment strategy, herbal pharmacy/pharmacology, and practitioner-facing organization.",
+        "Ayurveda constitution lane: Robert Svoboda's Prakriti guides constitution, prakriti framing, and philosophical explanation.",
+        "Homeopathy keynote lane: Roger Morrison's Desktop Guide to Keynotes and Confirmatory Symptoms guides remedy keynotes, confirmation, and similar-remedy comparison.",
+        "Homeopathy pathology lane: Roger Morrison's Desktop Companion to Physical Pathology guides pathology-context remedy differentials and physical complaint refinement.",
+        "Homeopathy repertory lane: Robin Murphy's Homeopathic Medical Repertory guides modern clinical rubric navigation and organ-system/diagnosis bridge language.",
+        "Homeopathy framework lane: George Vithoulkas' The Science of Homeopathy guides levels of health, case reasoning, and response evaluation.",
+        "Homeopathy remedy-essence lane: Rajan Sankaran's The Soul of Remedies guides deeper remedy pattern, sensation, and psychological interpretation.",
+        "Homeopathy expanded repertory lane: The Complete Repertory by Roger van Zandvoort can support later rubric expansion after Kent and Murphy are stable.",
+        "General herb lane: Andrew Chevallier's Encyclopedia of Herbal Medicine guides broad Western/common herb properties and safety cross-check categories.",
+        "General herbalism lane: Anne McIntyre's The Complete Herbal Tutor can support herb preparation, herbal principles, and broad materia medica organization.",
+        "Case-taking lane: Organon of the Medical Art guides non-leading questions, totality, modalities, peculiar symptoms, and careful observation.",
+        "Communication/case structure lane: approved clinical case-study and communication references guide readable follow-up language without becoming medical authority.",
         "Treat working source lanes as category guidance, not invented page citations.",
         "When final books arrive, connect category language with citation-backed extracted source chunks.",
         "Any named herb/formula/remedy should remain a candidate lane until the final source text and user context support it.",
         "If the app output improves with working source lanes, the next ingestion pass should connect them to approved source-backed text.",
-        "Source basis should make uncertainty visible without leaving the user with an empty result.",
         "Working source lanes can guide categories, but must not invent exact quotations or page citations.",
         "Source basis should preserve tradition separation: Ayurveda, Chinese medicine, and Homeopathy remain distinct.",
         "If two traditions agree only loosely, say that they overlap in pattern behavior rather than claiming they mean the same thing.",
-        "If traditions conflict, keep both interpretations visible until intake details decide between them.",
-        "If an outcome is broad, label it as a category direction rather than a final selection.",
-        "If an outcome is specific, it should eventually connect to a final source citation.",
-        "The source basis outcome should answer: what kind of source support is this using right now?",
-        "The source basis should help us connect each category to the final book list cleanly.",
-        "Keep source scaffolding out of the way of practical output, but available for review.",
-        "Every category should remain useful now while being ready for stronger citation support later.",
     ]
     if "headache" in pattern_text:
         movement_body.insert(0, "For headache, the body category should include neck, jaw, screen strain, hydration, skipped meals, sleep, and light sensitivity rather than only digestion.")
