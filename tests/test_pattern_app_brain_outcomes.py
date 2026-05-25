@@ -111,3 +111,27 @@ def test_sparse_inputs_generate_twenty_outcomes_per_category() -> None:
         assert set(outcomes) == expected_categories
         assert all(len(items) == 20 for items in outcomes.values())
         assert all(items[0] for items in outcomes.values())
+
+
+def test_expanded_outcomes_do_not_show_placeholder_language() -> None:
+    trace = build_brain_trace(minimal_intake("bloating", "trouble sleeping", "headace", "stress"), limit=1)
+    stepwise = trace["practical_output"]["stepwise_outcome"]
+    forbidden = [
+        "placeholder",
+        "still missing",
+        "missing source",
+        "missing/not",
+        "not ingested",
+        "not ready",
+        "still needed",
+        "temporary source",
+        "temporary placeholder",
+        "missing source layer",
+        "needed before",
+    ]
+
+    assert stepwise["missing_source_notes"] == []
+    for items in stepwise["category_outcomes"].values():
+        for item in items:
+            lowered = item.lower()
+            assert not any(term in lowered for term in forbidden)

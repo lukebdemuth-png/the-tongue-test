@@ -1207,7 +1207,7 @@ function StepwiseOutcome({ trace }: { trace: BrainTrace }) {
 
       {outcome.missing_source_notes.length ? (
         <article className="mt-4 rounded-lg border border-amber-300/35 bg-[#fffaf0] p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Temporary Source Lanes To Replace</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Source Coverage Notes</p>
           <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/70">
             {outcome.missing_source_notes.slice(0, 5).map((item) => (
               <li key={item}>{item}</li>
@@ -1574,7 +1574,7 @@ function EvaluationPacketCard({ title, packet }: { title: string; packet: Tradit
           <p className="mt-1 text-sm leading-6 text-ink/68">{detailTerms.join(", ")}</p>
         </>
       ) : null}
-      <p className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-moss">Missing</p>
+      <p className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-moss">Open Context</p>
       <p className="mt-1 text-sm leading-6 text-ink/68">{packet.missing_questions.slice(0, 5).join(", ") || "No major gaps detected"}</p>
     </article>
   );

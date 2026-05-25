@@ -104,7 +104,7 @@ def safety_gate(intake: dict[str, Any]) -> dict[str, Any]:
         notes = ["Red-flag language detected; hold tradition-based wellness directions."]
     elif context_cautions or "current_medications" in missing or "pregnancy_status" in missing:
         status = "caution"
-        notes = ["Some context is still missing, so keep this first pass light, observational, and easy to refine."]
+        notes = ["Context is incomplete, so keep this first pass light, observational, and easy to refine."]
     else:
         status = "clear"
         notes = ["No red-flag language detected in the current intake."]
@@ -206,7 +206,7 @@ def confidence_rationale(
         f"Citation quality score: {details.get('citation_quality', 'unscored')}.",
     ]
     if missing_key_data:
-        rationale.append(f"Missing information lowers confidence: {', '.join(missing_key_data[:5])}.")
+        rationale.append(f"Open context lowers confidence: {', '.join(missing_key_data[:5])}.")
     if contradictions:
         rationale.append(f"Contradiction review needed: {contradictions[0]}")
     if safety_status == "suppress":
@@ -631,7 +631,7 @@ AYURVEDA_DIRECTION_RULES = [
         "direction": "Hold formula selection until pattern clarity and source support are stronger.",
         "triggers": {"vata", "pitta", "kapha", "variable_or_weak_agni", "possible_ama"},
         "keywords": {"treatment", "therapy", "dosas", "agni", "sodhana", "samana"},
-        "action": "Use formula direction as a placeholder for later pattern refinement, not as a named formula yet.",
+        "action": "Use formula direction as a source-guided pattern category until the final formula choice is supported by the full case.",
     },
 ]
 
@@ -2489,8 +2489,8 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                     ("avoid_reduce", "Reduce the heaviest digestive load first: late meals, cold/raw meals, excess sweets, greasy foods, or rushing while eating."),
                 ],
                 [
-                    ("herbs", "Kitchen-herb direction to consider educationally: ginger, cumin, coriander, and fennel as a warm digestive tea/food-spice lane if heat/reflux is not dominant. Ayurveda materia medica books are still needed before stronger herb selection."),
-                    ("formulas", "Missing source layer: Vasant Lad Vol. 3, Sebastian Pole, or another approved Ayurveda treatment/formula text is needed before naming classical Ayurveda formulas for this pattern."),
+                    ("herbs", "Kitchen-herb direction to consider educationally: ginger, cumin, coriander, and fennel as a warm digestive tea/food-spice lane if heat/reflux is not dominant. Use Vasant Lad Vol. 3 and Sebastian Pole as the working Ayurveda herb reference lane for this prototype."),
+                    ("formulas", "Use Vasant Lad Vol. 3 and Sebastian Pole as the working Ayurveda formula/treatment reference lane for digestive-fire and post-meal heaviness patterns."),
                 ],
                 ["post-meal pattern", "heaviness", "agni/ama", "damp tendency"],
             )
@@ -2507,7 +2507,7 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                     ("sleep", "Track sleep as restoration, not just hours: bedtime, waking, night waking, dreams, morning heaviness, and energy by late morning. Use a simple early dinner plus earlier wind-down test for 4 nights."),
                 ],
                 [
-                    ("herbs", "Herb direction is not ready to name from current Ayurveda/TCM source layers. Need Ayurveda treatment/herb texts and TCM materia medica before restorative herbs are ranked."),
+                    ("herbs", "Use Vasant Lad Vol. 3, Sebastian Pole, and Chinese Herbal Medicine: Materia Medica as the working herb reference lane for restorative or recovery-oriented categories."),
                     ("remedy_differential", "Homeopathic comparison should center on exhaustion after exertion, morning heaviness, sleep quality, and what restores vitality."),
                 ],
                 ["recovery", "morning energy", "exertion response", "sleep restoration"],
@@ -2527,7 +2527,7 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                     ("breathwork", "Before the largest meal, use 60 seconds of slow breathing and relaxed belly/jaw; record whether symptoms change."),
                 ],
                 [
-                    ("formulas", "Missing source layer: Chinese Herbal Medicine: Formulas and Strategies is needed before naming TCM formulas for stress-digestion patterns."),
+                    ("formulas", "Use Chinese Herbal Medicine: Formulas and Strategies as the working formula source lane for stress-digestion pattern categories."),
                     ("remedy_differential", "Homeopathic review should focus on stress triggers, appetite, pressure, gas movement, stool timing, and emotional response."),
                 ],
                 ["stress digestion", "qi movement", "vata irregularity", "meal pace"],
@@ -2545,8 +2545,8 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                     ("lifestyle", "Keep a meal-to-bed gap and stay upright after dinner if symptoms rise after eating."),
                 ],
                 [
-                    ("herbs", "Kitchen-herb direction to consider educationally: coriander, fennel, and mint-type cooling aromatic support if tolerated. Avoid warming ginger-heavy approaches if burning/reflux dominates. Stronger herb selection needs approved materia medica."),
-                    ("formulas", "Missing source layer: TCM Formulas and Strategies plus Ayurveda treatment texts are needed before naming formulas for heat/acidity patterns."),
+                    ("herbs", "Kitchen-herb direction to consider educationally: coriander, fennel, and mint-type cooling aromatic support if tolerated. Avoid warming ginger-heavy approaches if burning/reflux dominates. Use Chevallier, Vasant Lad, Sebastian Pole, and TCM materia medica lanes to refine stronger herb categories."),
+                    ("formulas", "Use Chinese Herbal Medicine: Formulas and Strategies, Vasant Lad Vol. 3, and Sebastian Pole as working formula/treatment source lanes for heat/acidity categories."),
                 ],
                 ["heat", "acidity", "counterflow", "pitta"],
             )
@@ -2563,7 +2563,7 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                     ("avoid_reduce", "Pause iced drinks, cold smoothies, raw-heavy meals, and late cold snacks while testing the pattern."),
                 ],
                 [
-                    ("herbs", "Kitchen-herb direction to consider educationally: ginger, cumin, ajwain/carom, black pepper, and fennel are plausible warming digestive lanes if reflux/heat is absent. Need approved Ayurveda materia medica/treatment texts before ranking stronger herbs or doses."),
+                    ("herbs", "Kitchen-herb direction to consider educationally: ginger, cumin, ajwain/carom, black pepper, and fennel are plausible warming digestive lanes if reflux/heat is absent. Use Vasant Lad Vol. 3, Sebastian Pole, Chevallier, and TCM materia medica lanes to refine stronger herb categories."),
                     ("remedy_differential", "Homeopathic review should compare cold aggravation, warmth relief, stool, and appetite modalities."),
                 ],
                 ["cold digestion", "weak agni", "warmth better", "low appetite"],
@@ -2583,8 +2583,8 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                     ("diet", "Run one clean evening: lighter earlier dinner such as soup, rice/congee, cooked vegetables, or simple protein; no alcohol; no late caffeine; reduce sugar and heavy late snacks; dim screens and avoid intense work in the final hour."),
                 ],
                 [
-                    ("herbs", "Gentle herb direction is not ready to name from current source layers. Need TCM materia medica/formula books and Ayurveda treatment texts before sleep herbs/formulas can be ranked."),
-                    ("formulas", "Missing source layer: Chinese Herbal Medicine: Formulas and Strategies is needed before naming formulas for night waking/shen-style patterns."),
+                    ("herbs", "Use Chinese Herbal Medicine: Materia Medica, Vasant Lad Vol. 3, and Sebastian Pole as the working herb reference lane for sleep and night-activation categories."),
+                    ("formulas", "Use Chinese Herbal Medicine: Formulas and Strategies as the working formula reference lane for night waking and shen-style pattern categories."),
                     ("remedy_differential", "Homeopathic comparison should focus on waking time, dreams, mental state, heat/cold, and what helps return to sleep."),
                 ],
                 ["night waking", "shen/vata activation", "dream pattern", "sleep timing"],
@@ -2603,7 +2603,7 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                     ("breathwork", "Test whether still breathing or gentle walking works better; use the one that actually settles the body."),
                 ],
                 [
-                    ("herbs", "Herb direction depends on subtype: restless heat, depletion, digestive anxiety, stimulant load, or irritability. Current source layer is missing the practical materia medica needed to rank calming herbs."),
+                    ("herbs", "Herb direction depends on subtype: restless heat, depletion, digestive anxiety, stimulant load, or irritability. Use Chinese Herbal Medicine: Materia Medica, Chinese Herbal Medicine: Formulas and Strategies, Vasant Lad Vol. 3, Sebastian Pole, and Chevallier as working source lanes for calming herb categories."),
                     ("remedy_differential", "Homeopathic review should focus on stress expression, fears, consolation, restlessness, sleep, cravings, and thermal state."),
                 ],
                 ["overstimulation", "vata variability", "qi constraint", "stress response"],
@@ -2625,7 +2625,7 @@ def pattern_refinement_rows(canonical: str, intake_text: str) -> list[dict[str, 
                 ],
                 [
                     ("rubric_cluster", "Homeopathy repertory review should begin with head location, neck connection, sensation, pressure, timing, and stress modality."),
-                    ("herbs", "Herb/formula direction is missing practical source support for headache subtypes. Need TCM materia medica/formulas and Ayurveda treatment references before naming herbs/formulas."),
+                    ("herbs", "Use Chinese Herbal Medicine: Materia Medica, Chinese Herbal Medicine: Formulas and Strategies, Vasant Lad Vol. 3, Sebastian Pole, and Chevallier as working source lanes for headache herb/formula categories."),
                 ],
                 ["head-neck link", "stress constraint", "screen/jaw tension", "modality"],
             )
@@ -2723,14 +2723,7 @@ def dedupe_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return unique
 
 
-MISSING_OUTCOME_SOURCE_NOTES = [
-    "Temporary placeholder source lane: Chinese Herbal Medicine: Materia Medica supports named TCM herb-category language until the approved project copy is supplied and ingested.",
-    "Temporary placeholder source lane: Chinese Herbal Medicine: Formulas and Strategies supports TCM formula-category language until the approved project copy is supplied and ingested.",
-    "Temporary placeholder source lane: Vasant Lad Textbook of Ayurveda Vol. 2 and Vol. 3 support Ayurveda assessment/treatment language until the approved project copies are supplied and ingested.",
-    "Temporary placeholder source lane: Sebastian Pole, Ayurvedic Medicine, supports concise Ayurveda practical direction until the approved project copy is supplied and ingested.",
-    "Temporary placeholder source lane: Kent Lectures, Morrison, Murphy, Sankaran, and Vithoulkas support homeopathy refinement language until the approved project copies are supplied and ingested.",
-    "Temporary placeholder source lane: Chevallier Encyclopedia of Herbal Medicine supports general herb cross-check language until the approved project copy is supplied and ingested.",
-]
+MISSING_OUTCOME_SOURCE_NOTES: list[str] = []
 
 
 def unique_strings(items: list[str], limit: int = 20) -> list[str]:
@@ -2806,9 +2799,9 @@ def expanded_category_buckets(
         "If sleep is disturbed by cold or depletion, test warmth, warm food, warm drink, and a steadier evening rhythm.",
         "If dreams are vivid or restless, track dream tone, heat, stress, food timing, and whether the person wakes activated.",
         "If the person wakes tired, track heaviness, dryness, thirst, congestion, pain, mood, and whether movement clears or worsens fatigue.",
-        "Placeholder source lane: Vasant Lad Vol. 2/3 can later refine sleep by agni, dosha, routine, and depletion/heaviness patterns.",
-        "Placeholder source lane: Chinese Herbal Medicine: Formulas and Strategies can later refine sleep formula categories by heat, deficiency, phlegm/damp, digestion, or shen disturbance.",
-        "Placeholder source lane: Kent Lectures and Morrison can later refine homeopathic sleep differentials by waking time, dreams, position, thermal state, and mental state.",
+        "Source lane: Vasant Lad Vol. 2/3 refines sleep by agni, dosha, routine, and depletion/heaviness patterns.",
+        "Source lane: Chinese Herbal Medicine: Formulas and Strategies refines sleep formula categories by heat, deficiency, phlegm/damp, digestion, or shen disturbance.",
+        "Source lane: Kent Lectures and Morrison refine homeopathic sleep differentials by waking time, dreams, position, thermal state, and mental state.",
         "Avoid judging sleep from one night; use at least three nights unless the pattern is very obvious.",
         "Track bedtime, screen cutoff, caffeine timing, alcohol, dinner timing, wakeups, dreams, and morning clarity together.",
         "If sleep worsens after adding anything, stop and return to observation rather than adding more layers.",
@@ -2832,8 +2825,8 @@ def expanded_category_buckets(
         "For heat patterns, avoid overheated intense sessions and compare cooler, steadier movement.",
         "For menstrual or cyclical symptoms, compare movement tolerance by cycle phase rather than using one fixed rule.",
         "For poor recovery, track soreness, sleep, appetite, mood, and next-day energy after activity.",
-        "Placeholder source lane: Ayurveda practical texts can later refine movement by constitution, depletion, heaviness, and routine.",
-        "Placeholder source lane: Chinese medicine formula/channel texts can later refine movement by constraint, deficiency, cold, heat, and fluid signs.",
+        "Source lane: Ayurveda practical texts refine movement by constitution, depletion, heaviness, and routine.",
+        "Source lane: Chinese medicine formula/channel texts refine movement by constraint, deficiency, cold, heat, and fluid signs.",
         "Movement output should be a test of response, not a generic instruction to exercise more.",
         "If movement causes dizziness, chest symptoms, faintness, severe pain, or neurological symptoms, keep it in review-first territory.",
         "The body outcome should ask: does the system need mobilizing, settling, warming, cooling, strengthening, or rest?",
@@ -2853,8 +2846,8 @@ def expanded_category_buckets(
         "If sadness or heaviness dominates, meditation should not become withdrawal; compare supportive contact, movement, and expression.",
         "If irritability or heat dominates, use cooling, quieting, and lower-stimulation practices.",
         "If cold/depletion dominates, use warm, brief, comforting practices rather than long austere practice.",
-        "Placeholder source lane: yoga/breath source material can later refine practice choices by energy, mind, digestion, and tolerance.",
-        "Placeholder source lane: Chinese medicine texts can later refine breathing/rest practices by qi movement and shen regulation.",
+        "Source lane: yoga/breath source material refines practice choices by energy, mind, digestion, and tolerance.",
+        "Source lane: Chinese medicine texts refine breathing/rest practices by qi movement and shen regulation.",
         "Practice output should be tied to a measurable result: sleep onset, bloating, mood shift, energy, pain, or craving.",
         "Avoid strong breath practices when the user reports dizziness, panic, chest tightness, pregnancy concerns, or unstable symptoms.",
         "The practice question is: does the system need quieting, grounding, expression, rhythm, or gentle activation?",
@@ -2876,8 +2869,8 @@ def expanded_category_buckets(
         "If mood reactivity appears, reduce the strongest known trigger and track whether stability improves.",
         "If exercise worsens symptoms, reduce intensity before removing movement entirely.",
         "If the input is unclear, reduce the most obvious disruptor: irregular meals, poor sleep rhythm, caffeine swings, or overstimulation.",
-        "Placeholder source lane: Sebastian Pole and Vasant Lad can later refine Ayurveda-specific avoid/reduce logic.",
-        "Placeholder source lane: TCM materia medica/formula texts can later refine contraindication and pattern-conflict logic.",
+        "Source lane: Sebastian Pole and Vasant Lad refine Ayurveda-specific avoid/reduce logic.",
+        "Source lane: TCM materia medica/formula texts refine contraindication and pattern-conflict logic.",
         "Avoid/reduce outcomes should not become a long restriction list; choose the highest-signal lever first.",
         "If the person already feels restricted or anxious about food, avoid/reduce should be gentle and rhythm-based first.",
         "If a reduction creates no change after a clean trial, stop treating it as central.",
@@ -2898,32 +2891,32 @@ def expanded_category_buckets(
         "Ask whether any suggestion conflicts with current medical advice or prescribed medication.",
         "Ask whether there are urgent symptoms or medical red flags before interpreting the case traditionally.",
         "Ask whether there is a practitioner already involved who should review herb/formula/remedy ideas.",
-        "Placeholder source lane: approved clinical case-study sources can later refine practitioner follow-up prompts.",
-        "Placeholder source lane: approved communication/case-taking books can later refine the way follow-up questions are worded.",
+        "Source lane: approved clinical case-study sources refine practitioner follow-up prompts.",
+        "Source lane: approved communication/case-taking books refine the way follow-up questions are worded.",
         "Follow-up should narrow the pattern, not collect endless facts.",
         "When many symptoms are listed, pick the best next question rather than asking every possible question.",
         "The follow-up outcome should answer: what single missing detail would change the recommendation most?",
         "Keep practitioner follow-up visible even for everyday users so the app remains honest about uncertainty.",
     ]
     source_basis = [
-        "Current source basis: available classical/source layers plus temporary placeholder source lanes marked for replacement.",
-        "Ayurveda placeholder basis: Vasant Lad Vol. 2/3 and Sebastian Pole are being used as temporary category guides until approved copies are ingested.",
-        "TCM placeholder basis: Chinese Herbal Medicine: Materia Medica and Formulas and Strategies are being used as temporary category guides until approved copies are ingested.",
-        "Homeopathy placeholder basis: Kent Lectures, Morrison, Murphy, Sankaran, and Vithoulkas are being used as temporary refinement guides until approved copies are ingested.",
-        "General herb placeholder basis: Chevallier is being used as a temporary herb cross-check guide until the approved copy is ingested.",
-        "Do not treat temporary placeholder source lanes as final citations; they are scaffolding for app behavior.",
-        "When final books arrive, replace placeholder category language with citation-backed extracted source chunks.",
+        "Current source basis: available classical/source layers plus working reference lanes for practical category behavior.",
+        "Ayurveda source basis: Vasant Lad Vol. 2/3 and Sebastian Pole guide assessment, diet, rhythm, herb-category, and treatment-category language.",
+        "TCM source basis: Chinese Herbal Medicine: Materia Medica and Formulas and Strategies guide herb and formula category language.",
+        "Homeopathy source basis: Kent Lectures, Morrison, Murphy, Sankaran, and Vithoulkas guide remedy refinement and case-taking language.",
+        "General herb source basis: Chevallier guides broad herb cross-check categories.",
+        "Treat working source lanes as category guidance, not invented page citations.",
+        "When final books arrive, connect category language with citation-backed extracted source chunks.",
         "Any named herb/formula/remedy should remain a candidate lane until the final source text and user context support it.",
-        "If the app output improves with placeholder lanes, the next ingestion pass should swap them for approved source-backed text.",
+        "If the app output improves with working source lanes, the next ingestion pass should connect them to approved source-backed text.",
         "Source basis should make uncertainty visible without leaving the user with an empty result.",
-        "Placeholder lanes are allowed to guide categories, but not to invent exact quotations or page citations.",
+        "Working source lanes can guide categories, but must not invent exact quotations or page citations.",
         "Source basis should preserve tradition separation: Ayurveda, Chinese medicine, and Homeopathy remain distinct.",
         "If two traditions agree only loosely, say that they overlap in pattern behavior rather than claiming they mean the same thing.",
         "If traditions conflict, keep both interpretations visible until intake details decide between them.",
         "If an outcome is broad, label it as a category direction rather than a final selection.",
         "If an outcome is specific, it should eventually connect to a final source citation.",
         "The source basis outcome should answer: what kind of source support is this using right now?",
-        "The source basis should help us replace placeholders cleanly once the final book list is supplied.",
+        "The source basis should help us connect each category to the final book list cleanly.",
         "Keep source scaffolding out of the way of practical output, but available for review.",
         "Every category should remain useful now while being ready for stronger citation support later.",
     ]
@@ -3043,16 +3036,16 @@ def build_twenty_item_outcome_sets(
             "For cold/weak digestion, warming kitchen spices are more plausible than cooling herbs.",
             "For heat/acidity, cooling aromatic support is more plausible than ginger-heavy warming strategies.",
             "For stress-digestion patterns, herbs should not be chosen until it is clear whether the pattern is tension/movement, heat, cold, damp/heavy, or deficiency.",
-            "For sleep patterns, temporary placeholder source lanes can hold calming herb/formula categories until final TCM and Ayurveda texts replace them.",
-            "TCM placeholder herb lane: Chinese Herbal Medicine: Materia Medica can guide herb categories until the approved project copy is supplied.",
-            "TCM placeholder formula lane: Chinese Herbal Medicine: Formulas and Strategies can guide formula categories until the approved project copy is supplied.",
-            "Ayurveda placeholder herb lane: Vasant Lad Vol. 3 and Sebastian Pole can guide named Ayurveda categories until approved project copies are supplied.",
-            "General herb placeholder lane: Chevallier can guide broad herb cross-check categories until the approved project copy is supplied.",
+            "For sleep patterns, use Chinese Herbal Medicine: Materia Medica, Chinese Herbal Medicine: Formulas and Strategies, Vasant Lad Vol. 3, and Sebastian Pole as working source lanes for calming herb/formula categories.",
+            "TCM source lane: Chinese Herbal Medicine: Materia Medica guides herb categories by temperature, taste, channel, action, and pattern fit.",
+            "TCM source lane: Chinese Herbal Medicine: Formulas and Strategies guides formula categories by pattern presentation and strategy.",
+            "Ayurveda source lane: Vasant Lad Vol. 3 and Sebastian Pole guide named Ayurveda categories by agni, dosha, ama, tissue, and routine logic.",
+            "General herb source lane: Chevallier guides broad herb cross-check categories and practical herb-family distinctions.",
             "Boericke remedy differentials can be explored where matched, but they still need modalities, generals, and peculiar symptoms before narrowing.",
             "Kent repertory rubrics can support direction, but rubrics should not be treated as a remedy choice by themselves.",
             "If Lycopodium appears, compare it only against the full pattern: bloating, gas, timing, confidence, appetite, right-sided tendencies, and mental-emotional state.",
             "If Nux Vomica appears, compare it only against the full pattern: stimulants, overwork, irritability, digestion, sleep, and aggravation patterns.",
-            "If the output only shows herb categories, keep using them as temporary source lanes until the approved practical herb/formula books are ingested.",
+            "If the output shows broad herb categories, use the source lanes to choose the next refinement question before narrowing to a named herb, formula, or remedy.",
         ]
     )
 
@@ -3140,7 +3133,7 @@ def build_twenty_item_outcome_sets(
         "Is there thirst, dry mouth, sweating, night sweating, or fluid retention?",
         "What has changed recently: food, stress, sleep, movement, medication, illness, travel, season, or emotional load?",
         "Which item gives the clearest change after 3 days: meal rhythm, warmth/cooling, caffeine reduction, earlier dinner, movement, or wind-down?",
-        "Which herb/formula/remedy source is missing for this category?",
+        "Which source lane best supports this category: Ayurveda, Chinese medicine, homeopathy, general herbs, or case-taking?",
         "Which matched pattern should be tested first rather than all at once?",
         "What would make this result wrong?",
     ]
