@@ -150,6 +150,12 @@ const tongueZones = [
   },
 ];
 
+const visualSourceBooks = [
+  "Barbara Kirschbaum, Atlas of Chinese Tongue Diagnosis",
+  "Giovanni Maciocia, Tongue Diagnosis in Chinese Medicine",
+  "Claus C. Schnorrenberger and Beate Schnorrenberger, Pocket Atlas of Tongue Diagnosis",
+];
+
 const themeRules: Omit<Theme, "score" | "signs">[] = [
   {
     title: "Damp / Sluggish Digestion Pattern",
@@ -404,14 +410,15 @@ export function TongueAssessmentApp() {
             <div>
               <p className="eyebrow mb-3">Tongue Assessment</p>
               <h1 className="max-w-3xl text-4xl font-semibold leading-[1.04] md:text-6xl">
-                Look, select, receive a pattern reflection.
+                Take a tongue photo. Compare it through Chinese medicine.
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-8 text-ink/68">
-                A simple Chinese medicine-inspired observation tool. It helps organize tongue color,
-                coating, shape, moisture, location signs, and symptoms into a clear educational read.
+                Upload a tongue image, mark the visible signs, and receive a Chinese medicine-style
+                pattern reflection based on tongue color, coating, shape, moisture, location, symptoms,
+                and visual atlas references.
               </p>
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                {["Observe in natural light", "Tap only obvious signs", "Compare with symptoms"].map((item) => (
+                {["Photo first", "Compare visible signs", "Read organ-system patterns"].map((item) => (
                   <div key={item} className="border border-ink/10 bg-fog/60 p-3 text-sm leading-6 text-ink/66">
                     {item}
                   </div>
@@ -420,9 +427,10 @@ export function TongueAssessmentApp() {
             </div>
 
             <div className="border border-ink/10 bg-[#f7f4ed] p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Photo Reference</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Tongue Photo</p>
               <p className="mt-2 text-sm leading-6 text-ink/62">
-                Upload a tongue photo, then use the cards below to mark what you see. Automatic image reading can be added after the visual reference library is ready.
+                The goal is to compare your photo against TCM tongue-atlas patterns. In this first version,
+                the photo anchors the observation while you mark the signs the app should interpret.
               </p>
               <div className="mt-3 grid gap-2 text-xs leading-5 text-ink/54 sm:grid-cols-3">
                 <span className="border border-ink/10 bg-white/62 p-2">Natural light</span>
@@ -493,6 +501,19 @@ export function TongueAssessmentApp() {
             </article>
 
             <article className="border border-ink/10 bg-white p-5 shadow-card">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Visual Comparison Library</p>
+              <p className="mt-2 text-sm leading-6 text-ink/58">
+                The photo-reading layer will be trained against picture-heavy tongue diagnosis references.
+                These are the core visual sources for the app direction:
+              </p>
+              <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/68">
+                {visualSourceBooks.map((book) => (
+                  <li key={book}>{book}</li>
+                ))}
+              </ul>
+            </article>
+
+            <article className="border border-ink/10 bg-white p-5 shadow-card">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Tongue Map</p>
               <p className="mt-2 text-sm leading-6 text-ink/58">
                 Chinese medicine reads tongue signs by location. This map helps explain why the result mentions specific organ systems.
@@ -512,7 +533,7 @@ export function TongueAssessmentApp() {
             <section className="border border-ink/10 bg-white p-5 shadow-card md:p-6">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <p className="eyebrow mb-3">Result</p>
+                  <p className="eyebrow mb-3">TCM Photo Read</p>
                   <h2 className="text-3xl font-semibold leading-tight">
                     {primary?.title ?? "Add observations to build a tongue pattern."}
                   </h2>
@@ -527,15 +548,15 @@ export function TongueAssessmentApp() {
               {primary ? (
                 <div className="mt-5 space-y-4">
                   <article className="border border-moss/20 bg-[#f8f7f1] p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Plain Read</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Photo Pattern Summary</p>
                     <p className="mt-2 text-sm leading-6 text-ink/72">{primary.plain}</p>
                     <p className="mt-3 text-xs leading-5 text-ink/48">Matched: {primary.signs.join(", ")}</p>
                   </article>
 
                   <OrganFocus organs={primary.organs} />
-                  <ResultList title="Try First" items={primary.tryFirst} />
-                  <ResultList title="Observe Next" items={primary.observe} />
-                  <ResultList title="Questions That Sharpen This" items={primary.questions} />
+                  <ResultList title="What To Try First" items={primary.tryFirst} />
+                  <ResultList title="What To Observe Next" items={primary.observe} />
+                  <ResultList title="What Would Confirm Or Change This" items={primary.questions} />
 
                   {themes.slice(1).length ? (
                     <article className="border border-ink/10 bg-fog/50 p-4">
