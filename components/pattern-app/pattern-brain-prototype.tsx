@@ -172,6 +172,32 @@ type BrainTrace = {
     questions_still_needed: string[];
     herbs_formulas_remedies_to_consider: PracticalRecommendation[];
     lifestyle_diet_practice_actions: PracticalRecommendation[];
+    stepwise_outcome?: {
+      title: string;
+      confidence: { score: number; label: string; basis: string };
+      plain_language: string;
+      why_this_matched: string[];
+      step_1_pattern: { label: string; items: string[] };
+      step_2_traditions: {
+        label: string;
+        items: Array<{
+          tradition: string;
+          direction: string;
+          confidence_score: number;
+          priority: string;
+          citations?: string[];
+        }>;
+      };
+      step_3_do_first: { label: string; items: PracticalRecommendation[] };
+      step_4_track: { label: string; items: string[] };
+      step_5_explore_next: { label: string; items: PracticalRecommendation[] };
+      counts: {
+        generated_actions: number;
+        generated_explore_next: number;
+        matched_actions: number;
+        matched_explore_next: number;
+      };
+    };
     warnings_and_professional_boundaries: string[];
     cited_source_references: Array<{
       citation_id: string;
@@ -1067,6 +1093,105 @@ function groupedOutcomeItems(items: PracticalRecommendation[]) {
   });
 }
 
+function StepwiseOutcome({ trace }: { trace: BrainTrace }) {
+  const output = trace.practical_output;
+  const outcome = output.stepwise_outcome;
+  const references = output.cited_source_references;
+  if (!outcome) return null;
+
+  return (
+    <section className="rounded-xl border border-ink/12 bg-white p-5 shadow-card md:p-7">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="eyebrow mb-2">Outcome</p>
+          <h2 className="max-w-4xl text-3xl font-semibold leading-tight md:text-4xl">{complianceText(outcome.title)}</h2>
+          <p className="mt-3 max-w-3xl text-base leading-7 text-ink/72">{complianceText(outcome.plain_language)}</p>
+        </div>
+        <span className="rounded-full border border-ink/10 bg-fog px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-ink/62">
+          {outcome.confidence.label}
+        </span>
+      </div>
+
+      <div className="mt-5 grid gap-3 lg:grid-cols-[0.85fr_1.15fr]">
+        <article className="rounded-lg border border-moss/20 bg-[#f8f7f1] p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Why This Matched</p>
+          <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/72">
+            {outcome.why_this_matched.map((item) => (
+              <li key={item}>{complianceText(item)}</li>
+            ))}
+          </ul>
+        </article>
+
+        <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Step 1 · Pattern Read</p>
+          <p className="mt-3 text-sm leading-6 text-ink/76">{complianceText(outcome.step_1_pattern.items[0] || outcome.plain_language)}</p>
+        </article>
+      </div>
+
+      <div className="mt-4 grid gap-3 md:grid-cols-3">
+        {outcome.step_2_traditions.items.map((item) => (
+          <article key={`${item.tradition}-${item.direction}`} className="rounded-lg border border-ink/10 bg-white/75 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Step 2 · {item.tradition}</p>
+            <p className="mt-3 text-sm leading-6 text-ink/76">{complianceText(item.direction)}</p>
+            {item.citations?.length ? (
+              <p className="mt-3 text-xs leading-5 text-ink/45">{sourceLabel(item.citations, references)}</p>
+            ) : null}
+          </article>
+        ))}
+      </div>
+
+      <div className="mt-4 grid gap-3 lg:grid-cols-[1.1fr_0.9fr]">
+        <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Step 3 · Do First</p>
+          <ol className="mt-3 space-y-3 text-sm leading-6 text-ink/76">
+            {outcome.step_3_do_first.items.map((item, index) => (
+              <li key={`${item.category}-${item.practitioner_action}`} className="grid grid-cols-[1.6rem_1fr] gap-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-ink text-xs text-white">{index + 1}</span>
+                <span>
+                  {complianceText(item.practitioner_action)}
+                  <span className="mt-1 block text-xs leading-5 text-ink/45">
+                    {categoryTitle(item.category)} · {sourceLabel(item.citations, references)}
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ol>
+        </article>
+
+        <div className="space-y-3">
+          <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Step 4 · Track Next</p>
+            <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/72">
+              {outcome.step_4_track.items.map((item) => (
+                <li key={item}>{complianceText(item)}</li>
+              ))}
+            </ul>
+          </article>
+          <article className="rounded-lg border border-ink/10 bg-white/75 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Generated</p>
+            <p className="mt-3 text-sm leading-6 text-ink/68">
+              {outcome.counts.generated_actions} action rows · {outcome.counts.generated_explore_next} explore-next rows
+            </p>
+          </article>
+        </div>
+      </div>
+
+      <article className="mt-4 rounded-lg border border-ink/10 bg-white/75 p-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Step 5 · Explore Next</p>
+        <div className="mt-3 grid gap-3 md:grid-cols-2">
+          {outcome.step_5_explore_next.items.map((item) => (
+            <div key={`${item.category}-${item.practitioner_action}`} className="rounded-md bg-fog/65 p-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">{categoryTitle(item.category)}</p>
+              <p className="mt-2 text-sm leading-6 text-ink/72">{complianceText(item.practitioner_action)}</p>
+              <p className="mt-2 text-xs leading-5 text-ink/45">{sourceLabel(item.citations, references)}</p>
+            </div>
+          ))}
+        </div>
+      </article>
+    </section>
+  );
+}
+
 function OutcomePanel({ trace }: { trace: BrainTrace }) {
   const output = trace.practical_output;
   const references = output.cited_source_references;
@@ -1475,12 +1600,14 @@ export function PatternBrainPrototype() {
           </section>
 
           <section className="space-y-5">
-            <OutcomePanel trace={trace} />
-            <PracticalOutput trace={trace} />
+            <StepwiseOutcome trace={trace} />
 
             <details className="rounded-lg border border-ink/10 bg-white/80 p-4">
               <summary className="cursor-pointer text-lg font-semibold">How We Arrived Here</summary>
               <div className="mt-4 space-y-4">
+                <OutcomePanel trace={trace} />
+                <PracticalOutput trace={trace} />
+
                 <section className="rounded-lg border border-ink/10 bg-white/70 p-4">
                   <h2 className="text-lg font-semibold">Intake State</h2>
                   <p className="mt-2 text-sm leading-6 text-ink/68">

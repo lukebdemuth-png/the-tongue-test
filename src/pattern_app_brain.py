@@ -2679,6 +2679,121 @@ def outcome_row(
     }
 
 
+def priority_value(row: dict[str, Any]) -> tuple[int, int]:
+    priority = {
+        "matched_pattern": 5,
+        "review_first": 4,
+        "context_first": 3,
+        "review_second": 2,
+        "exploratory": 1,
+        "hold_until_clarified": 0,
+    }
+    category = {
+        "pattern_insight": 6,
+        "diet": 5,
+        "lifestyle": 5,
+        "sleep": 5,
+        "movement": 4,
+        "breathwork": 4,
+        "observation": 3,
+        "avoid_reduce": 3,
+        "herbs": 2,
+        "formulas": 2,
+        "remedy_differential": 2,
+        "rubric_cluster": 2,
+    }
+    return (
+        priority.get(row.get("review_priority", ""), 0),
+        category.get(row.get("category", ""), 0),
+    )
+
+
+def dedupe_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    seen = set()
+    unique = []
+    for row in rows:
+        key = (row.get("category"), row.get("tradition"), row.get("practitioner_action") or row.get("direction"))
+        if key in seen:
+            continue
+        seen.add(key)
+        unique.append(row)
+    return unique
+
+
+def build_stepwise_outcome(practical_output: dict[str, Any]) -> dict[str, Any]:
+    summary = practical_output.get("likely_pattern_summary", {})
+    confidence = practical_output.get("confidence", {})
+    actions = dedupe_rows(practical_output.get("lifestyle_diet_practice_actions", []))
+    explore = dedupe_rows(practical_output.get("herbs_formulas_remedies_to_consider", []))
+    directions = summary.get("tradition_directions", [])
+    questions = practical_output.get("questions_still_needed", [])
+    signals = summary.get("shared_pattern_signals", [])
+
+    ranked_actions = sorted(actions, key=priority_value, reverse=True)
+    ranked_explore = sorted(explore, key=priority_value, reverse=True)
+    matched_actions = [row for row in ranked_actions if row.get("review_priority") in {"matched_pattern", "context_first"}]
+    matched_explore = [row for row in ranked_explore if row.get("review_priority") in {"matched_pattern", "context_first"}]
+    pattern_insights = [row for row in ranked_actions if row.get("category") == "pattern_insight"]
+    first_steps = [row for row in ranked_actions if row.get("category") != "pattern_insight"]
+
+    plain = summary.get("plain_language_summary") or summary.get("case_snapshot", "")
+    matched_patterns = practical_output.get("matched_patterns", [])
+    primary_pattern = " + ".join(matched_patterns[:3]) if matched_patterns else "First-pass pattern"
+    if primary_pattern == "First-pass pattern" and ":" in plain:
+        primary_pattern = plain.split(":", 1)[0].strip()
+    elif primary_pattern == "First-pass pattern" and matched_actions:
+        basis = matched_actions[0].get("source_basis", "")
+        if "Matched refinement:" in basis:
+            primary_pattern = basis.split("Matched refinement:", 1)[1].split(".", 1)[0].strip().title()
+
+    tradition_lenses = []
+    seen_traditions = set()
+    for direction in directions:
+        tradition = direction.get("tradition", "")
+        if not tradition or tradition in seen_traditions:
+            continue
+        seen_traditions.add(tradition)
+        tradition_lenses.append(direction)
+        if len(tradition_lenses) == 3:
+            break
+
+    return {
+        "title": primary_pattern,
+        "confidence": confidence,
+        "plain_language": plain,
+        "why_this_matched": [
+            *(row.get("practitioner_action") or row.get("direction", "") for row in pattern_insights[:3]),
+            *(f"Signal: {signal}" for signal in signals[:5]),
+        ][:6],
+        "step_1_pattern": {
+            "label": "Pattern read",
+            "items": [plain] if plain else [],
+        },
+        "step_2_traditions": {
+            "label": "Three-tradition view",
+            "items": tradition_lenses,
+        },
+        "step_3_do_first": {
+            "label": "Do first",
+            "items": first_steps[:6],
+        },
+        "step_4_track": {
+            "label": "Track next",
+            "items": questions[:6],
+        },
+        "step_5_explore_next": {
+            "label": "Explore next",
+            "items": (matched_explore or ranked_explore)[:6],
+        },
+        "counts": {
+            "generated_actions": len(actions),
+            "generated_explore_next": len(explore),
+            "matched_actions": len(matched_actions),
+            "matched_explore_next": len(matched_explore),
+        },
+    }
+
+
 def apply_symptom_outcome_layer(
     practical_output: dict[str, Any],
     intake: dict[str, Any],
@@ -2791,6 +2906,7 @@ def apply_symptom_outcome_layer(
             *practical_output.get("warnings_and_professional_boundaries", []),
             EMERGENCY_WARNING,
         ]
+        practical_output["stepwise_outcome"] = build_stepwise_outcome(practical_output)
         return practical_output
 
     action_rows: list[dict[str, Any]] = []
@@ -2802,12 +2918,16 @@ def apply_symptom_outcome_layer(
     seen_directions: set[tuple[str, str]] = set()
     intake_text = intake_to_query(intake).lower()
     matched_refinement_count = 0
+    matched_pattern_names: list[str] = []
 
     for normalized_symptom in recognized[:15]:
         profile = outcome_profile_for_symptom(normalized_symptom)
         refinements = pattern_refinement_rows(normalized_symptom["canonical"], intake_text)
         matched_refinement_count += len(refinements)
         for refinement in refinements:
+            pattern_name = refinement["pattern"].title()
+            if pattern_name not in matched_pattern_names:
+                matched_pattern_names.append(pattern_name)
             summaries.append(f"{refinement['pattern'].title()}: {refinement['plain']}")
             signals.extend(refinement.get("signals", []))
             for tradition, direction in refinement.get("tradition_directions", []):
@@ -2918,6 +3038,7 @@ def apply_symptom_outcome_layer(
         "tradition_directions": tradition_directions[:30],
         "shared_pattern_signals": sorted(set(signals))[:10],
     }
+    practical_output["matched_patterns"] = matched_pattern_names
     practical_output["confidence"] = {
         **practical_output.get("confidence", {}),
         "score": (74 if safety["status"] == "caution" else 82)
@@ -2949,6 +3070,7 @@ def apply_symptom_outcome_layer(
         if question and question not in deduped_questions:
             deduped_questions.append(question)
     practical_output["questions_still_needed"] = deduped_questions[:10]
+    practical_output["stepwise_outcome"] = build_stepwise_outcome(practical_output)
     return practical_output
 
 
