@@ -52,12 +52,12 @@ SUGGESTED_CATEGORY_FIELDS = {
     },
 }
 DISCLAIMER = (
-    "This app is a practitioner-facing research and comparison tool. It does not diagnose disease, "
-    "prescribe treatment, or replace clinical judgment. Outputs are educational, tradition-specific "
-    "interpretations based on cited source material. Herbs, formulas, remedies, diet, lifestyle, yoga, "
-    "breath, or meditation suggestions must be reviewed by a qualified practitioner before use. Urgent, "
-    "severe, worsening, or medically concerning symptoms require appropriate medical evaluation."
+    "Patterns is not a medical device and does not diagnose, treat, cure, or prevent any medical condition. "
+    "The information provided is for informational and educational purposes only. Always consult a qualified "
+    "healthcare professional for medical advice, diagnosis, or treatment."
 )
+SHORT_RESULT_DISCLAIMER = "Informational only. Not medical advice. Consult a qualified healthcare professional for medical concerns."
+EMERGENCY_WARNING = "If you are experiencing a medical emergency, call emergency services immediately."
 
 
 def read_jsonl(path: Path = CHUNKS_PATH) -> list[dict[str, Any]]:
@@ -226,7 +226,7 @@ def confidence_label(score: float) -> str:
     if score >= 85:
         return "strong source-supported match"
     if score >= 70:
-        return "likely match, practitioner review required"
+        return "likely match, qualified professional review required"
     if score >= 50:
         return "possible match, needs more intake detail"
     if score >= 30:
@@ -328,25 +328,27 @@ def build_app_output(query: str, chunks: list[dict[str, Any]], limit_per_traditi
             "areas_of_agreement": [],
             "areas_of_conflict": [],
             "combined_practitioner_notes": (
-                ["Red flag detected; prioritize appropriate medical evaluation before traditional-system analysis."]
+                ["Red flag detected; prioritize appropriate medical evaluation before traditional-system interpretation."]
                 if suppress
-                else ["Review tradition-specific matches side by side; current prototype ranks source relevance only."]
+                else ["Review tradition-specific matches side by side; current prototype ranks source relevance for informational pattern exploration only."]
             ),
-            "suggested_treatment_categories": {
+            "suggested_wellness_direction_categories": {
                 "herbs_by_tradition": [] if suppress else [],
                 "formulas_by_tradition": [] if suppress else [],
                 "lifestyle": [] if suppress else [],
                 "breath_or_meditation": [] if suppress else [],
             },
             "safety_notes": (
-                ["Traditional suggestions suppressed because red-flag language was detected."]
+                [f"Traditional suggestions suppressed because red-flag language was detected. {EMERGENCY_WARNING}"]
                 if suppress
-                else ["Practitioner review required before any herbs, formulas, remedies, diet, lifestyle, yoga, breath, or meditation use."]
+                else ["Qualified professional review required before any herbs, formulas, remedies, diet, lifestyle, yoga, breath, or meditation use."]
             ),
             "confidence_score": 0,
         },
         "citations": citations,
         "disclaimer": DISCLAIMER,
+        "short_result_disclaimer": SHORT_RESULT_DISCLAIMER,
+        "emergency_warning": EMERGENCY_WARNING,
     }
 
 

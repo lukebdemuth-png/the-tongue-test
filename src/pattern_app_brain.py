@@ -18,6 +18,8 @@ from src.pattern_app_intake_mapper import build_tradition_evaluation_packets
 from src.pattern_app_retrieval import (
     CHUNKS_PATH,
     DISCLAIMER,
+    EMERGENCY_WARNING,
+    SHORT_RESULT_DISCLAIMER,
     build_app_output,
     confidence_label,
     detect_red_flags,
@@ -99,10 +101,10 @@ def safety_gate(intake: dict[str, Any]) -> dict[str, Any]:
     context_cautions = detect_context_cautions(intake)
     if red_flags:
         status = "suppress"
-        notes = ["Red-flag language detected; suppress treatment-category suggestions."]
+        notes = ["Red-flag language detected; hold tradition-based wellness directions."]
     elif context_cautions or "current_medications" in missing or "pregnancy_status" in missing:
         status = "caution"
-        notes = ["Medication or pregnancy context is missing; lower confidence and require practitioner review."]
+        notes = ["Medication or pregnancy context is missing; lower confidence and require qualified professional review."]
     else:
         status = "clear"
         notes = ["No red-flag language detected in the current intake."]
@@ -121,7 +123,7 @@ def candidate_type(tradition: str) -> str:
         return "remedy_or_rubric_direction"
     if tradition == "Traditional Chinese Medicine":
         return "pattern_or_formula_direction"
-    return "pattern_or_treatment_category"
+    return "pattern_or_wellness_direction_category"
 
 
 def priority_from_score(score: float, safety_status: str) -> str:
@@ -210,7 +212,7 @@ def confidence_rationale(
     if safety_status == "suppress":
         rationale.append("Safety override is active; traditional interpretation is held until medical concern is clarified.")
     elif safety_status == "caution":
-        rationale.append("Safety context is incomplete or cautionary; practitioner review remains required.")
+        rationale.append("Safety context is incomplete or cautionary; qualified professional review remains required.")
     return rationale
 
 
@@ -346,7 +348,7 @@ def synthesis_notes(candidates: dict[str, list[dict[str, Any]]]) -> dict[str, An
         "tradition_weighting": weighting,
         "confidence_score": confidence,
         "confidence_label": confidence_label(confidence),
-        "note": "Synthesis compares matched reasoning features after tradition-specific retrieval; it does not merge traditions into one diagnosis.",
+        "note": "Synthesis compares matched reasoning features after tradition-specific retrieval; it does not merge traditions into one diagnosis or medical conclusion.",
     }
 
 
@@ -387,7 +389,7 @@ def practitioner_summary(
         "primary_traditional_directions": directions,
         "shared_themes": synthesis["shared_themes"],
         "confidence_summary": (
-            "Prototype confidence is based on source-text relevance and citation quality; it is not a diagnosis or prescription."
+            "Prototype confidence is based on source-text relevance and citation quality; it is not a diagnosis, prescription, or medical recommendation."
         ),
         "next_best_question": next_question,
     }
@@ -413,9 +415,9 @@ def treatment_categories_for_candidate(
     }
     hold = safety_status == "suppress"
     safety_notes = (
-        ["Hold treatment suggestions until red-flag concern is medically assessed."]
+        ["Hold tradition-based suggestions until red-flag concern is medically assessed."]
         if hold
-        else ["Review medications, pregnancy status, conditions, and contraindications before use."]
+        else ["Review medications, pregnancy status, conditions, and contraindications with a qualified professional before use."]
     )
     context_cautions = context_cautions or []
     priority = "hold_until_clarified" if hold else candidate.get("priority", "exploratory")
@@ -461,21 +463,21 @@ def treatment_categories_for_candidate(
 def client_language_for_category(tradition: str, category: str, specific_direction: str | None = None) -> str:
     if specific_direction:
         return (
-            f"Your practitioner may review {specific_direction} as a source-backed {tradition} direction. "
-            "This is not a self-treatment instruction."
+            f"A qualified professional may review {specific_direction} as a source-backed {tradition} direction. "
+            "This is not a self-care instruction or medical recommendation."
         )
     if category in {"herbs", "formulas", "remedy_differential", "rubric_cluster"}:
         return (
-            f"Your practitioner may review {tradition} source material to decide whether this category is appropriate. "
-            "This is not something to start without qualified review."
+            f"A qualified professional may review {tradition} source material to decide whether this category is appropriate. "
+            "This is not something to start without qualified professional review."
         )
     if category == "diet":
-        return "The practitioner may look at whether food timing, food qualities, or digestion patterns are part of the case."
+        return "A qualified professional may look at whether food timing, food qualities, or digestion patterns are part of the case."
     if category == "lifestyle":
-        return "The practitioner may review daily rhythm, sleep, stress, activity, and recovery patterns."
+        return "A qualified professional may review daily rhythm, sleep, stress, activity, and recovery patterns."
     if category == "yoga_breath":
-        return "The practitioner may consider gentle practice categories only after safety and tolerance are clear."
-    return "The practitioner may use this category to clarify the traditional pattern before making choices."
+        return "A qualified professional may consider gentle practice categories only after safety and tolerance are clear."
+    return "A qualified professional may use this category to clarify the traditional pattern before making choices."
 
 
 def read_boericke(path: Path = BOERICKE_PATH) -> list[dict[str, Any]]:
@@ -596,7 +598,7 @@ AYURVEDA_DIRECTION_RULES = [
         "direction": "Review agni-supporting diet direction focused on regular meals, digestibility, and avoiding overload.",
         "triggers": {"variable_or_weak_agni", "digestion", "bloating", "appetite"},
         "keywords": {"agni", "digestion", "diet", "food", "appetite"},
-        "action": "Review whether the case points toward weak or variable agni and whether meal timing, food quality, and digestive load need practitioner-guided adjustment.",
+        "action": "Review whether the case points toward weak or variable agni and whether meal timing, food quality, and digestive load are relevant educational considerations.",
     },
     {
         "category": "lifestyle",
@@ -610,7 +612,7 @@ AYURVEDA_DIRECTION_RULES = [
         "direction": "Review ama-reducing food and routine category when heaviness, coating, sluggishness, bloating, or low energy are present.",
         "triggers": {"possible_ama", "low_energy", "bloating"},
         "keywords": {"ama", "undigested", "digestion", "food", "light"},
-        "action": "Review whether the case has enough signs of ama or incomplete digestion to justify a lighter, simpler practitioner-guided diet category.",
+        "action": "Review whether the case has enough signs of ama or incomplete digestion to explore a lighter, simpler diet category with qualified guidance.",
     },
     {
         "category": "yoga_breath",
@@ -624,14 +626,14 @@ AYURVEDA_DIRECTION_RULES = [
         "direction": "Review Ayurveda digestive herb category only after Dravyaguna or materia medica safety support is available.",
         "triggers": {"variable_or_weak_agni", "possible_ama", "bloating", "appetite"},
         "keywords": {"agni", "appetite", "digests", "undigested", "drug"},
-        "action": "Hold specific herb selection until materia medica, contraindications, medications, pregnancy status, and practitioner scope are reviewed.",
+        "action": "Hold specific herb selection until materia medica, contraindications, medications, pregnancy status, and qualified professional scope are reviewed.",
     },
     {
         "category": "formulas",
         "direction": "Hold formula selection until pattern clarity, source support, and contraindication review are stronger.",
         "triggers": {"vata", "pitta", "kapha", "variable_or_weak_agni", "possible_ama"},
         "keywords": {"treatment", "therapy", "dosas", "agni", "sodhana", "samana"},
-        "action": "Use formula direction as a placeholder for practitioner review; do not treat as a recommended formula.",
+        "action": "Use formula direction as a placeholder for qualified review; do not treat it as a suggested formula to use.",
     },
 ]
 
@@ -697,9 +699,9 @@ def ayurveda_treatment_directions(
                 "confidence_score": min(84.0, round(base_score, 2)),
                 "practitioner_review_required": True,
                 "safety_notes": (
-                    ["Hold treatment suggestions until red-flag concern is medically assessed."]
+                    ["Hold tradition-based suggestions until red-flag concern is medically assessed."]
                     if hold
-                    else ["Review medications, pregnancy status, conditions, and contraindications before use."]
+                    else ["Review medications, pregnancy status, conditions, and contraindications with a qualified professional before use."]
                 ),
                 "contraindications": category_contraindications(rule["category"], context_cautions),
                 "review_priority": "hold_until_clarified"
@@ -723,7 +725,7 @@ TCM_DIRECTION_RULES = [
         "direction": "Review a spleen-qi/dampness-informed diet direction focused on digestibility, regular meals, and reducing heavy or damp-aggravating inputs.",
         "triggers": {"spleen_qi_or_damp_tendency", "digestion", "bloating", "low_energy"},
         "keywords": {"food", "drinking", "moderate", "qi", "dampness", "stomach"},
-        "action": "Review whether low energy, bloating, poor appetite, heaviness, or loose stool language suggests a TCM diet category for practitioner evaluation.",
+        "action": "Review whether low energy, bloating, poor appetite, heaviness, or loose stool language suggests a TCM diet category for qualified professional evaluation.",
     },
     {
         "category": "lifestyle",
@@ -737,21 +739,21 @@ TCM_DIRECTION_RULES = [
         "direction": "Hold formula selection until syndrome differentiation, tongue, pulse, medication status, and contraindications are clearer.",
         "triggers": {"spleen_qi_or_damp_tendency", "liver_qi_constraint_tendency", "heat_tendency", "cold_tendency", "shen_sleep_involvement"},
         "keywords": {"qi", "yin", "yang", "heat", "cold", "depletion", "repletion"},
-        "action": "Use formula category only as a practitioner-review placeholder; do not present a named formula until stronger formula-source and safety data exist.",
+        "action": "Use formula category only as a qualified-review placeholder; do not present a named formula until stronger formula-source and safety data exist.",
     },
     {
         "category": "herbs",
         "direction": "Hold TCM herb selection until materia medica support and herb-drug contraindication review are available.",
         "triggers": {"spleen_qi_or_damp_tendency", "heat_tendency", "cold_tendency", "shen_sleep_involvement"},
         "keywords": {"qi", "yin", "yang", "heat", "cold", "stomach", "heart"},
-        "action": "Review the herb category only after materia medica, medications, pregnancy status, and practitioner scope are checked.",
+        "action": "Review the herb category only after materia medica, medications, pregnancy status, and qualified professional scope are checked.",
     },
     {
         "category": "acupuncture_moxibustion",
         "direction": "Review acupuncture or moxibustion category only as a pattern-management strategy after full TCM assessment.",
         "triggers": {"cold_tendency", "spleen_qi_or_damp_tendency", "liver_qi_constraint_tendency", "shen_sleep_involvement"},
         "keywords": {"channel", "qi", "cold", "heat", "depletion", "repletion"},
-        "action": "Review whether channel, cold/heat, excess/deficiency, and shen signs justify an acupuncture or moxibustion discussion with a qualified practitioner.",
+        "action": "Review whether channel, cold/heat, excess/deficiency, and shen signs justify an acupuncture or moxibustion discussion with a qualified professional.",
     },
 ]
 
@@ -813,9 +815,9 @@ def tcm_treatment_directions(
                 "confidence_score": min(82.0, round(base_score, 2)),
                 "practitioner_review_required": True,
                 "safety_notes": (
-                    ["Hold treatment suggestions until red-flag concern is medically assessed."]
+                    ["Hold tradition-based suggestions until red-flag concern is medically assessed."]
                     if hold
-                    else ["Review medications, pregnancy status, conditions, and contraindications before use."]
+                    else ["Review medications, pregnancy status, conditions, and contraindications with a qualified professional before use."]
                 ),
                 "contraindications": category_contraindications(rule["category"], context_cautions),
                 "review_priority": "hold_until_clarified"
@@ -1025,7 +1027,7 @@ def boericke_remedy_differentials(
                 "contradictions": [],
                 "citations": [remedy["chunk_id"].replace(":", "-")],
                 "confidence_score": round(score, 2),
-                "safety_notes": ["Practitioner review required; this is not a dosing or self-treatment recommendation."],
+                "safety_notes": ["Qualified professional review required; this is not dosing guidance, self-treatment, or medical advice."],
                 "contraindications": category_contraindications("remedy_differential", context_cautions),
                 "review_priority": "review_first" if score >= 72 else "review_second" if score >= 48 else "exploratory",
                 "source_url": remedy.get("source_url", ""),
@@ -1178,7 +1180,7 @@ def kent_rubric_clusters(
                     f"Compare this Kent rubric against the case totality and cross-check listed remedies: {', '.join(remedies[:12])}."
                 ),
                 "client_facing_language": (
-                    "Your practitioner may use this repertory rubric as a symptom-index clue. "
+                    "A qualified professional may use this repertory rubric as a symptom-index clue. "
                     "It is not a remedy choice by itself."
                 ),
                 "remedy_abbreviations": remedies,
@@ -1191,7 +1193,7 @@ def kent_rubric_clusters(
                 "contradictions": [],
                 "citations": [rubric["chunk_id"].replace(":", "-")],
                 "confidence_score": round(score, 2),
-                "safety_notes": ["Practitioner review required; repertory rubrics do not diagnose or prescribe."],
+                "safety_notes": ["Qualified professional review required; repertory rubrics do not diagnose or prescribe."],
                 "contraindications": category_contraindications("rubric_cluster", context_cautions),
                 "review_priority": "review_second" if score >= 58 else "exploratory",
                 "source_url": rubric.get("source_url", ""),
@@ -1252,7 +1254,7 @@ def treatment_plan_draft(
     }
     if not any(top_by_tradition.values()):
         return {
-            "scope": "Practitioner-review treatment plan draft; not diagnosis, prescription, or patient self-treatment instructions.",
+            "scope": "Qualified-review wellness direction draft; not diagnosis, prescription, treatment plan, medical recommendation, or user self-treatment instructions.",
             "ayurveda": [],
             "tcm": [],
             "homeopathy": [],
@@ -1309,7 +1311,7 @@ def treatment_plan_draft(
         )
 
     return {
-        "scope": "Practitioner-review treatment plan draft; not diagnosis, prescription, or patient self-treatment instructions.",
+        "scope": "Qualified-review wellness direction draft; not diagnosis, prescription, treatment plan, medical recommendation, or user self-treatment instructions.",
         "ayurveda": ayurveda_categories,
         "tcm": tcm_categories,
         "homeopathy": homeopathy_categories,
@@ -1325,7 +1327,7 @@ def client_teaching_sequence(summary: dict[str, Any], plan: dict[str, Any], safe
             },
             {
                 "step": "After safety is clear",
-                "teaching": "Once immediate concerns are ruled out, the practitioner can review traditional pattern information more responsibly.",
+                "teaching": "Once immediate concerns are ruled out, a qualified professional can review traditional pattern information more responsibly.",
             },
         ]
     return [
@@ -1335,11 +1337,11 @@ def client_teaching_sequence(summary: dict[str, Any], plan: dict[str, Any], safe
         },
         {
             "step": "How this is understood traditionally",
-            "teaching": "The practitioner is comparing separate traditional maps rather than forcing them into one diagnosis.",
+            "teaching": "The system is comparing separate traditional maps rather than forcing them into one diagnosis.",
         },
         {
             "step": "Why categories may be relevant",
-            "teaching": "The plan draft groups possible directions such as diet, lifestyle, herbs, formulas, remedy differentials, or practices so the practitioner can review what fits and what is safe.",
+            "teaching": "The wellness direction draft groups educational possibilities such as diet, lifestyle, herbs, formulas, remedy differentials, or practices so a qualified professional can review what fits and what is safe.",
         },
         {
             "step": "What needs review",
@@ -1394,10 +1396,10 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
             ("sleep", "Review sleep quantity, waking time, dreams, night sweats, and whether rest actually restores energy."),
             ("movement", "Consider gentle, capacity-matched movement only if it improves energy without next-day depletion."),
             ("observation", "Log morning, afternoon, after-meal, and after-exertion energy for several days to identify the strongest pattern."),
-            ("practitioner_follow_up", "Clarify medications, pregnancy status, anemia history, thyroid history, fever, weight loss, shortness of breath, dizziness, or bleeding before using herbs or formulas."),
+            ("practitioner_follow_up", "Clarify medications, pregnancy status, anemia history, thyroid history, fever, weight loss, shortness of breath, dizziness, or bleeding with a qualified professional before using herbs or formulas."),
         ],
         "review": [
-            ("herbs", "Herbs or formulas should stay on hold until the practitioner clarifies whether the fatigue pattern is digestive, sleep-related, depletion-type, stress-related, or medically concerning."),
+            ("herbs", "Herbs or formulas should stay on hold until a qualified professional clarifies whether the fatigue pattern is digestive, sleep-related, depletion-type, stress-related, or medically concerning."),
             ("remedy_differential", "Homeopathic remedy review should focus on modalities, generals, mental-emotional state, thermal state, and what kind of rest or exertion changes the fatigue."),
         ],
     },
@@ -1417,7 +1419,7 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
             ("practitioner_follow_up", "Clarify medication use, migraine history, blood pressure context, injury, fever, neurological symptoms, and pregnancy status."),
         ],
         "review": [
-            ("herbs", "Herbs, formulas, and supplements for headache require practitioner review because medication interactions and red flags matter."),
+            ("herbs", "Herbs, formulas, and supplements for headache require qualified professional review because medication interactions and red flags matter."),
             ("rubric_cluster", "Homeopathy repertory review should begin with location, sensation, modalities, timing, accompanying symptoms, and distinctive features."),
         ],
     },
@@ -1437,7 +1439,7 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
             ("practitioner_follow_up", "Clarify medications, pregnancy/postpartum status, sleep apnea signs, panic symptoms, severe depression, or manic symptoms."),
         ],
         "review": [
-            ("formulas", "Sleep formulas should remain practitioner-review only until the sleep pattern, medications, pregnancy status, and contraindications are clear."),
+            ("formulas", "Sleep formulas should remain qualified-review only until the sleep pattern, medications, pregnancy status, and contraindications are clear."),
             ("remedy_differential", "Homeopathic review should focus on sleep timing, mental state at night, dreams, temperature, and modalities."),
         ],
     },
@@ -1457,7 +1459,7 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
             ("practitioner_follow_up", "Escalate for severe, persistent, worsening, painful, feverish, bloody, or unexplained weight-loss-associated digestive symptoms."),
         ],
         "review": [
-            ("herbs", "Digestive herbs should wait for practitioner review of pregnancy status, medications, reflux, ulcers, gallbladder history, and stool pattern."),
+            ("herbs", "Digestive herbs should wait for qualified professional review of pregnancy status, medications, reflux, ulcers, gallbladder history, and stool pattern."),
             ("formulas", "Formula review should clarify whether the pattern looks more weak digestion, stagnation, dampness/heaviness, heat, cold, or food intolerance."),
         ],
     },
@@ -1473,11 +1475,11 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
             ("diet", "Review fluids, meal regularity, fiber tolerance, oils/fats, and whether dry or heavy foods are aggravating."),
             ("movement", "Review gentle daily movement and abdominal ease if appropriate for the person’s condition."),
             ("observation", "Track stool frequency, form, straining, dryness, incomplete feeling, pain, gas, and what changes it."),
-            ("avoid_reduce", "Avoid stimulant laxative or strong herb assumptions without practitioner review, especially with pregnancy, medications, abdominal pain, or chronic disease."),
+            ("avoid_reduce", "Avoid stimulant laxative or strong herb assumptions without qualified professional review, especially with pregnancy, medications, abdominal pain, or chronic disease."),
             ("practitioner_follow_up", "Clarify severe pain, vomiting, blood, unexplained weight loss, new constipation, medication causes, and pregnancy status."),
         ],
         "review": [
-            ("herbs", "Laxative or bowel-moving herbs require careful practitioner review and are not appropriate as automatic suggestions."),
+            ("herbs", "Laxative or bowel-moving herbs require careful qualified professional review and are not appropriate as automatic suggestions."),
             ("remedy_differential", "Homeopathy review should focus on urging, stool character, sensations, timing, and modalities."),
         ],
     },
@@ -1497,7 +1499,7 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
             ("practitioner_follow_up", "Escalate urgently for chest pain, fainting, suicidal thoughts, mania, psychosis, severe panic, or substance withdrawal concerns."),
         ],
         "review": [
-            ("herbs", "Calming herbs or formulas require practitioner review for medications, pregnancy status, sedation, bipolar history, and interactions."),
+            ("herbs", "Calming herbs or formulas require qualified professional review for medications, pregnancy status, sedation, bipolar history, and interactions."),
             ("remedy_differential", "Homeopathy review should focus on fears, triggers, restlessness, consolation, temperature, sleep, and peculiar symptoms."),
         ],
     },
@@ -1515,7 +1517,7 @@ GENERIC_OUTCOME_BY_DIMENSION: dict[str, dict[str, Any]] = {
         ],
         "review": [
             ("rubric_cluster", "Homeopathy repertory review should focus on location, sensation, modalities, timing, concomitants, and peculiar features."),
-            ("herbs", "Herbs, formulas, and supplements for pain require practitioner review because medication interactions and red flags matter."),
+            ("herbs", "Herbs, formulas, and supplements for pain require qualified professional review because medication interactions and red flags matter."),
         ],
     },
     "digestion": {
@@ -1527,7 +1529,7 @@ GENERIC_OUTCOME_BY_DIMENSION: dict[str, dict[str, Any]] = {
             ("practitioner_follow_up", "Escalate digestive symptoms with severe pain, blood, fever, dehydration, persistent vomiting, unexplained weight loss, or pregnancy concern."),
         ],
         "review": [
-            ("herbs", "Digestive herbs should wait for practitioner review of medications, pregnancy status, reflux/ulcer history, gallbladder history, and stool pattern."),
+            ("herbs", "Digestive herbs should wait for qualified professional review of medications, pregnancy status, reflux/ulcer history, gallbladder history, and stool pattern."),
             ("formulas", "Formula review should clarify whether the pattern looks more weak digestion, stagnation, dampness/heaviness, heat, cold, or food intolerance."),
         ],
     },
@@ -1540,7 +1542,7 @@ GENERIC_OUTCOME_BY_DIMENSION: dict[str, dict[str, Any]] = {
             ("practitioner_follow_up", "Clarify safety concerns, medications, substance use, severe depression, panic, mania, psychosis, or self-harm thoughts."),
         ],
         "review": [
-            ("herbs", "Calming herbs or formulas require practitioner review for medications, pregnancy status, sedation, bipolar history, and interactions."),
+            ("herbs", "Calming herbs or formulas require qualified professional review for medications, pregnancy status, sedation, bipolar history, and interactions."),
             ("remedy_differential", "Homeopathy review should focus on triggers, fears, consolation, restlessness, sleep, temperature, and peculiar symptoms."),
         ],
     },
@@ -1553,7 +1555,7 @@ GENERIC_OUTCOME_BY_DIMENSION: dict[str, dict[str, Any]] = {
             ("practitioner_follow_up", "Clarify asthma/COPD history, medications, fever, oxygen status, exposure, and whether symptoms are worsening."),
         ],
         "review": [
-            ("herbs", "Respiratory herbs or formulas require practitioner review, especially with pregnancy, medications, asthma, fever, or breathing distress."),
+            ("herbs", "Respiratory herbs or formulas require qualified professional review, especially with pregnancy, medications, asthma, fever, or breathing distress."),
             ("remedy_differential", "Homeopathy review should focus on cough quality, modalities, mucus, position, timing, thirst, and concomitants."),
         ],
     },
@@ -1566,12 +1568,12 @@ GENERIC_OUTCOME_BY_DIMENSION: dict[str, dict[str, Any]] = {
             ("practitioner_follow_up", "Escalate skin symptoms with throat/lip swelling, breathing difficulty, fever, blistering, severe pain, or rapid spread."),
         ],
         "review": [
-            ("herbs", "Skin herbs or formulas require practitioner review because triggers, medications, allergy, pregnancy status, and infection concerns matter."),
+            ("herbs", "Skin herbs or formulas require qualified professional review because triggers, medications, allergy, pregnancy status, and infection concerns matter."),
             ("remedy_differential", "Homeopathy review should focus on eruption type, sensation, modalities, location, discharge, and concomitants."),
         ],
     },
     "general": {
-        "summary": "This symptom needs timing, severity, triggers, what changes it, related body systems, and safety context before stronger traditional recommendations are appropriate.",
+        "summary": "This symptom needs timing, severity, triggers, what changes it, related body systems, and safety context before stronger traditional wellness directions are appropriate.",
         "signals": ["timing", "severity", "trigger pattern", "missing details"],
         "actions": [
             ("observation", "Record when it happens, how severe it is, what improves it, what worsens it, and what symptoms appear with it."),
@@ -1644,7 +1646,7 @@ def outcome_row(
         "sleep": "Sleep and recovery outcome",
         "movement": "Movement outcome",
         "observation": "Observation outcome",
-        "practitioner_follow_up": "Practitioner review outcome",
+        "practitioner_follow_up": "Qualified review outcome",
         "avoid_reduce": "Avoid/reduce outcome",
         "breathwork": "Breathwork outcome",
         "herbs": "Herb review outcome",
@@ -1661,7 +1663,7 @@ def outcome_row(
         "review_priority": review_priority,
         "citations": citations[:3],
         "source_basis": source_basis,
-        "safety_notes": ["Practitioner review required; educational pattern-support output only."],
+        "safety_notes": ["Qualified professional review required; educational pattern-support output only."],
     }
 
 
@@ -1675,6 +1677,45 @@ def apply_symptom_outcome_layer(
     normalized = normalize_intake_symptoms(intake)
     recognized = [item for item in normalized if item.get("canonical") != "symptom"]
     if not recognized:
+        return practical_output
+    if safety["status"] == "suppress":
+        case_snapshot = intake.get("symptoms", {}).get("chief_complaint") or ", ".join(
+            intake.get("symptoms", {}).get("primary_symptoms", [])
+        )
+        questions = [next_question]
+        for item in normalized:
+            questions.extend(item.get("next_questions", [])[:2])
+        questions.extend(practical_output.get("questions_still_needed", []))
+        deduped_questions = []
+        for question in questions:
+            if question and question not in deduped_questions:
+                deduped_questions.append(question)
+        practical_output["likely_pattern_summary"] = {
+            **practical_output.get("likely_pattern_summary", {}),
+            "case_snapshot": case_snapshot,
+            "plain_language_summary": (
+                "This intake contains red-flag language. Traditional pattern interpretation and wellness directions "
+                "are held until appropriate medical evaluation has addressed the urgent concern."
+            ),
+            "tradition_directions": [],
+            "shared_pattern_signals": ["safety screen", "urgent medical evaluation first"],
+        }
+        practical_output["confidence"] = {
+            **practical_output.get("confidence", {}),
+            "score": 0,
+            "label": "safety-first hold",
+            "basis": (
+                "Red-flag language was detected. The app does not provide wellness directions while urgent medical "
+                "concerns may be present."
+            ),
+        }
+        practical_output["questions_still_needed"] = deduped_questions[:10]
+        practical_output["lifestyle_diet_practice_actions"] = []
+        practical_output["herbs_formulas_remedies_to_consider"] = []
+        practical_output["warnings_and_professional_boundaries"] = [
+            *practical_output.get("warnings_and_professional_boundaries", []),
+            EMERGENCY_WARNING,
+        ]
         return practical_output
 
     citation_groups = citation_ids_by_tradition(citations)
@@ -1745,7 +1786,7 @@ def apply_symptom_outcome_layer(
                     68 if safety["status"] == "clear" else 58,
                     "review_second",
                     tradition=tradition,
-                    source_basis="Uses currently processed source layers; held for practitioner review until pattern and safety details are clearer.",
+                    source_basis="Uses currently processed source layers; held for qualified professional review until pattern and safety details are clearer.",
                 )
             )
 
@@ -1762,7 +1803,7 @@ def apply_symptom_outcome_layer(
     practical_output["confidence"] = {
         **practical_output.get("confidence", {}),
         "score": 68 if safety["status"] == "caution" else practical_output.get("confidence", {}).get("score", 72),
-        "label": "first-pass practical guidance, practitioner review required",
+        "label": "first-pass wellness direction, qualified professional review required",
         "basis": (
             "Generated from recognized symptom profiles, safety screening, and available source-linked retrieval. "
             "Confidence remains limited until the missing intake questions are answered."
@@ -1824,7 +1865,7 @@ def practical_considerations(plan: dict[str, Any]) -> dict[str, list[dict[str, A
 def practical_warnings(safety: dict[str, Any], plan: dict[str, Any]) -> list[str]:
     warnings = list(safety.get("notes", []))
     if safety.get("red_flags_detected"):
-        warnings.append("See an appropriate medical professional before using traditional-system recommendations.")
+        warnings.append("See an appropriate medical professional before using traditional-system suggestions.")
     for caution in safety.get("context_cautions", []):
         note = caution.get("note")
         if note and note not in warnings:
@@ -1834,7 +1875,7 @@ def practical_warnings(safety: dict[str, Any], plan: dict[str, Any]) -> list[str
             if note not in warnings:
                 warnings.append(note)
     if not warnings:
-        warnings.append("Practitioner review is required before herbs, formulas, remedies, diet changes, or practices are used.")
+        warnings.append("Qualified professional review is required before herbs, formulas, remedies, diet changes, or practices are used.")
     return warnings[:12]
 
 
@@ -1869,7 +1910,15 @@ def build_practical_output(
         if item
     ]
     return {
-        "scope": "Working prototype output for qualified practitioner review; educational only and not a diagnosis or prescription.",
+        "scope": "Working prototype output for qualified professional review; educational only and not a diagnosis, prescription, treatment plan, or medical recommendation.",
+        "disclaimer": DISCLAIMER,
+        "short_result_disclaimer": SHORT_RESULT_DISCLAIMER,
+        "emergency_warning": EMERGENCY_WARNING,
+        "basis_of_insight": (
+            "Outputs are generated from traditional wellness frameworks, source texts, user-entered information, "
+            "and app logic. They are not generated from medical testing, physical examination, clinical diagnosis, "
+            "or emergency evaluation."
+        ),
         "likely_pattern_summary": {
             "case_snapshot": summary.get("case_snapshot", ""),
             "tradition_directions": summary.get("primary_traditional_directions", []),
@@ -1940,6 +1989,8 @@ def build_brain_trace(intake: dict[str, Any], chunks_path: Path = CHUNKS_PATH, l
         "citations": app_output["citations"],
         "practitioner_review_required": True,
         "disclaimer": DISCLAIMER,
+        "short_result_disclaimer": SHORT_RESULT_DISCLAIMER,
+        "emergency_warning": EMERGENCY_WARNING,
         "schema": "schemas/pattern_app_output.schema.json",
     }
     return {
@@ -1965,7 +2016,7 @@ def build_brain_trace(intake: dict[str, Any], chunks_path: Path = CHUNKS_PATH, l
         "brain_stage": "trace_prototype_v1",
         "prototype_warning": (
             "This is a transparent reasoning prototype. It ranks source-supported traditional relevance "
-            "for practitioner review; it does not diagnose or prescribe."
+            "for qualified professional review; it does not diagnose, prescribe, or provide medical advice."
         ),
     }
 

@@ -33,6 +33,9 @@ The app is not:
 
 The app ranks source-supported traditional-system relevance, not medical truth or scientific proof.
 
+Compliance and transparency requirements for user-facing app language are tracked in
+`docs/COMPLIANCE_AND_TRANSPARENCY.md`.
+
 ## 2. Core Output Requirements
 
 Each tradition-specific output must include:
