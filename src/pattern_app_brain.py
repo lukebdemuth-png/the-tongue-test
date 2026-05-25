@@ -1803,6 +1803,512 @@ SYMPTOM_OUTCOME_PROFILES: dict[str, dict[str, Any]] = {
 }
 
 
+SYMPTOM_OUTCOME_PROFILES.update(
+    {
+        "back_pain": {
+            "summary": "Back pain becomes useful when separated by location, radiation, stiffness, injury, weather, movement, rest, digestion, stress, and whether warmth or pressure changes it.",
+            "signals": ["pain location", "movement response", "weather relationship", "injury context"],
+            "tradition_directions": [
+                ("Ayurveda", "Review back pain through vata movement/dryness, ama-like heaviness, tissue strain, digestion, routine, and cold sensitivity."),
+                ("Traditional Chinese Medicine", "Review back pain through channel location, cold/damp/heat clues, qi-blood movement, kidney-style low back context, and response to motion or rest."),
+                ("Homeopathy", "Review back pain through exact location, sensation, modalities, movement/rest response, weather, injury history, and peculiar concomitants."),
+            ],
+            "actions": [
+                ("observation", "Map the pain: low/mid/upper back, one-sided or central, radiating or local, sharp/dull/burning, stiffness, numbness, and timing."),
+                ("movement", "Use a gentle movement test: slow walking or easy mobility. Note whether pain loosens with motion or worsens afterward."),
+                ("lifestyle", "Test warmth versus coolness and supported rest; record which one changes pain, stiffness, or range of motion."),
+                ("avoid_reduce", "Pause the clearest aggravator first: long sitting, heavy lifting, cold exposure, poor sleep position, or overtraining."),
+                ("observation", "Track digestion, bowel pattern, stress, and menstrual timing if back pain repeats with those rhythms."),
+            ],
+            "review": [
+                ("herbs", "Explore herb/formula categories only after separating cold/damp stiffness, heat/inflammation, injury strain, depletion, or digestion-linked heaviness."),
+                ("rubric_cluster", "Homeopathy repertory review should focus on back location, sensation, movement/rest modalities, weather, and concomitants."),
+            ],
+        },
+        "chest_tightness": {
+            "summary": "Chest tightness needs immediate sorting by exertion, breath, anxiety, digestion/reflux, posture, respiratory illness, and whether it is pressure, constriction, burning, or muscular tightness.",
+            "signals": ["chest sensation", "breath relationship", "stress relationship", "meal or posture trigger"],
+            "tradition_directions": [
+                ("Ayurveda", "Review chest tightness through breath rhythm, stress/vata activation, digestion/reflux, heat, kapha congestion, and nervous-system load."),
+                ("Traditional Chinese Medicine", "Review chest tightness through qi constraint, phlegm/damp obstruction, counterflow digestion, shen activation, and lung/heart network clues."),
+                ("Homeopathy", "Review chest tightness through sensation, breathing modalities, anxiety relationship, position, exertion, food effects, and accompanying symptoms."),
+            ],
+            "actions": [
+                ("observation", "Describe the feeling precisely: pressure, constriction, burning, tight muscles, air hunger, fluttering, or heaviness."),
+                ("observation", "Track relation to exertion, meals, reflux, posture, stress, caffeine, respiratory symptoms, and time of day."),
+                ("breathwork", "If clearly stress-linked and not severe, sit upright and try 1-2 minutes of gentle longer-exhale breathing; note whether tightness eases or intensifies."),
+                ("avoid_reduce", "For one day, reduce obvious triggers: caffeine excess, rushed meals, late heavy food, intense evening work, and collapsed posture."),
+                ("lifestyle", "Pair upright posture, slower meals, and a short walk after food if tightness appears after eating."),
+            ],
+            "review": [
+                ("practitioner_follow_up", "Escalate rapidly if chest tightness comes with exertional pain, fainting, severe breathlessness, sweating, jaw/arm pain, or sudden onset."),
+                ("remedy_differential", "Homeopathy review should focus on chest sensation, breath, anxiety, position, exertion, and food relationship."),
+            ],
+        },
+        "cough": {
+            "summary": "Cough becomes actionable when separated into dry, wet, spasmodic, throat-tickle, chesty, night, morning, post-nasal, reflux-linked, cold-air, or exertion-linked cough.",
+            "signals": ["cough quality", "mucus", "timing", "trigger pattern"],
+            "tradition_directions": [
+                ("Ayurveda", "Review cough through kapha mucus, vata dryness/spasm, pitta heat/irritation, digestion, season, and strength."),
+                ("Traditional Chinese Medicine", "Review cough through lung qi movement, dryness, heat/cold, phlegm, exterior trigger, and night/morning timing."),
+                ("Homeopathy", "Review cough through sound, mucus, timing, position, thirst, temperature, triggers, and peculiar modalities."),
+            ],
+            "actions": [
+                ("observation", "Record dry/wet quality, mucus color/amount, throat tickle, chest sensation, fever, timing, position, and triggers."),
+                ("lifestyle", "Use warm fluids and reduce cold-air exposure as a simple pattern test if cough is dry, tickly, or cold-triggered."),
+                ("avoid_reduce", "Reduce likely irritants: smoke, dust, fragrance, cold drinks, late heavy meals, alcohol, or over-talking."),
+                ("sleep", "Note whether cough worsens lying down, after midnight, on waking, or with room dryness."),
+                ("observation", "Track reflux, post-nasal drip, sore throat, wheeze, shortness of breath, and exertion relationship."),
+            ],
+            "review": [
+                ("herbs", "Cough herb/formula categories should separate dry irritation, phlegm, heat, cold, reflux, and post-nasal patterns."),
+                ("remedy_differential", "Homeopathy review should focus on cough sound, mucus, position, time, thirst, and modalities."),
+            ],
+        },
+        "dry_mouth": {
+            "summary": "Dry mouth becomes useful when connected to thirst, night waking, heat, anxiety, mouth breathing, caffeine/alcohol, medications, urination, digestion, and dry skin or eyes.",
+            "signals": ["fluid pattern", "thirst", "heat relationship", "night timing"],
+            "tradition_directions": [
+                ("Ayurveda", "Review dry mouth through pitta heat, vata dryness, fluid intake, digestion, sleep, and stimulant/dehydrating inputs."),
+                ("Traditional Chinese Medicine", "Review dry mouth through fluids/yin, heat, stomach relationship, thirst pattern, night timing, and urination."),
+                ("Homeopathy", "Review dry mouth through thirst amount, desire for cold/warm drinks, night dryness, anxiety, modalities, and accompanying symptoms."),
+            ],
+            "actions": [
+                ("observation", "Track thirst level, drink preference, mouth breathing, dry eyes/skin, urination, sleep timing, caffeine/alcohol, and medications."),
+                ("diet", "For 2 days, compare dryness with warm fluids, mineral/electrolyte support, and reduced caffeine or alcohol."),
+                ("sleep", "Note whether dryness wakes you, appears on waking, or comes with snoring, congestion, or mouth breathing."),
+                ("avoid_reduce", "Reduce the clearest drying input first: caffeine excess, alcohol, salty foods, overheated room, or late screens/stress."),
+                ("lifestyle", "Use humid air or nasal-clearing support if dryness is strongest overnight with congestion or mouth breathing."),
+            ],
+            "review": [
+                ("herbs", "Fluid-support categories need separation between heat dryness, depletion dryness, stimulant dryness, mouth breathing, and medication effects."),
+                ("remedy_differential", "Homeopathy review should focus on thirst, drink temperature, night timing, anxiety, and dryness locations."),
+            ],
+        },
+        "fever": {
+            "summary": "Fever should be organized by temperature, duration, chills, sweats, thirst, exposure, pain, cough, throat, urinary, digestive, rash, and how fast the state is changing.",
+            "signals": ["temperature pattern", "chill/sweat", "thirst", "exposure history"],
+            "tradition_directions": [
+                ("Ayurveda", "Review fever through heat, digestion/agni disturbance, ama-like heaviness, thirst, sweating, strength, and stage of illness."),
+                ("Traditional Chinese Medicine", "Review fever through exterior/interior clues, chills/sweats, heat/cold, fluids, throat/cough/digestive signs, and progression."),
+                ("Homeopathy", "Review fever through onset, chill/heat/sweat sequence, thirst, mental state, modalities, and accompanying symptoms."),
+            ],
+            "actions": [
+                ("observation", "Track temperature, onset, duration, chills, sweat, thirst, body aches, throat/cough, urination, stool, rash, and exposure."),
+                ("lifestyle", "Prioritize rest, fluids, and simple food if appetite is low; note thirst and urine color as pattern clues."),
+                ("avoid_reduce", "Avoid intense exercise, alcohol, heavy meals, and overheating while the fever pattern is active."),
+                ("observation", "Record whether fever is rising, breaking with sweat, cycling at a time of day, or paired with strong chills."),
+                ("practitioner_follow_up", "Seek care for high/prolonged fever, confusion, stiff neck, breathing trouble, dehydration, severe pain, rash concern, or vulnerable age/condition."),
+            ],
+            "review": [
+                ("herbs", "Fever herb/formula categories need stage clarity: chills/exterior, heat/thirst, damp/heavy, digestive, or depletion after fever."),
+                ("remedy_differential", "Homeopathy review should focus on onset speed, chill/heat/sweat sequence, thirst, mental state, and modalities."),
+            ],
+        },
+        "frequent_urination": {
+            "summary": "Frequent urination becomes useful when separated by daytime versus nighttime, urgency, burning, thirst, volume, caffeine, anxiety, sleep, blood sugar pattern, and fluid timing.",
+            "signals": ["urinary timing", "thirst", "urgency", "night waking"],
+            "tradition_directions": [
+                ("Ayurveda", "Review urinary frequency through fluid balance, vata urgency, pitta burning/heat, kapha/metabolic heaviness, thirst, and sleep disruption."),
+                ("Traditional Chinese Medicine", "Review urinary frequency through fluids, kidney/bladder network language, heat/cold, deficiency/excess clues, and night timing."),
+                ("Homeopathy", "Review urinary frequency through urgency, burning, timing, thirst, anxiety, sleep, modalities, and accompanying symptoms."),
+            ],
+            "actions": [
+                ("observation", "Track frequency, volume, urgency, burning, color, odor, thirst, fluid timing, caffeine, and night waking."),
+                ("avoid_reduce", "For one day, reduce bladder irritants like excess caffeine, alcohol, carbonated drinks, and late fluids if they clearly correlate."),
+                ("sleep", "Note whether urination wakes you or whether you wake first and then urinate."),
+                ("diet", "Track whether thirst, dry mouth, cravings, or energy crashes appear with the urinary pattern."),
+                ("practitioner_follow_up", "Escalate if burning, fever, flank pain, blood, pregnancy concern, extreme thirst, or sudden worsening is present."),
+            ],
+            "review": [
+                ("herbs", "Urinary herb/formula categories need separation between irritation/heat, cold/weakness, anxiety urgency, fluid timing, and metabolic thirst."),
+                ("remedy_differential", "Homeopathy review should focus on urgency, burning, timing, thirst, and modalities."),
+            ],
+        },
+        "heart_palpitations": {
+            "summary": "Palpitations become useful when organized by rhythm, duration, caffeine, anxiety, exertion, sleep, dehydration, meals, heat, menstrual timing, and accompanying breath or chest symptoms.",
+            "signals": ["heart rhythm", "stimulant relationship", "stress relationship", "sleep relationship"],
+            "tradition_directions": [
+                ("Ayurveda", "Review palpitations through vata activation, stress, stimulants, sleep depletion, heat, digestion, and grounding/rhythm disruption."),
+                ("Traditional Chinese Medicine", "Review palpitations through shen/heart network language, qi/blood/fluid relationships, heat, phlegm, sleep, and exertion."),
+                ("Homeopathy", "Review palpitations through sensation, rhythm, triggers, anxiety, position, sleep, temperature, and accompanying symptoms."),
+            ],
+            "actions": [
+                ("observation", "Track rhythm feel: racing, pounding, fluttering, skipped beats, duration, pulse regularity, and what was happening before it started."),
+                ("avoid_reduce", "Run a stimulant/rhythm test: reduce caffeine swings, alcohol rebound, dehydration, skipped meals, and late intense work."),
+                ("sleep", "Compare palpitations with bedtime, night waking, dreams, and next-day fatigue."),
+                ("breathwork", "If stress-linked and mild, sit down and use gentle longer-exhale breathing; note whether rhythm settles."),
+                ("practitioner_follow_up", "Escalate if palpitations come with chest pain, fainting, severe breathlessness, new weakness, or sustained rapid rhythm."),
+            ],
+            "review": [
+                ("herbs", "Calming/cardiac herb categories need separation between stimulant-driven, anxiety-driven, depletion, heat, sleep, and exertion-linked patterns."),
+                ("remedy_differential", "Homeopathy review should focus on rhythm sensation, triggers, position, fear/anxiety, sleep, and modalities."),
+            ],
+        },
+        "menstrual_cramps": {
+            "summary": "Menstrual cramps become useful when organized by timing before/during/after bleeding, pain quality, clots, flow, heat response, pressure response, digestion, mood, and cycle regularity.",
+            "signals": ["cycle timing", "pain quality", "flow pattern", "heat response"],
+            "tradition_directions": [
+                ("Ayurveda", "Review cramps through vata spasm/pain, pitta heat, kapha heaviness, agni, flow quality, and routine/stress relationship."),
+                ("Traditional Chinese Medicine", "Review cramps through qi/blood movement, cold/heat, deficiency/excess, clots, flow, and response to warmth or pressure."),
+                ("Homeopathy", "Review cramps through timing, sensation, flow, clots, modalities, mood, digestion, and peculiar cycle symptoms."),
+            ],
+            "actions": [
+                ("observation", "Track cramp timing, location, sensation, flow amount, clots, color, bowel changes, mood, and what helps."),
+                ("lifestyle", "Use warmth as a pattern test if cramps are better from heat; note pain, flow, and relaxation response."),
+                ("movement", "Compare gentle walking/stretching versus rest; note which reduces cramping or worsens fatigue."),
+                ("diet", "Track whether caffeine, alcohol, sugar swings, cold foods, or heavy foods worsen the 3 days before bleeding."),
+                ("sleep", "Protect sleep and earlier wind-down during the premenstrual and first bleeding days to see whether intensity shifts."),
+            ],
+            "review": [
+                ("herbs", "Cycle herb/formula categories need separation between cold/constriction, heat, stagnation, depletion, heavy bleeding, and clots."),
+                ("remedy_differential", "Homeopathy review should focus on timing, pain quality, flow, mood, modalities, and concomitants."),
+            ],
+        },
+        "menstrual_irregularity": {
+            "summary": "Irregular cycles become useful when organized by early, late, skipped, spotting, heavy/light flow, stress, weight change, sleep, heat, acne, cramps, and life-stage context.",
+            "signals": ["cycle rhythm", "flow pattern", "stress relationship", "hormonal transition"],
+            "tradition_directions": [
+                ("Ayurveda", "Review irregular cycles through vata rhythm disruption, pitta heat, kapha heaviness, agni, stress, sleep, and tissue nourishment."),
+                ("Traditional Chinese Medicine", "Review irregular cycles through qi/blood movement, cold/heat, deficiency/excess, stress constraint, and cycle timing."),
+                ("Homeopathy", "Review irregular cycles through timing, flow, mood, sleep, temperature, cravings, and the distinctive constitutional picture."),
+            ],
+            "actions": [
+                ("observation", "Track cycle length, bleeding days, flow, clots, spotting, cramps, mood, acne, sleep, stress, and major routine changes."),
+                ("lifestyle", "Create one steady rhythm anchor for the next cycle: wake time, meal timing, or wind-down routine."),
+                ("diet", "Track cravings, appetite, blood-sugar dips, caffeine/alcohol, and digestive changes across the cycle."),
+                ("stress", "Note whether cycle changes follow high stress, travel, under-eating, overtraining, poor sleep, or emotional strain."),
+                ("practitioner_follow_up", "Clarify pregnancy possibility, postpartum/perimenopause context, new severe pain, very heavy bleeding, or sudden major change."),
+            ],
+            "review": [
+                ("herbs", "Cycle herb/formula categories need pattern clarity around heat, cold, stagnation, depletion, heaviness, and stress constraint."),
+                ("remedy_differential", "Homeopathy review should focus on cycle timing, flow, mood, cravings, thermal state, and generals."),
+            ],
+        },
+        "muscle_aches": {
+            "summary": "Muscle aches become useful when separated into generalized versus local, exertion-related, fever-related, stress tension, weather sensitivity, sleep recovery, hydration, and medication context.",
+            "signals": ["muscle location", "exertion relationship", "weather relationship", "recovery pattern"],
+            "tradition_directions": [
+                ("Ayurveda", "Review muscle aches through vata dryness/movement, ama-like heaviness, overexertion, sleep, digestion, and cold sensitivity."),
+                ("Traditional Chinese Medicine", "Review muscle aches through qi-blood movement, exterior wind/cold/damp, deficiency, channel location, and exertion recovery."),
+                ("Homeopathy", "Review muscle aches through sensation, location, movement/rest, weather, fever context, exertion, and modalities."),
+            ],
+            "actions": [
+                ("observation", "Track location, ache quality, fever signs, exertion, sleep, hydration, weather, medications, and whether pressure helps."),
+                ("movement", "Use gentle movement as a test; note whether aches loosen with motion or worsen with activity."),
+                ("lifestyle", "Test warmth, bath, or heat if cold/stiffness is present; record response."),
+                ("avoid_reduce", "Pause overtraining, alcohol, dehydration, long immobility, and cold/damp exposure for one test day."),
+                ("sleep", "Compare aches against sleep quality and morning recovery."),
+            ],
+            "review": [
+                ("herbs", "Muscle herb/formula categories need separation between exterior illness, overuse, cold/damp stiffness, heat/inflammation, and depletion."),
+                ("rubric_cluster", "Homeopathy repertory review should focus on location, sensation, motion/rest, weather, fever, and concomitants."),
+            ],
+        },
+        "nasal_congestion": {
+            "summary": "Congestion becomes useful when organized by stuffy versus runny, mucus color/texture, sinus pressure, allergies, weather, sleep position, food triggers, dryness, and cough/throat connection.",
+            "signals": ["nasal obstruction", "mucus quality", "allergy/weather trigger", "sleep relationship"],
+            "tradition_directions": [
+                ("Ayurveda", "Review congestion through kapha mucus/heaviness, vata dryness, pitta heat, season, digestion, and dairy/heavy food relationship."),
+                ("Traditional Chinese Medicine", "Review congestion through exterior wind, phlegm/damp, heat/cold, lung qi movement, sinus pressure, and mucus quality."),
+                ("Homeopathy", "Review congestion through side, discharge, obstruction, weather, warmth/cold, time of day, and accompanying throat/cough signs."),
+            ],
+            "actions": [
+                ("observation", "Track obstruction side, mucus color/thickness, sinus pressure, sneezing, itchy eyes, sore throat, cough, and weather/allergen exposure."),
+                ("lifestyle", "Use steam or humid air as a pattern test if dryness or thick mucus is present; note drainage and breathing."),
+                ("avoid_reduce", "Reduce likely aggravators for one test: dust, fragrance, cold air, dairy/heavy foods if suspect, alcohol, and late meals."),
+                ("sleep", "Note whether congestion worsens lying down, on waking, or in a specific room."),
+                ("diet", "Track whether heavy, cold, sweet, or dairy foods correlate with thicker mucus or morning congestion."),
+            ],
+            "review": [
+                ("herbs", "Congestion herb/formula categories need separation between cold clear mucus, heat yellow mucus, damp heaviness, dryness, and allergies."),
+                ("remedy_differential", "Homeopathy review should focus on discharge, obstruction, side, weather, timing, and modalities."),
+            ],
+        },
+        "pain": {
+            "summary": "Pain becomes useful when it is named precisely: location, sensation, intensity, onset, timing, triggers, what improves it, what worsens it, and what symptoms travel with it.",
+            "signals": ["pain location", "pain quality", "modality", "timing"],
+            "tradition_directions": [
+                ("Ayurveda", "Review pain through vata movement/dryness, pitta heat, kapha heaviness, ama-like signs, tissue location, and routine/digestion context."),
+                ("Traditional Chinese Medicine", "Review pain through qi-blood movement, cold/heat, dampness, channel location, excess/deficiency, and movement/rest response."),
+                ("Homeopathy", "Review pain through exact sensation, modalities, timing, side, concomitants, and peculiar features."),
+            ],
+            "actions": [
+                ("observation", "Write one clean pain sentence: where it is, what it feels like, when it comes, what helps, what worsens, and what comes with it."),
+                ("lifestyle", "Test warmth, coolness, pressure, movement, and rest one at a time; record which changes the pain."),
+                ("avoid_reduce", "Avoid the clearest aggravator for one day rather than changing everything at once."),
+                ("movement", "If appropriate, compare gentle movement with rest; note immediate and next-day response."),
+                ("observation", "Track sleep, digestion, stress, weather, menstrual timing, exertion, and injury context."),
+            ],
+            "review": [
+                ("herbs", "Pain herb/formula categories require pattern separation: cold, heat, damp, stagnation, injury, dryness, or depletion."),
+                ("rubric_cluster", "Homeopathy repertory review should start with location, sensation, modalities, and concomitants."),
+            ],
+        },
+        "pms": {
+            "summary": "PMS becomes useful when organized by mood, cravings, breast tenderness, bloating, sleep, headaches, cramps, irritability, sadness, timing before bleeding, and what changes after bleeding starts.",
+            "signals": ["cycle timing", "mood pattern", "cravings", "fluid/digestion"],
+            "tradition_directions": [
+                ("Ayurveda", "Review PMS through vata mood/sleep irregularity, pitta irritability/heat, kapha heaviness/cravings, agni, and cycle rhythm."),
+                ("Traditional Chinese Medicine", "Review PMS through qi movement, blood relationship, heat/cold, dampness, stress constraint, and premenstrual timing."),
+                ("Homeopathy", "Review PMS through emotional pattern, cravings, modalities, flow changes, sleep, temperature, and peculiar cycle symptoms."),
+            ],
+            "actions": [
+                ("observation", "Track symptoms by cycle day: mood, cravings, sleep, bloating, breast tenderness, headache, cramps, stool, and energy."),
+                ("diet", "For the premenstrual week, observe sugar/caffeine/alcohol/salty cravings and whether protein-rich steady meals reduce swings."),
+                ("lifestyle", "Reduce schedule chaos in the 3-5 days before bleeding: steady meals, earlier wind-down, and fewer late-night demands."),
+                ("movement", "Compare walking/gentle movement versus intense exercise and note mood, cramps, and fatigue response."),
+                ("stress", "Track whether conflict, overstimulation, and lack of solitude make symptoms sharper."),
+            ],
+            "review": [
+                ("herbs", "PMS herb/formula categories need separation between irritability/heat, fluid retention, depletion, cramps, cravings, and mood sinking."),
+                ("remedy_differential", "Homeopathy review should focus on emotional pattern, consolation, cravings, thermal state, cycle timing, and modalities."),
+            ],
+        },
+        "rash": {
+            "summary": "Rash becomes useful when organized by appearance, location, itch/burn/pain, heat, spread, oozing, dryness, triggers, new products/foods/medications, fever, and digestion.",
+            "signals": ["skin appearance", "sensation", "trigger pattern", "spread pattern"],
+            "tradition_directions": [
+                ("Ayurveda", "Review rash through pitta heat, kapha damp/oozing, vata dryness, blood/skin tissue language, digestion, and triggers."),
+                ("Traditional Chinese Medicine", "Review rash through wind/heat/damp/dryness language, skin surface, itching, oozing, heat, and trigger pattern."),
+                ("Homeopathy", "Review rash through eruption type, sensation, location, modalities, discharge, triggers, and concomitants."),
+            ],
+            "actions": [
+                ("observation", "Record appearance, location, spread, itch/burn/pain, heat, dryness/oozing, fever, new products, foods, and medications."),
+                ("avoid_reduce", "Stop the most likely new external trigger first: product, detergent, topical, plant exposure, fragrance, or new food if clearly linked."),
+                ("diet", "Track heat/flushing, alcohol/spice, sugar, heavy foods, and digestion changes around flares."),
+                ("lifestyle", "Keep the area simple: avoid excessive topical experiments while observing spread, heat, and sensation."),
+                ("practitioner_follow_up", "Escalate for throat/lip swelling, breathing symptoms, fever, severe pain, blistering, rapid spread, or infection concern."),
+            ],
+            "review": [
+                ("herbs", "Skin herb/formula categories need separation between heat, damp/oozing, dryness, allergy trigger, infection concern, and digestion-linked flares."),
+                ("remedy_differential", "Homeopathy review should focus on eruption type, sensation, location, modalities, and triggers."),
+            ],
+        },
+        "restlessness": {
+            "summary": "Restlessness becomes useful when connected to body agitation, racing thoughts, sleep, caffeine, anxiety, heat, pain, digestion, overstimulation, and what helps the system settle.",
+            "signals": ["activation pattern", "sleep relationship", "stimulant relationship", "body-mind agitation"],
+            "tradition_directions": [
+                ("Ayurveda", "Review restlessness through vata instability, overstimulation, irregular routine, sleep, digestion, and depletion."),
+                ("Traditional Chinese Medicine", "Review restlessness through shen activation, heat, qi constraint, sleep timing, digestion, and heart/chest sensations."),
+                ("Homeopathy", "Review restlessness through mental/physical agitation, pacing, fears, consolation, temperature, sleep, and peculiar modalities."),
+            ],
+            "actions": [
+                ("observation", "Track whether restlessness is mental, physical, emotional, or all three, and what time it appears."),
+                ("avoid_reduce", "Run one low-stimulation test: reduce caffeine, late screens, multitasking, intense evening work, and skipped meals."),
+                ("breathwork", "Try 2 minutes of longer-exhale breathing or quiet walking; note whether stillness or movement settles better."),
+                ("sleep", "Compare restlessness against bedtime, night waking, dreams, and next-day fatigue."),
+                ("lifestyle", "Create one transition ritual after work/stress: walk, warm drink, lower light, simple meal, or journaling."),
+            ],
+            "review": [
+                ("herbs", "Calming categories need separation between heat/restless agitation, depletion, stimulant-driven activation, anxiety, and pain-driven restlessness."),
+                ("remedy_differential", "Homeopathy review should focus on pacing, fears, consolation, sleep, temperature, and modalities."),
+            ],
+        },
+        "runny_nose": {
+            "summary": "Runny nose becomes useful when separated by clear/watery versus thick/yellow discharge, sneezing, allergies, cold air, timing, eyes, throat, cough, and food/weather triggers.",
+            "signals": ["nasal discharge", "allergy/weather trigger", "mucus quality", "timing"],
+            "tradition_directions": [
+                ("Ayurveda", "Review runny nose through kapha mucus, vata cold/dry wind sensitivity, pitta heat, season, digestion, and food triggers."),
+                ("Traditional Chinese Medicine", "Review runny nose through wind/cold/heat, lung qi movement, exterior pattern, phlegm, and discharge quality."),
+                ("Homeopathy", "Review runny nose through discharge character, side, sneezing, weather, temperature, timing, and accompanying throat/eye symptoms."),
+            ],
+            "actions": [
+                ("observation", "Track discharge color/texture, sneezing, itchy eyes, sore throat, cough, weather, foods, room exposure, and timing."),
+                ("avoid_reduce", "Reduce likely triggers: dust, fragrance, cold wind, dairy/heavy foods if suspect, alcohol, or sleeping in dry air."),
+                ("lifestyle", "Use steam or warm fluids if discharge is clear/cold-linked; note whether flow changes."),
+                ("sleep", "Note whether symptoms are worse on waking, lying down, or in a specific room."),
+                ("diet", "Track whether heavy/sweet/cold foods thicken mucus or increase morning runniness."),
+            ],
+            "review": [
+                ("herbs", "Nasal herb/formula categories should separate cold clear discharge, heat yellow discharge, allergy, damp mucus, and dryness."),
+                ("remedy_differential", "Homeopathy review should focus on discharge, side, sneezing, weather, timing, and modalities."),
+            ],
+        },
+        "sadness": {
+            "summary": "Sadness becomes useful when organized by trigger, duration, heaviness versus grief versus numbness, sleep, appetite, motivation, isolation, cycle timing, and what brings relief.",
+            "signals": ["mood tone", "motivation", "sleep/appetite relationship", "support response"],
+            "tradition_directions": [
+                ("Ayurveda", "Review sadness through kapha heaviness, vata depletion/instability, pitta frustration, routine, digestion, sleep, and motivation."),
+                ("Traditional Chinese Medicine", "Review sadness through qi movement, lung/heart network language, shen, constraint, depletion, sleep, and breath/chest relationship."),
+                ("Homeopathy", "Review sadness through grief, consolation, isolation, irritability, sleep, appetite, temperature, and distinctive emotional pattern."),
+            ],
+            "actions": [
+                ("observation", "Track mood timing, trigger, body feeling, sleep, appetite, motivation, isolation, tears, and what brings even small relief."),
+                ("movement", "Use a 10 minute light walk or sunlight exposure test and note mood, heaviness, and energy afterward."),
+                ("lifestyle", "Choose one low-effort anchor daily: shower, warm meal, outdoor light, short call, or tidy one small area."),
+                ("diet", "Notice whether skipped meals, sugar swings, alcohol, or heavy late food worsen mood heaviness."),
+                ("sleep", "Track whether sadness is worse after poor sleep, oversleeping, early waking, or vivid dreams."),
+            ],
+            "review": [
+                ("herbs", "Mood-support categories need separation between heaviness, depletion, grief, anxiety, irritability, and sleep-linked sadness."),
+                ("remedy_differential", "Homeopathy review should focus on grief, consolation, solitude, irritability, sleep, appetite, and peculiar emotional features."),
+            ],
+        },
+        "shortness_of_breath": {
+            "summary": "Shortness of breath needs sorting by exertion, rest, anxiety, chest tightness, cough, wheeze, position, fever, palpitations, and sudden versus chronic pattern.",
+            "signals": ["breath pattern", "exertion relationship", "chest/cough relationship", "anxiety link"],
+            "tradition_directions": [
+                ("Ayurveda", "Review breath difficulty through vata breath rhythm, kapha congestion, pitta heat, anxiety, strength, and digestive/chest relationship."),
+                ("Traditional Chinese Medicine", "Review breath difficulty through lung qi, phlegm, qi deficiency, counterflow, heat/cold, and exertion/rest relationship."),
+                ("Homeopathy", "Review breath symptoms through position, exertion, anxiety, cough, chest sensation, timing, and modalities."),
+            ],
+            "actions": [
+                ("observation", "Track whether breathlessness happens at rest, exertion, lying down, with anxiety, cough, wheeze, fever, chest tightness, or palpitations."),
+                ("lifestyle", "Sit upright and reduce exertion while observing timing, triggers, and recovery time."),
+                ("breathwork", "Only if mild and anxiety-linked, use very gentle paced breathing while seated; stop if symptoms intensify."),
+                ("avoid_reduce", "Reduce smoke, fragrance, dust, cold air, overexertion, and late heavy meals if they clearly worsen breathing."),
+                ("practitioner_follow_up", "Escalate urgently for sudden/severe breathlessness, chest pain, blue lips, fainting, confusion, low oxygen, or worsening respiratory illness."),
+            ],
+            "review": [
+                ("herbs", "Respiratory herb/formula categories need separation between phlegm, dry irritation, heat, cold, anxiety, depletion, and exertion-linked breathlessness."),
+                ("remedy_differential", "Homeopathy review should focus on position, exertion, chest sensation, cough, anxiety, and modalities."),
+            ],
+        },
+        "shoulder_pain": {
+            "summary": "Shoulder pain becomes useful when organized by location, range of motion, neck connection, injury, sleep position, posture, cold/damp weather, stress tension, and arm symptoms.",
+            "signals": ["shoulder location", "range of motion", "neck relationship", "posture/stress"],
+            "tradition_directions": [
+                ("Ayurveda", "Review shoulder pain through vata movement, tissue strain, dryness/cold, stress tension, sleep position, and digestion-linked heaviness."),
+                ("Traditional Chinese Medicine", "Review shoulder pain through channel location, qi-blood movement, cold/damp/heat clues, neck relationship, and motion response."),
+                ("Homeopathy", "Review shoulder pain through side, sensation, movement restriction, weather, posture, sleep position, and modalities."),
+            ],
+            "actions": [
+                ("observation", "Map pain location, range of motion, weakness, numbness, neck link, injury, sleep position, and posture."),
+                ("movement", "Use gentle pain-free range-of-motion testing; note whether movement loosens, catches, or worsens pain."),
+                ("lifestyle", "Test warmth and posture breaks during screen work; track shoulder tension and headache connection."),
+                ("avoid_reduce", "Reduce overhead strain, heavy lifting, long static posture, cold exposure, and awkward sleep position for one test day."),
+                ("breathwork", "Pair slow exhale with shoulder drop to see whether stress tension is part of the pattern."),
+            ],
+            "review": [
+                ("herbs", "Shoulder herb/formula categories need separation between strain, cold/damp stiffness, heat/inflammation, stress constraint, and neck referral."),
+                ("rubric_cluster", "Homeopathy repertory review should focus on side, motion, sensation, weather, and concomitants."),
+            ],
+        },
+        "skin_acne": {
+            "summary": "Acne becomes useful when organized by location, inflammation, oiliness/dryness, cycle timing, digestion, sugar/dairy/greasy food relationship, stress, sleep, and products.",
+            "signals": ["skin location", "heat/inflammation", "cycle/stress", "digestion relationship"],
+            "tradition_directions": [
+                ("Ayurveda", "Review acne through pitta heat, kapha oiliness/congestion, vata dryness, digestion/agni, cycle timing, and food triggers."),
+                ("Traditional Chinese Medicine", "Review acne through heat, damp/greasy accumulation, digestion, blood/skin language, cycle timing, and stress constraint."),
+                ("Homeopathy", "Review acne through location, eruption type, cycle timing, food triggers, emotional state, thermal state, and modalities."),
+            ],
+            "actions": [
+                ("observation", "Track location, redness, soreness, oiliness/dryness, cycle timing, stress, sleep, digestion, products, and picking/friction."),
+                ("diet", "For 2 weeks, observe whether sugar swings, dairy, greasy foods, alcohol, spicy foods, or late meals correlate with flares."),
+                ("lifestyle", "Protect sleep and reduce late-night stress during flare windows; note oiliness and inflammation response."),
+                ("avoid_reduce", "Avoid changing many products at once; remove the most likely irritant or pore-clogging product first."),
+                ("stress", "Track whether flares follow conflict, overwork, heat, sweating, or lack of recovery."),
+            ],
+            "review": [
+                ("herbs", "Skin herb/formula categories need separation between heat, damp/oiliness, cycle-linked flares, digestion, and stress constraint."),
+                ("remedy_differential", "Homeopathy review should focus on location, eruption type, cycle, cravings, thermal state, and emotional pattern."),
+            ],
+        },
+        "sore_throat": {
+            "summary": "Sore throat becomes useful when organized by dryness, burning, scratchy quality, swallowing pain, fever, cough, mucus, reflux, voice use, thirst, and timing.",
+            "signals": ["throat sensation", "heat/dryness", "swallowing", "respiratory/digestion link"],
+            "tradition_directions": [
+                ("Ayurveda", "Review sore throat through pitta heat, vata dryness, kapha mucus, digestion/reflux, voice strain, and season."),
+                ("Traditional Chinese Medicine", "Review sore throat through wind-heat/cold, dryness, phlegm, lung/throat relationship, heat signs, and exterior progression."),
+                ("Homeopathy", "Review sore throat through side, sensation, swallowing, thirst, temperature, voice, cough, and modalities."),
+            ],
+            "actions": [
+                ("observation", "Track sensation, side, swallowing pain, fever, cough, mucus, reflux, voice use, thirst, and time of day."),
+                ("lifestyle", "Use warm fluids and voice rest as a simple pattern test if dryness, strain, or irritation is present."),
+                ("avoid_reduce", "Reduce smoke, alcohol, spicy late meals, shouting, dry air, and cold exposure if they worsen throat symptoms."),
+                ("sleep", "Note whether throat is worse on waking, suggesting dry air, mouth breathing, congestion, or reflux."),
+                ("diet", "Track whether reflux, heavy late meals, or acidic/spicy foods drive throat irritation."),
+            ],
+            "review": [
+                ("herbs", "Throat herb/formula categories need separation between heat, dryness, mucus, reflux irritation, and voice strain."),
+                ("remedy_differential", "Homeopathy review should focus on side, sensation, swallowing, thirst, temperature, and modalities."),
+            ],
+        },
+        "stomach_pain": {
+            "summary": "Stomach pain becomes useful when organized by location, burning/cramping/gnawing, meal timing, hunger, nausea, reflux, stool, stress, warmth/pressure, and food triggers.",
+            "signals": ["abdominal location", "meal timing", "pain quality", "stool relationship"],
+            "tradition_directions": [
+                ("Ayurveda", "Review stomach pain through agni, pitta heat, vata cramping/gas, ama-like heaviness, meal timing, and food quality."),
+                ("Traditional Chinese Medicine", "Review stomach pain through stomach qi, food stagnation, cold/heat, qi constraint, dampness, and stool relationship."),
+                ("Homeopathy", "Review stomach pain through sensation, timing, food triggers, nausea, stool, pressure/warmth, and modalities."),
+            ],
+            "actions": [
+                ("observation", "Track location, sensation, meal timing, hunger, nausea, reflux, stool, stress, and what helps."),
+                ("diet", "Run a simple-food test: warm, plain, smaller meals eaten slowly; compare pain after heavy, cold, spicy, fatty, or late meals."),
+                ("lifestyle", "Use an after-meal walk or upright posture if pain follows meals; note whether movement helps or worsens."),
+                ("avoid_reduce", "Reduce the clearest trigger first: alcohol, coffee, spice, heavy fats, rushing meals, late food, or skipped meals."),
+                ("stress", "Track whether pain follows conflict, pressure, worry, or rushed eating."),
+            ],
+            "review": [
+                ("herbs", "Digestive herb/formula categories need separation between heat/burning, cold/cramping, gas/stagnation, heaviness, and stress constraint."),
+                ("remedy_differential", "Homeopathy review should focus on pain quality, food effects, timing, pressure, warmth, nausea, and stool."),
+            ],
+        },
+        "stress": {
+            "summary": "Stress becomes useful when organized by where it lands first: sleep, digestion, mood, appetite, pain/tension, fatigue, racing thoughts, withdrawal, or irritability.",
+            "signals": ["stress response", "body location", "sleep/digestion", "recovery pattern"],
+            "tradition_directions": [
+                ("Ayurveda", "Review stress through vata overstimulation, pitta intensity/irritability, kapha shutdown/heaviness, routine, digestion, and sleep."),
+                ("Traditional Chinese Medicine", "Review stress through qi constraint, shen activation, digestion, heat, chest/neck tension, and sleep relationship."),
+                ("Homeopathy", "Review stress through emotional response, triggers, coping style, consolation, irritability, fears, sleep, and peculiar symptoms."),
+            ],
+            "actions": [
+                ("observation", "Name the first stress signal: stomach, sleep, mood, appetite, tension, fatigue, racing thoughts, or withdrawal."),
+                ("breathwork", "Try 2 minutes of longer-exhale breathing, then note whether the body settles, resists, or needs movement instead."),
+                ("movement", "Compare quiet walking, stretching, and rest to see which actually discharges stress."),
+                ("lifestyle", "Create a daily decompression threshold: lower light, warm drink, walk, journal, or no-input window after work."),
+                ("diet", "Track whether stress changes cravings, skipped meals, caffeine use, alcohol, reflux, bloating, or stool."),
+            ],
+            "review": [
+                ("herbs", "Stress-support categories need separation between restless heat, depletion, digestive stress, stimulant load, irritability, and shutdown heaviness."),
+                ("remedy_differential", "Homeopathy review should focus on stress trigger, expression, consolation, fears, sleep, cravings, and modalities."),
+            ],
+        },
+        "swelling": {
+            "summary": "Swelling becomes useful when organized by location, one-sided versus both-sided, pitting, heat/redness, pain, injury, cycle timing, salt, fluid intake, urination, and time of day.",
+            "signals": ["fluid location", "heat/redness", "timing", "urinary/circulation"],
+            "tradition_directions": [
+                ("Ayurveda", "Review swelling through kapha/fluid heaviness, pitta heat/inflammation, vata circulation, digestion, salt, and tissue/fluid balance."),
+                ("Traditional Chinese Medicine", "Review swelling through fluids, dampness, qi movement, heat/cold, channel obstruction, urination, and location."),
+                ("Homeopathy", "Review swelling through location, sensation, color, heat, timing, modalities, injury, and concomitants."),
+            ],
+            "actions": [
+                ("observation", "Track location, one-sided/both-sided, pitting, heat/redness, pain, injury, timing, salt, urination, and cycle relationship."),
+                ("movement", "Use gentle movement/elevation as a pattern test if swelling is limb-based and not painful/red/hot."),
+                ("diet", "Track salt, alcohol, heavy foods, hydration, and whether swelling changes after meals or at night."),
+                ("avoid_reduce", "Reduce long immobility, excess salt/alcohol, and heat exposure if they clearly worsen swelling."),
+                ("practitioner_follow_up", "Escalate quickly for one-sided painful swelling, chest symptoms, severe shortness of breath, sudden swelling, fever, or redness/heat."),
+            ],
+            "review": [
+                ("herbs", "Fluid herb/formula categories need separation between damp/heavy fluid, heat/inflammation, injury, circulation, urination, and cycle-linked swelling."),
+                ("remedy_differential", "Homeopathy review should focus on location, color, heat, pitting, injury, modalities, and timing."),
+            ],
+        },
+        "weight_gain": {
+            "summary": "Weight gain becomes useful when organized by appetite, cravings, meal timing, fatigue, sleep, stress, fluid retention, digestion, movement, cycle changes, and medication/life-stage context.",
+            "signals": ["metabolic pattern", "appetite/cravings", "fluid/heaviness", "sleep/stress"],
+            "tradition_directions": [
+                ("Ayurveda", "Review weight gain through agni, kapha heaviness, ama-like sluggishness, meal timing, cravings, sleep, stress, and movement."),
+                ("Traditional Chinese Medicine", "Review weight gain through dampness/phlegm, spleen-style digestion, fluid movement, appetite, fatigue, and stress constraint."),
+                ("Homeopathy", "Review weight gain through cravings, appetite, temperature, sleep, mood, fluid retention, pace of change, and constitutional tendencies."),
+            ],
+            "actions": [
+                ("observation", "Track appetite, cravings, meal timing, grazing, late eating, energy crashes, sleep, stress, stool, swelling, and movement."),
+                ("diet", "For 7 days, stabilize meal rhythm: protein-rich first meal, fewer grazing windows, warm simple meals, and note cravings/energy."),
+                ("movement", "Use a sustainable daily movement floor, not intensity first: walking, gentle strength, or mobility, then track recovery."),
+                ("sleep", "Track sleep duration, night waking, and morning heaviness because weight pattern often follows rhythm disruption."),
+                ("avoid_reduce", "Reduce one driver at a time: late eating, alcohol, sugar swings, heavy evening meals, or stress snacking."),
+            ],
+            "review": [
+                ("herbs", "Metabolic herb/formula categories need separation between damp/heaviness, weak digestion, fluid retention, stress cravings, and depletion."),
+                ("remedy_differential", "Homeopathy review should focus on cravings, appetite, thermal state, mood, sleep, and constitutional pattern."),
+            ],
+        },
+    }
+)
+
+
 GENERIC_OUTCOME_BY_DIMENSION: dict[str, dict[str, Any]] = {
     "pain": {
         "summary": "Pain needs location, quality, severity, timing, triggers, what changes it, and safety context before any traditional direction is chosen.",
@@ -1962,46 +2468,6 @@ def apply_symptom_outcome_layer(
     recognized = [item for item in normalized if item.get("canonical") != "symptom"]
     if not recognized:
         return practical_output
-    if safety["status"] == "suppress":
-        case_snapshot = intake.get("symptoms", {}).get("chief_complaint") or ", ".join(
-            intake.get("symptoms", {}).get("primary_symptoms", [])
-        )
-        questions = [next_question]
-        for item in normalized:
-            questions.extend(item.get("next_questions", [])[:2])
-        questions.extend(practical_output.get("questions_still_needed", []))
-        deduped_questions = []
-        for question in questions:
-            if question and question not in deduped_questions:
-                deduped_questions.append(question)
-        practical_output["likely_pattern_summary"] = {
-            **practical_output.get("likely_pattern_summary", {}),
-            "case_snapshot": case_snapshot,
-            "plain_language_summary": (
-                "This intake contains red-flag language. Traditional pattern interpretation and wellness directions "
-                "are held until appropriate medical evaluation has addressed the urgent concern."
-            ),
-            "tradition_directions": [],
-            "shared_pattern_signals": ["safety screen", "urgent medical evaluation first"],
-        }
-        practical_output["confidence"] = {
-            **practical_output.get("confidence", {}),
-            "score": 0,
-            "label": "safety-first hold",
-            "basis": (
-                "Red-flag language was detected. The app does not provide wellness directions while urgent medical "
-                "concerns may be present."
-            ),
-        }
-        practical_output["questions_still_needed"] = deduped_questions[:10]
-        practical_output["lifestyle_diet_practice_actions"] = []
-        practical_output["herbs_formulas_remedies_to_consider"] = []
-        practical_output["warnings_and_professional_boundaries"] = [
-            *practical_output.get("warnings_and_professional_boundaries", []),
-            EMERGENCY_WARNING,
-        ]
-        return practical_output
-
     citation_groups = citation_ids_by_tradition(citations)
     cross_citations = [
         *(citation_groups.get("Ayurveda") or [])[:1],
@@ -2014,6 +2480,97 @@ def apply_symptom_outcome_layer(
         "Homeopathy": (citation_groups.get("Homeopathy") or cross_citations)[:2],
         "Cross-tradition intake": cross_citations,
     }
+    if safety["status"] == "suppress":
+        case_snapshot = intake.get("symptoms", {}).get("chief_complaint") or ", ".join(
+            intake.get("symptoms", {}).get("primary_symptoms", [])
+        )
+        action_rows: list[dict[str, Any]] = []
+        review_rows: list[dict[str, Any]] = []
+        summaries: list[str] = []
+        signals: list[str] = ["urgent sorting", "context first"]
+        tradition_directions: list[dict[str, Any]] = []
+        seen_actions: set[tuple[str, str]] = set()
+        for normalized_symptom in recognized[:4]:
+            profile = outcome_profile_for_symptom(normalized_symptom)
+            summaries.append(profile["summary"])
+            signals.extend(profile.get("signals", []))
+            for tradition, direction in profile.get("tradition_directions", []):
+                tradition_directions.append(
+                    {
+                        "tradition": tradition,
+                        "direction": f"Use this lens only for sorting the presentation after urgent context is clear: {direction}",
+                        "confidence_score": 45,
+                        "priority": "context_first",
+                        "citations": default_citations_by_tradition.get(tradition, cross_citations),
+                    }
+                )
+            for category, action in profile.get("actions", []):
+                if category in {"herbs", "formulas", "remedy_differential", "rubric_cluster"}:
+                    continue
+                key = (category, action)
+                if key in seen_actions:
+                    continue
+                seen_actions.add(key)
+                action_rows.append(
+                    outcome_row(
+                        category,
+                        action,
+                        default_citations_by_tradition.get("Cross-tradition intake", cross_citations),
+                        45,
+                        "context_first",
+                        source_basis="Urgent sorting path: keeps observation and context gathering visible instead of returning empty output.",
+                    )
+                )
+            for category, action in profile.get("review", []):
+                key = (category, action)
+                if key in seen_actions:
+                    continue
+                seen_actions.add(key)
+                review_rows.append(
+                    outcome_row(
+                        category,
+                        f"After immediate context is clear: {action}",
+                        default_citations_by_tradition.get("Cross-tradition intake", cross_citations),
+                        40,
+                        "context_first",
+                        source_basis="Context-first explore-next path: keeps the deeper traditional lane visible while preventing premature specificity.",
+                    )
+                )
+        questions = [next_question]
+        for item in normalized:
+            questions.extend(item.get("next_questions", [])[:2])
+        questions.extend(practical_output.get("questions_still_needed", []))
+        deduped_questions = []
+        for question in questions:
+            if question and question not in deduped_questions:
+                deduped_questions.append(question)
+        practical_output["likely_pattern_summary"] = {
+            **practical_output.get("likely_pattern_summary", {}),
+            "case_snapshot": case_snapshot,
+            "plain_language_summary": (
+                "This presentation needs context-first sorting before deeper traditional interpretation. "
+                + " ".join(summaries[:2])
+            ),
+            "tradition_directions": tradition_directions[:9],
+            "shared_pattern_signals": sorted(set(signals))[:10],
+        }
+        practical_output["confidence"] = {
+            **practical_output.get("confidence", {}),
+            "score": 45,
+            "label": "context-first pattern direction",
+            "basis": (
+                "The app is showing observation and sorting steps first because this symptom can require immediate context."
+            ),
+        }
+        practical_output["questions_still_needed"] = deduped_questions[:10]
+        practical_output["lifestyle_diet_practice_actions"] = action_rows[:8]
+        practical_output["herbs_formulas_remedies_to_consider"] = review_rows[:4]
+        practical_output["warnings_and_professional_boundaries"] = [
+            *practical_output.get("warnings_and_professional_boundaries", []),
+            EMERGENCY_WARNING,
+        ]
+        return practical_output
+
     action_rows: list[dict[str, Any]] = []
     review_rows: list[dict[str, Any]] = []
     summaries: list[str] = []
