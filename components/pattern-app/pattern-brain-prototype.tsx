@@ -595,11 +595,13 @@ function IntakeSection({
   description,
   children,
   defaultOpen = false,
+  reflection,
 }: {
   title: string;
   description: string;
   children: ReactNode;
   defaultOpen?: boolean;
+  reflection?: string;
 }) {
   return (
     <details className="group border-t border-ink/10 py-5" open={defaultOpen}>
@@ -608,12 +610,32 @@ function IntakeSection({
           <span className="block text-base font-semibold text-ink">{title}</span>
           <span className="mt-1 block text-xs leading-5 text-ink/55">{description}</span>
         </span>
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center border border-ink/10 bg-white text-sm text-ink/55 group-open:rotate-45">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-ink/10 bg-white text-sm text-ink/55 transition group-open:rotate-45 group-open:border-moss/35 group-open:text-moss">
           +
         </span>
       </summary>
-      <div className="mt-4 grid gap-3">{children}</div>
+      {reflection ? (
+        <p className="mt-4 rounded-md border border-moss/20 bg-[#f4f2ea] px-3 py-2 text-xs leading-5 text-ink/58">
+          {reflection}
+        </p>
+      ) : null}
+      <div className="mt-4 grid gap-4">{children}</div>
     </details>
+  );
+}
+
+function LearningCue({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="mt-4 rounded-md border border-amber-300/30 bg-[#fff8e6] px-3.5 py-3 text-sm leading-6 text-ink/66">
+      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{title}</p>
+      <div className="mt-1">{children}</div>
+    </div>
   );
 }
 
@@ -786,14 +808,17 @@ function TraditionIntakeSection({
 
 function ReflectionCard({
   title,
+  insight,
   children,
 }: {
   title: string;
+  insight?: string;
   children: ReactNode;
 }) {
   return (
-    <div className="border-t border-ink/10 pt-4 first:border-t-0 first:pt-0">
+    <div className="rounded-md border border-ink/10 bg-white/72 p-4 shadow-[0_12px_36px_rgba(36,32,26,0.035)] first:border-t-0 first:pt-4">
       <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{title}</p>
+      {insight ? <p className="mt-2 text-sm leading-6 text-ink/58">{insight}</p> : null}
       <div className="mt-3 grid gap-4">{children}</div>
     </div>
   );
@@ -892,9 +917,9 @@ function PatternProfileBuilder({
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="eyebrow mb-2">Pattern Profile</p>
-          <h2 className="text-2xl font-semibold leading-tight">Your answers are building a multi-lens profile.</h2>
+          <h2 className="text-2xl font-semibold leading-tight">Your answers are turning into a pattern map.</h2>
           <p className="mt-2 max-w-xl text-sm leading-6 text-ink/62">
-            Each section adds a different kind of signal: rhythm, constitution, sensitivity, and what changes symptoms.
+            As you answer, the app listens for rhythm, constitution, sensitivity, and what changes symptoms. Think of it as a mirror that gets clearer as you go.
           </p>
         </div>
         <span className="border border-ink/10 bg-white px-3 py-1.5 text-xs uppercase tracking-[0.14em] text-ink/58">
@@ -918,12 +943,15 @@ function PatternProfileBuilder({
         })}
       </div>
       {signals.length ? (
-        <div className="mt-4 flex flex-wrap gap-2">
-          {signals.map((signal) => (
-            <span key={signal} className="border border-ink/10 bg-white/72 px-3 py-1.5 text-xs text-ink/62">
-              {signal}
-            </span>
-          ))}
+        <div className="mt-4 rounded-md border border-ink/10 bg-white/64 p-3">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-moss">Pattern seeds noticed so far</p>
+          <div className="flex flex-wrap gap-2">
+            {signals.map((signal) => (
+              <span key={signal} className="rounded-full border border-ink/10 bg-white/80 px-3 py-1.5 text-xs text-ink/62">
+                {signal}
+              </span>
+            ))}
+          </div>
         </div>
       ) : null}
     </section>
@@ -1563,11 +1591,23 @@ export function PatternBrainPrototype() {
           <div>
             <p className="eyebrow mb-3">3 Patterns</p>
             <h1 className="max-w-3xl text-4xl font-semibold leading-[1.04] md:text-5xl">
-              Move through the three lenses.
+              Build your pattern profile, one clue at a time.
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-ink/68">
-              The intake is the first experience: a guided wellness education and self-understanding flow through Chinese Medicine, Ayurveda, and Homeopathy before any pattern insight appears.
+              This is the main experience: a calm, reflective flow that helps you notice symptoms, rhythms, tendencies, sensitivities, and goals through Chinese Medicine, Ayurveda, and Homeopathy.
             </p>
+            <div className="mt-5 grid max-w-3xl gap-3 md:grid-cols-3">
+              {[
+                ["Notice", "What is happening now"],
+                ["Connect", "Where patterns repeat"],
+                ["Interpret", "What the traditions may see"],
+              ].map(([step, copy]) => (
+                <div key={step} className="rounded-md border border-ink/10 bg-white/70 px-4 py-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{step}</p>
+                  <p className="mt-1 text-sm leading-5 text-ink/62">{copy}</p>
+                </div>
+              ))}
+            </div>
             <div className="mt-5 max-w-2xl">
               <FullMedicalDisclaimer compact />
             </div>
@@ -1586,6 +1626,9 @@ export function PatternBrainPrototype() {
                 <p className="mt-2 text-sm leading-6 text-ink/60">
                   Move through each lens. The questions are simple, but they collect details for wellness education, self-reflection, and traditional pattern exploration.
                 </p>
+                <LearningCue title="How to use this">
+                  Answer quickly when something is obvious. Pause when a question makes you notice a pattern you had not named before. That is the point.
+                </LearningCue>
                 <div className="mt-4 grid gap-3 md:grid-cols-2">
                   <ShortResultDisclaimer />
                   <p className="border-l-2 border-amber-300/70 pl-3 text-xs leading-5 text-ink/54">
@@ -1594,7 +1637,12 @@ export function PatternBrainPrototype() {
                 </div>
               </div>
               <div className="space-y-4">
-                <IntakeSection title="Main Concern" description="A few basics are enough for a first pass." defaultOpen>
+                <IntakeSection
+                  title="Main Concern"
+                  description="Start with the story before the system looks for patterns."
+                  reflection="What you are learning here: the way a pattern begins, repeats, and changes often matters as much as the symptom name itself."
+                  defaultOpen
+                >
                   <p className="border-l-2 border-moss/35 pl-3 text-xs leading-5 text-ink/54">
                     Source basis: the Organon case method begins with the person describing the history in their own words before the system asks for particulars.
                   </p>
@@ -1619,7 +1667,12 @@ export function PatternBrainPrototype() {
                   />
                 </IntakeSection>
 
-                <IntakeSection title="Current Pattern Snapshot" description="What is your system showing right now?" defaultOpen>
+                <IntakeSection
+                  title="Current Pattern Snapshot"
+                  description="A quick read of what your body and mood are showing today."
+                  reflection="This is the first self-check: not a diagnosis, just a clear look at what has been asking for attention."
+                  defaultOpen
+                >
                   <ChoicePills
                     prompt="What are you currently noticing?"
                     note="This gives the app a quick pattern map before the deeper sections."
@@ -1648,7 +1701,12 @@ export function PatternBrainPrototype() {
                   />
                 </IntakeSection>
 
-                <IntakeSection title="Goals / Would You Like To..." description="Choose the direction you want your pattern profile to support." defaultOpen>
+                <IntakeSection
+                  title="Goals / Would You Like To..."
+                  description="Name what you want life to feel like on the other side of the pattern."
+                  reflection="This turns the intake from symptom collection into direction. The output can speak to what you are actually trying to change."
+                  defaultOpen
+                >
                   <ChoicePills
                     prompt="What would you like to move toward?"
                     note="This is aspirational. It helps the output align with your actual goals."
@@ -1665,7 +1723,11 @@ export function PatternBrainPrototype() {
                   />
                 </IntakeSection>
 
-                <IntakeSection title="Diet + Eating Pattern" description="How you eat often reveals timing, craving, heat/cold, and digestion patterns.">
+                <IntakeSection
+                  title="Diet + Eating Pattern"
+                  description="Food shows rhythm, appetite, cravings, comfort, and what your system resists."
+                  reflection="This chapter is about your daily chemistry: how hunger, meals, thirst, and elimination behave when life is steady or stressful."
+                >
                   <div>
                     <p className="eyebrow mb-2">Metabolic + Elimination Health</p>
                     <h3 className="text-xl font-semibold leading-tight">Agni and malas, in plain language.</h3>
@@ -1675,12 +1737,14 @@ export function PatternBrainPrototype() {
                   </div>
                   <ChoicePills
                     prompt="How does your appetite usually behave?"
+                    note="Appetite is one of the clearest places to notice whether your system feels variable, intense, dull, or steady."
                     value={form.appetiteDynamics}
                     choices={["variable appetite", "intensely sharp appetite", "dull appetite", "steady and consistent appetite", "low appetite", "forget to eat", "hungry soon after eating"]}
                     onChange={(value) => updateForm("appetiteDynamics", value)}
                   />
                   <ChoicePills
                     prompt="What happens after meals?"
+                    note="Post-meal clues help separate food choice, timing, digestive strength, heaviness, heat, and stagnation patterns."
                     value={form.postMealComfort}
                     choices={["gas", "bloating", "burping", "hyperacidity", "sluggishness", "sleepy after eating", "clear and comfortable", "heavy after eating"]}
                     onChange={(value) => updateForm("postMealComfort", value)}
@@ -1691,6 +1755,7 @@ export function PatternBrainPrototype() {
                   </div>
                   <ChoicePills
                     prompt="How is your thirst?"
+                    note="Thirst can reveal dryness, heat, fluid movement, habit, and temperature preference."
                     value={form.thirstLevel}
                     choices={["frequent dry mouth", "very thirsty", "rarely thirsty", "prefer cold drinks", "prefer warm drinks", "thirst at night", "steady thirst"]}
                     onChange={(value) => updateForm("thirstLevel", value)}
@@ -1738,7 +1803,11 @@ export function PatternBrainPrototype() {
                   </div>
                 </IntakeSection>
 
-                <IntakeSection title="Exercise + Movement" description="Movement response helps separate energizing, depleting, grounding, and overstimulating patterns.">
+                <IntakeSection
+                  title="Exercise + Movement"
+                  description="Movement response shows whether action clears, drains, grounds, or overstimulates you."
+                  reflection="Notice the difference between what you think you should do and what your system actually recovers from."
+                >
                   <ChoicePills
                     prompt="What kind of movement do you usually do?"
                     value={form.movementHabits}
@@ -1774,7 +1843,11 @@ export function PatternBrainPrototype() {
                   />
                 </IntakeSection>
 
-                <IntakeSection title="Stress Assessment" description="More than a stress score: where it lands, what it does, and what helps.">
+                <IntakeSection
+                  title="Stress Assessment"
+                  description="More than a stress score: where it lands, what it does, and what helps."
+                  reflection="This is where the intake gets personal. Stress has a signature: it may go to digestion, sleep, focus, mood, appetite, or tension first."
+                >
                   <div className="grid gap-3 md:grid-cols-[12rem_1fr]">
                     <Field label="Stress level 1-10" value={form.stressLevel} onChange={(value) => updateForm("stressLevel", value)} placeholder="7" />
                     <TextField label="Major sources of stress" value={form.stressSources} onChange={(value) => updateForm("stressSources", value)} placeholder="work, money, caregiving, uncertainty, conflict, schedule..." rows={2} />
@@ -1797,6 +1870,7 @@ export function PatternBrainPrototype() {
                   />
                   <ChoicePills
                     prompt="What does stress tend to do to you?"
+                    note="No perfect answer here. The useful part is seeing your default adaptation style."
                     value={form.stressPattern}
                     choices={[
                       "wired",
@@ -1812,6 +1886,7 @@ export function PatternBrainPrototype() {
                   />
                   <ChoicePills
                     prompt="What is your mind like most often?"
+                    note="This helps the app tell the difference between racing, focused, foggy, scattered, calm, and shut-down states."
                     value={form.mentalFocusStyle}
                     choices={["restless and racing", "highly focused and goal-oriented", "calm but sometimes unmotivated", "foggy or scattered", "indecisive", "organized under pressure", "easily distracted"]}
                     onChange={(value) => updateForm("mentalFocusStyle", value)}
@@ -1824,11 +1899,19 @@ export function PatternBrainPrototype() {
                   />
                 </IntakeSection>
 
-                <IntakeSection title="Metabolic Pattern Ratings" description="A simple 0-3 pattern scan helps the app see which signals are strongest.">
+                <IntakeSection
+                  title="Metabolic Pattern Ratings"
+                  description="A quick signal-strength scan. Nothing to overthink."
+                  reflection="The 0-3 ratings help the app tell which patterns are background noise and which ones keep showing up."
+                >
                   <RatingGrid value={form.metabolicRatings} onChange={(value) => updateForm("metabolicRatings", value)} />
                 </IntakeSection>
 
-                <IntakeSection title="Timing / Rhythm" description="Many traditions care about when a pattern appears, improves, or worsens.">
+                <IntakeSection
+                  title="Timing / Rhythm"
+                  description="When something happens can be a pattern all by itself."
+                  reflection="This chapter teaches you to look for repetition: morning, afternoon, night, after meals, before meals, or the same waking time."
+                >
                   <div>
                     <p className="eyebrow mb-2">Sleep + Circadian Rhythm</p>
                     <h3 className="text-xl font-semibold leading-tight">When your system restores, wakes, and repeats.</h3>
@@ -1839,6 +1922,7 @@ export function PatternBrainPrototype() {
                   </div>
                   <ChoicePills
                     prompt="What are your dreams like?"
+                    note="Dream tone can sometimes reflect whether the system is anxious, fiery, heavy, busy, or quietly restorative."
                     value={form.dreamPattern}
                     choices={["anxious and active", "vivid and fiery", "peaceful and infrequent", "busy problem-solving dreams", "nightmares", "do not remember dreams", "wake from dreams"]}
                     onChange={(value) => updateForm("dreamPattern", value)}
@@ -1869,7 +1953,11 @@ export function PatternBrainPrototype() {
                   />
                 </IntakeSection>
 
-                <IntakeSection title="Sensory + Environmental Exposures" description="Some people are strongly affected by sound, light, wind, temperature, screens, or intensity.">
+                <IntakeSection
+                  title="Sensory + Environmental Exposures"
+                  description="Your environment may be part of the pattern, not just background."
+                  reflection="This is a useful moment for people who think they are just sensitive. The intake treats sensitivity as information."
+                >
                   <ChoicePills
                     prompt="Which exposures affect you?"
                     value={form.sensoryExposures}
@@ -1891,7 +1979,7 @@ export function PatternBrainPrototype() {
                   title="Chinese Medicine"
                   subtitle="Chinese Medicine looks at how energy moves through the body and where imbalance begins to appear."
                 >
-                  <ReflectionCard title="Temperature + Rhythm">
+                  <ReflectionCard title="Temperature + Rhythm" insight="This lens asks whether your system tends to run cold, hot, mixed, dry, restless, full, or depleted.">
                     <ChoicePills
                       prompt="Do you tend to feel more hot, cold, mixed, or changing?"
                       note="Book-derived logic: Huangdi Neijing material repeatedly separates cold, heat, sweating, dryness, and alternating states."
@@ -1907,7 +1995,7 @@ export function PatternBrainPrototype() {
                     />
                   </ReflectionCard>
 
-                  <ReflectionCard title="Flow + Body Location">
+                  <ReflectionCard title="Flow + Body Location" insight="Stress often chooses a doorway: chest, throat, stomach, head, bowels, jaw, or shoulders.">
                     <ChoicePills
                       prompt="Where does stress affect you first?"
                       value={form.tcmNotes}
@@ -1930,7 +2018,7 @@ export function PatternBrainPrototype() {
                     />
                   </ReflectionCard>
 
-                  <ReflectionCard title="Digestion + Sleep + Elimination">
+                  <ReflectionCard title="Digestion + Sleep + Elimination" insight="These everyday rhythms help show how smoothly energy, fluids, rest, and release are moving.">
                     <div className="grid gap-3 md:grid-cols-2">
                       <TextField label="Digestion under stress" value={form.digestion} onChange={(value) => updateForm("digestion", value)} placeholder="bloating, appetite, reflux, heaviness, nausea..." rows={3} />
                       <TextField label="Sleep rhythm" value={form.sleep} onChange={(value) => updateForm("sleep", value)} placeholder="falling asleep, waking time, dreams, restless sleep..." rows={3} />
@@ -1946,7 +2034,7 @@ export function PatternBrainPrototype() {
                   title="Ayurveda"
                   subtitle="Ayurveda explores your natural constitution and how your mind and body respond to daily life."
                 >
-                  <ReflectionCard title="Constitution + Routine">
+                  <ReflectionCard title="Constitution + Routine" insight="This lens looks for what steadies you, what scatters you, and what your baseline nature seems to prefer.">
                     <ChoicePills
                       prompt="What happens when your schedule becomes irregular?"
                       note="Book-derived logic: Ashtanga Hridayam links dosha patterns with age, day, night, diet timing, and digestion."
@@ -1962,7 +2050,7 @@ export function PatternBrainPrototype() {
                     />
                   </ReflectionCard>
 
-                  <ReflectionCard title="Agni: Your Digestive Fire">
+                  <ReflectionCard title="Agni: Your Digestive Fire" insight="Agni is the everyday question of how well you take in, transform, and feel clear after food and experience.">
                     <ChoicePills
                       prompt="How would you describe your appetite?"
                       note="Book-derived logic: Sushruta and Ashtanga distinguish regular, variable, sharp, and dull digestive fire."
@@ -1983,7 +2071,7 @@ export function PatternBrainPrototype() {
                     </div>
                   </ReflectionCard>
 
-                  <ReflectionCard title="Grounding + Overstimulation">
+                  <ReflectionCard title="Grounding + Overstimulation" insight="A lot of constitution shows up in what happens when life gets irregular, noisy, fast, or demanding.">
                     <TextField
                       label="How overstimulation affects you"
                       value={form.mindFocus}
@@ -2007,7 +2095,7 @@ export function PatternBrainPrototype() {
                   title="Homeopathy"
                   subtitle="Homeopathy looks at the unique ways your system responds physically, mentally, and emotionally."
                 >
-                  <ReflectionCard title="Sensitivity + Response">
+                  <ReflectionCard title="Sensitivity + Response" insight="This section watches your individual style: what drains you, what overwhelms you, and how you adapt.">
                     <ChoicePills
                       prompt="What happens when you feel emotionally overwhelmed?"
                       note="Book-derived logic: Organon case-taking looks for the person’s own words, mental state, and what is most individual."
@@ -2023,7 +2111,7 @@ export function PatternBrainPrototype() {
                     />
                   </ReflectionCard>
 
-                  <ReflectionCard title="What Changes Symptoms">
+                  <ReflectionCard title="What Changes Symptoms" insight="Better and worse are not small details. They are often the details that make your pattern more specific.">
                     <p className="border-l-2 border-moss/35 pl-3 text-xs leading-5 text-ink/54">
                       Source basis: Organon 86-88 emphasizes each symptom’s timing, exact sensation, exact place, and what changes it, while avoiding yes/no leading questions.
                     </p>
@@ -2040,7 +2128,7 @@ export function PatternBrainPrototype() {
                     />
                   </ReflectionCard>
 
-                  <ReflectionCard title="Individual Details">
+                  <ReflectionCard title="Individual Details" insight="The odd, precise, personal details are welcome here. They often carry more signal than generic symptom names.">
                     <div className="grid gap-3 md:grid-cols-2">
                       <TextField label="Exact sensation and place" value={form.pain} onChange={(value) => updateForm("pain", value)} placeholder="location, quality, timing, what changes it, what it reminds you of..." rows={3} />
                       <TextField label="Skin / surface patterns" value={form.skin} onChange={(value) => updateForm("skin", value)} placeholder="rash, dryness, itching, acne, sensitivity..." rows={3} />

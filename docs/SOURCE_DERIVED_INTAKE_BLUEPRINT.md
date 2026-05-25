@@ -96,6 +96,16 @@ App translation:
 
 The source basis should be visible enough to build trust, but not so prominent that the intake becomes academic. Use small source-basis notes and plain-language questions.
 
+The intake should feel like a self-understanding experience, not a clinical record. Each major section should include a brief reflective cue that explains what the person is learning about themselves:
+
+- what their current pattern is asking for
+- where stress lands first
+- how appetite, meals, thirst, stool, sleep, and dreams reveal rhythm
+- what steadies or overstimulates them
+- which details make their pattern more individual
+
+The tone should stay calm and trustworthy, with lightness and curiosity built into the framing rather than jokes or novelty UI.
+
 ## Functional Medicine Form Structure Used As Inspiration
 
 Local reference reviewed:
