@@ -3,11 +3,7 @@
 import { useMemo, useState } from "react";
 import type { ReactNode } from "react";
 
-import {
-  BasisOfInsightDisclosure,
-  FullMedicalDisclaimer,
-  ShortResultDisclaimer,
-} from "@/components/compliance/disclosures";
+import { ShortResultDisclaimer } from "@/components/compliance/disclosures";
 
 const symptomLibrary = [
   "low energy",
@@ -977,7 +973,6 @@ function complianceText(value: string) {
     .replace(/\bprescription\b/gi, "tradition-based suggestion")
     .replace(/\bprescribe\b/gi, "make a tradition-based suggestion")
     .replace(/\bpatient\b/gi, "user")
-    .replace(/\bpractitioner\b/gi, "qualified professional")
     .replace(/\brecommendations\b/gi, "wellness directions")
     .replace(/\brecommendation\b/gi, "wellness direction")
     .replace(/\brecommended\b/gi, "suggested for educational review");
@@ -1231,7 +1226,7 @@ function CrossTraditionOutcome({ trace }: { trace: BrainTrace }) {
           <p className="eyebrow mb-2">Main Outcome</p>
           <h2 className="text-2xl font-semibold leading-tight">Cross-Tradition Outcome</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/68">
-            This is the front-door synthesis: where Ayurveda, TCM, and Homeopathy appear to overlap, where they need to stay distinct, and what a qualified professional can review first.
+            This is the front-door synthesis: where Ayurveda, TCM, and Homeopathy appear to overlap, where they need to stay distinct, and what is most useful to look at first.
           </p>
         </div>
         <span className="rounded-full bg-ink px-3 py-1.5 text-sm text-white">
@@ -1261,7 +1256,7 @@ function CrossTraditionOutcome({ trace }: { trace: BrainTrace }) {
           ))}
         </div>
         <p className="mt-3 text-xs leading-5 text-ink/55">
-          Prototype weighting reflects source-supported traditional relevance, not medical certainty.
+          Prototype weighting reflects source-supported traditional relevance and intake fit.
         </p>
       </div>
 
@@ -1476,7 +1471,6 @@ export function PatternBrainPrototype() {
           </section>
 
           <section className="space-y-5">
-            <BasisOfInsightDisclosure />
             <OutcomePanel trace={trace} />
             <PracticalOutput trace={trace} />
 
@@ -2187,9 +2181,6 @@ export function PatternBrainPrototype() {
                 >
                   Reset Sample
                 </button>
-              </div>
-              <div className="mt-5">
-                <FullMedicalDisclaimer compact />
               </div>
             </section>
 
