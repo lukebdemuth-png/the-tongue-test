@@ -2,6 +2,8 @@
 
 This is the single starting reference for the project. It consolidates the app purpose, canon, source rules, ingestion standards, retrieval logic, output schema, safety boundaries, communication style, local source inventory, and development milestones. The current core medicine book list is maintained in `docs/CORE_BOOK_CANON.md`.
 
+Temporary working source candidates for gaps in practical outcome logic are tracked separately in `docs/WORKING_SOURCE_LANE_RESEARCH.md`. Those candidates are not core canon unless the user explicitly approves them; they are internal scaffolding only and should not appear in app results as placeholder language.
+
 This repository is not a generic PDF scraper. It is the ingestion and knowledge-architecture foundation for a practitioner-facing holistic medicine research application.
 
 ## 1. Product Purpose
