@@ -310,17 +310,28 @@ type IntakeForm = {
   currentSnapshot: string;
   goalIntentions: string;
   dietHabits: string;
+  dietaryChoices: string;
   foodPreferences: string;
   mealRhythm: string;
   hydrationCaffeine: string;
+  appetiteDynamics: string;
+  postMealComfort: string;
+  bowelRegularity: string;
+  stoolConsistency: string;
+  thirstLevel: string;
   movementHabits: string;
   movementResponse: string;
   stressLevel: string;
   stressSources: string;
   stressPattern: string;
   stressRelief: string;
+  mentalFocusStyle: string;
   metabolicRatings: MetabolicRatings;
   timingRhythm: string;
+  sleepSchedule: string;
+  dreamPattern: string;
+  sensoryExposures: string;
+  substanceUse: string;
 };
 
 const sampleForm: IntakeForm = {
@@ -358,15 +369,22 @@ const sampleForm: IntakeForm = {
   currentSnapshot: "low morning energy, bloating, poor sleep, brain fog after meals",
   goalIntentions: "have more energy, sleep better, improve digestion, think more clearly, build a better daily rhythm",
   dietHabits: "skip breakfast some days, two meals/day, eat on the run, sometimes graze",
+  dietaryChoices: "eggs, rice, cooked vegetables, chicken, soups; avoids dairy when bloated",
   foodPreferences: "craves sweet and salty; prefers warm foods; cold drinks worsen digestion",
   mealRhythm: "irregular meal timing; bloating worse after late meals",
   hydrationCaffeine: "coffee in the morning, water intake variable",
+  appetiteDynamics: "variable appetite",
+  postMealComfort: "bloating and sluggishness after eating",
+  bowelRegularity: "one bowel movement most days",
+  stoolConsistency: "normal to sticky, sometimes loose",
+  thirstLevel: "dry mouth at night, variable thirst",
   movementHabits: "walking and gentle yoga 1-2 days per week",
   movementResponse: "gentle movement helps; intense workouts can exhaust me the next day",
   stressLevel: "7",
   stressSources: "work pressure, schedule changes, too much screen time",
   stressPattern: "stress shows up first in digestion, sleep, racing thoughts, and shoulder tension",
   stressRelief: "better from rest, warmth, routine, solitude, gentle movement",
+  mentalFocusStyle: "restless and racing when stressed; brain fog after meals",
   metabolicRatings: {
     fatigue_after_meals: 2,
     cravings: 2,
@@ -377,6 +395,10 @@ const sampleForm: IntakeForm = {
     trouble_staying_asleep: 3,
   },
   timingRhythm: "best late morning; worst after lunch and 2-4 a.m. waking",
+  sleepSchedule: "bedtime around 10:30 p.m.; waking around 6:30 a.m.",
+  dreamPattern: "active anxious dreams when stressed",
+  sensoryExposures: "sensitive to loud noise, bright screens, cold wind",
+  substanceUse: "morning coffee; no tobacco; alcohol occasional",
 };
 
 function splitList(value: string) {
@@ -394,23 +416,41 @@ function metabolicRatingsText(ratings: MetabolicRatings) {
 }
 
 function intakeFromForm(form: IntakeForm) {
-  const dietContext = [form.dietHabits, form.foodPreferences, form.mealRhythm, form.hydrationCaffeine].filter(Boolean).join("\n");
+  const agniMalaContext = [
+    form.appetiteDynamics,
+    form.postMealComfort,
+    form.bowelRegularity,
+    form.stoolConsistency,
+    form.thirstLevel,
+  ].filter(Boolean).join("\n");
+  const dietContext = [
+    form.dietHabits,
+    form.dietaryChoices,
+    form.foodPreferences,
+    form.mealRhythm,
+    form.hydrationCaffeine,
+    form.substanceUse,
+    agniMalaContext,
+  ].filter(Boolean).join("\n");
   const movementContext = [form.movementHabits, form.movementResponse].filter(Boolean).join("\n");
   const stressContext = [
     form.stressLevel ? `Stress level ${form.stressLevel}/10` : "",
     form.stressSources,
     form.stressPattern,
     form.stressRelief,
+    form.mentalFocusStyle,
+    form.sensoryExposures,
   ].filter(Boolean).join("\n");
-  const rhythmContext = [form.timingRhythm, form.energy].filter(Boolean).join("\n");
+  const sleepContext = [form.sleepSchedule, form.sleep, form.dreamPattern].filter(Boolean).join("\n");
+  const rhythmContext = [form.timingRhythm, form.energy, sleepContext].filter(Boolean).join("\n");
   const metabolicContext = metabolicRatingsText(form.metabolicRatings);
-  const thirstPattern = [form.temperature, form.cravings, form.foodPreferences, form.hydrationCaffeine]
+  const thirstPattern = [form.temperature, form.cravings, form.foodPreferences, form.hydrationCaffeine, form.thirstLevel]
     .filter((value) => /thirst|dry mouth|cold drinks|warm drinks/i.test(value))
     .join("\n");
   const sweatingPattern = [form.temperature, form.circulation]
     .filter((value) => /sweat|night sweats|flushing|flush/i.test(value))
     .join("\n");
-  const amaSigns = splitList([form.ayurvedaNotes, form.digestion, form.energy, form.elimination, form.currentSnapshot, metabolicContext].join(", "))
+  const amaSigns = splitList([form.ayurvedaNotes, form.digestion, form.energy, form.elimination, form.currentSnapshot, agniMalaContext, metabolicContext].join(", "))
     .filter((item) => /heavy|sluggish|coating|sticky|mucus|foul|bloat|low energy|after meals/i.test(item));
 
   return {
@@ -436,10 +476,10 @@ function intakeFromForm(form: IntakeForm) {
       worse_from: splitList(form.worseFrom),
       time_patterns: splitList([form.worseFrom, form.timingRhythm].filter(Boolean).join(", ")).filter((item) => /morning|night|day|evening|time|a\.m\.|p\.m\.|afternoon/i.test(item)),
       temperature_patterns: splitList(form.temperature),
-      digestion: [form.digestion, form.cravings, form.elimination, dietContext, metabolicContext].filter(Boolean).join("\n"),
-      sleep: [form.sleep, form.timingRhythm, metabolicContext].filter(Boolean).join("\n"),
+      digestion: [form.digestion, form.cravings, form.elimination, dietContext, agniMalaContext, metabolicContext].filter(Boolean).join("\n"),
+      sleep: [sleepContext, form.timingRhythm, metabolicContext].filter(Boolean).join("\n"),
       energy: [form.energy, form.currentSnapshot, movementContext, rhythmContext, metabolicContext].filter(Boolean).join("\n"),
-      mood: [form.mood, form.stress, form.mindFocus, stressContext, form.currentSnapshot].filter(Boolean).join("\n"),
+      mood: [form.mood, form.stress, form.mindFocus, form.mentalFocusStyle, stressContext, form.currentSnapshot].filter(Boolean).join("\n"),
       pain_location: form.pain,
       pain_quality: form.pain,
     },
@@ -447,9 +487,9 @@ function intakeFromForm(form: IntakeForm) {
       ayurveda: {
         prakriti: "",
         vikriti: [form.ayurvedaNotes, form.currentSnapshot, form.timingRhythm].filter(Boolean).join("\n"),
-        agni: [form.digestion, dietContext, metabolicContext].filter(Boolean).join("\n"),
+        agni: [form.digestion, form.appetiteDynamics, form.postMealComfort, dietContext, metabolicContext].filter(Boolean).join("\n"),
         ama_signs: amaSigns,
-        bowel_pattern: [form.elimination, metabolicContext].filter(Boolean).join("\n"),
+        bowel_pattern: [form.elimination, form.bowelRegularity, form.stoolConsistency, metabolicContext].filter(Boolean).join("\n"),
         tongue_notes: "",
         pulse_notes: "",
       },
@@ -459,13 +499,13 @@ function intakeFromForm(form: IntakeForm) {
         temperature: [form.temperature, form.circulation, form.foodPreferences, metabolicContext].filter(Boolean).join("\n"),
         sweating: sweatingPattern,
         thirst: thirstPattern,
-        appetite: [form.digestion, form.cravings, dietContext, metabolicContext].filter(Boolean).join("\n"),
-        bowel_urine: [form.elimination, metabolicContext].filter(Boolean).join("\n"),
+        appetite: [form.digestion, form.appetiteDynamics, form.cravings, dietContext, metabolicContext].filter(Boolean).join("\n"),
+        bowel_urine: [form.elimination, form.bowelRegularity, form.stoolConsistency, metabolicContext].filter(Boolean).join("\n"),
         emotional_pattern: [form.mood, form.stress, form.tcmNotes, stressContext].filter(Boolean).join("\n"),
       },
       homeopathy: {
         modalities: [...splitList(form.betterFrom), ...splitList(form.worseFrom)],
-        mental_emotional_state: [form.mood, form.stress, form.mindFocus, stressContext].filter(Boolean).join("\n"),
+        mental_emotional_state: [form.mood, form.stress, form.mindFocus, form.mentalFocusStyle, stressContext].filter(Boolean).join("\n"),
         generals: [
           ...splitList(form.homeopathyNotes),
           ...splitList(form.energy),
@@ -473,7 +513,7 @@ function intakeFromForm(form: IntakeForm) {
           ...splitList(form.cravings),
           ...splitList(form.goalIntentions),
         ],
-        peculiar_symptoms: splitList([form.pain, form.skin, form.reproductive, form.currentSnapshot, metabolicContext].filter(Boolean).join(", ")),
+        peculiar_symptoms: splitList([form.pain, form.skin, form.reproductive, form.currentSnapshot, form.dreamPattern, form.sensoryExposures, metabolicContext].filter(Boolean).join(", ")),
         food_cravings_aversions: splitList([form.cravings, form.foodPreferences].filter(Boolean).join(", ")),
         thermal_state: [form.temperature, form.circulation, form.foodPreferences].filter(Boolean).join("\n"),
       },
@@ -486,6 +526,8 @@ function intakeFromForm(form: IntakeForm) {
       dietContext ? `Diet and eating pattern: ${dietContext}` : "",
       movementContext ? `Exercise and movement pattern: ${movementContext}` : "",
       stressContext ? `Stress pattern: ${stressContext}` : "",
+      agniMalaContext ? `Metabolic and elimination pattern: ${agniMalaContext}` : "",
+      sleepContext ? `Sleep and dream pattern: ${sleepContext}` : "",
       rhythmContext ? `Timing and rhythm: ${rhythmContext}` : "",
       metabolicContext ? `0-3 pattern ratings: ${metabolicContext}` : "",
       form.cautions ? `Cautions: ${form.cautions}` : "",
@@ -811,13 +853,29 @@ function PatternProfileBuilder({
     },
     {
       name: "Ayurveda",
-      filled: [form.ayurvedaNotes, form.digestion, form.cravings, form.elimination, form.energy, form.sleep, form.dietHabits, form.foodPreferences, form.mealRhythm].filter(Boolean).length,
-      total: 9,
+      filled: [
+        form.ayurvedaNotes,
+        form.digestion,
+        form.cravings,
+        form.elimination,
+        form.energy,
+        form.sleep,
+        form.dietHabits,
+        form.dietaryChoices,
+        form.foodPreferences,
+        form.mealRhythm,
+        form.appetiteDynamics,
+        form.postMealComfort,
+        form.bowelRegularity,
+        form.stoolConsistency,
+        form.thirstLevel,
+      ].filter(Boolean).length,
+      total: 15,
     },
     {
       name: "Homeopathy",
-      filled: [form.homeopathyNotes, form.mood, form.stress, form.mindFocus, form.betterFrom, form.worseFrom, form.cravings, form.currentSnapshot, form.stressRelief].filter(Boolean).length,
-      total: 9,
+      filled: [form.homeopathyNotes, form.mood, form.stress, form.mindFocus, form.betterFrom, form.worseFrom, form.cravings, form.currentSnapshot, form.stressRelief, form.mentalFocusStyle, form.dreamPattern, form.sensoryExposures].filter(Boolean).length,
+      total: 12,
     },
   ];
   const signals = [
@@ -1608,6 +1666,35 @@ export function PatternBrainPrototype() {
                 </IntakeSection>
 
                 <IntakeSection title="Diet + Eating Pattern" description="How you eat often reveals timing, craving, heat/cold, and digestion patterns.">
+                  <div>
+                    <p className="eyebrow mb-2">Metabolic + Elimination Health</p>
+                    <h3 className="text-xl font-semibold leading-tight">Agni and malas, in plain language.</h3>
+                    <p className="mt-2 text-sm leading-6 text-ink/60">
+                      Appetite, post-meal comfort, bowel rhythm, stool quality, and thirst give the app a much clearer picture of digestion and elimination.
+                    </p>
+                  </div>
+                  <ChoicePills
+                    prompt="How does your appetite usually behave?"
+                    value={form.appetiteDynamics}
+                    choices={["variable appetite", "intensely sharp appetite", "dull appetite", "steady and consistent appetite", "low appetite", "forget to eat", "hungry soon after eating"]}
+                    onChange={(value) => updateForm("appetiteDynamics", value)}
+                  />
+                  <ChoicePills
+                    prompt="What happens after meals?"
+                    value={form.postMealComfort}
+                    choices={["gas", "bloating", "burping", "hyperacidity", "sluggishness", "sleepy after eating", "clear and comfortable", "heavy after eating"]}
+                    onChange={(value) => updateForm("postMealComfort", value)}
+                  />
+                  <div className="grid gap-3 md:grid-cols-2">
+                    <Field label="Bowel movements daily" value={form.bowelRegularity} onChange={(value) => updateForm("bowelRegularity", value)} placeholder="0, 1, 2, 3+, irregular" />
+                    <TextField label="Typical stool consistency" value={form.stoolConsistency} onChange={(value) => updateForm("stoolConsistency", value)} placeholder="loose, hard, dry, normal, heavy, sticky..." rows={2} />
+                  </div>
+                  <ChoicePills
+                    prompt="How is your thirst?"
+                    value={form.thirstLevel}
+                    choices={["frequent dry mouth", "very thirsty", "rarely thirsty", "prefer cold drinks", "prefer warm drinks", "thirst at night", "steady thirst"]}
+                    onChange={(value) => updateForm("thirstLevel", value)}
+                  />
                   <ChoicePills
                     prompt="Which eating habits fit most often?"
                     value={form.dietHabits}
@@ -1646,6 +1733,8 @@ export function PatternBrainPrototype() {
                   <div className="grid gap-3 md:grid-cols-2">
                     <TextField label="Foods that feel better or worse" value={form.mealRhythm} onChange={(value) => updateForm("mealRhythm", value)} placeholder="better with warm meals, worse with dairy, worse late at night..." rows={3} />
                     <TextField label="Caffeine + hydration" value={form.hydrationCaffeine} onChange={(value) => updateForm("hydrationCaffeine", value)} placeholder="coffee, tea, soda, water, thirst, dry mouth..." rows={3} />
+                    <TextField label="Substance patterns" value={form.substanceUse} onChange={(value) => updateForm("substanceUse", value)} placeholder="caffeine, alcohol, tobacco, cannabis, recreational substances..." rows={3} />
+                    <TextField label="Typical week of food" value={form.dietaryChoices} onChange={(value) => updateForm("dietaryChoices", value)} placeholder="foods you eat most often, foods you avoid because they trigger symptoms..." rows={3} />
                   </div>
                 </IntakeSection>
 
@@ -1722,6 +1811,12 @@ export function PatternBrainPrototype() {
                     onChange={(value) => updateForm("stressPattern", value)}
                   />
                   <ChoicePills
+                    prompt="What is your mind like most often?"
+                    value={form.mentalFocusStyle}
+                    choices={["restless and racing", "highly focused and goal-oriented", "calm but sometimes unmotivated", "foggy or scattered", "indecisive", "organized under pressure", "easily distracted"]}
+                    onChange={(value) => updateForm("mentalFocusStyle", value)}
+                  />
+                  <ChoicePills
                     prompt="What tends to help?"
                     value={form.stressRelief}
                     choices={["rest", "movement", "food", "solitude", "warmth", "structure", "expression", "being reassured", "quiet"]}
@@ -1734,6 +1829,20 @@ export function PatternBrainPrototype() {
                 </IntakeSection>
 
                 <IntakeSection title="Timing / Rhythm" description="Many traditions care about when a pattern appears, improves, or worsens.">
+                  <div>
+                    <p className="eyebrow mb-2">Sleep + Circadian Rhythm</p>
+                    <h3 className="text-xl font-semibold leading-tight">When your system restores, wakes, and repeats.</h3>
+                  </div>
+                  <div className="grid gap-3 md:grid-cols-2">
+                    <TextField label="Typical bedtime + waking time" value={form.sleepSchedule} onChange={(value) => updateForm("sleepSchedule", value)} placeholder="bed around 10:30 p.m., wake around 6:30 a.m..." rows={2} />
+                    <TextField label="Sleep quality" value={form.sleep} onChange={(value) => updateForm("sleep", value)} placeholder="hard to fall asleep, frequent awakenings, heavy sleep, groggy waking..." rows={2} />
+                  </div>
+                  <ChoicePills
+                    prompt="What are your dreams like?"
+                    value={form.dreamPattern}
+                    choices={["anxious and active", "vivid and fiery", "peaceful and infrequent", "busy problem-solving dreams", "nightmares", "do not remember dreams", "wake from dreams"]}
+                    onChange={(value) => updateForm("dreamPattern", value)}
+                  />
                   <ChoicePills
                     prompt="When do you feel best or worst?"
                     value={form.timingRhythm}
@@ -1756,6 +1865,22 @@ export function PatternBrainPrototype() {
                     value={form.timingRhythm}
                     onChange={(value) => updateForm("timingRhythm", value)}
                     placeholder="Symptoms repeat around... I wake at... Energy drops at..."
+                    rows={3}
+                  />
+                </IntakeSection>
+
+                <IntakeSection title="Sensory + Environmental Exposures" description="Some people are strongly affected by sound, light, wind, temperature, screens, or intensity.">
+                  <ChoicePills
+                    prompt="Which exposures affect you?"
+                    value={form.sensoryExposures}
+                    choices={["loud noises", "bright lights", "screens", "cold wind", "intense heat", "strong smells", "crowds", "weather changes", "travel", "too much stimulation"]}
+                    onChange={(value) => updateForm("sensoryExposures", value)}
+                  />
+                  <TextField
+                    label="How your environment changes your pattern"
+                    value={form.sensoryExposures}
+                    onChange={(value) => updateForm("sensoryExposures", value)}
+                    placeholder="I feel worse with... I feel calmer when..."
                     rows={3}
                   />
                 </IntakeSection>

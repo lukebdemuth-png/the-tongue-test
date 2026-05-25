@@ -120,6 +120,14 @@ Useful structural patterns adapted for everyday-user intake:
 - Caffeine and water intake.
 - Goal prompts framed as "Would you like to..."
 - 0-3 stress/metabolic-style ratings for repeated patterns.
+- Appetite dynamics: variable, sharp, dull, steady, low, or frequently hungry.
+- Post-meal comfort: gas, bloating, burping, hyperacidity, sluggishness, heaviness, or comfort.
+- Bowel frequency and stool quality: loose, hard, dry, normal, heavy, or sticky.
+- Thirst pattern: dry mouth, high thirst, low thirst, cold-drink preference, warm-drink preference, or night thirst.
+- Sleep schedule, sleep quality, and dream pattern.
+- Sensory exposures such as loud noise, bright light, screens, cold wind, heat, strong smells, crowds, travel, and overstimulation.
+- Substance patterns such as caffeine, alcohol, tobacco, cannabis, and recreational substances.
+- Mental focus style under ordinary life and stress.
 
 App translation:
 
@@ -130,6 +138,9 @@ App translation:
 - Stress Assessment.
 - Metabolic Pattern Ratings.
 - Timing / Rhythm.
+- Metabolic + Elimination Health.
+- Sleep + Circadian Rhythm.
+- Sensory + Environmental Exposures.
 
 These layers are designed to produce better personalized wellness education and pattern exploration without making the app feel like medical paperwork.
 
@@ -138,7 +149,7 @@ These layers are designed to produce better personalized wellness education and 
 - Current intake UI lives in `components/pattern-app/pattern-brain-prototype.tsx`.
 - Section-level source-basis notes are now shown for Chinese Medicine, Ayurveda, and Homeopathy.
 - The `intakeFromForm` mapper now sends more source-derived structure into the hidden tradition packets:
-  - Ayurveda `ama_signs` and `bowel_pattern`
-  - TCM `sweating` and `thirst`
-  - Homeopathy `peculiar_symptoms`
+  - Ayurveda `agni`, `ama_signs`, and `bowel_pattern`
+  - TCM `appetite`, `bowel_urine`, `sweating`, and `thirst`
+  - Homeopathy `mental_emotional_state`, `peculiar_symptoms`, `food_cravings_aversions`, and `thermal_state`
 - The intake now includes lifestyle and goal layers inspired by the local Functional Medicine form's useful non-administrative structure.
