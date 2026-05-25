@@ -96,6 +96,43 @@ App translation:
 
 The source basis should be visible enough to build trust, but not so prominent that the intake becomes academic. Use small source-basis notes and plain-language questions.
 
+## Functional Medicine Form Structure Used As Inspiration
+
+Local reference reviewed:
+
+- `/Users/creative/Desktop/FM-Intake-Forms-2019.pdf`
+
+The app should not copy the administrative, medical-history, surgery, hospitalization, diagnosis, insurance, or clinical-record portions of that form.
+
+Useful structural patterns adapted for everyday-user intake:
+
+- General symptoms currently experienced.
+- Time of day symptoms feel worst or most aggravated.
+- Stress level from 1-10.
+- Major sources of stress.
+- Strong flavor likes and dislikes: sour, bitter, sweet, rich/fatty, spicy/pungent, salty.
+- Warmth/cold preference for food, drinks, weather, and body state.
+- Disturbed sleep timing.
+- Time of day with most or least energy.
+- Exercise frequency, duration, and type.
+- Nutrition style, food restrictions, food frequency, and eating habits.
+- Breakfast skipping, grazing, eating on the run, eating when not hungry.
+- Caffeine and water intake.
+- Goal prompts framed as "Would you like to..."
+- 0-3 stress/metabolic-style ratings for repeated patterns.
+
+App translation:
+
+- Current Pattern Snapshot.
+- Goals / Would You Like To.
+- Diet + Eating Pattern.
+- Exercise + Movement.
+- Stress Assessment.
+- Metabolic Pattern Ratings.
+- Timing / Rhythm.
+
+These layers are designed to produce better personalized wellness education and pattern exploration without making the app feel like medical paperwork.
+
 ## Implementation Notes
 
 - Current intake UI lives in `components/pattern-app/pattern-brain-prototype.tsx`.
@@ -104,3 +141,4 @@ The source basis should be visible enough to build trust, but not so prominent t
   - Ayurveda `ama_signs` and `bowel_pattern`
   - TCM `sweating` and `thirst`
   - Homeopathy `peculiar_symptoms`
+- The intake now includes lifestyle and goal layers inspired by the local Functional Medicine form's useful non-administrative structure.
