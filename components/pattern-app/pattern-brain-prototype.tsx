@@ -198,6 +198,13 @@ type BrainTrace = {
         matched_explore_next: number;
       };
       missing_source_notes: string[];
+      category_outcomes: {
+        diet: string[];
+        herbs_formulas_remedies: string[];
+        lifestyle_practices: string[];
+        tracking: string[];
+        questions_refinement: string[];
+      };
     };
     missing_outcome_sources?: string[];
     warnings_and_professional_boundaries: string[];
@@ -1201,6 +1208,33 @@ function StepwiseOutcome({ trace }: { trace: BrainTrace }) {
           </ul>
         </article>
       ) : null}
+
+      <section className="mt-4 rounded-lg border border-ink/10 bg-white/75 p-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">Expanded Outcomes By Category</p>
+        <div className="mt-3 grid gap-3 lg:grid-cols-2">
+          {[
+            ["Diet", outcome.category_outcomes.diet],
+            ["Herbs / Formulas / Remedies", outcome.category_outcomes.herbs_formulas_remedies],
+            ["Lifestyle / Practice", outcome.category_outcomes.lifestyle_practices],
+            ["Tracking", outcome.category_outcomes.tracking],
+            ["Questions / Refinement", outcome.category_outcomes.questions_refinement],
+          ].map(([title, items]) => (
+            <details key={title as string} open className="rounded-md border border-ink/10 bg-fog/55 p-3">
+              <summary className="cursor-pointer text-sm font-semibold text-ink">
+                {title as string} · {(items as string[]).length}
+              </summary>
+              <ol className="mt-3 space-y-2 text-sm leading-6 text-ink/72">
+                {(items as string[]).map((item, index) => (
+                  <li key={`${title}-${item}`} className="grid grid-cols-[1.6rem_1fr] gap-2">
+                    <span className="text-xs font-semibold text-moss">{index + 1}</span>
+                    <span>{complianceText(item)}</span>
+                  </li>
+                ))}
+              </ol>
+            </details>
+          ))}
+        </div>
+      </section>
     </section>
   );
 }

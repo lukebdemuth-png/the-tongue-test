@@ -2732,6 +2732,253 @@ MISSING_OUTCOME_SOURCE_NOTES = [
 ]
 
 
+def unique_strings(items: list[str], limit: int = 20) -> list[str]:
+    seen = set()
+    output = []
+    for item in items:
+        text = re.sub(r"\s+", " ", item).strip()
+        if not text or text in seen:
+            continue
+        seen.add(text)
+        output.append(text)
+        if len(output) >= limit:
+            break
+    return output
+
+
+def matched_pattern_text(patterns: list[str]) -> str:
+    return " ".join(pattern.lower() for pattern in patterns)
+
+
+def outcome_question_is_relevant(question: str, pattern_text: str) -> bool:
+    text = question.lower()
+    topic_terms = {
+        "rash": ["rash", "skin", "itch", "burning", "oozing", "redness", "lesion", "hive"],
+        "headache": ["headache", "migraine", "head", "neck", "jaw", "screen"],
+        "sleep": ["sleep", "insomnia", "wake", "dream", "night", "morning"],
+        "digestion": ["digestion", "bloating", "stool", "bowel", "gas", "meal", "appetite", "nausea", "reflux"],
+        "anxiety": ["anxiety", "panic", "stress", "worry", "irritable", "overwhelm"],
+        "energy": ["energy", "fatigue", "tired", "crash", "motivation"],
+    }
+    for topic, terms in topic_terms.items():
+        if any(term in text for term in terms) and not any(term in pattern_text for term in terms + [topic]):
+            return False
+    if any(term in text for term in ["swelling of lips", "breathing difficulty", "fever", "rapidly spreading"]):
+        return False
+    return True
+
+
+def build_twenty_item_outcome_sets(
+    practical_output: dict[str, Any],
+    actions: list[dict[str, Any]],
+    explore: list[dict[str, Any]],
+) -> dict[str, list[str]]:
+    patterns = practical_output.get("matched_patterns", [])
+    pattern_text = matched_pattern_text(patterns)
+    questions = practical_output.get("questions_still_needed", [])
+    summary = practical_output.get("likely_pattern_summary", {})
+    signals = summary.get("shared_pattern_signals", [])
+
+    action_texts = [row.get("practitioner_action") or row.get("direction", "") for row in actions]
+    explore_texts = [row.get("practitioner_action") or row.get("direction", "") for row in explore]
+
+    diet = [
+        item
+        for row in actions
+        if row.get("category") == "diet"
+        for item in [row.get("practitioner_action") or row.get("direction", "")]
+    ]
+    herbs = [
+        item
+        for row in explore
+        if row.get("category") in {"herbs", "formulas", "remedy_differential", "rubric_cluster"}
+        for item in [row.get("practitioner_action") or row.get("direction", "")]
+    ]
+    lifestyle = [
+        item
+        for row in actions
+        if row.get("category") in {"lifestyle", "movement", "sleep", "breathwork", "yoga_breath", "meditation", "avoid_reduce"}
+        for item in [row.get("practitioner_action") or row.get("direction", "")]
+    ]
+    tracking = [
+        item
+        for row in actions
+        if row.get("category") in {"observation", "pattern_insight"}
+        for item in [row.get("practitioner_action") or row.get("direction", "")]
+    ]
+
+    digestive_pattern = any(word in pattern_text for word in ["digestion", "digestive", "agni", "meal", "heaviness", "cold / weak"])
+    heat_pattern = "heat" in pattern_text or "acidity" in pattern_text
+    nervous_pattern = any(word in pattern_text for word in ["night", "overstimulation", "stress", "anxiety", "nervous"])
+    headache_pattern = "headache" in pattern_text or "tension" in pattern_text
+
+    diet.extend(
+        [
+            "Use warm cooked breakfasts such as oatmeal, congee, rice porridge, soup, or stewed fruit when cold, fatigue, bloating, or morning heaviness are present.",
+            "Use a steady lunch with cooked vegetables, simple protein, and an easy starch such as rice, oats, potato, or soup when afternoon energy crashes appear.",
+            "Avoid grazing for the first test period; use clear meal windows so appetite, energy, and bloating can be read cleanly.",
+            "Avoid iced drinks with meals when cold hands, low appetite, bloating, or cold sensitivity are part of the pattern.",
+            "Use warm water or warm tea between meals when cold or sluggish digestion is present.",
+            "Favor soups, stews, congee, dal, rice bowls, cooked greens, carrots, squash, or lightly spiced cooked vegetables for the first digestion reset.",
+            "Reduce raw salads, smoothies, cold dairy, iced drinks, greasy late meals, and heavy desserts during the first 3-day digestive pattern test.",
+            "If reflux, burning, thirst, flushing, or irritability dominate, reduce alcohol, spicy foods, fried foods, coffee on an empty stomach, and late heavy meals.",
+            "If heat/acidity dominates, use simpler cooling foods such as cooked greens, rice porridge, cucumber or melon if tolerated, and lighter earlier dinners.",
+            "If anxiety or overstimulation dominates, use a protein-containing breakfast and reduce caffeine spikes before adding other interventions.",
+            "If sleep is involved, make dinner earlier and lighter for 4 nights and compare night waking, dreams, reflux, and morning energy.",
+            "If bloating is worse after meals, eat the first five bites slowly and stop before heaviness; track symptoms 30, 60, and 120 minutes later.",
+            "If cravings are strong, stabilize meals before trying restriction: breakfast, lunch, and dinner should each contain protein, warm food, and enough substance.",
+            "If stool is sticky/heavy, simplify meals for 3 days and reduce greasy, sweet, cold, and late foods first.",
+            "If constipation/dryness is present, track warm fluids, cooked moist foods, stool dryness, and whether oil/moisture in food changes the pattern.",
+            "If loose stool is present, simplify to warm, plain, cooked foods for 24-48 hours and reduce cold/raw/fatty foods while tracking frequency.",
+            "If headache is involved, avoid skipped meals and caffeine swings before judging the headache pattern.",
+            "If stress changes digestion, test a no-screen meal with slow eating before changing the food list.",
+            "Keep one food-pattern note per meal: appetite before eating, comfort after eating, energy after eating, stool/gas later, and cravings.",
+            "Do not change every food at once; remove the clearest aggravator first so the result can teach what matters.",
+        ]
+    )
+    if not digestive_pattern:
+        diet.extend(
+            [
+                "Use steady meal timing as a baseline so non-digestive symptoms can still be compared against food rhythm.",
+                "Track whether symptoms change after skipped meals, late meals, caffeine, alcohol, sugar, heavy food, or dehydration.",
+            ]
+        )
+
+    herbs.extend(
+        [
+            "Digestive warmth set: ginger, cumin, fennel, and a little black pepper belong with cold, sluggish, bloated, low-appetite patterns when heat/reflux is not dominant.",
+            "Digestive cooling-aromatic set: coriander, fennel, and mint-type aromatic support belong with bloating plus acidity, heat sensitivity, thirst, or irritability.",
+            "Gas/bloating food-spice set: cumin, fennel, coriander, and ajwain/carom can be compared as digestive-spice possibilities depending on heat versus cold signs.",
+            "Ginger is a warming digestive lane to consider educationally when coldness, low appetite, bloating, or sluggish digestion dominate and reflux/heat is not dominant.",
+            "Cumin is a food-spice digestive lane to consider with gas, bloating, weak appetite, or heavy post-meal feeling.",
+            "Coriander is a gentler aromatic digestive lane to consider when there is heat sensitivity or acidity alongside digestive symptoms.",
+            "Fennel is a gentle aromatic lane to consider with gas, bloating, meal discomfort, or digestive tension.",
+            "Ajwain/carom is a stronger warming digestive spice lane to consider only when cold/gas patterns dominate and heat/reflux is not dominant.",
+            "Black pepper is a warming pungent lane to consider only in cold/sluggish patterns; avoid prioritizing it when burning, reflux, thirst, or heat signs dominate.",
+            "Mint-type cooling aromatic support belongs more with heat/acidity or nausea-type patterns than cold/weak digestion patterns.",
+            "Lycopodium is a homeopathic remedy differential to explore when bloating, gas, post-meal aggravation, appetite changes, and confidence/tension themes match Boericke/Kent-style source signals.",
+            "Nux Vomica is a homeopathic remedy differential to explore when overwork, stimulants, irritability, digestive tension, sleep disruption, and aggravation from excess fit the broader pattern.",
+            "For cold/weak digestion, warming kitchen spices are more plausible than cooling herbs.",
+            "For heat/acidity, cooling aromatic support is more plausible than ginger-heavy warming strategies.",
+            "For stress-digestion patterns, herbs should not be chosen until it is clear whether the pattern is tension/movement, heat, cold, damp/heavy, or deficiency.",
+            "For sleep patterns, named herbs are not ready from the current source library; TCM materia medica/formulas and Ayurveda treatment texts are needed.",
+            "For TCM herbs, Chinese Herbal Medicine: Materia Medica is missing/not ingested, so named TCM herbs should not be ranked yet.",
+            "For TCM formulas, Chinese Herbal Medicine: Formulas and Strategies is missing/not ingested, so named formulas should not be ranked yet.",
+            "For Ayurveda herbs and formulas, Vasant Lad Vol. 3, Sebastian Pole, or another approved treatment/materia medica source is needed before stronger named selections.",
+            "For general herbs, Chevallier is missing/not ingested, so cross-checking general herb safety is not ready.",
+            "Boericke remedy differentials can be explored where matched, but they still need modalities, generals, and peculiar symptoms before narrowing.",
+            "Kent repertory rubrics can support direction, but rubrics should not be treated as a remedy choice by themselves.",
+            "If Lycopodium appears, compare it only against the full pattern: bloating, gas, timing, confidence, appetite, right-sided tendencies, and mental-emotional state.",
+            "If Nux Vomica appears, compare it only against the full pattern: stimulants, overwork, irritability, digestion, sleep, and aggravation patterns.",
+            "If the output only shows herb categories, that means the source library lacks the practical herb/formula text needed for responsible named outputs.",
+        ]
+    )
+
+    herb_names = ["ginger", "cumin", "coriander", "fennel", "mint", "ajwain", "carom", "black pepper"]
+
+    def herb_sort_key(item: str) -> tuple[int, str]:
+        text = item.lower()
+        if any(name in text for name in herb_names):
+            return (0, item)
+        if "boericke" in text or "kent" in text or "lycopodium" in text or "nux vomica" in text:
+            return (1, item)
+        if "missing" in text or "not ready" in text or "still needed" in text or "is needed" in text:
+            return (3, item)
+        return (2, item)
+
+    herbs = sorted(herbs, key=herb_sort_key)
+
+    lifestyle.extend(
+        [
+            "Create one daily rhythm anchor for 5 days: same wake time, same first meal window, or same evening wind-down.",
+            "Use a 10-minute walk after the largest meal when bloating, reflux, heaviness, or brain fog follows eating.",
+            "Use a 60-second pause before meals: slow breathing, relaxed jaw, shoulders down, then eat.",
+            "For night waking, run a 4-night test: earlier lighter dinner, dim screens, no alcohol, no late caffeine, no intense work in the final hour.",
+            "For overstimulation, compare quiet breathing with gentle walking; use whichever actually settles the body.",
+            "For fatigue after exercise, lower intensity for 5 days and track next-day energy instead of pushing harder.",
+            "For headache with neck tension, use a 2-minute neck/shoulder/jaw release every 90 minutes during screen work.",
+            "For cold patterns, test warmth: warm food, warm drinks, warm abdomen/feet, and reduced cold exposure.",
+            "For heat patterns, test lower heat load: cooler room, lighter evening, reduced alcohol/spice, and quiet/dark rest.",
+            "For stress-digestion patterns, stop multitasking during meals before changing the whole diet.",
+            "For anxiety patterns, reduce caffeine spikes and skipped meals before judging whether calming practices are working.",
+            "For sleep patterns, track whether the wakeup is caused by heat, urination, hunger, worry, dream, pain, noise, or no clear reason.",
+            "For heavy/damp patterns, use morning light and gentle movement before adding stronger interventions.",
+            "For dry patterns, track hydration, warm fluids, stool dryness, dry skin/mouth, and sleep environment.",
+            "For cravings, stabilize meals and sleep first; cravings often become clearer after rhythm steadies.",
+            "For reflux, stay upright after dinner and leave a meal-to-bed gap before changing too many foods.",
+            "For low appetite, use smaller warm meals and gentle movement before meals as a pattern test.",
+            "For brain fog, test outdoor light or a short walk when fog appears and record whether clarity improves or energy drops.",
+            "For emotional reactivity, track whether solitude, expression, movement, warmth, or structure helps most.",
+            "Keep each experiment small enough that the result teaches something in 3-5 days.",
+        ]
+    )
+
+    tracking.extend(
+        [
+            *questions,
+            *(f"Track signal: {signal}" for signal in signals),
+            "Track exact symptom timing: waking, before meals, after meals, afternoon, evening, night, or after exertion.",
+            "Track what improves the symptom: warmth, coolness, food, rest, movement, pressure, solitude, expression, or routine.",
+            "Track what worsens the symptom: cold, heat, stress, skipped meals, late meals, screens, alcohol, caffeine, exertion, or poor sleep.",
+            "Track appetite before eating and comfort after eating.",
+            "Track stool frequency, stool form, dryness/stickiness, urgency, gas, and incomplete feeling.",
+            "Track thirst, dry mouth, urine frequency, sweating, night sweats, and fluid preference.",
+            "Track sleep onset, wake time, dreams, night heat, urination, hunger, worry, and morning restoration.",
+            "Track energy at waking, late morning, after lunch, mid-afternoon, evening, and after exertion.",
+            "Track mood shifts with food, sleep, caffeine, stress, conflict, solitude, and movement.",
+            "Track body tension location: jaw, neck, shoulders, chest, stomach, head, back, or pelvis.",
+            "Track temperature preference: cold hands/feet, heat, flushing, chills, better warmth, better cool, cold drinks, warm drinks.",
+            "Track cravings: sweet, salty, sour, bitter, spicy, cold, warm, rich/fatty, or crunchy.",
+            "Track whether symptoms are better from routine or worse from irregularity.",
+            "Track whether symptoms are better from gentle movement or worse after exertion.",
+            "Track one primary outcome measure for the week so the result does not become too noisy.",
+            "Track what happens when the strongest suspected aggravator is removed for 3 days.",
+            "Track what happens when the most supportive rhythm is repeated for 3 days.",
+            "Track any contradiction: heat signs with cold aggravation, dry signs with damp signs, hunger with low appetite, fatigue with restlessness.",
+            "Track which tradition-specific question would sharpen the result most: digestion, temperature, sleep timing, stress response, stool, thirst, modality, or mental-emotional state.",
+        ]
+    )
+
+    questions_refinement = [
+        *[question for question in questions if outcome_question_is_relevant(question, pattern_text)],
+        "Is the main pattern worse from cold, heat, stress, eating, exertion, night, morning, or irregular routine?",
+        "Is appetite sharp, dull, variable, low, or steady?",
+        "Is stool dry/hard, loose, sticky, urgent, incomplete, or normal?",
+        "Does warmth help or worsen the main symptom?",
+        "Does coolness help or worsen the main symptom?",
+        "Does movement help or deplete the person afterward?",
+        "Does the symptom improve after eating or worsen after eating?",
+        "Is the symptom more connected to stress, sleep, digestion, temperature, or exertion?",
+        "What is the most peculiar or individual feature of the case?",
+        "What time of day is the symptom strongest?",
+        "What is the first body area affected by stress?",
+        "What does the person crave or strongly dislike during the pattern?",
+        "Does the person feel heavy/sluggish or wired/restless?",
+        "Is the sleep issue falling asleep, staying asleep, waking early, dreams, or waking unrefreshed?",
+        "Is there thirst, dry mouth, sweating, night sweating, or fluid retention?",
+        "What has changed recently: food, stress, sleep, movement, medication, illness, travel, season, or emotional load?",
+        "Which item gives the clearest change after 3 days: meal rhythm, warmth/cooling, caffeine reduction, earlier dinner, movement, or wind-down?",
+        "Which herb/formula/remedy source is missing for this category?",
+        "Which matched pattern should be tested first rather than all at once?",
+        "What would make this result wrong?",
+    ]
+
+    if heat_pattern:
+        diet.insert(0, "Because heat/acidity is present, prioritize cooling-simple meals and reduce spicy, fried, alcoholic, and late-heavy inputs before warming herbs.")
+    if nervous_pattern:
+        lifestyle.insert(0, "Because night activation or overstimulation is present, prioritize rhythm, meal timing, caffeine stability, and evening downshift before adding stronger interventions.")
+    if headache_pattern:
+        tracking.insert(0, "For headache/tension, track location, sensation, neck/jaw connection, screen exposure, skipped meals, caffeine change, and better/worse from pressure or darkness.")
+
+    return {
+        "diet": unique_strings(diet, 20),
+        "herbs_formulas_remedies": unique_strings(herbs, 20),
+        "lifestyle_practices": unique_strings(lifestyle, 20),
+        "tracking": unique_strings(tracking, 20),
+        "questions_refinement": unique_strings(questions_refinement, 20),
+    }
+
+
 def build_stepwise_outcome(practical_output: dict[str, Any]) -> dict[str, Any]:
     summary = practical_output.get("likely_pattern_summary", {})
     confidence = practical_output.get("confidence", {})
@@ -2845,6 +3092,7 @@ def build_stepwise_outcome(practical_output: dict[str, Any]) -> dict[str, Any]:
             "matched_explore_next": len(matched_explore),
         },
         "missing_source_notes": MISSING_OUTCOME_SOURCE_NOTES,
+        "category_outcomes": build_twenty_item_outcome_sets(practical_output, actions, explore),
     }
 
 
