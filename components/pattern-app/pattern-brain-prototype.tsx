@@ -442,13 +442,13 @@ function IntakeSection({
   defaultOpen?: boolean;
 }) {
   return (
-    <details className="group rounded-lg border border-ink/10 bg-white/70 p-4" open={defaultOpen}>
+    <details className="group border-t border-ink/10 py-5" open={defaultOpen}>
       <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
         <span>
-          <span className="block text-sm font-semibold text-ink">{title}</span>
+          <span className="block text-base font-semibold text-ink">{title}</span>
           <span className="mt-1 block text-xs leading-5 text-ink/55">{description}</span>
         </span>
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-ink/10 text-sm text-ink/55 group-open:rotate-45">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center border border-ink/10 bg-white text-sm text-ink/55 group-open:rotate-45">
           +
         </span>
       </summary>
@@ -507,9 +507,9 @@ function ChoicePills({
 type TraditionTone = "tcm" | "ayurveda" | "homeopathy";
 
 const traditionToneClasses: Record<TraditionTone, string> = {
-  tcm: "border-[#3d3127]/18 bg-[linear-gradient(145deg,#2f2924_0%,#4d3a2d_42%,#e7ddd1_100%)] text-white",
-  ayurveda: "border-[#c89c58]/24 bg-[linear-gradient(145deg,#fff6df_0%,#ead3a4_48%,#f8f2e5_100%)] text-ink",
-  homeopathy: "border-[#b8b1a4]/34 bg-[linear-gradient(145deg,#f7f5f0_0%,#ece8df_52%,#ffffff_100%)] text-ink",
+  tcm: "border-ink/10 bg-white text-ink",
+  ayurveda: "border-ink/10 bg-white text-ink",
+  homeopathy: "border-ink/10 bg-white text-ink",
 };
 
 const traditionMicrocopy: Record<TraditionTone, string> = {
@@ -531,30 +531,26 @@ function TraditionIntakeSection({
   subtitle: string;
   children: ReactNode;
 }) {
-  const dark = tone === "tcm";
   return (
-    <section className={`overflow-hidden rounded-xl border shadow-card ${traditionToneClasses[tone]}`}>
-      <div className="relative p-5 md:p-6">
-        <div className="absolute inset-0 opacity-[0.08] [background-image:radial-gradient(circle_at_18%_20%,currentColor_0_1px,transparent_1px),linear-gradient(120deg,currentColor_0_1px,transparent_1px)] [background-size:28px_28px,44px_44px]" />
-        <div className="relative">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${dark ? "text-white/62" : "text-moss"}`}>
-                Section {index}
-              </p>
-              <h2 className="mt-2 text-2xl font-semibold leading-tight md:text-3xl">{title}</h2>
-              <p className={`mt-3 max-w-2xl text-sm leading-6 ${dark ? "text-white/72" : "text-ink/66"}`}>{subtitle}</p>
-            </div>
-            <span className={`rounded-full border px-3 py-1.5 text-xs uppercase tracking-[0.14em] ${dark ? "border-white/18 bg-white/10 text-white/76" : "border-ink/10 bg-white/55 text-ink/58"}`}>
-              {tone === "tcm" ? "Flow" : tone === "ayurveda" ? "Constitution" : "Sensitivity"}
-            </span>
+    <section className={`border bg-white ${traditionToneClasses[tone]}`}>
+      <div className="p-5 md:p-6">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-moss">
+              Section {index}
+            </p>
+            <h2 className="mt-2 text-2xl font-semibold leading-tight md:text-3xl">{title}</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-ink/64">{subtitle}</p>
           </div>
-          <p className={`mt-4 rounded-lg border p-3 text-sm leading-6 ${dark ? "border-white/14 bg-white/10 text-white/72" : "border-ink/8 bg-white/52 text-ink/62"}`}>
-            {traditionMicrocopy[tone]}
-          </p>
+          <span className="border border-ink/10 bg-fog/60 px-3 py-1.5 text-xs uppercase tracking-[0.14em] text-ink/58">
+            {tone === "tcm" ? "Flow" : tone === "ayurveda" ? "Constitution" : "Sensitivity"}
+          </span>
         </div>
+        <p className="mt-4 border-l-2 border-moss/40 pl-3 text-sm leading-6 text-ink/62">
+          {traditionMicrocopy[tone]}
+        </p>
       </div>
-      <div className={`grid gap-4 border-t p-5 md:p-6 ${dark ? "border-white/14 bg-[#f8f3ea] text-ink" : "border-ink/8 bg-white/62"}`}>
+      <div className="grid gap-4 border-t border-ink/8 bg-[#fbfaf6] p-5 md:p-6">
         {children}
       </div>
     </section>
@@ -569,7 +565,7 @@ function ReflectionCard({
   children: ReactNode;
 }) {
   return (
-    <div className="rounded-lg border border-ink/10 bg-white/72 p-4">
+    <div className="border-t border-ink/10 pt-4 first:border-t-0 first:pt-0">
       <p className="text-xs font-semibold uppercase tracking-[0.14em] text-moss">{title}</p>
       <div className="mt-3 grid gap-4">{children}</div>
     </div>
@@ -584,7 +580,7 @@ function SymptomPicker({
   onToggle: (symptom: string) => void;
 }) {
   return (
-    <div className="rounded-xl border border-ink/10 bg-white/78 p-5 shadow-card">
+    <div className="border border-ink/10 bg-white p-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="eyebrow mb-2">Quick Symptoms</p>
@@ -599,7 +595,7 @@ function SymptomPicker({
             <button
               key={symptom}
               type="button"
-              className={`rounded-full border px-3.5 py-2 text-sm transition ${
+              className={`border px-3.5 py-2 text-sm transition ${
                 active
                   ? "border-ink bg-ink text-white"
                   : "border-ink/10 bg-fog/70 text-ink/72 hover:border-moss/35 hover:bg-white"
@@ -648,7 +644,7 @@ function PatternProfileBuilder({
   ].slice(0, 12);
 
   return (
-    <section className="rounded-xl border border-ink/10 bg-[#f1eee6] p-5 shadow-card">
+    <section className="border border-ink/10 bg-[#f7f4ed] p-5">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="eyebrow mb-2">Pattern Profile</p>
@@ -657,7 +653,7 @@ function PatternProfileBuilder({
             Each section adds a different kind of signal: rhythm, constitution, sensitivity, and what changes symptoms.
           </p>
         </div>
-        <span className="rounded-full border border-ink/10 bg-white/70 px-3 py-1.5 text-xs uppercase tracking-[0.14em] text-ink/58">
+        <span className="border border-ink/10 bg-white px-3 py-1.5 text-xs uppercase tracking-[0.14em] text-ink/58">
           {selectedSymptoms.length} symptoms
         </span>
       </div>
@@ -665,13 +661,13 @@ function PatternProfileBuilder({
         {lenses.map((lens) => {
           const percent = Math.round((lens.filled / lens.total) * 100);
           return (
-            <div key={lens.name} className="rounded-lg border border-ink/10 bg-white/65 p-3">
+            <div key={lens.name} className="border border-ink/10 bg-white/75 p-3">
               <div className="flex items-center justify-between gap-3 text-sm">
                 <span className="font-semibold">{lens.name}</span>
                 <span className="text-ink/50">{percent}%</span>
               </div>
-              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-ink/8">
-                <div className="h-full rounded-full bg-moss transition-all" style={{ width: `${percent}%` }} />
+              <div className="mt-2 h-1 overflow-hidden bg-ink/8">
+                <div className="h-full bg-moss transition-all" style={{ width: `${percent}%` }} />
               </div>
             </div>
           );
@@ -680,7 +676,7 @@ function PatternProfileBuilder({
       {signals.length ? (
         <div className="mt-4 flex flex-wrap gap-2">
           {signals.map((signal) => (
-            <span key={signal} className="rounded-full border border-ink/10 bg-white/72 px-3 py-1.5 text-xs text-ink/62">
+            <span key={signal} className="border border-ink/10 bg-white/72 px-3 py-1.5 text-xs text-ink/62">
               {signal}
             </span>
           ))}
@@ -1168,7 +1164,7 @@ export function PatternBrainPrototype() {
     return (
       <main className="min-h-screen bg-[#fbfaf6]">
         <div className="container-shell max-w-6xl py-10 md:py-14">
-          <section className="mb-8 rounded-xl border border-moss/25 bg-white p-5 shadow-card md:p-7">
+          <section className="mb-8 border border-moss/20 bg-white p-5 md:p-7">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="eyebrow mb-2">Results</p>
@@ -1293,11 +1289,11 @@ export function PatternBrainPrototype() {
 
   return (
     <main className="min-h-screen bg-[#fbfaf6]">
-      <div className="container-shell max-w-6xl py-10 md:py-14">
-        <section className="mb-8">
+      <div className="container-shell max-w-5xl py-8 md:py-12">
+        <section className="mb-7">
           <div>
             <p className="eyebrow mb-3">3 Patterns</p>
-            <h1 className="max-w-3xl text-4xl font-semibold leading-[1.04] md:text-6xl">
+            <h1 className="max-w-3xl text-4xl font-semibold leading-[1.04] md:text-5xl">
               Move through the three lenses.
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-ink/68">
@@ -1306,12 +1302,12 @@ export function PatternBrainPrototype() {
           </div>
         </section>
 
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-4xl">
           <section className="space-y-5">
             <SymptomPicker selected={selectedSymptoms} onToggle={toggleSymptom} />
             <PatternProfileBuilder form={form} selectedSymptoms={selectedSymptoms} />
 
-            <section className="rounded-xl border border-ink/10 bg-white/80 p-5 shadow-card">
+            <section className="border border-ink/10 bg-white p-5">
               <div className="mb-4">
                 <p className="eyebrow mb-2">Intake</p>
                 <h2 className="text-2xl font-semibold leading-tight">Three traditions, one unfolding picture.</h2>
@@ -1319,7 +1315,7 @@ export function PatternBrainPrototype() {
                   Move through each lens. The questions are simple, but they are collecting the kinds of details each tradition uses to see patterns.
                 </p>
               </div>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <IntakeSection title="Main Concern" description="A few basics are enough for a first pass." defaultOpen>
                   <TextField label="Main concern" value={form.chiefComplaint} onChange={(value) => updateForm("chiefComplaint", value)} rows={2} />
                   <TextField label="Other symptoms" value={form.secondarySymptoms} onChange={(value) => updateForm("secondarySymptoms", value)} placeholder="Anything not covered by the symptom taps" rows={2} />
@@ -1488,14 +1484,14 @@ export function PatternBrainPrototype() {
                   </div>
                 </IntakeSection>
 
-                <section className="rounded-xl border border-ink/10 bg-white/80 p-5 shadow-card">
+                <section className="border-t border-ink/10 pt-5">
                   <p className="eyebrow mb-2">In Your Own Words</p>
                   <h2 className="text-2xl font-semibold leading-tight">Now describe what you understand about what is happening.</h2>
                   <p className="mt-2 text-sm leading-6 text-ink/60">
                     After moving through the three lenses, use this space for anything the questions helped you notice: symptoms, emotional state, timeline, odd details, repeating patterns, or what feels most important.
                   </p>
                   <textarea
-                    className="mt-5 min-h-[13rem] w-full resize-y rounded-lg border border-ink/10 bg-fog/60 p-4 text-base leading-7 text-ink outline-none transition focus:border-moss focus:bg-white"
+                    className="mt-5 min-h-[13rem] w-full resize-y border border-ink/10 bg-fog/60 p-4 text-base leading-7 text-ink outline-none transition focus:border-moss focus:bg-white"
                     value={form.practitionerNotes}
                     onChange={(event) => updateForm("practitionerNotes", event.target.value)}
                     placeholder="After answering, I notice... The pattern seems to be... What I keep wondering about is..."
@@ -1503,14 +1499,14 @@ export function PatternBrainPrototype() {
                 </section>
               </div>
 
-              <div className="mt-6 rounded-xl border border-moss/20 bg-[#f1eee6] p-5">
+              <div className="mt-6 border border-moss/20 bg-[#f7f4ed] p-5">
                 <p className="eyebrow mb-2">Complete the Intake</p>
                 <h2 className="text-2xl font-semibold leading-tight">Looking across your patterns through multiple traditions.</h2>
                 <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/64">
                   When you finish, the system will build an interpretation from your symptoms, rhythms, constitution, sensitivities, goals, and safety context.
                 </p>
                 {loading ? (
-                  <div className="mt-4 rounded-lg border border-ink/10 bg-white/70 p-4">
+                  <div className="mt-4 border border-ink/10 bg-white/70 p-4">
                     <p className="text-sm font-semibold text-ink">Building your personalized interpretation...</p>
                     <p className="mt-1 text-sm leading-6 text-ink/60">
                       The app is comparing your intake across Chinese Medicine, Ayurveda, and Homeopathy.
