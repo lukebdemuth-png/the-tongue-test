@@ -917,6 +917,7 @@ export function TongueAssessmentApp() {
   const [cameraActive, setCameraActive] = useState(false);
   const [cameraError, setCameraError] = useState("");
   const [cameraStarting, setCameraStarting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const themes = useMemo(() => scoreThemes(selected), [selected]);
@@ -1041,7 +1042,7 @@ export function TongueAssessmentApp() {
     setVisionError("");
     try {
       if (!navigator.mediaDevices?.getUserMedia) {
-        throw new Error("This browser does not support the in-app camera. Use photo upload instead.");
+        throw new Error("This browser does not support the live camera. Use Take or Choose Photo instead.");
       }
 
       streamRef.current?.getTracks().forEach((track) => track.stop());
@@ -1060,10 +1061,38 @@ export function TongueAssessmentApp() {
       }
       setCameraActive(true);
     } catch (error) {
-      setCameraError(error instanceof Error ? error.message : "Could not open the camera.");
+      setCameraError(
+        error instanceof Error
+          ? `${error.message} The safest option on iPhone and Android is Take or Choose Photo.`
+          : "Could not open the live camera. Use Take or Choose Photo instead.",
+      );
       setCameraActive(false);
     } finally {
       setCameraStarting(false);
+    }
+  }
+
+  async function handlePhotoFile(file?: File) {
+    stopCamera();
+    setVisionResult(null);
+    setVisionError("");
+    setCameraError("");
+    if (!file) {
+      setImagePreview("");
+      setImageDataUrl("");
+      return;
+    }
+    setImagePreparing(true);
+    try {
+      const prepared = await prepareTonguePhoto(file);
+      setImagePreview(prepared);
+      setImageDataUrl(prepared);
+    } catch (error) {
+      setImagePreview("");
+      setImageDataUrl("");
+      setVisionError(error instanceof Error ? error.message : "Could not prepare this photo.");
+    } finally {
+      setImagePreparing(false);
     }
   }
 
@@ -1171,17 +1200,17 @@ export function TongueAssessmentApp() {
               </div>
               <div className="mt-4 grid gap-3 border border-ink/10 bg-white/65 p-3 sm:grid-cols-[1fr_1fr]">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">In-App Camera</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Best On Phone</p>
                   <p className="mt-2 text-sm leading-6 text-ink/60">
-                    Open the camera inside the app, line up the tongue in the guide, capture the photo,
-                    then analyze it.
+                    Tap Take or Choose Photo. iPhone and Android will open the native camera, photo library,
+                    or file picker.
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Photo Guide</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Optional Live Camera</p>
                   <p className="mt-2 text-sm leading-6 text-ink/60">
-                    Open your mouth, relax the tongue, and center the full tongue inside the guide. Keep the
-                    camera close enough to see color, coating, edges, and the center line.
+                    If supported by the browser, the live camera opens directly in this screen. If it fails,
+                    use the native phone picker.
                   </p>
                 </div>
               </div>
@@ -1189,47 +1218,31 @@ export function TongueAssessmentApp() {
                 <button
                   type="button"
                   className="button-primary min-h-14 w-full"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  Take Or Choose Photo
+                </button>
+                <button
+                  type="button"
+                  className="button-secondary min-h-14 w-full"
                   disabled={cameraStarting}
                   onClick={cameraActive ? captureCameraPhoto : startCamera}
                 >
-                  {cameraStarting ? "Opening Camera..." : cameraActive ? "Capture Tongue Photo" : "Open In-App Camera"}
+                  {cameraStarting ? "Opening Live Camera..." : cameraActive ? "Capture Live Photo" : "Open Live Camera"}
                 </button>
-                <label className="block min-h-14 border border-dashed border-ink/18 bg-white/70 p-4 text-sm text-ink/60">
-                  <span className="block text-xs font-semibold uppercase tracking-[0.16em] text-moss">
-                    Upload Existing Photo
-                  </span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    capture="environment"
-                    className="mt-3 block w-full text-xs"
-                    onChange={async (event) => {
-                      const file = event.target.files?.[0];
-                      stopCamera();
-                      setVisionResult(null);
-                      setVisionError("");
-                      setCameraError("");
-                      if (!file) {
-                        setImagePreview("");
-                        setImageDataUrl("");
-                        return;
-                      }
-                      setImagePreparing(true);
-                      try {
-                        const prepared = await prepareTonguePhoto(file);
-                        setImagePreview(prepared);
-                        setImageDataUrl(prepared);
-                      } catch (error) {
-                        setImagePreview("");
-                        setImageDataUrl("");
-                        setVisionError(error instanceof Error ? error.message : "Could not prepare this photo.");
-                      } finally {
-                        setImagePreparing(false);
-                      }
-                    }}
-                  />
-                </label>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  className="sr-only"
+                  onChange={(event) => handlePhotoFile(event.target.files?.[0])}
+                />
               </div>
+              <p className="mt-3 text-xs leading-5 text-ink/48">
+                Launch-safe phone flow: use Take or Choose Photo first. Live Camera is optional and depends on
+                browser permissions.
+              </p>
               {cameraError ? (
                 <p className="mt-3 border border-red-200 bg-red-50 p-3 text-sm leading-6 text-red-700">{cameraError}</p>
               ) : null}
