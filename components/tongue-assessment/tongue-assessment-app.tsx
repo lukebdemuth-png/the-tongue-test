@@ -681,7 +681,7 @@ export function TongueAssessmentApp() {
         <section className="border border-ink/10 bg-white p-5 shadow-card md:p-8">
           <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
-              <p className="eyebrow mb-3">The Tongue Test</p>
+              <p className="eyebrow mb-3">Tongue Test: TCM AI</p>
               <h1 className="max-w-3xl text-4xl font-semibold leading-[1.04] md:text-6xl">
                 Upload a Tongue Photo. Discover What Your Tongue May Be Telling You.
               </h1>
@@ -1028,7 +1028,7 @@ export function TongueAssessmentApp() {
           <div className="grid gap-5 md:grid-cols-[0.8fr_1.2fr]">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Feedback</p>
-              <h2 className="mt-2 text-2xl font-semibold leading-tight">Help shape The Tongue Test</h2>
+              <h2 className="mt-2 text-2xl font-semibold leading-tight">Help shape Tongue Test: TCM AI</h2>
               <p className="mt-3 text-sm leading-6 text-ink/58">
                 Tell us what felt useful, confusing, missing, or inaccurate. Early feedback helps make the
                 result clearer before public launch.

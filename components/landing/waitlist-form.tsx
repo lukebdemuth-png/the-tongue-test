@@ -15,9 +15,9 @@ export function WaitlistForm({
   compact = false,
   source,
   buttonLabel = "Join Updates",
-  successMessage = "You are on the early access list. I will send thoughtful updates as Tongue Test develops.",
+  successMessage = "You are on the early access list. I will send thoughtful updates as Tongue Test: TCM AI develops.",
   helperText = "Educational updates only. No spam, no diagnosis, no treatment claims.",
-  interestPlaceholder = "What do you want Tongue Test to help you understand?",
+  interestPlaceholder = "What do you want Tongue Test: TCM AI to help you understand?",
 }: WaitlistFormProps) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");

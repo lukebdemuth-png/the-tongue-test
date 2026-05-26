@@ -13,12 +13,12 @@ export const freeContentResources: FreeContentResource[] = [
   {
     slug: "tongue-photo-guide",
     title: "How To Take A Clear Tongue Photo",
-    eyebrow: "Free Tongue Test guide",
+    eyebrow: "Free Tongue Test: TCM AI guide",
     format: "Guide",
     description:
       "A simple photo checklist for taking a tongue image that can be read more clearly: lighting, angle, timing, framing, and what to avoid before taking the photo.",
     promise:
-      "Sign up to unlock the guide and get practical educational notes on tongue observation, Traditional Chinese Medicine-inspired pattern reflection, and The Tongue Test launch.",
+      "Sign up to unlock the guide and get practical educational notes on tongue observation, Traditional Chinese Medicine-inspired pattern reflection, and the Tongue Test: TCM AI launch.",
     assetLabel: "Open the guide",
   },
   {

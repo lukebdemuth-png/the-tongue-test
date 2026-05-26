@@ -1,4 +1,4 @@
-# The Tongue Test Launch Setup
+# Tongue Test: TCM AI Launch Setup
 
 ## Vercel Environment Variables
 

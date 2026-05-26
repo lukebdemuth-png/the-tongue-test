@@ -1,5 +1,5 @@
 export const FULL_MEDICAL_DISCLAIMER =
-  "Tongue Test is not a medical device and does not diagnose, treat, cure, or prevent any medical condition. The information provided is for informational and educational purposes only. Always consult a qualified healthcare professional for medical advice, diagnosis, or treatment.";
+  "Tongue Test: TCM AI is not a medical device and does not diagnose, treat, cure, or prevent any medical condition. The information provided is for informational and educational purposes only. Always consult a qualified healthcare professional for medical advice, diagnosis, or treatment.";
 
 export const SHORT_RESULT_DISCLAIMER =
   "Informational only. Not medical advice. Consult a qualified healthcare professional for medical concerns.";

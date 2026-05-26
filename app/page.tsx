@@ -90,7 +90,7 @@ export default function HomePage() {
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link href="/pattern-app" className="button-primary">
-                Start Tongue Test
+                Start Tongue Test: TCM AI
               </Link>
               <Link href="/free-content/tongue-photo-guide" className="button-secondary">
                 Free Photo Guide
@@ -268,7 +268,7 @@ export default function HomePage() {
             <WaitlistForm
               source="tongue-test-landing"
               buttonLabel="Join Updates"
-              successMessage="You are on the Tongue Test launch list."
+              successMessage="You are on the Tongue Test: TCM AI launch list."
               interestPlaceholder="What would you want a tongue photo report to explain?"
             />
           </div>

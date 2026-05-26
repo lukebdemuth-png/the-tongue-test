@@ -162,7 +162,7 @@ function GmailResourceEmailActions({
 
   const payload = {
     to: email,
-    subject: `${title} from The Tongue Test`,
+    subject: `${title} from Tongue Test: TCM AI`,
     body: [
       `Here is the resource you unlocked: ${title}`,
       "",
