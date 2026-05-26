@@ -202,6 +202,12 @@ const visualSourceBooks = [
   "Claus C. Schnorrenberger and Beate Schnorrenberger, Pocket Atlas of Tongue Diagnosis",
 ];
 
+const reportLinks = {
+  instagram: "https://instagram.com/thetonguetest",
+  newsletter: "/#updates",
+  website: "/",
+};
+
 const themeRules: Omit<Theme, "score" | "signs">[] = [
   {
     title: "Damp / Sluggish Digestion Pattern",
@@ -572,19 +578,38 @@ function graphPercent(score: number, maxScore: number) {
   return Math.max(12, Math.round((score / maxScore) * 100));
 }
 
+function qualitySummary(primary: Theme) {
+  return {
+    heading: "How to use this result",
+    points: [
+      "Start with the strongest pattern, then compare it against how you actually feel this week.",
+      "Use the food and rhythm suggestions as short observation experiments, not as rules.",
+      "Retake a tongue photo under similar lighting in a few days if you want to compare changes.",
+    ],
+    uncertainty: [
+      "A tongue photo is only one observation. Lighting, camera color, recent food, brushing, hydration, and timing can all change what appears.",
+      "The result becomes more useful when tongue signs are compared with digestion, sleep, stress, thirst, stool, energy, and temperature patterns.",
+    ],
+  };
+}
+
+const tcmTeaching = [
+  "Traditional Chinese Medicine looks for patterns rather than isolated symptoms. Tongue color, coating, moisture, shape, and location are traditionally read alongside digestion, sleep, stress, energy, temperature, and daily rhythm.",
+  "The tongue is not treated as a standalone diagnosis. It is one visual clue that may help organize what to observe next.",
+  "A useful TCM-style wellness reflection asks: what seems hot or cold, excess or depleted, dry or damp, stuck or moving, and how do those signs change with food, rest, stress, and time of day?",
+];
+
 function buildTongueReportHtml({
   primary,
   secondaryThemes,
   selectedLabels,
   notes,
-  imagePreview,
   visionResult,
 }: {
   primary: Theme;
   secondaryThemes: Theme[];
   selectedLabels: string[];
   notes: string;
-  imagePreview: string;
   visionResult: VisionResult | null;
 }) {
   const generatedAt = new Date().toLocaleString();
@@ -592,6 +617,7 @@ function buildTongueReportHtml({
   const qualityNote = visionResult?.image_quality?.notes || visionResult?.overall_note || "";
   const graphThemes = [primary, ...secondaryThemes].slice(0, 3);
   const maxScore = Math.max(...graphThemes.map((theme) => theme.score), 1);
+  const quality = qualitySummary(primary);
 
   return `<!doctype html>
 <html>
@@ -622,11 +648,9 @@ function buildTongueReportHtml({
     .eyebrow { color: #55745c; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
     .muted { color: rgba(33, 31, 26, 0.62); }
     .small { font-size: 12px; }
-    .hero { display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 24px; align-items: stretch; border-bottom: 1px solid rgba(33,31,26,0.12); padding-bottom: 24px; }
-    .brandmark { width: 46px; height: 46px; border: 1px solid rgba(33,31,26,0.12); background: #efe8dc; display: grid; place-items: center; margin-bottom: 18px; }
-    .brandmark span { width: 18px; height: 18px; border-radius: 50%; background: #55745c; display: block; }
-    .photo { width: 100%; border: 1px solid rgba(33,31,26,0.12); background: #f7f4ed; padding: 8px; }
-    .photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; filter: saturate(0.94) contrast(1.03); }
+    .hero { display: grid; grid-template-columns: 0.42fr 1fr; gap: 24px; align-items: center; border-bottom: 1px solid rgba(33,31,26,0.12); padding-bottom: 24px; }
+    .logo-card { border: 1px solid rgba(33,31,26,0.12); background: #f7f4ed; padding: 12px; }
+    .logo-card img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
     .card { border: 1px solid rgba(33,31,26,0.12); background: #f8f7f1; padding: 18px; margin-top: 16px; break-inside: avoid; }
     .lead-card { background: #211f1a; color: #fffaf0; padding: 22px; }
     .lead-card .eyebrow { color: #d9c7a1; }
@@ -642,6 +666,8 @@ function buildTongueReportHtml({
     .score-circle { width: 118px; height: 118px; border-radius: 50%; border: 1px solid rgba(33,31,26,0.14); display: grid; place-items: center; background: radial-gradient(circle, #fffdf8 44%, #efe8dc 45%); }
     .score-circle strong { display: block; font-family: Georgia, "Times New Roman", serif; font-size: 34px; line-height: 1; text-align: center; }
     .score-circle span { display: block; margin-top: 6px; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(33,31,26,0.48); text-align: center; }
+    .link-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .link-row a { border: 1px solid rgba(33,31,26,0.14); color: #211f1a; text-decoration: none; padding: 8px 10px; font-size: 12px; }
     .disclaimer { border-top: 1px solid rgba(33,31,26,0.12); margin-top: 28px; padding-top: 16px; color: rgba(33,31,26,0.66); font-size: 12px; }
     .actions { position: sticky; top: 0; padding: 10px; background: #211f1a; color: #fff; text-align: center; }
     button { border: 1px solid rgba(255,255,255,0.25); background: #fff; color: #211f1a; padding: 10px 14px; cursor: pointer; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 11px; }
@@ -663,14 +689,15 @@ function buildTongueReportHtml({
   </div>
   <main>
     <section class="hero">
+      <div class="logo-card">
+        <img src="/images/tongue-assessment/tongue-map-logo.png" alt="Tongue Test: TCM AI logo" />
+      </div>
       <div>
-        <div class="brandmark"><span></span></div>
         <p class="eyebrow">Tongue Test: TCM AI</p>
         <h1>Tongue Observation Report</h1>
         <p class="muted">AI-guided tongue observation inspired by Traditional Chinese Medicine, translated into plain-English wellness insights, food direction, and lifestyle reflections.</p>
         <p class="small muted">Generated: ${escapeHtml(generatedAt)}</p>
       </div>
-      ${imagePreview ? `<div class="photo"><img src="${imagePreview}" alt="Uploaded tongue photo" /></div>` : ""}
     </section>
 
     <section class="card lead-card">
@@ -708,6 +735,17 @@ function buildTongueReportHtml({
     <section class="card">
       <p class="eyebrow">Plain-English Meaning</p>
       <p>${escapeHtml(primary.meaning)}</p>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <p class="eyebrow">${escapeHtml(quality.heading)}</p>
+        ${reportList(quality.points)}
+      </div>
+      <div class="card">
+        <p class="eyebrow">What is still uncertain</p>
+        ${reportList(quality.uncertainty)}
+      </div>
     </section>
 
     <section class="card">
@@ -759,6 +797,21 @@ function buildTongueReportHtml({
       <p class="eyebrow">Follow-Up Questions</p>
       <p class="muted">Answering these would help separate similar patterns and make the wellness direction more precise.</p>
       ${reportList(primary.questions)}
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">A TCM view of health and well-being</p>
+      ${reportList(tcmTeaching)}
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Stay connected</p>
+      <p class="muted">Follow along for tongue photo tips, TCM-style wellness education, and future report updates.</p>
+      <div class="link-row">
+        <a href="${reportLinks.instagram}">Instagram</a>
+        <a href="${reportLinks.newsletter}">Newsletter</a>
+        <a href="${reportLinks.website}">Website</a>
+      </div>
     </section>
 
     <section class="card">
@@ -968,7 +1021,6 @@ export function TongueAssessmentApp() {
       secondaryThemes: themes.slice(1),
       selectedLabels,
       notes,
-      imagePreview,
       visionResult,
     });
 
@@ -1046,14 +1098,14 @@ export function TongueAssessmentApp() {
   return (
     <main className="min-h-screen bg-[#fbfaf6]">
       <div className="container-shell max-w-6xl py-8 md:py-12">
-        <section className="border border-ink/10 bg-white p-5 shadow-card md:p-8">
+        <section className="border border-ink/10 bg-white p-4 shadow-card sm:p-5 md:p-8">
           <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
               <p className="eyebrow mb-3">Tongue Test: TCM AI</p>
-              <h1 className="max-w-3xl text-4xl font-semibold leading-[1.04] md:text-6xl">
+              <h1 className="max-w-3xl text-[2.55rem] font-semibold leading-[1.02] sm:text-5xl md:text-6xl">
                 Upload a Tongue Photo. Discover What Your Tongue May Be Telling You.
               </h1>
-              <p className="mt-4 max-w-2xl text-base leading-8 text-ink/68">
+              <p className="mt-4 max-w-2xl text-base leading-7 text-ink/68 md:leading-8">
                 AI-guided tongue observation inspired by Traditional Chinese Medicine — translated into
                 plain-English wellness insights, food direction, and lifestyle reflections. The result is
                 an educational pattern insight, not a medical diagnosis or treatment plan.
@@ -1084,7 +1136,7 @@ export function TongueAssessmentApp() {
               </div>
             </div>
 
-            <div className="border border-ink/10 bg-[#f7f4ed] p-4">
+            <div className="border border-ink/10 bg-[#f7f4ed] p-3 sm:p-4">
               <div className="mb-4 grid gap-4 sm:grid-cols-[7.5rem_1fr] sm:items-center">
                 <div className="overflow-hidden border border-ink/10 bg-[#f7f4ed]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -1136,13 +1188,13 @@ export function TongueAssessmentApp() {
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <button
                   type="button"
-                  className="button-primary w-full"
+                  className="button-primary min-h-14 w-full"
                   disabled={cameraStarting}
                   onClick={cameraActive ? captureCameraPhoto : startCamera}
                 >
                   {cameraStarting ? "Opening Camera..." : cameraActive ? "Capture Tongue Photo" : "Open In-App Camera"}
                 </button>
-                <label className="block border border-dashed border-ink/18 bg-white/70 p-4 text-sm text-ink/60">
+                <label className="block min-h-14 border border-dashed border-ink/18 bg-white/70 p-4 text-sm text-ink/60">
                   <span className="block text-xs font-semibold uppercase tracking-[0.16em] text-moss">
                     Upload Existing Photo
                   </span>
@@ -1349,6 +1401,7 @@ export function TongueAssessmentApp() {
 
                   <OrganFocus organs={primary.organs} />
                   <PlainMeaning meaning={primary.meaning} />
+                  <InsightQuality primary={primary} />
                   <ResultList title="What To Try First" items={primary.tryFirst} />
                   <ResultList title="What To Observe Next" items={primary.observe} />
                   <FollowUpQuestions questions={primary.questions} />
@@ -1541,6 +1594,30 @@ function PlainMeaning({ meaning }: { meaning: string }) {
     <article className="border border-ink/10 bg-white/75 p-4">
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">What This May Mean In Plain English</p>
       <p className="mt-2 text-sm leading-6 text-ink/70">{meaning}</p>
+    </article>
+  );
+}
+
+function InsightQuality({ primary }: { primary: Theme }) {
+  const quality = qualitySummary(primary);
+  return (
+    <article className="grid gap-3 sm:grid-cols-2">
+      <div className="border border-ink/10 bg-white/75 p-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">{quality.heading}</p>
+        <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/70">
+          {quality.points.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </div>
+      <div className="border border-ink/10 bg-white/75 p-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">What is still uncertain</p>
+        <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/70">
+          {quality.uncertainty.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </div>
     </article>
   );
 }
