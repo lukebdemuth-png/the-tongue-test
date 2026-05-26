@@ -29,6 +29,15 @@ const visualChoiceLabels = {
 type VisualChoiceKey = keyof typeof visualChoiceLabels;
 
 const visualChoiceKeys = new Set(Object.keys(visualChoiceLabels));
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
+const RATE_LIMIT_MAX_REQUESTS = 12;
+
+type RateLimitEntry = {
+  count: number;
+  resetAt: number;
+};
+
+const rateLimitStore = new Map<string, RateLimitEntry>();
 
 function extractOutputText(response: any): string {
   if (typeof response.output_text === "string") return response.output_text;
@@ -51,8 +60,43 @@ function parseJsonObject(text: string) {
   }
 }
 
+function rateLimitKey(request: Request) {
+  const forwardedFor = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  return forwardedFor || request.headers.get("x-real-ip") || "local";
+}
+
+function checkRateLimit(request: Request) {
+  const now = Date.now();
+  const key = rateLimitKey(request);
+  const current = rateLimitStore.get(key);
+
+  if (!current || current.resetAt <= now) {
+    rateLimitStore.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return { ok: true, resetAt: now + RATE_LIMIT_WINDOW_MS };
+  }
+
+  if (current.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return { ok: false, resetAt: current.resetAt };
+  }
+
+  current.count += 1;
+  rateLimitStore.set(key, current);
+  return { ok: true, resetAt: current.resetAt };
+}
+
 export async function POST(request: Request) {
   try {
+    const rateLimit = checkRateLimit(request);
+    if (!rateLimit.ok) {
+      return NextResponse.json(
+        {
+          error: "Too many tongue photo reads. Please wait a little before trying again.",
+          resetAt: new Date(rateLimit.resetAt).toISOString(),
+        },
+        { status: 429 },
+      );
+    }
+
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
       return NextResponse.json({ error: "OpenAI API key is not configured." }, { status: 500 });

@@ -11,6 +11,17 @@ export type FreeContentResource = {
 
 export const freeContentResources: FreeContentResource[] = [
   {
+    slug: "tongue-photo-guide",
+    title: "How To Take A Clear Tongue Photo",
+    eyebrow: "Free Tongue Test guide",
+    format: "Guide",
+    description:
+      "A simple photo checklist for taking a tongue image that can be read more clearly: lighting, angle, timing, framing, and what to avoid before taking the photo.",
+    promise:
+      "Sign up to unlock the guide and get practical educational notes on tongue observation, Traditional Chinese Medicine-inspired pattern reflection, and The Tongue Test launch.",
+    assetLabel: "Open the guide",
+  },
+  {
     slug: "single-symptom-intake-prompts",
     title: "Single-Symptom Intake Prompts",
     eyebrow: "Free practitioner guide",

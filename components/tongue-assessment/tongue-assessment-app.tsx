@@ -577,8 +577,8 @@ function ToggleCard({
 }
 
 export function TongueAssessmentApp() {
-  const [selected, setSelected] = useState<Set<ChoiceKey>>(new Set(["thinCoat", "bloating", "poorSleep"]));
-  const [notes, setNotes] = useState("Bloating after meals, poor sleep, low morning energy.");
+  const [selected, setSelected] = useState<Set<ChoiceKey>>(new Set());
+  const [notes, setNotes] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const [imageDataUrl, setImageDataUrl] = useState("");
   const [visionResult, setVisionResult] = useState<VisionResult | null>(null);
@@ -630,6 +630,14 @@ export function TongueAssessmentApp() {
     } finally {
       setVisionLoading(false);
     }
+  }
+
+  function clearPhoto() {
+    setImagePreview("");
+    setImageDataUrl("");
+    setVisionResult(null);
+    setVisionError("");
+    setSelected((current) => new Set([...current].filter((key) => !visualChoiceKeys.has(key))));
   }
 
   async function sendFeedback() {
@@ -768,6 +776,11 @@ export function TongueAssessmentApp() {
                   </div>
                 </div>
               )}
+              {imagePreview ? (
+                <button type="button" className="button-secondary mt-3 w-full" onClick={clearPhoto}>
+                  Retake Or Replace Photo
+                </button>
+              ) : null}
               <button
                 type="button"
                 className="button-primary mt-4 w-full"
@@ -843,7 +856,7 @@ export function TongueAssessmentApp() {
             <article className="border border-ink/10 bg-white p-5 shadow-card">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Visual Comparison Library</p>
               <p className="mt-2 text-sm leading-6 text-ink/58">
-                The photo-reading layer will be trained against picture-heavy tongue diagnosis references.
+                The photo-reading language is organized around picture-heavy tongue diagnosis references.
                 These are the core visual sources for the app direction:
               </p>
               <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/68">

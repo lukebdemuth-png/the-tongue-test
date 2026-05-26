@@ -33,6 +33,9 @@ export function normalizeFeedbackSubmission(value: unknown): FeedbackSubmission 
 }
 
 export async function saveFeedbackSubmission(submission: FeedbackSubmission) {
+  const wroteToSupabase = await writeSupabaseFeedback(submission);
+  if (wroteToSupabase) return { ok: true, mode: "supabase" as const };
+
   const filePath = process.env.FEEDBACK_FILE_PATH || path.join(process.cwd(), "logs", "feedback_submissions.jsonl");
   await mkdir(path.dirname(filePath), { recursive: true });
   await appendFile(
@@ -45,4 +48,33 @@ export async function saveFeedbackSubmission(submission: FeedbackSubmission) {
   );
 
   return { ok: true, mode: "local" as const };
+}
+
+async function writeSupabaseFeedback(submission: FeedbackSubmission) {
+  const url = process.env.SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const table = process.env.SUPABASE_FEEDBACK_TABLE || "app_feedback";
+  if (!url || !serviceRoleKey) return false;
+
+  const response = await fetch(`${url.replace(/\/$/, "")}/rest/v1/${table}`, {
+    method: "POST",
+    headers: {
+      apikey: serviceRoleKey,
+      Authorization: `Bearer ${serviceRoleKey}`,
+      "Content-Type": "application/json",
+      Prefer: "return=minimal",
+    },
+    body: JSON.stringify({
+      email: submission.email ?? null,
+      message: submission.message,
+      source: submission.source ?? "tongue-test",
+    }),
+  });
+
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(`Supabase feedback insert failed: ${detail || response.statusText}`);
+  }
+
+  return true;
 }

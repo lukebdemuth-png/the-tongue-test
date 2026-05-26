@@ -76,7 +76,7 @@ export function GatedResourceForm({
       </p>
       <h2 className="mt-4 text-3xl leading-9">Sign up to view it.</h2>
       <p className="mt-4 text-sm leading-7 text-ink/66">
-        Enter your email to unlock this piece and join the Patterns newsletter.
+        Enter your email to unlock this piece and receive future educational updates.
       </p>
       <div className="mt-6 grid gap-3">
         <label className="sr-only" htmlFor={`${slug}-name`}>
