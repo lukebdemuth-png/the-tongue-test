@@ -7,6 +7,10 @@ export type FreeContentResource = {
   promise: string;
   assetHref?: string;
   assetLabel?: string;
+  unlockSections?: Array<{
+    title: string;
+    items: string[];
+  }>;
 };
 
 export const freeContentResources: FreeContentResource[] = [
@@ -20,6 +24,40 @@ export const freeContentResources: FreeContentResource[] = [
     promise:
       "Sign up to unlock the guide and get practical educational notes on tongue observation, Traditional Chinese Medicine-inspired pattern reflection, and the Tongue Test: TCM AI launch.",
     assetLabel: "Open the guide",
+    unlockSections: [
+      {
+        title: "Best timing",
+        items: [
+          "Take the photo before coffee, tea, wine, candy, turmeric, strongly colored drinks, tongue scraping, or brushing the tongue when possible.",
+          "Wait 30-60 minutes after eating or drinking anything colored.",
+          "Use the same time of day for follow-up photos so comparisons are more useful.",
+        ],
+      },
+      {
+        title: "Lighting",
+        items: [
+          "Use natural daylight or neutral indoor light.",
+          "Avoid flash when possible because glare can hide coating and moisture.",
+          "Retake if the image looks too yellow, too dark, shadowed, or overexposed.",
+        ],
+      },
+      {
+        title: "Framing",
+        items: [
+          "Open your mouth and relax the tongue without forcing it flat.",
+          "Center the full tongue in the frame, including the tip, center, sides, and back/root when visible.",
+          "Move close enough to see coating, color, edges, cracks, and moisture clearly.",
+        ],
+      },
+      {
+        title: "What the app reviews",
+        items: [
+          "Tongue body color, coating color, coating thickness, moisture, shape, cracks, scallops, and location clues.",
+          "Photo-quality notes come before TCM-style educational pattern language.",
+          "Results are educational wellness notes only, not diagnosis, treatment, or medical advice.",
+        ],
+      },
+    ],
   },
   {
     slug: "single-symptom-intake-prompts",

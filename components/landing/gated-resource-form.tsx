@@ -7,6 +7,10 @@ type GatedResourceFormProps = {
   title: string;
   assetHref?: string;
   assetLabel?: string;
+  unlockSections?: Array<{
+    title: string;
+    items: string[];
+  }>;
 };
 
 export function GatedResourceForm({
@@ -14,6 +18,7 @@ export function GatedResourceForm({
   title,
   assetHref,
   assetLabel = "Open resource",
+  unlockSections = [],
 }: GatedResourceFormProps) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -61,6 +66,21 @@ export function GatedResourceForm({
           <a className="button-primary mt-6 w-full" href={assetHref} target="_blank" rel="noreferrer">
             {assetLabel}
           </a>
+        ) : unlockSections.length ? (
+          <div className="mt-6 grid gap-4">
+            {unlockSections.map((section) => (
+              <section key={section.title} className="border border-ink/10 bg-fog/70 p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-moss">
+                  {section.title}
+                </p>
+                <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/68">
+                  {section.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
         ) : (
           <p className="mt-6 border border-ink/10 bg-fog/70 p-4 text-sm leading-7 text-ink/66">
             The signup gate is working. Add the PDF or audio file path to this
@@ -167,6 +187,11 @@ function GmailResourceEmailActions({
       `Here is the resource you unlocked: ${title}`,
       "",
       resourceUrl ? `Resource link: ${resourceUrl}` : "The resource is unlocked on the page.",
+      "",
+      "Quick reminder:",
+      "- Use natural daylight or neutral indoor light.",
+      "- Avoid filters, flash glare, colored drinks, brushing, or scraping right before the photo when possible.",
+      "- Center the full tongue and keep it in focus.",
       "",
       "Educational content only. Not medical advice.",
     ].join("\n"),

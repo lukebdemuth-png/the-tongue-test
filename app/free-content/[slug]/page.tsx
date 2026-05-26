@@ -66,6 +66,7 @@ export default async function FreeContentGatePage({ params }: FreeContentPagePro
             title={resource.title}
             assetHref={resource.assetHref}
             assetLabel={resource.assetLabel}
+            unlockSections={resource.unlockSections}
           />
         </div>
       </section>
