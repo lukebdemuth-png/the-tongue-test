@@ -567,6 +567,11 @@ function reportList(items: string[]) {
   return `<ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
 }
 
+function graphPercent(score: number, maxScore: number) {
+  if (maxScore <= 0) return 0;
+  return Math.max(12, Math.round((score / maxScore) * 100));
+}
+
 function buildTongueReportHtml({
   primary,
   secondaryThemes,
@@ -585,6 +590,8 @@ function buildTongueReportHtml({
   const generatedAt = new Date().toLocaleString();
   const detectedSigns = visionResult?.detected_signs ?? [];
   const qualityNote = visionResult?.image_quality?.notes || visionResult?.overall_note || "";
+  const graphThemes = [primary, ...secondaryThemes].slice(0, 3);
+  const maxScore = Math.max(...graphThemes.map((theme) => theme.score), 1);
 
   return `<!doctype html>
 <html>
@@ -593,33 +600,48 @@ function buildTongueReportHtml({
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tongue Test: TCM AI Report</title>
   <style>
-    @page { margin: 0.55in; }
+    @page { margin: 0.48in; }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       color: #211f1a;
-      background: #fbfaf6;
+      background:
+        radial-gradient(circle at 12% 4%, rgba(141, 50, 37, 0.08), transparent 30%),
+        linear-gradient(135deg, #fbfaf6 0%, #f3eee5 100%);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.55;
     }
-    main { max-width: 820px; margin: 0 auto; padding: 28px; background: #fff; }
+    main { max-width: 880px; margin: 0 auto; padding: 34px; background: #fffdf8; border: 1px solid rgba(33,31,26,0.10); }
     h1, h2, h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; line-height: 1.08; }
-    h1 { font-size: 42px; }
-    h2 { font-size: 23px; margin-top: 28px; }
+    h1 { font-size: 48px; letter-spacing: 0; }
+    h2 { font-size: 25px; margin-top: 8px; }
     h3 { font-size: 16px; margin-top: 18px; }
     p { margin: 8px 0 0; }
     ul { margin: 10px 0 0; padding-left: 20px; }
     li { margin: 5px 0; }
-    .eyebrow { color: #55745c; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+    .eyebrow { color: #55745c; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
     .muted { color: rgba(33, 31, 26, 0.62); }
     .small { font-size: 12px; }
-    .hero { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 22px; align-items: start; border-bottom: 1px solid rgba(33,31,26,0.12); padding-bottom: 22px; }
-    .photo { width: 100%; border: 1px solid rgba(33,31,26,0.12); background: #f7f4ed; }
-    .photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
-    .card { border: 1px solid rgba(33,31,26,0.12); background: #f8f7f1; padding: 16px; margin-top: 16px; break-inside: avoid; }
+    .hero { display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 24px; align-items: stretch; border-bottom: 1px solid rgba(33,31,26,0.12); padding-bottom: 24px; }
+    .brandmark { width: 46px; height: 46px; border: 1px solid rgba(33,31,26,0.12); background: #efe8dc; display: grid; place-items: center; margin-bottom: 18px; }
+    .brandmark span { width: 18px; height: 18px; border-radius: 50%; background: #55745c; display: block; }
+    .photo { width: 100%; border: 1px solid rgba(33,31,26,0.12); background: #f7f4ed; padding: 8px; }
+    .photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; filter: saturate(0.94) contrast(1.03); }
+    .card { border: 1px solid rgba(33,31,26,0.12); background: #f8f7f1; padding: 18px; margin-top: 16px; break-inside: avoid; }
+    .lead-card { background: #211f1a; color: #fffaf0; padding: 22px; }
+    .lead-card .eyebrow { color: #d9c7a1; }
+    .lead-card .muted { color: rgba(255,250,240,0.68); }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .pillwrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
     .pill { border: 1px solid rgba(33,31,26,0.12); background: #fbfaf6; padding: 5px 8px; font-size: 12px; }
+    .report-grid { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: 14px; }
+    .graph-row { margin-top: 14px; }
+    .graph-meta { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: rgba(33,31,26,0.60); }
+    .graph-track { height: 10px; border: 1px solid rgba(33,31,26,0.12); background: #eee8dc; margin-top: 6px; }
+    .graph-fill { height: 100%; background: linear-gradient(90deg, #55745c, #8d6a46); }
+    .score-circle { width: 118px; height: 118px; border-radius: 50%; border: 1px solid rgba(33,31,26,0.14); display: grid; place-items: center; background: radial-gradient(circle, #fffdf8 44%, #efe8dc 45%); }
+    .score-circle strong { display: block; font-family: Georgia, "Times New Roman", serif; font-size: 34px; line-height: 1; text-align: center; }
+    .score-circle span { display: block; margin-top: 6px; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(33,31,26,0.48); text-align: center; }
     .disclaimer { border-top: 1px solid rgba(33,31,26,0.12); margin-top: 28px; padding-top: 16px; color: rgba(33,31,26,0.66); font-size: 12px; }
     .actions { position: sticky; top: 0; padding: 10px; background: #211f1a; color: #fff; text-align: center; }
     button { border: 1px solid rgba(255,255,255,0.25); background: #fff; color: #211f1a; padding: 10px 14px; cursor: pointer; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 11px; }
@@ -631,7 +653,7 @@ function buildTongueReportHtml({
     }
     @media (max-width: 720px) {
       main { padding: 18px; }
-      .hero, .grid { grid-template-columns: 1fr; }
+      .hero, .grid, .report-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -642,6 +664,7 @@ function buildTongueReportHtml({
   <main>
     <section class="hero">
       <div>
+        <div class="brandmark"><span></span></div>
         <p class="eyebrow">Tongue Test: TCM AI</p>
         <h1>Tongue Observation Report</h1>
         <p class="muted">AI-guided tongue observation inspired by Traditional Chinese Medicine, translated into plain-English wellness insights, food direction, and lifestyle reflections.</p>
@@ -650,11 +673,36 @@ function buildTongueReportHtml({
       ${imagePreview ? `<div class="photo"><img src="${imagePreview}" alt="Uploaded tongue photo" /></div>` : ""}
     </section>
 
-    <section class="card">
+    <section class="card lead-card">
       <p class="eyebrow">Primary Pattern Insight</p>
       <h2>${escapeHtml(primary.title)}</h2>
       <p>${escapeHtml(primary.plain)}</p>
-      <div class="pillwrap">${primary.signs.map((sign) => `<span class="pill">${escapeHtml(sign)}</span>`).join("")}</div>
+      <p class="small muted">Matched signs: ${escapeHtml(primary.signs.join(", "))}</p>
+    </section>
+
+    <section class="card">
+      <div class="report-grid">
+        <div>
+          <p class="eyebrow">Pattern Graph</p>
+          <h2>Signal Strength</h2>
+          <p class="muted">A visual summary of the strongest pattern directions from the photo and selected observations.</p>
+        </div>
+        <div>
+          ${graphThemes
+            .map(
+              (theme) => `
+                <div class="graph-row">
+                  <div class="graph-meta">
+                    <strong>${escapeHtml(theme.title)}</strong>
+                    <span>${theme.score} matched sign${theme.score === 1 ? "" : "s"}</span>
+                  </div>
+                  <div class="graph-track"><div class="graph-fill" style="width:${graphPercent(theme.score, maxScore)}%"></div></div>
+                </div>
+              `,
+            )
+            .join("")}
+        </div>
+      </div>
     </section>
 
     <section class="card">
@@ -664,15 +712,25 @@ function buildTongueReportHtml({
 
     <section class="card">
       <p class="eyebrow">Organ / System Focus</p>
-      ${primary.organs
-        .map(
-          (organ) => `
-          <h3>${escapeHtml(organ.system)}</h3>
-          <p>${escapeHtml(organ.meaning)}</p>
-          <p class="small muted">${escapeHtml(organ.why)}</p>
-        `,
-        )
-        .join("")}
+      <div class="grid">
+        <div class="score-circle">
+          <div>
+            <strong>${primary.score}</strong>
+            <span>Matched<br />Signals</span>
+          </div>
+        </div>
+        <div>
+          ${primary.organs
+            .map(
+              (organ) => `
+              <h3>${escapeHtml(organ.system)}</h3>
+              <p>${escapeHtml(organ.meaning)}</p>
+              <p class="small muted">${escapeHtml(organ.why)}</p>
+            `,
+            )
+            .join("")}
+        </div>
+      </div>
     </section>
 
     <section class="grid">
@@ -979,15 +1037,29 @@ export function TongueAssessmentApp() {
                 <span className="border border-ink/10 bg-white/62 p-2">No flash or filters</span>
                 <span className="border border-ink/10 bg-white/62 p-2">Photo before food/coffee</span>
               </div>
-              <div className="mt-4 border border-ink/10 bg-white/65 p-3">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Photo Guide</p>
-                <p className="mt-2 text-sm leading-6 text-ink/60">
-                  Open your mouth, relax the tongue, and center the full tongue inside the guide. Keep the
-                  camera close enough to see color, coating, edges, and the center line.
-                </p>
+              <div className="mt-4 grid gap-3 border border-ink/10 bg-white/65 p-3 sm:grid-cols-[1fr_1fr]">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">In-App Camera</p>
+                  <p className="mt-2 text-sm leading-6 text-ink/60">
+                    On a phone, tap the photo button below and choose camera. Take the photo inside the app,
+                    then confirm it for analysis.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Photo Guide</p>
+                  <p className="mt-2 text-sm leading-6 text-ink/60">
+                    Open your mouth, relax the tongue, and center the full tongue inside the guide. Keep the
+                    camera close enough to see color, coating, edges, and the center line.
+                  </p>
+                </div>
               </div>
               <label className="mt-4 block border border-dashed border-ink/18 bg-white/70 p-4 text-sm text-ink/60">
-                Add tongue photo
+                <span className="block text-xs font-semibold uppercase tracking-[0.16em] text-moss">
+                  Take Photo Or Upload Image
+                </span>
+                <p className="mt-2 text-sm leading-6 text-ink/60">
+                  Use your phone camera when available, or choose an existing clear tongue photo.
+                </p>
                 <input
                   type="file"
                   accept="image/*"
@@ -1181,8 +1253,9 @@ export function TongueAssessmentApp() {
                   <article className="border border-ink/10 bg-white/75 p-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">PDF Outcome Report</p>
                     <p className="mt-2 text-sm leading-6 text-ink/66">
-                      Create a branded report with the photo, primary pattern insight, organ-system focus,
-                      food direction, lifestyle direction, follow-up questions, and educational disclaimers.
+                      Create a high-end report with the photo, primary pattern insight, a signal-strength graph,
+                      organ-system focus, food direction, lifestyle direction, follow-up questions, and educational
+                      disclaimers.
                     </p>
                     <button type="button" className="button-primary mt-4 w-full" onClick={downloadPdfReport}>
                       Download PDF Report
