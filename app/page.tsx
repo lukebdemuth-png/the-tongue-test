@@ -106,7 +106,7 @@ export default function HomePage() {
               <div className="overflow-hidden border border-ink/10 bg-[#f7f4ed]">
                 <Image
                   src="/images/tongue-assessment/tongue-map-logo.png"
-                  alt="Traditional Chinese Medicine tongue map illustration"
+                  alt="Tongue Test: TCM AI puzzle tongue logo"
                   width={1024}
                   height={1536}
                   priority

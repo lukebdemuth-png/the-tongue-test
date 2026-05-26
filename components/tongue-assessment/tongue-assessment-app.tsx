@@ -722,7 +722,7 @@ export function TongueAssessmentApp() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/tongue-assessment/tongue-map-logo.png"
-                    alt="Chinese medicine tongue map"
+                    alt="Tongue Test: TCM AI puzzle tongue logo"
                     className="aspect-[2/3] w-full object-cover"
                   />
                 </div>
