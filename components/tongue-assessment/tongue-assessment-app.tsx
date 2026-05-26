@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   BasisOfInsightDisclosure,
@@ -861,8 +861,19 @@ export function TongueAssessmentApp() {
   const [feedbackEmail, setFeedbackEmail] = useState("");
   const [feedbackStatus, setFeedbackStatus] = useState("");
   const [feedbackSending, setFeedbackSending] = useState(false);
+  const [cameraActive, setCameraActive] = useState(false);
+  const [cameraError, setCameraError] = useState("");
+  const [cameraStarting, setCameraStarting] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
   const themes = useMemo(() => scoreThemes(selected), [selected]);
   const primary = themes[0];
+
+  useEffect(() => {
+    return () => {
+      streamRef.current?.getTracks().forEach((track) => track.stop());
+    };
+  }, []);
 
   function toggle(key: ChoiceKey) {
     setSelected((current) => {
@@ -913,6 +924,7 @@ export function TongueAssessmentApp() {
   }
 
   function clearSession() {
+    stopCamera();
     setSelected(new Set());
     setNotes("");
     setImagePreview("");
@@ -961,6 +973,74 @@ export function TongueAssessmentApp() {
     });
 
     openTonguePdfReport(reportHtml);
+  }
+
+  function stopCamera() {
+    streamRef.current?.getTracks().forEach((track) => track.stop());
+    streamRef.current = null;
+    if (videoRef.current) videoRef.current.srcObject = null;
+    setCameraActive(false);
+    setCameraStarting(false);
+  }
+
+  async function startCamera() {
+    setCameraError("");
+    setCameraStarting(true);
+    setVisionError("");
+    try {
+      if (!navigator.mediaDevices?.getUserMedia) {
+        throw new Error("This browser does not support the in-app camera. Use photo upload instead.");
+      }
+
+      streamRef.current?.getTracks().forEach((track) => track.stop());
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: { ideal: "environment" },
+          width: { ideal: 1280 },
+          height: { ideal: 960 },
+        },
+        audio: false,
+      });
+      streamRef.current = stream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        await videoRef.current.play();
+      }
+      setCameraActive(true);
+    } catch (error) {
+      setCameraError(error instanceof Error ? error.message : "Could not open the camera.");
+      setCameraActive(false);
+    } finally {
+      setCameraStarting(false);
+    }
+  }
+
+  function captureCameraPhoto() {
+    const video = videoRef.current;
+    if (!video || !video.videoWidth || !video.videoHeight) {
+      setCameraError("Camera is still loading. Try again in a moment.");
+      return;
+    }
+
+    const scale = Math.min(1, MAX_UPLOAD_EDGE / Math.max(video.videoWidth, video.videoHeight));
+    const width = Math.max(1, Math.round(video.videoWidth * scale));
+    const height = Math.max(1, Math.round(video.videoHeight * scale));
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext("2d");
+    if (!context) {
+      setCameraError("Could not capture the camera photo.");
+      return;
+    }
+
+    context.drawImage(video, 0, 0, width, height);
+    const dataUrl = canvas.toDataURL("image/jpeg", JPEG_QUALITY);
+    setImagePreview(dataUrl);
+    setImageDataUrl(dataUrl);
+    setVisionResult(null);
+    setVisionError("");
+    stopCamera();
   }
 
   return (
@@ -1041,8 +1121,8 @@ export function TongueAssessmentApp() {
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">In-App Camera</p>
                   <p className="mt-2 text-sm leading-6 text-ink/60">
-                    On a phone, tap the photo button below and choose camera. Take the photo inside the app,
-                    then confirm it for analysis.
+                    Open the camera inside the app, line up the tongue in the guide, capture the photo,
+                    then analyze it.
                   </p>
                 </div>
                 <div>
@@ -1053,42 +1133,66 @@ export function TongueAssessmentApp() {
                   </p>
                 </div>
               </div>
-              <label className="mt-4 block border border-dashed border-ink/18 bg-white/70 p-4 text-sm text-ink/60">
-                <span className="block text-xs font-semibold uppercase tracking-[0.16em] text-moss">
-                  Take Photo Or Upload Image
-                </span>
-                <p className="mt-2 text-sm leading-6 text-ink/60">
-                  Use your phone camera when available, or choose an existing clear tongue photo.
-                </p>
-                <input
-                  type="file"
-                  accept="image/*"
-                  capture="environment"
-                  className="mt-3 block w-full text-xs"
-                  onChange={async (event) => {
-                    const file = event.target.files?.[0];
-                    setVisionResult(null);
-                    setVisionError("");
-                    if (!file) {
-                      setImagePreview("");
-                      setImageDataUrl("");
-                      return;
-                    }
-                    setImagePreparing(true);
-                    try {
-                      const prepared = await prepareTonguePhoto(file);
-                      setImagePreview(prepared);
-                      setImageDataUrl(prepared);
-                    } catch (error) {
-                      setImagePreview("");
-                      setImageDataUrl("");
-                      setVisionError(error instanceof Error ? error.message : "Could not prepare this photo.");
-                    } finally {
-                      setImagePreparing(false);
-                    }
-                  }}
-                />
-              </label>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <button
+                  type="button"
+                  className="button-primary w-full"
+                  disabled={cameraStarting}
+                  onClick={cameraActive ? captureCameraPhoto : startCamera}
+                >
+                  {cameraStarting ? "Opening Camera..." : cameraActive ? "Capture Tongue Photo" : "Open In-App Camera"}
+                </button>
+                <label className="block border border-dashed border-ink/18 bg-white/70 p-4 text-sm text-ink/60">
+                  <span className="block text-xs font-semibold uppercase tracking-[0.16em] text-moss">
+                    Upload Existing Photo
+                  </span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    className="mt-3 block w-full text-xs"
+                    onChange={async (event) => {
+                      const file = event.target.files?.[0];
+                      stopCamera();
+                      setVisionResult(null);
+                      setVisionError("");
+                      setCameraError("");
+                      if (!file) {
+                        setImagePreview("");
+                        setImageDataUrl("");
+                        return;
+                      }
+                      setImagePreparing(true);
+                      try {
+                        const prepared = await prepareTonguePhoto(file);
+                        setImagePreview(prepared);
+                        setImageDataUrl(prepared);
+                      } catch (error) {
+                        setImagePreview("");
+                        setImageDataUrl("");
+                        setVisionError(error instanceof Error ? error.message : "Could not prepare this photo.");
+                      } finally {
+                        setImagePreparing(false);
+                      }
+                    }}
+                  />
+                </label>
+              </div>
+              {cameraError ? (
+                <p className="mt-3 border border-red-200 bg-red-50 p-3 text-sm leading-6 text-red-700">{cameraError}</p>
+              ) : null}
+              {cameraActive ? (
+                <div className="relative mt-4 overflow-hidden border border-ink/10 bg-ink">
+                  <video ref={videoRef} playsInline muted autoPlay className="aspect-[4/3] w-full object-cover" />
+                  <div className="pointer-events-none absolute inset-x-[24%] top-[18%] h-[64%] rounded-[50%] border-2 border-white/90 shadow-[0_0_0_999px_rgba(0,0,0,0.18)]" />
+                  <div className="absolute inset-x-3 bottom-3 bg-ink/72 px-3 py-2 text-center text-xs font-semibold uppercase tracking-[0.13em] text-white">
+                    Center tongue, then tap Capture
+                  </div>
+                  <button type="button" className="button-secondary absolute right-3 top-3 bg-white" onClick={stopCamera}>
+                    Close
+                  </button>
+                </div>
+              ) : null}
               {imagePreview ? (
                 <div className="relative mt-4 overflow-hidden border border-ink/10 bg-ink">
                   {/* eslint-disable-next-line @next/next/no-img-element */}

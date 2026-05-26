@@ -49,19 +49,37 @@ const pricing = [
 
 const sampleReports = [
   {
-    title: "Sample Report A",
-    pattern: "Light center coating with mild dryness",
-    focus: "Digestion, hydration, and evening rhythm",
+    title: "Sample PDF 01",
+    pattern: "Heat / Irritation Pattern",
+    focus: "Digestive center, sleep heat, stress response",
+    bars: [
+      ["Heat / Irritation", 92],
+      ["Constraint / Tension", 61],
+      ["Dryness / Fluids", 48],
+    ],
+    sections: ["Primary Pattern Insight", "Organ / System Focus", "Food Direction"],
   },
   {
-    title: "Sample Report B",
-    pattern: "Redder body with heat/cold clarifying questions",
-    focus: "Sleep, stress, thirst, and food response",
+    title: "Sample PDF 02",
+    pattern: "Damp / Sluggish Digestion",
+    focus: "Coating, meals, bloating, post-meal energy",
+    bars: [
+      ["Damp / Sluggish", 88],
+      ["Cold / Low Transformation", 58],
+      ["Constraint / Tension", 42],
+    ],
+    sections: ["Visible Signs", "What To Try First", "Follow-Up Questions"],
   },
   {
-    title: "Sample Report C",
-    pattern: "Thicker coat with dampness-style language",
-    focus: "Coating, meals, bloating, and follow-up tracking",
+    title: "Sample PDF 03",
+    pattern: "Dryness / Fluid Depletion",
+    focus: "Moisture, thirst, stool dryness, recovery rhythm",
+    bars: [
+      ["Dryness / Fluids", 84],
+      ["Heat / Irritation", 64],
+      ["Digestive Center", 51],
+    ],
+    sections: ["Plain-English Meaning", "Lifestyle Direction", "Tracking Notes"],
   },
 ];
 
@@ -138,11 +156,11 @@ export default function HomePage() {
         <div className="container-shell grid gap-12 lg:grid-cols-[0.78fr_1fr] lg:items-start">
           <div>
             <p className="eyebrow">The paid report</p>
-            <h2 className="section-title">Make the scan feel tangible.</h2>
+            <h2 className="section-title">What people are buying is the result PDF.</h2>
             <p className="section-copy mt-6">
-              The main paid product is a clean tongue photo report. It explains photo quality,
-              visible tongue features, TCM-style educational pattern clues, and what to compare
-              in the follow-up scan.
+              The tongue photo starts the process. The finished product is a clean, high-end report
+              that organizes the visible signs into plain-English pattern insight, a signal graph,
+              organ-system focus, food direction, lifestyle direction, and follow-up questions.
             </p>
             <Link href="/pattern-app" className="button-primary mt-8">
               Preview The Flow
@@ -150,10 +168,47 @@ export default function HomePage() {
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             {sampleReports.map((report) => (
-              <article key={report.title} className="border border-ink/10 bg-white/78 p-5 shadow-card">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-clay">{report.title}</p>
-                <h3 className="mt-4 font-sans text-xl font-semibold tracking-normal text-ink">{report.pattern}</h3>
-                <p className="mt-3 text-sm leading-7 text-ink/64">{report.focus}</p>
+              <article key={report.title} className="border border-ink/10 bg-white p-3 shadow-card">
+                <div className="min-h-[25rem] border border-ink/10 bg-[#fffdf8] p-4 shadow-[0_12px_40px_rgba(33,31,26,0.08)]">
+                  <div className="flex items-start justify-between gap-3 border-b border-ink/10 pb-4">
+                    <div>
+                      <p className="text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-moss">
+                        {report.title}
+                      </p>
+                      <h3 className="mt-3 font-serif text-2xl leading-[1.02] text-ink">{report.pattern}</h3>
+                    </div>
+                    <div className="h-9 w-9 border border-ink/10 bg-[#efe8dc]" />
+                  </div>
+                  <p className="mt-4 text-xs leading-5 text-ink/58">{report.focus}</p>
+                  <div className="mt-5 border border-ink/10 bg-[#f8f7f1] p-3">
+                    <p className="text-[0.58rem] font-semibold uppercase tracking-[0.18em] text-moss">
+                      Pattern Graph
+                    </p>
+                    <div className="mt-3 space-y-3">
+                      {report.bars.map(([label, value]) => (
+                        <div key={label}>
+                          <div className="flex justify-between gap-3 text-[0.68rem] leading-4 text-ink/58">
+                            <span>{label}</span>
+                            <span>{value}%</span>
+                          </div>
+                          <div className="mt-1 h-2 border border-ink/10 bg-[#eee8dc]">
+                            <div className="h-full bg-moss" style={{ width: `${value}%` }} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="mt-4 grid gap-2">
+                    {report.sections.map((section) => (
+                      <div key={section} className="border border-ink/10 bg-fog/60 p-2 text-[0.68rem] text-ink/60">
+                        {section}
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-4 border-t border-ink/10 pt-3 text-[0.62rem] leading-4 text-ink/42">
+                    Informational only. Not medical advice.
+                  </p>
+                </div>
               </article>
             ))}
           </div>
