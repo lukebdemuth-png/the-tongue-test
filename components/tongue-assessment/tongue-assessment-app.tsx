@@ -553,6 +553,220 @@ function readableVisionError(body: any) {
   return body?.error || detailMessage || "Could not analyze this tongue photo.";
 }
 
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function reportList(items: string[]) {
+  if (!items.length) return "<p class=\"muted\">No items recorded.</p>";
+  return `<ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+}
+
+function buildTongueReportHtml({
+  primary,
+  secondaryThemes,
+  selectedLabels,
+  notes,
+  imagePreview,
+  visionResult,
+}: {
+  primary: Theme;
+  secondaryThemes: Theme[];
+  selectedLabels: string[];
+  notes: string;
+  imagePreview: string;
+  visionResult: VisionResult | null;
+}) {
+  const generatedAt = new Date().toLocaleString();
+  const detectedSigns = visionResult?.detected_signs ?? [];
+  const qualityNote = visionResult?.image_quality?.notes || visionResult?.overall_note || "";
+
+  return `<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tongue Test: TCM AI Report</title>
+  <style>
+    @page { margin: 0.55in; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: #211f1a;
+      background: #fbfaf6;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    main { max-width: 820px; margin: 0 auto; padding: 28px; background: #fff; }
+    h1, h2, h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; line-height: 1.08; }
+    h1 { font-size: 42px; }
+    h2 { font-size: 23px; margin-top: 28px; }
+    h3 { font-size: 16px; margin-top: 18px; }
+    p { margin: 8px 0 0; }
+    ul { margin: 10px 0 0; padding-left: 20px; }
+    li { margin: 5px 0; }
+    .eyebrow { color: #55745c; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+    .muted { color: rgba(33, 31, 26, 0.62); }
+    .small { font-size: 12px; }
+    .hero { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 22px; align-items: start; border-bottom: 1px solid rgba(33,31,26,0.12); padding-bottom: 22px; }
+    .photo { width: 100%; border: 1px solid rgba(33,31,26,0.12); background: #f7f4ed; }
+    .photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+    .card { border: 1px solid rgba(33,31,26,0.12); background: #f8f7f1; padding: 16px; margin-top: 16px; break-inside: avoid; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .pillwrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .pill { border: 1px solid rgba(33,31,26,0.12); background: #fbfaf6; padding: 5px 8px; font-size: 12px; }
+    .disclaimer { border-top: 1px solid rgba(33,31,26,0.12); margin-top: 28px; padding-top: 16px; color: rgba(33,31,26,0.66); font-size: 12px; }
+    .actions { position: sticky; top: 0; padding: 10px; background: #211f1a; color: #fff; text-align: center; }
+    button { border: 1px solid rgba(255,255,255,0.25); background: #fff; color: #211f1a; padding: 10px 14px; cursor: pointer; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 11px; }
+    @media print {
+      body { background: #fff; }
+      main { padding: 0; }
+      .actions { display: none; }
+      .card { break-inside: avoid; }
+    }
+    @media (max-width: 720px) {
+      main { padding: 18px; }
+      .hero, .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="actions">
+    <button onclick="window.print()">Save Or Print PDF Report</button>
+  </div>
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Tongue Test: TCM AI</p>
+        <h1>Tongue Observation Report</h1>
+        <p class="muted">AI-guided tongue observation inspired by Traditional Chinese Medicine, translated into plain-English wellness insights, food direction, and lifestyle reflections.</p>
+        <p class="small muted">Generated: ${escapeHtml(generatedAt)}</p>
+      </div>
+      ${imagePreview ? `<div class="photo"><img src="${imagePreview}" alt="Uploaded tongue photo" /></div>` : ""}
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Primary Pattern Insight</p>
+      <h2>${escapeHtml(primary.title)}</h2>
+      <p>${escapeHtml(primary.plain)}</p>
+      <div class="pillwrap">${primary.signs.map((sign) => `<span class="pill">${escapeHtml(sign)}</span>`).join("")}</div>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Plain-English Meaning</p>
+      <p>${escapeHtml(primary.meaning)}</p>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Organ / System Focus</p>
+      ${primary.organs
+        .map(
+          (organ) => `
+          <h3>${escapeHtml(organ.system)}</h3>
+          <p>${escapeHtml(organ.meaning)}</p>
+          <p class="small muted">${escapeHtml(organ.why)}</p>
+        `,
+        )
+        .join("")}
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <p class="eyebrow">What To Try First</p>
+        ${reportList(primary.tryFirst)}
+      </div>
+      <div class="card">
+        <p class="eyebrow">What To Observe Next</p>
+        ${reportList(primary.observe)}
+      </div>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">TCM Support Direction</p>
+      <h3>Food Direction</h3>
+      ${reportList(primary.support.foods)}
+      <h3>Lifestyle Direction</h3>
+      ${reportList(primary.support.lifestyle)}
+      <h3>Formula / Herb Families</h3>
+      ${reportList(primary.support.formulaFamilies)}
+      <p class="small muted">These are tradition-based educational possibilities to discuss or explore carefully with a qualified professional. They are not instructions, prescriptions, or medical recommendations.</p>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Follow-Up Questions</p>
+      <p class="muted">Answering these would help separate similar patterns and make the wellness direction more precise.</p>
+      ${reportList(primary.questions)}
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Photo + Visible Signs</p>
+      ${qualityNote ? `<p>${escapeHtml(qualityNote)}</p>` : `<p class="muted">No AI photo quality note was recorded.</p>`}
+      ${
+        detectedSigns.length
+          ? `<div class="pillwrap">${detectedSigns
+              .map((sign) => `<span class="pill">${escapeHtml(sign.label)} · ${escapeHtml(sign.confidence)}</span>`)
+              .join("")}</div>`
+          : ""
+      }
+      <h3>Selected Observations</h3>
+      <div class="pillwrap">${selectedLabels.map((label) => `<span class="pill">${escapeHtml(label)}</span>`).join("")}</div>
+    </section>
+
+    ${
+      secondaryThemes.length
+        ? `<section class="card">
+            <p class="eyebrow">Secondary Signals</p>
+            ${secondaryThemes
+              .map((theme) => `<p><strong>${escapeHtml(theme.title)}:</strong> ${escapeHtml(theme.signs.join(", "))}</p>`)
+              .join("")}
+          </section>`
+        : ""
+    }
+
+    ${
+      notes.trim()
+        ? `<section class="card">
+            <p class="eyebrow">User Notes</p>
+            <p>${escapeHtml(notes.trim()).replace(/\n/g, "<br />")}</p>
+          </section>`
+        : ""
+    }
+
+    <section class="disclaimer">
+      <p><strong>Basis of insight:</strong> This report is generated from visible tongue features, user-entered observations, Traditional Chinese Medicine-inspired wellness frameworks, and app logic. It is not based on medical testing or clinical diagnosis.</p>
+      <p><strong>Informational only.</strong> Tongue Test: TCM AI is not a medical device and does not diagnose, treat, cure, or prevent any medical condition. The information provided is for informational and educational purposes only. Always consult a qualified healthcare professional for medical advice, diagnosis, or treatment. If you are experiencing a medical emergency, call emergency services immediately.</p>
+    </section>
+  </main>
+</body>
+</html>`;
+}
+
+function openTonguePdfReport(reportHtml: string) {
+  const reportWindow = window.open("", "_blank", "width=920,height=1100");
+
+  if (reportWindow) {
+    reportWindow.document.open();
+    reportWindow.document.write(reportHtml);
+    reportWindow.document.close();
+    reportWindow.focus();
+    setTimeout(() => reportWindow.print(), 450);
+    return;
+  }
+
+  const blob = new Blob([reportHtml], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = "tongue-test-tcm-ai-report.html";
+  anchor.click();
+  URL.revokeObjectURL(url);
+}
+
 function ToggleCard({
   choice,
   active,
@@ -673,6 +887,22 @@ export function TongueAssessmentApp() {
     } finally {
       setFeedbackSending(false);
     }
+  }
+
+  function downloadPdfReport() {
+    if (!primary) return;
+
+    const selectedLabels = [...selected].map(labelForChoice).sort((a, b) => a.localeCompare(b));
+    const reportHtml = buildTongueReportHtml({
+      primary,
+      secondaryThemes: themes.slice(1),
+      selectedLabels,
+      notes,
+      imagePreview,
+      visionResult,
+    });
+
+    openTonguePdfReport(reportHtml);
   }
 
   return (
@@ -947,6 +1177,20 @@ export function TongueAssessmentApp() {
                   <ResultList title="What To Observe Next" items={primary.observe} />
                   <FollowUpQuestions questions={primary.questions} />
                   <SupportDirection support={primary.support} />
+
+                  <article className="border border-ink/10 bg-white/75 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">PDF Outcome Report</p>
+                    <p className="mt-2 text-sm leading-6 text-ink/66">
+                      Create a branded report with the photo, primary pattern insight, organ-system focus,
+                      food direction, lifestyle direction, follow-up questions, and educational disclaimers.
+                    </p>
+                    <button type="button" className="button-primary mt-4 w-full" onClick={downloadPdfReport}>
+                      Download PDF Report
+                    </button>
+                    <p className="mt-3 text-xs leading-5 text-ink/45">
+                      Your browser will open the report print screen. Choose “Save as PDF” to keep the file.
+                    </p>
+                  </article>
 
                   {themes.slice(1).length ? (
                     <article className="border border-ink/10 bg-fog/50 p-4">
