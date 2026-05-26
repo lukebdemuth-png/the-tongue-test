@@ -11,8 +11,8 @@ export function SiteFooter() {
           <div className="section-divider max-w-md" />
           <p className="font-serif text-[1.9rem] text-ink">{siteConfig.name}</p>
           <p className="mt-5 text-ink/68">
-            A wellness education and self-reflection app for pattern exploration
-            across Homeopathy, Ayurveda, and Chinese medicine.
+            AI-assisted tongue observation with TCM-style educational notes,
+            photo tips, and change tracking.
           </p>
           <div className="mt-5">
             <FullMedicalDisclaimer compact />
@@ -40,9 +40,9 @@ export function SiteFooter() {
               Principles
             </p>
             <ul className="mt-4 space-y-3 text-sm text-ink/75">
-              <li>Keep Ayurveda, TCM, and Homeopathy distinct</li>
-              <li>Preserve citations, uncertainty, and source limits</li>
-              <li>Prioritize safety before pattern ranking</li>
+              <li>Photo quality before interpretation</li>
+              <li>Visible features before pattern language</li>
+              <li>Educational notes, not medical advice</li>
             </ul>
           </div>
         </div>

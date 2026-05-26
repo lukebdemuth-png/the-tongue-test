@@ -640,6 +640,16 @@ export function TongueAssessmentApp() {
     setSelected((current) => new Set([...current].filter((key) => !visualChoiceKeys.has(key))));
   }
 
+  function clearSession() {
+    setSelected(new Set());
+    setNotes("");
+    setImagePreview("");
+    setImageDataUrl("");
+    setVisionResult(null);
+    setVisionError("");
+    setFeedbackStatus("");
+  }
+
   async function sendFeedback() {
     setFeedbackStatus("");
     setFeedbackSending(true);
@@ -680,6 +690,20 @@ export function TongueAssessmentApp() {
                 plain-English wellness insights, food direction, and lifestyle reflections. The result is
                 an educational pattern insight, not a medical diagnosis or treatment plan.
               </p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <div className="border border-ink/10 bg-fog/60 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Free Preview</p>
+                  <p className="mt-2 text-sm leading-6 text-ink/58">
+                    Photo quality plus a short visible-feature preview.
+                  </p>
+                </div>
+                <div className="border border-moss/25 bg-white/80 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">$4.99 Full Report</p>
+                  <p className="mt-2 text-sm leading-6 text-ink/58">
+                    Full report plus one follow-up comparison.
+                  </p>
+                </div>
+              </div>
               <div className="mt-5 max-w-2xl">
                 <WellnessPurposeDisclosure compact />
               </div>
@@ -715,6 +739,10 @@ export function TongueAssessmentApp() {
                 The goal is to compare your photo against TCM tongue-atlas patterns. In this first version,
                 the photo anchors the observation while you mark the signs the app should interpret for
                 wellness education and self-reflection.
+              </p>
+              <p className="mt-2 text-xs leading-5 text-ink/48">
+                Privacy note: your photo is prepared in the browser, then sent for AI-assisted review only
+                when you tap analyze. Use the clear controls below to remove the current photo from this session.
               </p>
               <div className="mt-3 grid gap-2 text-xs leading-5 text-ink/54 sm:grid-cols-3">
                 <span className="border border-ink/10 bg-white/62 p-2">Natural light</span>
@@ -797,6 +825,10 @@ export function TongueAssessmentApp() {
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">AI Visible Signs</p>
                   <p className="mt-2 text-xs leading-5 text-ink/50">
                     {visionResult.image_quality?.notes || visionResult.overall_note || "First-pass visual read."}
+                  </p>
+                  <p className="mt-2 text-xs leading-5 text-ink/45">
+                    Free preview: visible features and quality notes. The paid report expands this into a
+                    structured review, clarifying questions, tracking notes, and follow-up comparison.
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {visionResult.detected_signs.map((sign) => (
@@ -949,6 +981,46 @@ export function TongueAssessmentApp() {
           <div className="space-y-3">
             <WellnessPurposeDisclosure compact />
             <EmergencyWarning />
+          </div>
+        </section>
+
+        <section className="mt-5 border border-moss/20 bg-[#f8f7f1] p-5 shadow-card md:p-6">
+          <div className="grid gap-5 md:grid-cols-[0.85fr_1.15fr] md:items-start">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Paid Report Path</p>
+              <h2 className="mt-2 text-2xl font-semibold leading-tight">Unlock the full scan report.</h2>
+              <p className="mt-3 text-sm leading-6 text-ink/58">
+                The launch product is a $4.99 report with one follow-up comparison. The free layer stays
+                limited to photo quality and a short visible-feature preview.
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="border border-ink/10 bg-white/75 p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">One Scan</p>
+                <p className="mt-3 font-serif text-4xl text-ink">$4.99</p>
+                <p className="mt-2 text-sm leading-6 text-ink/60">Full report plus one follow-up comparison.</p>
+              </div>
+              <div className="border border-ink/10 bg-white/75 p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">Tracking</p>
+                <p className="mt-3 font-serif text-4xl text-ink">$15/mo</p>
+                <p className="mt-2 text-sm leading-6 text-ink/60">Up to 15 scans, history, and comparisons.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-5 border border-ink/10 bg-white/72 p-5 shadow-card md:p-6">
+          <div className="grid gap-5 md:grid-cols-[0.85fr_1.15fr] md:items-start">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Privacy Controls</p>
+              <h2 className="mt-2 text-2xl font-semibold leading-tight">Clear this session.</h2>
+              <p className="mt-3 text-sm leading-6 text-ink/58">
+                This removes the current photo preview, notes, AI visible signs, and selected observations from this browser session.
+              </p>
+            </div>
+            <button type="button" className="button-secondary self-start" onClick={clearSession}>
+              Clear Current Photo And Notes
+            </button>
           </div>
         </section>
 

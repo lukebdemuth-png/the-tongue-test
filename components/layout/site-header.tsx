@@ -41,8 +41,8 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <Link href="/#newsletter" className="button-secondary hidden sm:inline-flex">
-          Request Access
+        <Link href="/pattern-app" className="button-secondary hidden sm:inline-flex">
+          Start Test
         </Link>
       </div>
 

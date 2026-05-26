@@ -102,7 +102,7 @@ async function notifyViaResend(submission: WaitlistSubmission) {
     await sendResendEmail({
       from,
       to,
-      subject: "New Empirical Patterns waitlist signup",
+      subject: "New Tongue Test waitlist signup",
       text: [
         `Email: ${submission.email}`,
         `Name: ${submission.name ?? ""}`,
@@ -116,11 +116,11 @@ async function notifyViaResend(submission: WaitlistSubmission) {
     await sendResendEmail({
       from,
       to: submission.email,
-      subject: "You are on the Patterns waitlist",
+      subject: "You are on the Tongue Test waitlist",
       text: [
-        "Thanks for joining the Empirical Patterns waitlist.",
+        "Thanks for joining the Tongue Test waitlist.",
         "",
-        "We will send practical updates as the practitioner-facing prototype develops.",
+        "We will send practical updates as the tongue-photo review prototype develops.",
         "",
         "This project is an educational, source-backed research tool. It does not diagnose, prescribe, or replace qualified clinical judgment.",
       ].join("\n"),

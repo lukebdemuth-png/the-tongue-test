@@ -1,19 +1,19 @@
 export const siteConfig = {
-  name: "Patterns",
-  formalName: "Empirical Patterns",
-  tagline: "3 traditions one pattern.",
-  traditionsLine: "Homeopathy · Ayurveda · Chinese Medicine",
+  name: "Tongue Test",
+  formalName: "Tongue Test: TCM AI",
+  tagline: "TCM tongue notes",
+  traditionsLine: "Coating · Color · Tracking",
   description:
-    "Patterns is a wellness education and self-reflection app for exploring symptoms, constitution, tendencies, and recurring patterns through Ayurveda, Chinese Medicine, and Homeopathy. The result is an informational, source-based pattern profile rooted in traditional source texts, highlighting relationships to explore, reflection questions, and suggested wellness directions for discussion with qualified professionals.",
+    "Tongue notes, TCM-style patterns, photo tips, and wellness tracking. Take a clear tongue photo, review visible tongue features with educational notes, and track changes over time.",
   url: "https://example.com",
-  email: "hello@empiricalpatterns.example",
-  logo: "/images/brand/patterns-logo-mark.svg",
+  email: "hello@thetonguetest.example",
+  logo: "/images/tongue-assessment/tongue-map-logo.png",
 };
 
 export const navItems = [
-  { href: "/#canon", label: "Canon" },
-  { href: "/#traditions", label: "Traditions" },
-  { href: "/#produces", label: "Output" },
-  { href: "/#sources", label: "Sources" },
-  { href: "/#newsletter", label: "Waitlist" },
+  { href: "/#report", label: "Report" },
+  { href: "/#features", label: "Features" },
+  { href: "/#pricing", label: "Pricing" },
+  { href: "/#tracking", label: "Tracking" },
+  { href: "/#privacy", label: "Privacy" },
 ];
