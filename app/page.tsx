@@ -107,7 +107,7 @@ export default function HomePage() {
               educational notes, and track changes over time.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link href="/pattern-app" className="button-primary">
+              <Link href="/tongue-assessment" className="button-primary">
                 Start Tongue Test: TCM AI
               </Link>
               <Link href="/free-content/tongue-photo-guide" className="button-secondary">
@@ -162,7 +162,7 @@ export default function HomePage() {
               that organizes the visible signs into plain-English pattern insight, a signal graph,
               organ-system focus, food direction, lifestyle direction, and follow-up questions.
             </p>
-            <Link href="/pattern-app" className="button-primary mt-8">
+            <Link href="/tongue-assessment" className="button-primary mt-8">
               Preview The Flow
             </Link>
           </div>
@@ -254,7 +254,7 @@ export default function HomePage() {
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-moss">{tier.name}</p>
                 <p className="mt-5 font-serif text-5xl leading-none text-ink">{tier.price}</p>
                 <p className="mt-5 text-sm leading-7 text-ink/64">{tier.note}</p>
-                <Link href="/pattern-app" className={tier.primary ? "button-primary mt-6 w-full" : "button-secondary mt-6 w-full"}>
+                <Link href="/tongue-assessment" className={tier.primary ? "button-primary mt-6 w-full" : "button-secondary mt-6 w-full"}>
                   {tier.primary ? "Get One Report" : "Track Changes"}
                 </Link>
               </article>

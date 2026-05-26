@@ -906,6 +906,7 @@ export function TongueAssessmentApp() {
   const [notes, setNotes] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const [imageDataUrl, setImageDataUrl] = useState("");
+  const [photoConfirmed, setPhotoConfirmed] = useState(false);
   const [visionResult, setVisionResult] = useState<VisionResult | null>(null);
   const [visionLoading, setVisionLoading] = useState(false);
   const [visionError, setVisionError] = useState("");
@@ -943,6 +944,10 @@ export function TongueAssessmentApp() {
       setVisionError("Upload a tongue photo first.");
       return;
     }
+    if (!photoConfirmed) {
+      setVisionError("Confirm this photo before analysis.");
+      return;
+    }
     setVisionError("");
     setVisionLoading(true);
     try {
@@ -970,10 +975,13 @@ export function TongueAssessmentApp() {
   }
 
   function clearPhoto() {
+    stopCamera();
     setImagePreview("");
     setImageDataUrl("");
+    setPhotoConfirmed(false);
     setVisionResult(null);
     setVisionError("");
+    setCameraError("");
     setSelected((current) => new Set([...current].filter((key) => !visualChoiceKeys.has(key))));
   }
 
@@ -983,6 +991,7 @@ export function TongueAssessmentApp() {
     setNotes("");
     setImagePreview("");
     setImageDataUrl("");
+    setPhotoConfirmed(false);
     setVisionResult(null);
     setVisionError("");
     setFeedbackStatus("");
@@ -1077,6 +1086,7 @@ export function TongueAssessmentApp() {
     setVisionResult(null);
     setVisionError("");
     setCameraError("");
+    setPhotoConfirmed(false);
     if (!file) {
       setImagePreview("");
       setImageDataUrl("");
@@ -1119,6 +1129,7 @@ export function TongueAssessmentApp() {
     const dataUrl = canvas.toDataURL("image/jpeg", JPEG_QUALITY);
     setImagePreview(dataUrl);
     setImageDataUrl(dataUrl);
+    setPhotoConfirmed(false);
     setVisionResult(null);
     setVisionError("");
     stopCamera();
@@ -1132,32 +1143,17 @@ export function TongueAssessmentApp() {
             <div>
               <p className="eyebrow mb-3">Tongue Test: TCM AI</p>
               <h1 className="max-w-3xl text-[2.55rem] font-semibold leading-[1.02] sm:text-5xl md:text-6xl">
-                Upload a Tongue Photo. Discover What Your Tongue May Be Telling You.
+                Take a tongue photo. Get a simple TCM-style wellness report.
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-7 text-ink/68 md:leading-8">
-                AI-guided tongue observation inspired by Traditional Chinese Medicine — translated into
-                plain-English wellness insights, food direction, and lifestyle reflections. The result is
-                an educational pattern insight, not a medical diagnosis or treatment plan.
+                Choose a clear photo, confirm it, then receive a calm educational report with visible
+                tongue notes, plain-English pattern insight, food direction, and lifestyle reflections.
               </p>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                <div className="border border-ink/10 bg-fog/60 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Free Preview</p>
-                  <p className="mt-2 text-sm leading-6 text-ink/58">
-                    Photo quality plus a short visible-feature preview.
-                  </p>
-                </div>
-                <div className="border border-moss/25 bg-white/80 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">$4.99 Full Report</p>
-                  <p className="mt-2 text-sm leading-6 text-ink/58">
-                    Full report plus one follow-up comparison.
-                  </p>
-                </div>
-              </div>
               <div className="mt-5 max-w-2xl">
                 <WellnessPurposeDisclosure compact />
               </div>
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                {["Photo first", "Compare visible signs", "Read organ-system patterns"].map((item) => (
+                {["Take or choose photo", "Confirm or delete it", "Receive report"].map((item) => (
                   <div key={item} className="border border-ink/10 bg-fog/60 p-3 text-sm leading-6 text-ink/66">
                     {item}
                   </div>
@@ -1185,9 +1181,8 @@ export function TongueAssessmentApp() {
               </div>
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Tongue Photo</p>
               <p className="mt-2 text-sm leading-6 text-ink/62">
-                The goal is to compare your photo against TCM tongue-atlas patterns. In this first version,
-                the photo anchors the observation while you mark the signs the app should interpret for
-                wellness education and self-reflection.
+                Start with a clear photo in natural light. The photo is used for this educational report
+                and you can delete it from this session at any time.
               </p>
               <p className="mt-2 text-xs leading-5 text-ink/48">
                 Privacy note: your photo is prepared in the browser, then sent for AI-assisted review only
@@ -1276,17 +1271,41 @@ export function TongueAssessmentApp() {
                 </div>
               )}
               {imagePreview ? (
-                <button type="button" className="button-secondary mt-3 w-full" onClick={clearPhoto}>
-                  Retake Or Replace Photo
-                </button>
+                <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                  <button
+                    type="button"
+                    className="button-primary w-full"
+                    onClick={() => {
+                      setPhotoConfirmed(true);
+                      setVisionError("");
+                    }}
+                  >
+                    {photoConfirmed ? "Photo Confirmed" : "Use This Photo"}
+                  </button>
+                  <button type="button" className="button-secondary w-full" onClick={() => fileInputRef.current?.click()}>
+                    Retake
+                  </button>
+                  <button type="button" className="button-secondary w-full" onClick={clearPhoto}>
+                    Delete Photo
+                  </button>
+                </div>
+              ) : null}
+              {photoConfirmed ? (
+                <p className="mt-3 border border-moss/20 bg-white/70 p-3 text-sm leading-6 text-moss">
+                  Photo confirmed. You can analyze it now, or delete it before continuing.
+                </p>
+              ) : imagePreview ? (
+                <p className="mt-3 border border-ink/10 bg-white/70 p-3 text-sm leading-6 text-ink/58">
+                  Review the photo first. If it looks clear, tap Use This Photo.
+                </p>
               ) : null}
               <button
                 type="button"
-                className="button-primary mt-4 w-full"
-                disabled={!imageDataUrl || imagePreparing || visionLoading}
+                className="button-primary mt-4 min-h-14 w-full"
+                disabled={!imageDataUrl || !photoConfirmed || imagePreparing || visionLoading}
                 onClick={analyzeTonguePhoto}
               >
-                {imagePreparing ? "Preparing Photo..." : visionLoading ? "Reading Photo..." : "Analyze Tongue Photo With AI"}
+                {imagePreparing ? "Preparing Photo..." : visionLoading ? "Building Report..." : "Analyze And Build Report"}
               </button>
               {visionError ? (
                 <p className="mt-3 border border-red-200 bg-red-50 p-3 text-sm leading-6 text-red-700">{visionError}</p>
@@ -1317,8 +1336,17 @@ export function TongueAssessmentApp() {
           </div>
         </section>
 
-        <div className="mt-5 grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
-          <section className="space-y-4">
+        <div className="mt-5 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+          <section className="order-2 space-y-4">
+            <details className="border border-ink/10 bg-white/78 p-4 shadow-card">
+              <summary className="cursor-pointer text-xs font-semibold uppercase tracking-[0.16em] text-moss">
+                Optional details and notes
+              </summary>
+              <p className="mt-3 text-sm leading-6 text-ink/58">
+                These are optional. The simple flow works from the photo first; use these only if you want
+                to add context or manually adjust visible signs.
+              </p>
+              <div className="mt-4 space-y-4">
             {observationGroups.map((group) => (
               <article key={group.title} className="border border-ink/10 bg-white p-5 shadow-card">
                 <div className="flex flex-wrap items-end justify-between gap-3">
@@ -1383,15 +1411,17 @@ export function TongueAssessmentApp() {
                 ))}
               </div>
             </article>
+              </div>
+            </details>
           </section>
 
-          <aside className="lg:sticky lg:top-6 lg:self-start">
+          <aside className="order-1 lg:sticky lg:top-6 lg:self-start">
             <section className="border border-ink/10 bg-white p-5 shadow-card md:p-6">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <p className="eyebrow mb-3">TCM Photo Read</p>
+                  <p className="eyebrow mb-3">Your Tongue Test Report</p>
                   <h2 className="text-3xl font-semibold leading-tight">
-                    {primary?.title ?? "Add observations to build a tongue pattern."}
+                    {primary?.title ?? "Choose a photo to begin."}
                   </h2>
                 </div>
                 <span className="border border-ink/10 bg-fog px-3 py-1.5 text-xs uppercase tracking-[0.14em] text-ink/54">
@@ -1423,9 +1453,9 @@ export function TongueAssessmentApp() {
                   <article className="border border-ink/10 bg-white/75 p-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">PDF Outcome Report</p>
                     <p className="mt-2 text-sm leading-6 text-ink/66">
-                      Create a high-end report with the photo, primary pattern insight, a signal-strength graph,
-                      organ-system focus, food direction, lifestyle direction, follow-up questions, and educational
-                      disclaimers.
+                      Create a high-end report with the app logo, primary pattern insight, a signal-strength
+                      graph, organ-system focus, food direction, lifestyle direction, follow-up questions,
+                      and educational disclaimers. Your tongue photo is not placed in the PDF.
                     </p>
                     <button type="button" className="button-primary mt-4 w-full" onClick={downloadPdfReport}>
                       Download PDF Report
@@ -1450,7 +1480,7 @@ export function TongueAssessmentApp() {
                 </div>
               ) : (
                 <p className="mt-4 text-sm leading-6 text-ink/58">
-                  Start with color, coat, moisture, and one symptom. The result will appear here.
+                  Take or choose a clear tongue photo, confirm it, then analyze. Your report will appear here.
                 </p>
               )}
 
@@ -1471,42 +1501,17 @@ export function TongueAssessmentApp() {
           </div>
         </section>
 
-        <section className="mt-5 border border-moss/20 bg-[#f8f7f1] p-5 shadow-card md:p-6">
-          <div className="grid gap-5 md:grid-cols-[0.85fr_1.15fr] md:items-start">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Paid Report Path</p>
-              <h2 className="mt-2 text-2xl font-semibold leading-tight">Unlock the full scan report.</h2>
-              <p className="mt-3 text-sm leading-6 text-ink/58">
-                The launch product is a $4.99 report with one follow-up comparison. The free layer stays
-                limited to photo quality and a short visible-feature preview.
-              </p>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <div className="border border-ink/10 bg-white/75 p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">One Scan</p>
-                <p className="mt-3 font-serif text-4xl text-ink">$4.99</p>
-                <p className="mt-2 text-sm leading-6 text-ink/60">Full report plus one follow-up comparison.</p>
-              </div>
-              <div className="border border-ink/10 bg-white/75 p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">Tracking</p>
-                <p className="mt-3 font-serif text-4xl text-ink">$15/mo</p>
-                <p className="mt-2 text-sm leading-6 text-ink/60">Up to 15 scans, history, and comparisons.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <section className="mt-5 border border-ink/10 bg-white/72 p-5 shadow-card md:p-6">
           <div className="grid gap-5 md:grid-cols-[0.85fr_1.15fr] md:items-start">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Privacy Controls</p>
-              <h2 className="mt-2 text-2xl font-semibold leading-tight">Clear this session.</h2>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Photo Safety</p>
+              <h2 className="mt-2 text-2xl font-semibold leading-tight">Delete your photo anytime.</h2>
               <p className="mt-3 text-sm leading-6 text-ink/58">
                 This removes the current photo preview, notes, AI visible signs, and selected observations from this browser session.
               </p>
             </div>
             <button type="button" className="button-secondary self-start" onClick={clearSession}>
-              Clear Current Photo And Notes
+              Delete Photo And Clear Session
             </button>
           </div>
         </section>
