@@ -17,8 +17,6 @@ carousel_prompts/
 carousel_exports/
 logs/waitlist_submissions.jsonl
 logs/feedback_submissions.jsonl
-logs/gmail_tokens.json
-logs/gmail_events.jsonl
 data/raw/*.pdf
 data/clean/*.md
 data/extracted/*.txt

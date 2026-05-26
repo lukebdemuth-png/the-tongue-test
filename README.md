@@ -132,53 +132,6 @@ Then open:
 http://localhost:3000/pattern-app
 ```
 
-## Gmail Integration Setup
-
-The app can optionally connect a user's Gmail account through Google OAuth, create Gmail drafts, and send only after explicit confirmation. Gmail secrets and OAuth tokens stay server-side.
-
-1. Create a Google Cloud project.
-2. Enable the Gmail API.
-3. Configure the OAuth consent screen.
-4. Create OAuth 2.0 Client ID credentials.
-5. Add the redirect URI used by this app:
-
-```text
-http://localhost:3000/api/gmail/callback
-```
-
-For production, also add:
-
-```text
-https://YOUR-VERCEL-DOMAIN/api/gmail/callback
-```
-
-Environment variables:
-
-```bash
-GOOGLE_CLIENT_ID=...
-GOOGLE_CLIENT_SECRET=...
-GOOGLE_REDIRECT_URI=http://localhost:3000/api/gmail/callback
-GMAIL_SCOPES="https://www.googleapis.com/auth/gmail.compose https://www.googleapis.com/auth/gmail.send"
-GMAIL_STATE_SECRET=...
-GMAIL_TOKEN_ENCRYPTION_KEY=...
-SUPABASE_GMAIL_TOKENS_TABLE=gmail_oauth_tokens
-SUPABASE_GMAIL_EVENTS_TABLE=gmail_events
-```
-
-Recommended scopes:
-
-- Draft only: `https://www.googleapis.com/auth/gmail.compose`
-- Draft and send: `https://www.googleapis.com/auth/gmail.compose https://www.googleapis.com/auth/gmail.send`
-
-Security rules:
-
-- Do not request full mailbox access.
-- Do not expose access tokens, refresh tokens, or client secrets to the browser.
-- Do not store Gmail tokens in localStorage.
-- Do not store Gmail tokens in local files for production; use encrypted Supabase storage.
-- Do not send automatically from generated content.
-- Log only non-sensitive events such as `draft_created` or `email_sent`.
-
 The browser prototype now supports a simple practitioner intake form. Minimum useful input is a chief complaint plus primary symptoms; stronger results come from adding duration, severity, better/worse modalities, digestion, sleep, energy, mood, medications, pregnancy status, known conditions, and optional Ayurveda/TCM/Homeopathy notes.
 
 Current Pattern App prototype behavior:
