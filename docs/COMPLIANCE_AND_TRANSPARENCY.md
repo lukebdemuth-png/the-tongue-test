@@ -60,6 +60,8 @@ Current behavior:
 ## Implementation Points
 
 - UI disclosures live in `components/compliance/disclosures.tsx`.
+- The tongue assessment app places calm disclosure language in the hero/onboarding copy, AI visible-sign result, pattern summary, result disclosure stack, and bottom app disclosure band.
+- Tongue assessment outputs are framed as educational Chinese medicine-style pattern insights and tradition-based possibilities, not medical diagnosis, treatment, prescription, or instructions.
 - Backend disclaimer constants live in `src/pattern_app_retrieval.py`.
 - The brain trace attaches disclaimer, short disclaimer, emergency warning, and Basis of Insight to practical output.
 - Red-flag suppression is enforced in `apply_symptom_outcome_layer` in `src/pattern_app_brain.py`.

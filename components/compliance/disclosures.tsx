@@ -7,6 +7,9 @@ export const SHORT_RESULT_DISCLAIMER =
 export const EMERGENCY_WARNING =
   "If you are experiencing a medical emergency, call emergency services immediately.";
 
+export const WELLNESS_PURPOSE =
+  "This tool is for wellness education, self-reflection, and traditional pattern exploration. It is not a substitute for a doctor, licensed practitioner, emergency care, medical testing, prescribed medication, or professional medical judgment.";
+
 export function FullMedicalDisclaimer({ compact = false }: { compact?: boolean }) {
   return (
     <aside className={`${compact ? "border-l border-ink/12 pl-3" : "border border-ink/10 bg-white/72 p-4"}`}>
@@ -42,6 +45,15 @@ export function EmergencyWarning() {
   return (
     <aside className="border-l border-amber-300/70 pl-3">
       <p className="text-xs leading-5 text-ink/48">{EMERGENCY_WARNING}</p>
+    </aside>
+  );
+}
+
+export function WellnessPurposeDisclosure({ compact = false }: { compact?: boolean }) {
+  return (
+    <aside className={`${compact ? "border-l border-ink/12 pl-3" : "border border-ink/10 bg-white/72 p-4"}`}>
+      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-ink/40">Purpose</p>
+      <p className="mt-1 text-xs leading-5 text-ink/48">{WELLNESS_PURPOSE}</p>
     </aside>
   );
 }

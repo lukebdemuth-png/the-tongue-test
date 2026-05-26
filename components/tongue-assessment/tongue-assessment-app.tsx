@@ -7,6 +7,7 @@ import {
   EmergencyWarning,
   FullMedicalDisclaimer,
   ShortResultDisclaimer,
+  WellnessPurposeDisclosure,
 } from "@/components/compliance/disclosures";
 
 type ChoiceKey =
@@ -70,6 +71,7 @@ type Theme = {
   title: string;
   score: number;
   plain: string;
+  meaning: string;
   signs: string[];
   organs: OrganSignal[];
   support: {
@@ -98,6 +100,9 @@ type VisionResult = {
   uncertain_signs?: string[];
   overall_note?: string;
 };
+
+const MAX_UPLOAD_EDGE = 1400;
+const JPEG_QUALITY = 0.82;
 
 const observationGroups: Array<{ title: string; note: string; choices: Choice[] }> = [
   {
@@ -202,6 +207,8 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
     title: "Damp / Sluggish Digestion Pattern",
     plain:
       "The clearest reading is heaviness in the digestive-fluid system: the body may be struggling to transform food and fluids cleanly.",
+    meaning:
+      "In plain English, this often means digestion and fluid metabolism are the first places to look. If meals leave you heavy, foggy, bloated, loose, sticky, or tired, this pattern becomes more convincing.",
     organs: [
       {
         system: "Spleen / Stomach",
@@ -247,16 +254,23 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
   {
     title: "Heat / Irritation Pattern",
     plain:
-      "The signs lean toward heat or irritation: the system may be running hotter, more reactive, or more inflamed in traditional observation language.",
+      "This tongue leans toward a Heat / Irritation Pattern with digestive-center involvement. In Chinese medicine tongue observation, a redder tongue body can suggest that the system is running warmer, more reactive, or more irritated. The center of the tongue is commonly associated with the Spleen / Stomach area, so the visible center coating suggests digestion, appetite, reflux, bloating, meal timing, and post-meal comfort should be checked before making a stronger interpretation.",
+    meaning:
+      "In plain English, this does not point to one single conclusion yet. The strongest early signal is that warmth, irritation, digestion, stress, and hydration may be connected. If you also notice reflux, thirst, dry mouth, irritability, restless sleep, constipation, bitter taste, or stronger symptoms after coffee, alcohol, spicy food, fried food, or late meals, this heat/digestion direction becomes more likely.",
     organs: [
       {
-        system: "Stomach / Heart",
-        meaning: "Heat signs may show through thirst, reflux, mouth irritation, sleep disturbance, or red tongue areas.",
-        why: "Yellow coat, red body, dry surface, and red tip can point toward heat patterns depending on location.",
+        system: "Stomach / Spleen",
+        meaning: "Digestion, appetite, coating, bloating, food response, and post-meal energy are the first areas to compare with the tongue photo.",
+        why: "The center of the tongue is commonly read in relation to the Spleen/Stomach digestive center.",
+      },
+      {
+        system: "Heart / Upper Body Heat",
+        meaning: "This becomes more relevant if the tongue read is paired with poor sleep, restlessness, anxiety, mouth dryness, or a red tip.",
+        why: "Redder upper/tip signs can shift the read toward sleep, spirit, chest, and upper-body heat patterns.",
       },
       {
         system: "Liver / Gallbladder",
-        meaning: "If heat comes with irritability, tension, red sides, or stress reactivity, the sides of the tongue matter more.",
+        meaning: "This becomes more relevant if paired with stress, irritability, tension, headaches, rib tightness, bitter taste, or symptoms worsened by pressure.",
         why: "The sides are commonly used as a Liver/Gallbladder map area in tongue observation.",
       },
     ],
@@ -294,6 +308,8 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
     title: "Constraint / Tension Pattern",
     plain:
       "The tongue and symptoms suggest a stress-movement pattern: pressure may be affecting digestion, sleep, head/neck tension, or mood.",
+    meaning:
+      "In plain English, the body may be showing a pattern where stress and pressure change how things move. If symptoms shift with tension, deadlines, holding emotions in, skipped meals, jaw/neck tightness, or needing to sigh, this direction gets stronger.",
     organs: [
       {
         system: "Liver / Gallbladder",
@@ -340,6 +356,8 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
     title: "Dryness / Fluid Depletion Pattern",
     plain:
       "The signs lean toward dryness or reduced nourishment: the system may need moisture, recovery, and less depletion before stronger changes.",
+    meaning:
+      "In plain English, the photo may be pointing toward a system that needs moisture, steadier nourishment, and recovery. If you also notice dry mouth, thirst, dry skin, hard stool, night waking, or feeling depleted after overwork, this pattern becomes more important.",
     organs: [
       {
         system: "Stomach / Kidney Fluid",
@@ -386,6 +404,8 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
     title: "Cold / Low Transformation Pattern",
     plain:
       "The signs lean cold or underactive: digestion and energy may respond better to warmth, regularity, and gentle activation than restriction.",
+    meaning:
+      "In plain English, this can look like a system that does better with warmth, rhythm, and gentle support. If cold food, iced drinks, irregular meals, or overexertion make you more tired, bloated, loose, or chilled, this direction becomes more likely.",
     organs: [
       {
         system: "Spleen / Stomach",
@@ -474,6 +494,65 @@ function selectionGuidance(count: number) {
   return "Enough detail for a useful first-pass pattern reflection.";
 }
 
+function readFileAsDataUrl(file: File) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(typeof reader.result === "string" ? reader.result : "");
+    reader.onerror = () => reject(new Error("Could not read this image file."));
+    reader.readAsDataURL(file);
+  });
+}
+
+function loadImage(dataUrl: string) {
+  return new Promise<HTMLImageElement>((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error("This image format could not be opened. Try a JPEG or PNG photo."));
+    image.src = dataUrl;
+  });
+}
+
+async function prepareTonguePhoto(file: File) {
+  if (!file.type.startsWith("image/")) {
+    throw new Error("Please upload an image file.");
+  }
+
+  const originalDataUrl = await readFileAsDataUrl(file);
+  const image = await loadImage(originalDataUrl);
+  const scale = Math.min(1, MAX_UPLOAD_EDGE / Math.max(image.naturalWidth, image.naturalHeight));
+  const width = Math.max(1, Math.round(image.naturalWidth * scale));
+  const height = Math.max(1, Math.round(image.naturalHeight * scale));
+
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const context = canvas.getContext("2d");
+  if (!context) throw new Error("Could not prepare this photo for analysis.");
+  context.drawImage(image, 0, 0, width, height);
+
+  return canvas.toDataURL("image/jpeg", JPEG_QUALITY);
+}
+
+function readableVisionError(body: any) {
+  const rawDetail = typeof body?.detail === "string" ? body.detail : "";
+  let detailMessage = rawDetail;
+  try {
+    const parsed = JSON.parse(rawDetail);
+    detailMessage = parsed?.error?.message || detailMessage;
+  } catch {
+    // Keep the original detail text when the API returns plain text.
+  }
+
+  if (/unsupported|invalid|image|format|parse/i.test(detailMessage)) {
+    return "This photo format could not be read by the AI. Try taking a fresh tongue photo with the camera or upload a JPEG/PNG image.";
+  }
+  if (/quota|billing|credits/i.test(detailMessage)) {
+    return "The AI account needs active API credits before this photo can be analyzed.";
+  }
+
+  return body?.error || detailMessage || "Could not analyze this tongue photo.";
+}
+
 function ToggleCard({
   choice,
   active,
@@ -505,6 +584,11 @@ export function TongueAssessmentApp() {
   const [visionResult, setVisionResult] = useState<VisionResult | null>(null);
   const [visionLoading, setVisionLoading] = useState(false);
   const [visionError, setVisionError] = useState("");
+  const [imagePreparing, setImagePreparing] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [feedbackEmail, setFeedbackEmail] = useState("");
+  const [feedbackStatus, setFeedbackStatus] = useState("");
+  const [feedbackSending, setFeedbackSending] = useState(false);
   const themes = useMemo(() => scoreThemes(selected), [selected]);
   const primary = themes[0];
 
@@ -531,7 +615,7 @@ export function TongueAssessmentApp() {
         body: JSON.stringify({ imageDataUrl }),
       });
       const body = await response.json();
-      if (!response.ok) throw new Error(body.error || "Could not analyze this tongue photo.");
+      if (!response.ok) throw new Error(readableVisionError(body));
       const result = body as VisionResult;
       setVisionResult(result);
       setSelected((current) => {
@@ -548,21 +632,49 @@ export function TongueAssessmentApp() {
     }
   }
 
+  async function sendFeedback() {
+    setFeedbackStatus("");
+    setFeedbackSending(true);
+    try {
+      const response = await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: feedbackMessage,
+          email: feedbackEmail,
+          source: "tongue-test-app",
+        }),
+      });
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.error || "Could not send feedback.");
+      setFeedbackMessage("");
+      setFeedbackEmail("");
+      setFeedbackStatus("Thanks. Your feedback was sent.");
+    } catch (error) {
+      setFeedbackStatus(error instanceof Error ? error.message : "Could not send feedback.");
+    } finally {
+      setFeedbackSending(false);
+    }
+  }
+
   return (
     <main className="min-h-screen bg-[#fbfaf6]">
       <div className="container-shell max-w-6xl py-8 md:py-12">
         <section className="border border-ink/10 bg-white p-5 shadow-card md:p-8">
           <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
-              <p className="eyebrow mb-3">Tongue Assessment</p>
+              <p className="eyebrow mb-3">The Tongue Test</p>
               <h1 className="max-w-3xl text-4xl font-semibold leading-[1.04] md:text-6xl">
-                Take a tongue photo. Compare it through Chinese medicine.
+                Upload a Tongue Photo. Discover What Your Tongue May Be Telling You.
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-8 text-ink/68">
-                Upload a tongue image, mark the visible signs, and receive a Chinese medicine-style
-                pattern reflection based on tongue color, coating, shape, moisture, location, symptoms,
-                and visual atlas references.
+                AI-guided tongue observation inspired by Traditional Chinese Medicine — translated into
+                plain-English wellness insights, food direction, and lifestyle reflections. The result is
+                an educational pattern insight, not a medical diagnosis or treatment plan.
               </p>
+              <div className="mt-5 max-w-2xl">
+                <WellnessPurposeDisclosure compact />
+              </div>
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
                 {["Photo first", "Compare visible signs", "Read organ-system patterns"].map((item) => (
                   <div key={item} className="border border-ink/10 bg-fog/60 p-3 text-sm leading-6 text-ink/66">
@@ -573,23 +685,49 @@ export function TongueAssessmentApp() {
             </div>
 
             <div className="border border-ink/10 bg-[#f7f4ed] p-4">
+              <div className="mb-4 grid gap-4 sm:grid-cols-[7.5rem_1fr] sm:items-center">
+                <div className="overflow-hidden border border-ink/10 bg-[#f7f4ed]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/tongue-assessment/tongue-map-logo.png"
+                    alt="Chinese medicine tongue map"
+                    className="aspect-[2/3] w-full object-cover"
+                  />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Tongue Map Lens</p>
+                  <p className="mt-2 text-sm leading-6 text-ink/62">
+                    The app reads visible tongue areas as a traditional Chinese medicine map, then compares
+                    those signs with coating, color, moisture, and user context.
+                  </p>
+                </div>
+              </div>
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Tongue Photo</p>
               <p className="mt-2 text-sm leading-6 text-ink/62">
                 The goal is to compare your photo against TCM tongue-atlas patterns. In this first version,
-                the photo anchors the observation while you mark the signs the app should interpret.
+                the photo anchors the observation while you mark the signs the app should interpret for
+                wellness education and self-reflection.
               </p>
               <div className="mt-3 grid gap-2 text-xs leading-5 text-ink/54 sm:grid-cols-3">
                 <span className="border border-ink/10 bg-white/62 p-2">Natural light</span>
                 <span className="border border-ink/10 bg-white/62 p-2">No flash or filters</span>
                 <span className="border border-ink/10 bg-white/62 p-2">Photo before food/coffee</span>
               </div>
+              <div className="mt-4 border border-ink/10 bg-white/65 p-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Photo Guide</p>
+                <p className="mt-2 text-sm leading-6 text-ink/60">
+                  Open your mouth, relax the tongue, and center the full tongue inside the guide. Keep the
+                  camera close enough to see color, coating, edges, and the center line.
+                </p>
+              </div>
               <label className="mt-4 block border border-dashed border-ink/18 bg-white/70 p-4 text-sm text-ink/60">
                 Add tongue photo
                 <input
                   type="file"
                   accept="image/*"
+                  capture="environment"
                   className="mt-3 block w-full text-xs"
-                  onChange={(event) => {
+                  onChange={async (event) => {
                     const file = event.target.files?.[0];
                     setVisionResult(null);
                     setVisionError("");
@@ -598,31 +736,45 @@ export function TongueAssessmentApp() {
                       setImageDataUrl("");
                       return;
                     }
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                      const result = typeof reader.result === "string" ? reader.result : "";
-                      setImagePreview(result);
-                      setImageDataUrl(result);
-                    };
-                    reader.readAsDataURL(file);
+                    setImagePreparing(true);
+                    try {
+                      const prepared = await prepareTonguePhoto(file);
+                      setImagePreview(prepared);
+                      setImageDataUrl(prepared);
+                    } catch (error) {
+                      setImagePreview("");
+                      setImageDataUrl("");
+                      setVisionError(error instanceof Error ? error.message : "Could not prepare this photo.");
+                    } finally {
+                      setImagePreparing(false);
+                    }
                   }}
                 />
               </label>
               {imagePreview ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={imagePreview} alt="Tongue reference preview" className="mt-4 aspect-[4/3] w-full object-cover" />
+                <div className="relative mt-4 overflow-hidden border border-ink/10 bg-ink">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={imagePreview} alt="Tongue reference preview" className="aspect-[4/3] w-full object-cover" />
+                  <div className="pointer-events-none absolute inset-x-[24%] top-[18%] h-[64%] rounded-[50%] border-2 border-white/90 shadow-[0_0_0_999px_rgba(0,0,0,0.18)]" />
+                  <div className="absolute inset-x-3 bottom-3 bg-ink/72 px-3 py-2 text-center text-xs font-semibold uppercase tracking-[0.13em] text-white">
+                    Tongue centered in guide
+                  </div>
+                </div>
               ) : (
-                <div className="mt-4 flex aspect-[4/3] items-center justify-center border border-ink/10 bg-white/50 text-sm text-ink/40">
-                  Preview appears here
+                <div className="relative mt-4 flex aspect-[4/3] items-center justify-center overflow-hidden border border-ink/10 bg-[#efe9dd] text-sm text-ink/42">
+                  <div className="absolute inset-x-[24%] top-[18%] h-[64%] rounded-[50%] border-2 border-ink/28" />
+                  <div className="max-w-[15rem] px-5 text-center leading-6">
+                    Center the full tongue inside the guide
+                  </div>
                 </div>
               )}
               <button
                 type="button"
                 className="button-primary mt-4 w-full"
-                disabled={!imageDataUrl || visionLoading}
+                disabled={!imageDataUrl || imagePreparing || visionLoading}
                 onClick={analyzeTonguePhoto}
               >
-                {visionLoading ? "Reading Photo..." : "Analyze Tongue Photo With AI"}
+                {imagePreparing ? "Preparing Photo..." : visionLoading ? "Reading Photo..." : "Analyze Tongue Photo With AI"}
               </button>
               {visionError ? (
                 <p className="mt-3 border border-red-200 bg-red-50 p-3 text-sm leading-6 text-red-700">{visionError}</p>
@@ -639,6 +791,9 @@ export function TongueAssessmentApp() {
                         {sign.label} · {sign.confidence}
                       </span>
                     ))}
+                  </div>
+                  <div className="mt-3 border-t border-ink/10 pt-3">
+                    <ShortResultDisclaimer />
                   </div>
                 </article>
               ) : null}
@@ -733,15 +888,19 @@ export function TongueAssessmentApp() {
               {primary ? (
                 <div className="mt-5 space-y-4">
                   <article className="border border-moss/20 bg-[#f8f7f1] p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Photo Pattern Summary</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Primary Pattern Insight</p>
                     <p className="mt-2 text-sm leading-6 text-ink/72">{primary.plain}</p>
                     <p className="mt-3 text-xs leading-5 text-ink/48">Matched: {primary.signs.join(", ")}</p>
+                    <div className="mt-3">
+                      <ShortResultDisclaimer />
+                    </div>
                   </article>
 
                   <OrganFocus organs={primary.organs} />
+                  <PlainMeaning meaning={primary.meaning} />
                   <ResultList title="What To Try First" items={primary.tryFirst} />
                   <ResultList title="What To Observe Next" items={primary.observe} />
-                  <ResultList title="What Would Confirm Or Change This" items={primary.questions} />
+                  <FollowUpQuestions questions={primary.questions} />
                   <SupportDirection support={primary.support} />
 
                   {themes.slice(1).length ? (
@@ -772,6 +931,53 @@ export function TongueAssessmentApp() {
             </section>
           </aside>
         </div>
+        <section className="mt-5 grid gap-3 border border-ink/10 bg-white/72 p-5 md:grid-cols-[1fr_1fr]">
+          <FullMedicalDisclaimer compact />
+          <div className="space-y-3">
+            <WellnessPurposeDisclosure compact />
+            <EmergencyWarning />
+          </div>
+        </section>
+
+        <section className="mt-5 border border-ink/10 bg-white p-5 shadow-card md:p-6">
+          <div className="grid gap-5 md:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Feedback</p>
+              <h2 className="mt-2 text-2xl font-semibold leading-tight">Help shape The Tongue Test</h2>
+              <p className="mt-3 text-sm leading-6 text-ink/58">
+                Tell us what felt useful, confusing, missing, or inaccurate. Early feedback helps make the
+                result clearer before public launch.
+              </p>
+            </div>
+            <div>
+              <textarea
+                value={feedbackMessage}
+                onChange={(event) => setFeedbackMessage(event.target.value)}
+                rows={4}
+                className="w-full resize-y border border-ink/10 bg-fog/60 p-3 text-sm leading-6 outline-none focus:border-moss"
+                placeholder="What should we improve, add, remove, or explain better?"
+              />
+              <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_auto]">
+                <input
+                  value={feedbackEmail}
+                  onChange={(event) => setFeedbackEmail(event.target.value)}
+                  className="border border-ink/10 bg-fog/60 px-3 py-3 text-sm outline-none focus:border-moss"
+                  placeholder="Email optional"
+                  type="email"
+                />
+                <button
+                  type="button"
+                  className="button-secondary"
+                  disabled={feedbackSending}
+                  onClick={sendFeedback}
+                >
+                  {feedbackSending ? "Sending..." : "Send Feedback"}
+                </button>
+              </div>
+              {feedbackStatus ? <p className="mt-3 text-sm leading-6 text-ink/58">{feedbackStatus}</p> : null}
+            </div>
+          </div>
+        </section>
       </div>
     </main>
   );
@@ -782,7 +988,8 @@ function SupportDirection({ support }: { support: Theme["support"] }) {
     <article className="border border-moss/20 bg-[#f8f7f1] p-4">
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Final Step · TCM Support Direction</p>
       <p className="mt-2 text-sm leading-6 text-ink/62">
-        These are traditional support categories to discuss or explore carefully. They are not a prescription.
+        These are tradition-based educational possibilities to discuss or explore carefully with a qualified professional.
+        They are not instructions, prescriptions, or medical recommendations.
       </p>
       <div className="mt-4 grid gap-3">
         <SupportColumn title="Food Direction" items={support.foods} />
@@ -819,6 +1026,35 @@ function OrganFocus({ organs }: { organs: OrganSignal[] }) {
           </div>
         ))}
       </div>
+    </article>
+  );
+}
+
+function PlainMeaning({ meaning }: { meaning: string }) {
+  return (
+    <article className="border border-ink/10 bg-white/75 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">What This May Mean In Plain English</p>
+      <p className="mt-2 text-sm leading-6 text-ink/70">{meaning}</p>
+    </article>
+  );
+}
+
+function FollowUpQuestions({ questions }: { questions: string[] }) {
+  return (
+    <article className="border border-ink/10 bg-white/75 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Make This More Precise</p>
+      <p className="mt-2 text-sm leading-6 text-ink/66">
+        The photo gives a first read. Answering a few follow-up questions would help separate similar
+        patterns and make the wellness direction more precise.
+      </p>
+      <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/70">
+        {questions.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+      <button type="button" className="button-secondary mt-4 w-full">
+        Answer Follow-Up Questions
+      </button>
     </article>
   );
 }

@@ -2,8 +2,9 @@ import { TongueAssessmentApp } from "@/components/tongue-assessment/tongue-asses
 import { buildMetadata } from "@/lib/metadata";
 
 export const metadata = buildMetadata({
-  title: "Tongue Assessment",
-  description: "A Chinese medicine-inspired wellness education tool for organizing tongue observations into practical pattern reflections.",
+  title: "The Tongue Test",
+  description:
+    "AI-guided tongue observation inspired by Traditional Chinese Medicine, translated into plain-English wellness insights, food direction, and lifestyle reflections.",
   path: "/pattern-app",
 });
 
