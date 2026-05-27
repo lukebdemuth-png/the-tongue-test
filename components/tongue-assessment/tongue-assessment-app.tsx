@@ -101,8 +101,207 @@ type VisionResult = {
   overall_note?: string;
 };
 
+type IntakeQuestion = {
+  id: string;
+  question: string;
+  options: [string, string, string, string];
+  mapsTo: ChoiceKey[];
+};
+
+type IntakeAnswer = {
+  selected: string;
+  custom?: string;
+};
+
+type AccessChoice = "trial" | "one-time" | null;
+
 const MAX_UPLOAD_EDGE = 1400;
 const JPEG_QUALITY = 0.82;
+
+const explainOption = "Let me explain in my own words";
+
+const intakeQuestions: IntakeQuestion[] = [
+  {
+    id: "wake_energy",
+    question: "Do you usually feel energized when you wake up?",
+    options: ["I usually wake feeling refreshed and clear", "I wake up tired and need time to function", "I feel exhausted even after sleeping", explainOption],
+    mapsTo: ["lowEnergy"],
+  },
+  {
+    id: "energy_crash",
+    question: "What time of day does your energy crash the most?",
+    options: ["Morning", "Afternoon", "Evening/night", explainOption],
+    mapsTo: ["lowEnergy"],
+  },
+  {
+    id: "push_exhaustion",
+    question: "Do you often push through exhaustion instead of resting?",
+    options: ["Rarely", "Sometimes", "Almost constantly", explainOption],
+    mapsTo: ["lowEnergy", "stress"],
+  },
+  {
+    id: "heavy_after_eating",
+    question: "Do you feel physically heavy, sluggish, or foggy after eating?",
+    options: ["Rarely", "Occasionally", "Frequently", explainOption],
+    mapsTo: ["bloating", "lowEnergy"],
+  },
+  {
+    id: "drained_type",
+    question: "Do you feel more drained mentally or physically lately?",
+    options: ["Mostly mentally drained", "Mostly physically drained", "Both equally", explainOption],
+    mapsTo: ["lowEnergy", "stress"],
+  },
+  {
+    id: "overthink",
+    question: "Do you tend to overthink while eating or working?",
+    options: ["Rarely", "Sometimes", "Constantly", explainOption],
+    mapsTo: ["stress", "bloating"],
+  },
+  {
+    id: "bloating_frequency",
+    question: "How often do you experience bloating or sluggish digestion?",
+    options: ["Rarely", "A few times a week", "Almost daily", explainOption],
+    mapsTo: ["bloating"],
+  },
+  {
+    id: "comfort_foods",
+    question: "Do you crave sugar, bread, or comfort foods when stressed?",
+    options: ["Rarely", "Sometimes", "Very often", explainOption],
+    mapsTo: ["bloating", "stress"],
+  },
+  {
+    id: "warm_or_cold_food",
+    question: "Do you generally feel better with warm foods or cold/raw foods?",
+    options: ["Warm cooked foods", "Cold/raw foods", "I notice no difference", explainOption],
+    mapsTo: ["cold", "heat"],
+  },
+  {
+    id: "stress_appetite",
+    question: "Does stress strongly affect your appetite?",
+    options: ["I lose my appetite", "I eat more when stressed", "My appetite changes unpredictably", explainOption],
+    mapsTo: ["stress", "bloating"],
+  },
+  {
+    id: "meal_nourishment",
+    question: "Do you feel nourished after meals?",
+    options: ["Usually energized and grounded", "Sometimes tired afterward", "Often heavy or depleted afterward", explainOption],
+    mapsTo: ["lowEnergy", "bloating"],
+  },
+  {
+    id: "suppressed_frustration",
+    question: "Do you suppress frustration until it builds internally?",
+    options: ["Rarely", "Sometimes", "Frequently", explainOption],
+    mapsTo: ["stress"],
+  },
+  {
+    id: "irritability",
+    question: "Do you experience irritability or emotional tension easily?",
+    options: ["Rarely", "Sometimes", "Very easily", explainOption],
+    mapsTo: ["stress", "heat"],
+  },
+  {
+    id: "emotionally_stuck",
+    question: "Do you feel emotionally “stuck” right now?",
+    options: ["Not really", "Somewhat", "Strongly", explainOption],
+    mapsTo: ["stress"],
+  },
+  {
+    id: "body_tension",
+    question: "Do you experience chest, rib, neck, or shoulder tension?",
+    options: ["Rarely", "Sometimes", "Frequently", explainOption],
+    mapsTo: ["stress"],
+  },
+  {
+    id: "night_waking",
+    question: "Do you wake during the night?",
+    options: ["Rarely", "Occasionally", "Frequently, especially between 1–3 AM", explainOption],
+    mapsTo: ["poorSleep", "stress"],
+  },
+  {
+    id: "stress_reaction",
+    question: "When stressed, how do you usually react?",
+    options: ["I withdraw inward", "I become emotionally reactive", "I become controlling or impatient", explainOption],
+    mapsTo: ["stress", "heat"],
+  },
+  {
+    id: "resting_mind",
+    question: "Does your mind feel calm when you try to rest?",
+    options: ["Usually calm", "Somewhat restless", "Constantly active or racing", explainOption],
+    mapsTo: ["poorSleep", "stress"],
+  },
+  {
+    id: "presence",
+    question: "Do you struggle to feel fully present or settled?",
+    options: ["Rarely", "Sometimes", "Frequently", explainOption],
+    mapsTo: ["stress", "lowEnergy"],
+  },
+  {
+    id: "racing_thoughts",
+    question: "Do you experience racing thoughts or overstimulation?",
+    options: ["Rarely", "Sometimes", "Frequently", explainOption],
+    mapsTo: ["poorSleep", "stress", "heat"],
+  },
+  {
+    id: "emotional_connection",
+    question: "Do you feel emotionally connected to others lately?",
+    options: ["Mostly yes", "Sometimes disconnected", "Often isolated or emotionally distant", explainOption],
+    mapsTo: ["stress", "lowEnergy"],
+  },
+  {
+    id: "sleep_description",
+    question: "How would you describe your sleep?",
+    options: ["Deep and restorative", "Light or interrupted", "Restless with vivid dreams or waking", explainOption],
+    mapsTo: ["poorSleep", "heat"],
+  },
+  {
+    id: "inner_state",
+    question: "How would you describe your inner emotional state lately?",
+    options: ["Peaceful and balanced", "Stressed or unsettled", "Overwhelmed or emotionally scattered", explainOption],
+    mapsTo: ["stress", "poorSleep"],
+  },
+  {
+    id: "grief_heaviness",
+    question: "Is there grief, sadness, or emotional heaviness you haven’t processed?",
+    options: ["Not really", "Somewhat", "Deeply", explainOption],
+    mapsTo: ["lowEnergy", "stress"],
+  },
+  {
+    id: "guarded",
+    question: "Do you feel emotionally guarded or disconnected?",
+    options: ["Rarely", "Sometimes", "Frequently", explainOption],
+    mapsTo: ["stress"],
+  },
+  {
+    id: "chest_breath_tension",
+    question: "Do you hold tension in your chest, shoulders, or breath?",
+    options: ["Rarely", "Sometimes", "Constantly", explainOption],
+    mapsTo: ["stress"],
+  },
+  {
+    id: "breathing",
+    question: "How would you describe your breathing?",
+    options: ["Deep and relaxed", "Sometimes shallow", "Often tight or restricted", explainOption],
+    mapsTo: ["stress"],
+  },
+  {
+    id: "safe_supported",
+    question: "Do you feel safe and supported in your life right now?",
+    options: ["Mostly yes", "Somewhat uncertain", "Frequently unsafe, unstable, or unsupported", explainOption],
+    mapsTo: ["stress", "lowEnergy"],
+  },
+  {
+    id: "survival_pressure",
+    question: "Do you feel driven by fear, urgency, or survival pressure?",
+    options: ["Rarely", "Sometimes", "Constantly", explainOption],
+    mapsTo: ["stress", "poorSleep"],
+  },
+  {
+    id: "burnout",
+    question: "Do you feel chronically depleted or burnt out?",
+    options: ["Rarely", "Occasionally", "Deeply and consistently", explainOption],
+    mapsTo: ["lowEnergy", "poorSleep"],
+  },
+];
 
 const observationGroups: Array<{ title: string; note: string; choices: Choice[] }> = [
   {
@@ -490,6 +689,47 @@ function scoreThemes(selected: Set<ChoiceKey>): Theme[] {
     .slice(0, 3);
 }
 
+function deriveIntakeChoiceKeys(answers: Record<string, IntakeAnswer>) {
+  const keys = new Set<ChoiceKey>();
+  for (const question of intakeQuestions) {
+    const answer = answers[question.id];
+    if (!answer?.selected) continue;
+
+    const optionIndex = question.options.indexOf(answer.selected as IntakeQuestion["options"][number]);
+    const hasCustom = answer.selected === explainOption && Boolean(answer.custom?.trim());
+    if (optionIndex >= 1 || hasCustom) {
+      question.mapsTo.forEach((key) => keys.add(key));
+    }
+  }
+  return keys;
+}
+
+function intakeAnswerText(question: IntakeQuestion, answer?: IntakeAnswer) {
+  if (!answer?.selected) return "";
+  if (answer.selected === explainOption) return answer.custom?.trim() || explainOption;
+  return answer.selected;
+}
+
+function buildIntakeSummary(answers: Record<string, IntakeAnswer>) {
+  const answered = intakeQuestions
+    .map((question) => ({ question, answer: intakeAnswerText(question, answers[question.id]) }))
+    .filter((item) => item.answer);
+  const ownWords = answered.filter((item) => item.answer !== explainOption && answers[item.question.id]?.selected === explainOption);
+
+  return {
+    answered,
+    ownWords,
+    total: answered.length,
+    highlights: answered
+      .filter((item) => {
+        const answer = answers[item.question.id];
+        const index = answer ? item.question.options.indexOf(answer.selected as IntakeQuestion["options"][number]) : -1;
+        return index >= 1 || answer?.selected === explainOption;
+      })
+      .slice(0, 8),
+  };
+}
+
 function labelForChoice(key: ChoiceKey) {
   return observationGroups.flatMap((group) => group.choices).find((choice) => choice.key === key)?.label ?? key;
 }
@@ -603,12 +843,14 @@ function buildTongueReportHtml({
   primary,
   secondaryThemes,
   selectedLabels,
+  intakeSummary,
   notes,
   visionResult,
 }: {
   primary: Theme;
   secondaryThemes: Theme[];
   selectedLabels: string[];
+  intakeSummary: ReturnType<typeof buildIntakeSummary>;
   notes: string;
   visionResult: VisionResult | null;
 }) {
@@ -735,6 +977,18 @@ function buildTongueReportHtml({
     <section class="card">
       <p class="eyebrow">Plain-English Meaning</p>
       <p>${escapeHtml(primary.meaning)}</p>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Intake Pattern Summary</p>
+      <p class="muted">Before the tongue photo, you answered ${intakeSummary.total} reflective intake questions. The strongest context clues are listed below.</p>
+      ${
+        intakeSummary.highlights.length
+          ? `<ul>${intakeSummary.highlights
+              .map((item) => `<li><strong>${escapeHtml(item.question.question)}</strong><br />${escapeHtml(item.answer)}</li>`)
+              .join("")}</ul>`
+          : `<p class="muted">No intake highlights were recorded.</p>`
+      }
     </section>
 
     <section class="grid">
@@ -902,6 +1156,10 @@ function ToggleCard({
 }
 
 export function TongueAssessmentApp() {
+  const [intakeStarted, setIntakeStarted] = useState(false);
+  const [intakeComplete, setIntakeComplete] = useState(false);
+  const [intakeAnswers, setIntakeAnswers] = useState<Record<string, IntakeAnswer>>({});
+  const [accessChoice, setAccessChoice] = useState<AccessChoice>(null);
   const [selected, setSelected] = useState<Set<ChoiceKey>>(new Set());
   const [notes, setNotes] = useState("");
   const [imagePreview, setImagePreview] = useState("");
@@ -921,8 +1179,18 @@ export function TongueAssessmentApp() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
-  const themes = useMemo(() => scoreThemes(selected), [selected]);
+  const intakeDerivedSigns = useMemo(() => deriveIntakeChoiceKeys(intakeAnswers), [intakeAnswers]);
+  const scoredSelection = useMemo(() => new Set([...selected, ...intakeDerivedSigns]), [selected, intakeDerivedSigns]);
+  const themes = useMemo(() => scoreThemes(scoredSelection), [scoredSelection]);
+  const intakeSummary = useMemo(() => buildIntakeSummary(intakeAnswers), [intakeAnswers]);
   const primary = themes[0];
+  const answeredIntakeCount = intakeSummary.total;
+  const canCompleteIntake = intakeQuestions.every((question) => {
+    const answer = intakeAnswers[question.id];
+    if (!answer?.selected) return false;
+    if (answer.selected === explainOption) return Boolean(answer.custom?.trim());
+    return true;
+  });
 
   useEffect(() => {
     return () => {
@@ -937,6 +1205,26 @@ export function TongueAssessmentApp() {
       else next.add(key);
       return next;
     });
+  }
+
+  function answerIntake(question: IntakeQuestion, selectedAnswer: string) {
+    setIntakeAnswers((current) => ({
+      ...current,
+      [question.id]: {
+        selected: selectedAnswer,
+        custom: selectedAnswer === explainOption ? current[question.id]?.custom ?? "" : "",
+      },
+    }));
+  }
+
+  function updateIntakeCustom(questionId: string, custom: string) {
+    setIntakeAnswers((current) => ({
+      ...current,
+      [questionId]: {
+        selected: current[questionId]?.selected || explainOption,
+        custom,
+      },
+    }));
   }
 
   async function analyzeTonguePhoto() {
@@ -989,6 +1277,7 @@ export function TongueAssessmentApp() {
     stopCamera();
     setSelected(new Set());
     setNotes("");
+    setAccessChoice(null);
     setImagePreview("");
     setImageDataUrl("");
     setPhotoConfirmed(false);
@@ -1030,6 +1319,7 @@ export function TongueAssessmentApp() {
       primary,
       secondaryThemes: themes.slice(1),
       selectedLabels,
+      intakeSummary,
       notes,
       visionResult,
     });
@@ -1135,6 +1425,134 @@ export function TongueAssessmentApp() {
     stopCamera();
   }
 
+  if (!intakeStarted) {
+    return (
+      <main className="min-h-screen bg-[#fbfaf6]">
+        <div className="container-shell max-w-3xl py-8 md:py-14">
+          <section className="border border-ink/10 bg-white p-5 shadow-card md:p-8">
+            <div className="grid gap-5 sm:grid-cols-[7rem_1fr] sm:items-center">
+              <div className="overflow-hidden border border-ink/10 bg-[#f7f4ed]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/tongue-assessment/tongue-map-logo.png"
+                  alt="Tongue Test: TCM AI logo"
+                  className="aspect-square w-full object-cover"
+                />
+              </div>
+              <div>
+                <p className="eyebrow">Tongue Test: TCM AI</p>
+                <h1 className="mt-3 text-[2.55rem] font-semibold leading-[1.02] sm:text-5xl">
+                  Begin your Traditional Chinese Medicine tongue wellness check with a short intake.
+                </h1>
+              </div>
+            </div>
+            <p className="mt-6 text-base leading-7 text-ink/68">
+              Answer reflective questions first. Then you’ll add your tongue photo. No sign-in is needed
+              before the intake or photo.
+            </p>
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              {["Short guided intake", "Tongue photo", "Report preview"].map((item) => (
+                <div key={item} className="border border-ink/10 bg-fog/60 p-3 text-sm leading-6 text-ink/66">
+                  {item}
+                </div>
+              ))}
+            </div>
+            <button type="button" className="button-primary mt-7 min-h-14 w-full" onClick={() => setIntakeStarted(true)}>
+              Begin Intake
+            </button>
+            <div className="mt-5">
+              <ShortResultDisclaimer />
+            </div>
+          </section>
+        </div>
+      </main>
+    );
+  }
+
+  if (!intakeComplete) {
+    return (
+      <main className="min-h-screen bg-[#fbfaf6]">
+        <div className="container-shell max-w-4xl py-6 md:py-10">
+          <section className="border border-ink/10 bg-white p-4 shadow-card sm:p-6">
+            <p className="eyebrow">TCM intake</p>
+            <h1 className="mt-3 text-3xl font-semibold leading-tight sm:text-5xl">
+              Notice your patterns before the photo.
+            </h1>
+            <p className="mt-4 text-sm leading-7 text-ink/62">
+              Choose the answer that feels closest. If none fit, use your own words. Your answers stay in
+              this session and are included in the final report.
+            </p>
+            <div className="mt-5 h-2 border border-ink/10 bg-fog">
+              <div
+                className="h-full bg-moss transition-all"
+                style={{ width: `${Math.round((answeredIntakeCount / intakeQuestions.length) * 100)}%` }}
+              />
+            </div>
+            <p className="mt-2 text-xs uppercase tracking-[0.14em] text-ink/45">
+              {answeredIntakeCount} of {intakeQuestions.length} answered
+            </p>
+          </section>
+
+          <section className="mt-4 grid gap-3">
+            {intakeQuestions.map((question, index) => {
+              const answer = intakeAnswers[question.id];
+              return (
+                <article key={question.id} className="border border-ink/10 bg-white p-4 shadow-card sm:p-5">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">
+                    Question {index + 1}
+                  </p>
+                  <h2 className="mt-2 text-xl font-semibold leading-snug text-ink">{question.question}</h2>
+                  <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                    {question.options.map((option) => {
+                      const active = answer?.selected === option;
+                      return (
+                        <button
+                          key={option}
+                          type="button"
+                          className={`min-h-14 border p-3 text-left text-sm leading-5 transition ${
+                            active ? "border-ink bg-ink text-white" : "border-ink/10 bg-fog/60 text-ink hover:border-moss/35"
+                          }`}
+                          onClick={() => answerIntake(question, option)}
+                        >
+                          {option}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {answer?.selected === explainOption ? (
+                    <textarea
+                      value={answer.custom ?? ""}
+                      onChange={(event) => updateIntakeCustom(question.id, event.target.value)}
+                      className="mt-3 w-full resize-y border border-ink/10 bg-fog/60 p-3 text-sm leading-6 outline-none focus:border-moss"
+                      rows={3}
+                      placeholder="Write what feels true for you..."
+                    />
+                  ) : null}
+                </article>
+              );
+            })}
+          </section>
+
+          <section className="mt-4 border border-ink/10 bg-white p-4 shadow-card sm:p-5">
+            <button
+              type="button"
+              className="button-primary min-h-14 w-full"
+              disabled={!canCompleteIntake}
+              onClick={() => setIntakeComplete(true)}
+            >
+              Continue To Tongue Photo
+            </button>
+            {!canCompleteIntake ? (
+              <p className="mt-3 text-sm leading-6 text-ink/54">
+                Answer each question to continue. If you choose “own words,” add a short note.
+              </p>
+            ) : null}
+          </section>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-[#fbfaf6]">
       <div className="container-shell max-w-6xl py-8 md:py-12">
@@ -1153,11 +1571,17 @@ export function TongueAssessmentApp() {
                 <WellnessPurposeDisclosure compact />
               </div>
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                {["Take or choose photo", "Confirm or delete it", "Receive report"].map((item) => (
+                {["Intake complete", "Take or choose photo", "Choose access"].map((item) => (
                   <div key={item} className="border border-ink/10 bg-fog/60 p-3 text-sm leading-6 text-ink/66">
                     {item}
                   </div>
                 ))}
+              </div>
+              <div className="mt-5 border border-moss/20 bg-fog/60 p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Intake Pattern Context</p>
+                <p className="mt-2 text-sm leading-6 text-ink/62">
+                  {intakeSummary.total} answers saved for this session. These will be included in the final report.
+                </p>
               </div>
             </div>
 
@@ -1332,6 +1756,27 @@ export function TongueAssessmentApp() {
                   </div>
                 </article>
               ) : null}
+              {visionResult && !accessChoice ? (
+                <article className="mt-4 border border-moss/25 bg-white p-4 shadow-card">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Your report is ready</p>
+                  <h2 className="mt-2 text-2xl font-semibold leading-tight">Choose how you want access.</h2>
+                  <p className="mt-3 text-sm leading-6 text-ink/62">
+                    You completed the intake and added a tongue image. Choose a trial or one-time report
+                    option to view the full result and PDF.
+                  </p>
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    <button type="button" className="button-primary min-h-14 w-full" onClick={() => setAccessChoice("trial")}>
+                      Start Free 2-Week Trial
+                    </button>
+                    <button type="button" className="button-secondary min-h-14 w-full" onClick={() => setAccessChoice("one-time")}>
+                      Pay $4.99 One-Time
+                    </button>
+                  </div>
+                  <p className="mt-3 text-xs leading-5 text-ink/45">
+                    Stripe is not connected yet, so this is a launch-flow placeholder. Real payment will replace these buttons.
+                  </p>
+                </article>
+              ) : null}
             </div>
           </div>
         </section>
@@ -1431,7 +1876,7 @@ export function TongueAssessmentApp() {
 
               <p className="mt-4 text-sm leading-6 text-ink/62">{selectionGuidance(selected.size)}</p>
 
-              {primary ? (
+              {primary && accessChoice ? (
                 <div className="mt-5 space-y-4">
                   <article className="border border-moss/20 bg-[#f8f7f1] p-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Primary Pattern Insight</p>
@@ -1465,8 +1910,8 @@ export function TongueAssessmentApp() {
                     </p>
                   </article>
 
-                  {themes.slice(1).length ? (
-                    <article className="border border-ink/10 bg-fog/50 p-4">
+	                  {themes.slice(1).length ? (
+	                    <article className="border border-ink/10 bg-fog/50 p-4">
                       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Secondary Signals</p>
                       <div className="mt-3 space-y-2">
                         {themes.slice(1).map((theme) => (
@@ -1475,8 +1920,18 @@ export function TongueAssessmentApp() {
                           </p>
                         ))}
                       </div>
-                    </article>
-                  ) : null}
+	                    </article>
+	                  ) : null}
+	                  <IntakePatternSummary intakeSummary={intakeSummary} />
+	                </div>
+	              ) : primary ? (
+                <div className="mt-5 border border-moss/20 bg-[#f8f7f1] p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Report locked</p>
+                  <p className="mt-2 text-sm leading-6 text-ink/68">
+                    Your intake and tongue photo have created a report preview. Choose trial or one-time
+                    access above to view the full result and PDF.
+                  </p>
+                  <p className="mt-3 text-sm font-semibold leading-6 text-ink">{primary.title}</p>
                 </div>
               ) : (
                 <p className="mt-4 text-sm leading-6 text-ink/58">
@@ -1636,6 +2091,28 @@ function InsightQuality({ primary }: { primary: Theme }) {
           ))}
         </ul>
       </div>
+    </article>
+  );
+}
+
+function IntakePatternSummary({ intakeSummary }: { intakeSummary: ReturnType<typeof buildIntakeSummary> }) {
+  return (
+    <article className="border border-ink/10 bg-white/75 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Intake Pattern Summary</p>
+      <p className="mt-2 text-sm leading-6 text-ink/66">
+        The report includes {intakeSummary.total} intake answers. These add context for energy,
+        digestion, stress, sleep, and emotional patterning before the tongue photo is interpreted.
+      </p>
+      {intakeSummary.highlights.length ? (
+        <div className="mt-3 space-y-3">
+          {intakeSummary.highlights.slice(0, 5).map((item) => (
+            <div key={item.question.id} className="border-l-2 border-moss/35 pl-3">
+              <p className="text-sm font-semibold leading-6 text-ink">{item.question.question}</p>
+              <p className="mt-1 text-sm leading-6 text-ink/64">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      ) : null}
     </article>
   );
 }
