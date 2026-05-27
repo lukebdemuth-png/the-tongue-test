@@ -2580,45 +2580,47 @@ export function TongueAssessmentApp() {
           </div>
         </section>
 
-        <section className="mt-5 border border-ink/10 bg-white p-5 shadow-card md:p-6">
-          <div className="grid gap-5 md:grid-cols-[0.8fr_1.2fr]">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Feedback</p>
-              <h2 className="mt-2 text-2xl font-semibold leading-tight">Help shape Tongue Test: TCM AI</h2>
-              <p className="mt-3 text-sm leading-6 text-ink/58">
-                Tell us what felt useful, confusing, missing, or inaccurate. Early feedback helps make the
-                result clearer before public launch.
-              </p>
-            </div>
-            <div>
-              <textarea
-                value={feedbackMessage}
-                onChange={(event) => setFeedbackMessage(event.target.value)}
-                rows={4}
-                className="w-full resize-y border border-ink/10 bg-fog/60 p-3 text-sm leading-6 outline-none focus:border-moss"
-                placeholder="What should we improve, add, remove, or explain better?"
-              />
-              <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_auto]">
-                <input
-                  value={feedbackEmail}
-                  onChange={(event) => setFeedbackEmail(event.target.value)}
-                  className="border border-ink/10 bg-fog/60 px-3 py-3 text-sm outline-none focus:border-moss"
-                  placeholder="Email optional"
-                  type="email"
-                />
-                <button
-                  type="button"
-                  className="button-secondary"
-                  disabled={feedbackSending}
-                  onClick={sendFeedback}
-                >
-                  {feedbackSending ? "Sending..." : "Send Feedback"}
-                </button>
+        {primary && accessChoice ? (
+          <section className="mt-5 border border-ink/10 bg-white p-5 shadow-card md:p-6">
+            <div className="grid gap-5 md:grid-cols-[0.8fr_1.2fr]">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Feedback</p>
+                <h2 className="mt-2 text-2xl font-semibold leading-tight">Help shape Tongue Test: TCM AI</h2>
+                <p className="mt-3 text-sm leading-6 text-ink/58">
+                  You have reached the end of the reading. Tell us what felt useful, confusing, missing,
+                  or inaccurate so we can improve the final experience.
+                </p>
               </div>
-              {feedbackStatus ? <p className="mt-3 text-sm leading-6 text-ink/58">{feedbackStatus}</p> : null}
+              <div>
+                <textarea
+                  value={feedbackMessage}
+                  onChange={(event) => setFeedbackMessage(event.target.value)}
+                  rows={4}
+                  className="w-full resize-y border border-ink/10 bg-fog/60 p-3 text-sm leading-6 outline-none focus:border-moss"
+                  placeholder="What should we improve, add, remove, or explain better?"
+                />
+                <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_auto]">
+                  <input
+                    value={feedbackEmail}
+                    onChange={(event) => setFeedbackEmail(event.target.value)}
+                    className="border border-ink/10 bg-fog/60 px-3 py-3 text-sm outline-none focus:border-moss"
+                    placeholder="Email optional"
+                    type="email"
+                  />
+                  <button
+                    type="button"
+                    className="button-secondary"
+                    disabled={feedbackSending}
+                    onClick={sendFeedback}
+                  >
+                    {feedbackSending ? "Sending..." : "Send Feedback"}
+                  </button>
+                </div>
+                {feedbackStatus ? <p className="mt-3 text-sm leading-6 text-ink/58">{feedbackStatus}</p> : null}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        ) : null}
       </div>
     </main>
   );
