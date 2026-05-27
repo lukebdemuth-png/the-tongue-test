@@ -1173,6 +1173,9 @@ export function TongueAssessmentApp() {
   const [feedbackEmail, setFeedbackEmail] = useState("");
   const [feedbackStatus, setFeedbackStatus] = useState("");
   const [feedbackSending, setFeedbackSending] = useState(false);
+  const [reportEmail, setReportEmail] = useState("");
+  const [reportEmailStatus, setReportEmailStatus] = useState("");
+  const [reportEmailSending, setReportEmailSending] = useState(false);
   const [cameraActive, setCameraActive] = useState(false);
   const [cameraError, setCameraError] = useState("");
   const [cameraStarting, setCameraStarting] = useState(false);
@@ -1325,6 +1328,46 @@ export function TongueAssessmentApp() {
     });
 
     openTonguePdfReport(reportHtml);
+  }
+
+  async function sendPdfReportEmail() {
+    if (!primary) return;
+    setReportEmailStatus("");
+    setReportEmailSending(true);
+    try {
+      const selectedLabels = [...selected].map(labelForChoice).sort((a, b) => a.localeCompare(b));
+      const response = await fetch("/api/tongue-report-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: reportEmail,
+          primaryTitle: primary.title,
+          primarySummary: primary.plain,
+          matchedSigns: primary.signs,
+          organSystems: primary.organs.map((organ) => ({
+            title: organ.system,
+            body: `${organ.meaning} ${organ.why}`,
+          })),
+          foodDirection: primary.support.foods,
+          lifestyleDirection: primary.support.lifestyle,
+          herbalDirection: primary.support.formulaFamilies,
+          intakeHighlights: intakeSummary.highlights.map((item) => ({
+            question: item.question.question,
+            answer: item.answer,
+          })),
+          visibleSigns: visionResult?.detected_signs.map((sign) => `${sign.label} · ${sign.confidence}`) ?? selectedLabels,
+          patternScores: themes.map((theme) => ({ title: theme.title, score: theme.score })),
+          notes,
+        }),
+      });
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.error || "Could not send PDF report.");
+      setReportEmailStatus("Report sent. Check that email inbox in a minute.");
+    } catch (error) {
+      setReportEmailStatus(error instanceof Error ? error.message : "Could not send PDF report.");
+    } finally {
+      setReportEmailSending(false);
+    }
   }
 
   function stopCamera() {
@@ -1908,6 +1951,35 @@ export function TongueAssessmentApp() {
                     <p className="mt-3 text-xs leading-5 text-ink/45">
                       Your browser will open the report print screen. Choose “Save as PDF” to keep the file.
                     </p>
+                    <div className="mt-4 border-t border-ink/10 pt-4">
+                      <label className="block">
+                        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">
+                          Email PDF Report
+                        </span>
+                        <input
+                          type="email"
+                          value={reportEmail}
+                          onChange={(event) => setReportEmail(event.target.value)}
+                          className="mt-3 w-full border border-ink/10 bg-fog/60 px-3 py-3 text-sm outline-none focus:border-moss"
+                          placeholder="name@email.com"
+                        />
+                      </label>
+                      <button
+                        type="button"
+                        className="button-secondary mt-3 w-full"
+                        disabled={reportEmailSending}
+                        onClick={sendPdfReportEmail}
+                      >
+                        {reportEmailSending ? "Sending PDF..." : "Send PDF To Email"}
+                      </button>
+                      {reportEmailStatus ? (
+                        <p className="mt-3 text-xs leading-5 text-ink/54">{reportEmailStatus}</p>
+                      ) : (
+                        <p className="mt-3 text-xs leading-5 text-ink/45">
+                          Email sending uses Resend. It will work after the Resend API key and sender email are added in Vercel.
+                        </p>
+                      )}
+                    </div>
                   </article>
 
 	                  {themes.slice(1).length ? (

@@ -12,6 +12,9 @@ Recommended before public sharing:
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `SUPABASE_WAITLIST_TABLE`
 - `SUPABASE_FEEDBACK_TABLE`
+- `RESEND_API_KEY`
+- `REPORT_FROM_EMAIL`
+- `REPORT_REPLY_TO_EMAIL`
 
 Optional for local fallback paths:
 
@@ -45,3 +48,17 @@ Suggested feedback columns:
 ## Notes
 
 The app frames outputs as educational Traditional Chinese Medicine-inspired pattern reflections. It does not diagnose, prescribe, or replace medical care.
+
+## PDF Report Email Delivery
+
+The app can now email the generated PDF report from `/api/tongue-report-email`.
+
+Required before this works in production:
+
+- Create or use a Resend account.
+- Verify a sending domain or sender email in Resend.
+- Add `RESEND_API_KEY` to Vercel.
+- Add `REPORT_FROM_EMAIL`, for example `reports@yourdomain.com`.
+- Add `REPORT_REPLY_TO_EMAIL`, for example your support inbox.
+
+The emailed PDF does not include the user's tongue photo. It includes the app result, intake summary, visible-sign labels, food/lifestyle/formula-family direction, educational TCM context, and disclaimer language.
