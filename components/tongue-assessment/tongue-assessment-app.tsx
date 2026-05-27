@@ -1690,8 +1690,6 @@ export function TongueAssessmentApp() {
   const [cameraActive, setCameraActive] = useState(false);
   const [cameraError, setCameraError] = useState("");
   const [cameraStarting, setCameraStarting] = useState(false);
-  const uploadInputRef = useRef<HTMLInputElement | null>(null);
-  const cameraInputRef = useRef<HTMLInputElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const intakeDerivedSigns = useMemo(() => deriveIntakeChoiceKeys(intakeAnswers), [intakeAnswers]);
@@ -2188,20 +2186,31 @@ export function TongueAssessmentApp() {
                 </div>
               </div>
               <div className="mt-4 grid gap-3 sm:grid-cols-3">
-                <button
-                  type="button"
-                  className="button-primary min-h-14 w-full"
-                  onClick={() => uploadInputRef.current?.click()}
-                >
-                  Upload Photo
-                </button>
-                <button
-                  type="button"
-                  className="button-secondary min-h-14 w-full"
-                  onClick={() => cameraInputRef.current?.click()}
-                >
-                  Take Photo
-                </button>
+                <label className="block border border-ink bg-ink p-3 text-xs font-semibold uppercase tracking-[0.14em] text-white">
+                  <span className="mb-2 block">Upload Photo</span>
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/*"
+                    className="block w-full cursor-pointer text-[0.68rem] normal-case tracking-normal text-white file:mr-3 file:cursor-pointer file:border-0 file:bg-white file:px-3 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-[0.12em] file:text-ink"
+                    onChange={async (event) => {
+                      await handlePhotoFile(event.target.files?.[0]);
+                      event.currentTarget.value = "";
+                    }}
+                  />
+                </label>
+                <label className="block border border-ink/15 bg-white p-3 text-xs font-semibold uppercase tracking-[0.14em] text-ink">
+                  <span className="mb-2 block">Take Photo</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    className="block w-full cursor-pointer text-[0.68rem] normal-case tracking-normal text-ink/60 file:mr-3 file:cursor-pointer file:border-0 file:bg-ink file:px-3 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-[0.12em] file:text-white"
+                    onChange={async (event) => {
+                      await handlePhotoFile(event.target.files?.[0]);
+                      event.currentTarget.value = "";
+                    }}
+                  />
+                </label>
                 <button
                   type="button"
                   className="button-secondary min-h-14 w-full"
@@ -2210,27 +2219,6 @@ export function TongueAssessmentApp() {
                 >
                   {cameraStarting ? "Opening Live Camera..." : cameraActive ? "Capture Live Photo" : "Open Live Camera"}
                 </button>
-                <input
-                  ref={uploadInputRef}
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/*"
-                  className="sr-only"
-                  onChange={async (event) => {
-                    await handlePhotoFile(event.target.files?.[0]);
-                    event.currentTarget.value = "";
-                  }}
-                />
-                <input
-                  ref={cameraInputRef}
-                  type="file"
-                  accept="image/*"
-                  capture="environment"
-                  className="sr-only"
-                  onChange={async (event) => {
-                    await handlePhotoFile(event.target.files?.[0]);
-                    event.currentTarget.value = "";
-                  }}
-                />
               </div>
               <p className="mt-3 text-xs leading-5 text-ink/48">
                 Launch-safe flow: use Upload Photo first on desktop. On iPhone or Android, Take Photo opens
@@ -2280,9 +2268,18 @@ export function TongueAssessmentApp() {
                   >
                     {photoConfirmed ? "Photo Confirmed" : "Use This Photo"}
                   </button>
-                  <button type="button" className="button-secondary w-full" onClick={() => uploadInputRef.current?.click()}>
-                    Retake
-                  </button>
+                  <label className="block border border-ink/15 bg-white p-3 text-xs font-semibold uppercase tracking-[0.14em] text-ink">
+                    <span className="mb-2 block">Retake</span>
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/*"
+                      className="block w-full cursor-pointer text-[0.68rem] normal-case tracking-normal text-ink/60 file:mr-3 file:cursor-pointer file:border-0 file:bg-ink file:px-3 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-[0.12em] file:text-white"
+                      onChange={async (event) => {
+                        await handlePhotoFile(event.target.files?.[0]);
+                        event.currentTarget.value = "";
+                      }}
+                    />
+                  </label>
                   <button type="button" className="button-secondary w-full" onClick={clearPhoto}>
                     Delete Photo
                   </button>
