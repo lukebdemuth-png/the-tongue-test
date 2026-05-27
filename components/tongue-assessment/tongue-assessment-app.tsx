@@ -1501,8 +1501,6 @@ function buildTongueReportHtml({
       ${reportList(primary.support.foods)}
       <h3>Lifestyle Direction</h3>
       ${reportList(primary.support.lifestyle)}
-      <h3>Formula / Herb Families</h3>
-      ${reportList(primary.support.formulaFamilies)}
       <p class="small muted">These are tradition-based educational possibilities to discuss or explore carefully with a qualified professional. They are not instructions, prescriptions, or medical recommendations.</p>
     </section>
 
@@ -1532,7 +1530,7 @@ function buildTongueReportHtml({
             <p><strong>Why chosen:</strong> ${escapeHtml(herb.why)}</p>
             <p><strong>Traditional functions:</strong></p>
             ${reportList(herb.functions)}
-            <p><strong>Easy explanation:</strong> ${escapeHtml(herb.simple)}</p>
+            <p><strong>Plain-English benefit:</strong> ${escapeHtml(herb.simple)}</p>
             <p class="small muted">${escapeHtml(vendorGuidance)}</p>
           `,
         )
@@ -1850,7 +1848,6 @@ export function TongueAssessmentApp() {
           })),
           foodDirection: primary.support.foods,
           lifestyleDirection: primary.support.lifestyle,
-          herbalDirection: primary.support.formulaFamilies,
           herbSuggestions: getHerbSuggestions(primary),
           dietarySuggestion: getDietarySuggestion(primary),
           technicalReading: technicalTongueReading(primary, visionResult, selected),
@@ -2627,7 +2624,6 @@ function SupportDirection({ support }: { support: Theme["support"] }) {
       <div className="mt-4 grid gap-3">
         <SupportColumn title="Food Direction" items={support.foods} />
         <SupportColumn title="Lifestyle Direction" items={support.lifestyle} />
-        <SupportColumn title="Top 3 Formula Families To Research" items={support.formulaFamilies} />
       </div>
     </article>
   );
@@ -2721,23 +2717,41 @@ function FoodDietarySuggestions({ diet }: { diet: DietarySuggestion }) {
 
 function HerbSuggestions({ herbs }: { herbs: HerbSuggestion[] }) {
   return (
-    <article className="border border-ink/10 bg-white/75 p-4">
+    <article className="border border-ink/10 bg-white/75 p-4 sm:p-5">
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Herb Suggestions</p>
-      <p className="mt-2 text-sm leading-6 text-ink/58">
+      <p className="mt-2 text-sm leading-6 text-ink/60">
         Educational only. These herbs are traditionally used in TCM for pattern directions similar to this result.
-        They are not a diagnosis, prescription, or treatment plan.
+        Review herbs with a qualified practitioner before using them.
       </p>
-      <div className="mt-4 space-y-3">
+      <div className="mt-4 overflow-hidden border border-ink/10">
+        <div className="hidden grid-cols-[1.05fr_1fr_1.15fr] border-b border-ink/10 bg-fog/70 text-xs font-semibold uppercase tracking-[0.13em] text-ink/48 sm:grid">
+          <div className="p-3">Herb</div>
+          <div className="border-l border-ink/10 p-3">Traditional Function</div>
+          <div className="border-l border-ink/10 p-3">Plain-English Benefit</div>
+        </div>
         {herbs.map((herb) => (
-          <div key={herb.name} className="border border-ink/10 bg-fog/50 p-3">
-            <p className="text-sm font-semibold leading-6 text-ink">{herb.name}</p>
-            <p className="mt-2 text-sm leading-6 text-ink/68"><strong>Why chosen:</strong> {herb.why}</p>
-            <SupportColumn title="Traditional Functions" items={herb.functions} />
-            <p className="mt-2 text-sm leading-6 text-ink/68"><strong>Easy explanation:</strong> {herb.simple}</p>
-            <p className="mt-2 text-xs leading-5 text-ink/48">{vendorGuidance}</p>
+          <div key={herb.name} className="grid gap-0 border-b border-ink/10 last:border-b-0 sm:grid-cols-[1.05fr_1fr_1.15fr]">
+            <div className="bg-white/70 p-3">
+              <p className="text-[0.66rem] font-semibold uppercase tracking-[0.13em] text-moss sm:hidden">Herb</p>
+              <p className="mt-1 text-sm font-semibold leading-6 text-ink sm:mt-0">{herb.name}</p>
+              <p className="mt-2 text-xs leading-5 text-ink/52">{herb.why}</p>
+            </div>
+            <div className="border-t border-ink/10 bg-fog/45 p-3 sm:border-l sm:border-t-0">
+              <p className="text-[0.66rem] font-semibold uppercase tracking-[0.13em] text-moss sm:hidden">Traditional Function</p>
+              <ul className="mt-2 space-y-1.5 text-sm leading-6 text-ink/68 sm:mt-0">
+                {herb.functions.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="border-t border-ink/10 bg-white/70 p-3 sm:border-l sm:border-t-0">
+              <p className="text-[0.66rem] font-semibold uppercase tracking-[0.13em] text-moss sm:hidden">Plain-English Benefit</p>
+              <p className="mt-2 text-sm leading-6 text-ink/72 sm:mt-0">{herb.simple}</p>
+            </div>
           </div>
         ))}
       </div>
+      <p className="mt-3 text-xs leading-5 text-ink/48">{vendorGuidance}</p>
       <p className="mt-3 text-xs leading-5 text-ink/52">
         Consult a qualified practitioner before taking herbs, especially if pregnant, nursing, on medication, or managing a health condition.
       </p>

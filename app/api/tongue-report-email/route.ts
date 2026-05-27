@@ -17,7 +17,6 @@ type ReportPayload = {
   organSystems: ReportSection[];
   foodDirection: string[];
   lifestyleDirection: string[];
-  herbalDirection: string[];
   herbSuggestions: Array<{
     name: string;
     why: string;
@@ -81,7 +80,6 @@ function normalizePayload(value: unknown): ReportPayload {
     organSystems: Array.isArray(input.organSystems) ? input.organSystems.slice(0, 8) : [],
     foodDirection: Array.isArray(input.foodDirection) ? input.foodDirection.map(String).slice(0, 16) : [],
     lifestyleDirection: Array.isArray(input.lifestyleDirection) ? input.lifestyleDirection.map(String).slice(0, 16) : [],
-    herbalDirection: Array.isArray(input.herbalDirection) ? input.herbalDirection.map(String).slice(0, 16) : [],
     herbSuggestions: Array.isArray(input.herbSuggestions)
       ? input.herbSuggestions
           .map((item: any) => ({
@@ -300,8 +298,6 @@ async function createPdf(payload: ReportPayload) {
 
   addSection(doc, "Food Direction", undefined, payload.foodDirection);
   addSection(doc, "Lifestyle Direction", undefined, payload.lifestyleDirection);
-  addSection(doc, "Top 3 Formula Families To Research", undefined, payload.herbalDirection);
-
   if (payload.dietarySuggestion) {
     addSection(doc, "Food & Dietary Suggestions", payload.dietarySuggestion.principle, [
       ...payload.dietarySuggestion.favor.map((item) => `Favor: ${item}`),
@@ -320,7 +316,7 @@ async function createPdf(payload: ReportPayload) {
       payload.herbSuggestions.flatMap((herb) => [
         `${herb.name}: ${herb.why}`,
         `Traditional functions: ${herb.functions.join("; ")}`,
-        `Easy explanation: ${herb.simple}`,
+        `Plain-English benefit: ${herb.simple}`,
         "Vendor guidance: Copy and paste this herb name into a trusted Chinese herb supplier such as Kamwo, Mayway, ActiveHerb, Plum Flower, ChineseHerbsDirect, or Mountain Rose Herbs.",
       ]),
     );
