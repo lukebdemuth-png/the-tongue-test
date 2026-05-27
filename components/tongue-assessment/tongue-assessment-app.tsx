@@ -858,6 +858,18 @@ function graphPercent(score: number, maxScore: number) {
   return Math.max(12, Math.round((score / maxScore) * 100));
 }
 
+function graphTone(index: number) {
+  return ["#55745c", "#8d6a46", "#9f5a3f", "#5f6f8f", "#7f5b79"][index % 5];
+}
+
+function patternStrengthLabel(score: number, maxScore: number) {
+  if (score <= 0) return "Trace";
+  const ratio = maxScore > 0 ? score / maxScore : 0;
+  if (ratio >= 0.85) return "Primary";
+  if (ratio >= 0.55) return "Secondary";
+  return "Background";
+}
+
 function qualitySummary(primary: Theme) {
   return {
     heading: "How to use this result",
@@ -1057,6 +1069,17 @@ function buildTongueReportHtml({
     .score-circle { width: 118px; height: 118px; border-radius: 50%; border: 1px solid rgba(33,31,26,0.14); display: grid; place-items: center; background: radial-gradient(circle, #fffdf8 44%, #efe8dc 45%); }
     .score-circle strong { display: block; font-family: Georgia, "Times New Roman", serif; font-size: 34px; line-height: 1; text-align: center; }
     .score-circle span { display: block; margin-top: 6px; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(33,31,26,0.48); text-align: center; }
+    .signature { display: grid; grid-template-columns: 178px 1fr; gap: 22px; align-items: center; }
+    .signature-seal { width: 178px; height: 178px; border-radius: 50%; display: grid; place-items: center; position: relative; background: conic-gradient(from -30deg, #55745c 0 42%, #8d6a46 42% 68%, #9f5a3f 68% 84%, #e6ded1 84% 100%); box-shadow: inset 0 0 0 1px rgba(33,31,26,0.16); }
+    .signature-seal:before { content: ""; position: absolute; inset: 15px; border-radius: 50%; background: #fffdf8; border: 1px solid rgba(33,31,26,0.12); }
+    .signature-seal:after { content: ""; position: absolute; inset: 33px; border-radius: 50%; border: 1px solid rgba(85,116,92,0.22); }
+    .signature-inner { position: relative; text-align: center; max-width: 112px; }
+    .signature-inner strong { display: block; font-family: Georgia, "Times New Roman", serif; font-size: 34px; line-height: 1; }
+    .signature-inner span { display: block; margin-top: 8px; font-size: 9px; letter-spacing: .16em; color: rgba(33,31,26,.52); text-transform: uppercase; }
+    .signature-list { display: grid; gap: 10px; }
+    .signature-item { border: 1px solid rgba(33,31,26,0.10); background: rgba(255,253,248,0.72); padding: 10px; }
+    .signature-bar { height: 9px; background: #ebe2d5; border: 1px solid rgba(33,31,26,0.08); margin-top: 7px; }
+    .signature-bar i { display: block; height: 100%; }
     .link-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
     .link-row a { border: 1px solid rgba(33,31,26,0.14); color: #211f1a; text-decoration: none; padding: 8px 10px; font-size: 12px; }
     .disclaimer { border-top: 1px solid rgba(33,31,26,0.12); margin-top: 28px; padding-top: 16px; color: rgba(33,31,26,0.66); font-size: 12px; }
@@ -1070,7 +1093,7 @@ function buildTongueReportHtml({
     }
     @media (max-width: 720px) {
       main { padding: 18px; }
-      .hero, .grid, .report-grid { grid-template-columns: 1fr; }
+      .hero, .grid, .report-grid, .signature { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -1099,26 +1122,32 @@ function buildTongueReportHtml({
     </section>
 
     <section class="card">
-      <div class="report-grid">
-        <div>
-          <p class="eyebrow">Pattern Graph</p>
-          <h2>Signal Strength</h2>
-          <p class="muted">A visual summary of the strongest pattern directions from the photo and selected observations.</p>
+      <div class="signature">
+        <div class="signature-seal">
+          <div class="signature-inner">
+            <strong>${primary.score}</strong>
+            <span>Primary<br />Signals</span>
+          </div>
         </div>
         <div>
-          ${graphThemes
-            .map(
-              (theme) => `
-                <div class="graph-row">
-                  <div class="graph-meta">
-                    <strong>${escapeHtml(theme.title)}</strong>
-                    <span>${theme.score} matched sign${theme.score === 1 ? "" : "s"}</span>
+          <p class="eyebrow">Pattern Signature</p>
+          <h2>Signal Strength</h2>
+          <p class="muted">A visual summary of the strongest pattern directions from the photo and selected observations.</p>
+          <div class="signature-list">
+            ${graphThemes
+              .map(
+                (theme, index) => `
+                  <div class="signature-item">
+                    <div class="graph-meta">
+                      <strong>${escapeHtml(theme.title)}</strong>
+                      <span>${patternStrengthLabel(theme.score, maxScore)} · ${theme.score} signal${theme.score === 1 ? "" : "s"}</span>
+                    </div>
+                    <div class="signature-bar"><i style="width:${graphPercent(theme.score, maxScore)}%; background:${graphTone(index)}"></i></div>
                   </div>
-                  <div class="graph-track"><div class="graph-fill" style="width:${graphPercent(theme.score, maxScore)}%"></div></div>
-                </div>
-              `,
-            )
-            .join("")}
+                `,
+              )
+              .join("")}
+          </div>
         </div>
       </div>
     </section>
@@ -2095,6 +2124,7 @@ export function TongueAssessmentApp() {
 
                   <OrganFocus organs={primary.organs} />
                   <PlainMeaning meaning={primary.meaning} />
+                  <PatternSignature themes={themes} />
                   <VisibleTongueSigns descriptions={visibleTongueSignDescriptions(visionResult, selected)} />
                   <InsightQuality primary={primary} />
                   <ResultList title="What To Try First" items={primary.tryFirst} />
@@ -2313,6 +2343,75 @@ function VisibleTongueSigns({ descriptions }: { descriptions: string[] }) {
           <li key={item}>{item}</li>
         ))}
       </ul>
+    </article>
+  );
+}
+
+function PatternSignature({ themes }: { themes: Theme[] }) {
+  if (!themes.length) return null;
+
+  const graphThemes = themes.slice(0, 3);
+  const primary = graphThemes[0];
+  const maxScore = Math.max(...graphThemes.map((theme) => theme.score), 1);
+  const gradientStops = graphThemes
+    .map((theme, index) => {
+      const start = index === 0 ? 0 : graphThemes.slice(0, index).reduce((sum, item) => sum + graphPercent(item.score, maxScore), 0) / graphThemes.length;
+      const end = start + graphPercent(theme.score, maxScore) / graphThemes.length;
+      return `${graphTone(index)} ${Math.min(100, start)}% ${Math.min(100, end)}%`;
+    })
+    .join(", ");
+
+  return (
+    <article className="border border-ink/10 bg-white/75 p-4">
+      <div className="grid gap-4 sm:grid-cols-[8.5rem_1fr] sm:items-center">
+        <div
+          className="relative grid aspect-square place-items-center rounded-full border border-ink/10"
+          style={{
+            background: `conic-gradient(from -30deg, ${gradientStops}, #e8dfd3 82% 100%)`,
+          }}
+        >
+          <div className="absolute inset-3 rounded-full border border-ink/10 bg-[#fffdf8]" />
+          <div className="absolute inset-7 rounded-full border border-moss/20" />
+          <div className="relative text-center">
+            <strong className="block font-serif text-4xl leading-none text-ink">{primary.score}</strong>
+            <span className="mt-1 block text-[0.58rem] font-semibold uppercase tracking-[0.15em] text-ink/46">
+              Primary
+              <br />
+              Signals
+            </span>
+          </div>
+        </div>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Pattern Signature</p>
+          <p className="mt-2 text-sm leading-6 text-ink/58">
+            A quick visual read of which TCM pattern directions are strongest, secondary, or only lightly present.
+          </p>
+          <div className="mt-3 space-y-2">
+            {graphThemes.map((theme, index) => (
+              <div key={theme.title} className="border border-ink/10 bg-fog/45 p-3">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-semibold leading-5 text-ink">{theme.title}</p>
+                  <span className="text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-ink/45">
+                    {patternStrengthLabel(theme.score, maxScore)}
+                  </span>
+                </div>
+                <div className="mt-2 h-2 border border-ink/10 bg-white">
+                  <div
+                    className="h-full"
+                    style={{
+                      width: `${graphPercent(theme.score, maxScore)}%`,
+                      backgroundColor: graphTone(index),
+                    }}
+                  />
+                </div>
+                <p className="mt-2 text-xs leading-5 text-ink/46">
+                  {theme.score} matched signal{theme.score === 1 ? "" : "s"}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </article>
   );
 }

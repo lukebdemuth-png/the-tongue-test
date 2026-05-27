@@ -98,6 +98,93 @@ function addSection(doc: PDFKit.PDFDocument, title: string, body?: string, items
   if (items) addWrappedList(doc, items);
 }
 
+function graphTone(index: number) {
+  return ["#55745c", "#8d6a46", "#9f5a3f", "#5f6f8f", "#7f5b79"][index % 5];
+}
+
+function graphPercent(score: number, maxScore: number) {
+  if (maxScore <= 0) return 0;
+  return Math.max(12, Math.round((score / maxScore) * 100));
+}
+
+function patternStrengthLabel(score: number, maxScore: number) {
+  if (score <= 0) return "Trace";
+  const ratio = maxScore > 0 ? score / maxScore : 0;
+  if (ratio >= 0.85) return "Primary";
+  if (ratio >= 0.55) return "Secondary";
+  return "Background";
+}
+
+function drawPatternSignature(doc: PDFKit.PDFDocument, scores: ReportPayload["patternScores"]) {
+  const graphScores = scores.slice(0, 3);
+  if (!graphScores.length) return;
+
+  const startY = doc.y + 14;
+  const left = 48;
+  const sealX = left + 58;
+  const sealY = startY + 72;
+  const maxScore = Math.max(...graphScores.map((item) => item.score), 1);
+
+  doc.moveDown(1);
+  doc.fillColor("#55745c").font("Helvetica-Bold").fontSize(9).text("PATTERN SIGNATURE", left, doc.y, {
+    characterSpacing: 1.2,
+  });
+  doc.fillColor("#766f65").font("Helvetica").fontSize(9).text(
+    "A visual read of which TCM pattern directions are strongest, secondary, or lightly present.",
+    left,
+    doc.y + 6,
+    { width: 480 },
+  );
+
+  doc.save();
+  doc.circle(sealX, sealY, 52).fillAndStroke("#f2eadf", "#ded6ca");
+  graphScores.forEach((item, index) => {
+    const radius = 50 - index * 11;
+    const lineWidth = 8;
+    doc.circle(sealX, sealY, radius).lineWidth(lineWidth).strokeColor("#e7ded1").stroke();
+    doc
+      .moveTo(sealX, sealY - radius)
+      .circle(sealX, sealY, radius)
+      .dash(Math.max(4, graphPercent(item.score, maxScore) * 1.15), { space: 240 })
+      .lineWidth(lineWidth)
+      .strokeColor(graphTone(index))
+      .stroke()
+      .undash();
+  });
+  doc.circle(sealX, sealY, 27).fillAndStroke("#fffdf8", "#ded6ca");
+  doc.fillColor("#211f1a").font("Times-Roman").fontSize(27).text(String(graphScores[0].score), sealX - 12, sealY - 17, {
+    width: 24,
+    align: "center",
+  });
+  doc.fillColor("#766f65").font("Helvetica-Bold").fontSize(6.5).text("PRIMARY", sealX - 24, sealY + 12, {
+    width: 48,
+    align: "center",
+    characterSpacing: 1,
+  });
+  doc.restore();
+
+  const listX = left + 142;
+  let rowY = startY + 44;
+  graphScores.forEach((item, index) => {
+    const percent = graphPercent(item.score, maxScore);
+    doc.roundedRect(listX, rowY, 350, 42, 2).fillAndStroke("#f8f4ed", "#e3d8ca");
+    doc.fillColor("#211f1a").font("Helvetica-Bold").fontSize(9).text(item.title, listX + 10, rowY + 8, { width: 225 });
+    doc
+      .fillColor("#766f65")
+      .font("Helvetica-Bold")
+      .fontSize(7)
+      .text(`${patternStrengthLabel(item.score, maxScore)} · ${item.score} signals`, listX + 250, rowY + 9, {
+        width: 80,
+        align: "right",
+      });
+    doc.rect(listX + 10, rowY + 28, 318, 6).fill("#ebe2d5");
+    doc.rect(listX + 10, rowY + 28, Math.round(318 * (percent / 100)), 6).fill(graphTone(index));
+    rowY += 50;
+  });
+
+  doc.y = Math.max(rowY + 8, sealY + 68);
+}
+
 async function createPdf(payload: ReportPayload) {
   const doc = new PDFDocument({
     size: "LETTER",
@@ -128,7 +215,7 @@ async function createPdf(payload: ReportPayload) {
   doc.moveDown(0.4);
   doc.fillColor("#211f1a").font("Helvetica").fontSize(10.5).text(payload.primarySummary, { lineGap: 2 });
 
-  addSection(doc, "Pattern Scores", undefined, payload.patternScores.map((item) => `${item.title}: ${item.score} matched signals`));
+  drawPatternSignature(doc, payload.patternScores);
   addSection(doc, "Matched Signs", undefined, payload.matchedSigns);
 
   addSection(
