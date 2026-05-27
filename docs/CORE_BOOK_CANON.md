@@ -150,6 +150,37 @@ Only the sources below should be treated as core guiding medicine texts unless t
    - App layer: supplemental TCM materia medica and clinical confirmation.
    - Access handling: await exact title from user; treat as private/local or metadata-only unless rights are clear.
 
+### TCM Diagnostic And Tongue Assessment Expansion
+
+6. `The Foundations of Chinese Medicine` by Giovanni Maciocia
+   - Role: broad modern textbook for TCM physiology, pathology, pattern differentiation, acupuncture-point principles, and treatment principles.
+   - App layer: technical TCM organ-system language, pattern differentiation, zang-fu explanation, and practitioner-facing interpretation structure.
+   - Source note: Giovanni-Maciocia.com and Elsevier describe the 3rd edition as covering basic TCM theory, acupuncture, acupuncture points, and principles of treatment.
+   - Access handling: modern copyrighted text; metadata-only/private-local unless rights are clear. Do not commit extracted full text.
+
+7. `Diagnosis in Chinese Medicine: A Comprehensive Guide` by Giovanni Maciocia
+   - Role: diagnostic framework, clinical manifestations, pattern identification, tongue/pulse diagnosis, and Western-patient clinical adaptation.
+   - App layer: intake interpretation, symptom-context weighting, TCM technical language, and plain-English decoding of pattern logic.
+   - Source note: Maciocia/Elsevier pages describe it as a complete, illustrated guide to Chinese medicine diagnosis with tongue and pulse diagnosis and pattern identification.
+   - Access handling: modern copyrighted text; metadata-only/private-local unless rights are clear. Do not commit extracted full text.
+
+8. `Tongue Diagnosis in Chinese Medicine` by Giovanni Maciocia
+   - Role: tongue-sign interpretation, tongue body/coating/location logic, and linking tongue observation to pattern differentiation.
+   - App layer: visible tongue sign descriptions, organ-map interpretation, and report language for image-based tongue assessment.
+   - Access handling: modern copyrighted text; metadata-only/private-local unless rights are clear. Do not commit extracted full text.
+
+9. `Atlas of Chinese Tongue Diagnosis` by Barbara Kirschbaum
+   - Role: picture-heavy clinical tongue diagnosis atlas.
+   - App layer: visual comparison, tongue color/coating/shape/location interpretation, and clinical tongue-pattern language.
+   - Source note: Open Library records Eastland Press editions, including a 2010 second edition; Google Books metadata describes links between tongue diagnosis theory and clinical practice.
+   - Access handling: modern copyrighted text; metadata-only/private-local unless rights are clear. Do not commit extracted full text.
+
+10. `Pocket Atlas of Tongue Diagnosis` by Claus C. Schnorrenberger and Beate Schnorrenberger
+   - Role: concise tongue diagnosis atlas with Chinese therapy guidelines, including acupuncture, herbs, and nutrition in the second edition.
+   - App layer: visual tongue-sign organization, location-based pattern interpretation, and diet/lifestyle/herb-category bridge language.
+   - Source note: Thieme/Open Library metadata lists the 2011 second edition as `Pocket atlas of tongue diagnosis: with Chinese therapy guidelines for acupuncture, herbs, and nutrition`.
+   - Access handling: modern copyrighted text; metadata-only/private-local unless rights are clear. Do not commit extracted full text.
+
 ## General Herbal Medicine Core Books
 
 1. `Encyclopedia of Herbal Medicine` by Andrew Chevallier
@@ -163,6 +194,6 @@ For Homeopathy, the app needs both foundational philosophy and practical clinica
 
 For Ayurveda, the app has the classical foundation started. The next useful private/metadata layers are Vasant Lad Vol. 2 for clinical assessment, Sebastian Pole for concise practitioner application, and Svoboda's `Prakriti` for constitution/philosophy.
 
-For TCM, Huangdi Neijing remains the classical foundation. Kaptchuk should be treated as a modern explanatory bridge. `Chinese Herbal Medicine: Materia Medica` and `Chinese Herbal Medicine: Formulas and Strategies` are active core TCM herb/formula targets; the separate office materia medica title can be added when the user sends it.
+For TCM, Huangdi Neijing remains the classical foundation. Kaptchuk should be treated as a modern explanatory bridge. Maciocia's foundations/diagnosis/tongue diagnosis works and the Kirschbaum/Schnorrenberger tongue atlases now support the technical explanation and visual tongue assessment lanes. `Chinese Herbal Medicine: Materia Medica` and `Chinese Herbal Medicine: Formulas and Strategies` are active core TCM herb/formula targets; the separate office materia medica title can be added when the user sends it.
 
 For general herbs, Chevallier is a supporting herbal reference and should not override tradition-specific materia medica without practitioner review.

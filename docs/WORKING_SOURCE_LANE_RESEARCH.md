@@ -16,6 +16,41 @@ The app currently needs stronger practical source support in these areas:
 
 ## Recommended Working Source Candidates
 
+### 0. TCM Pattern Differentiation And Tongue Diagnosis
+
+Newly approved expansion lanes for Tongue Test outcome quality:
+
+- `The Foundations of Chinese Medicine`
+  - Author: Giovanni Maciocia.
+  - App use: zang-fu physiology, pathology, pattern differentiation, treatment principles, and more technical organ-system language.
+  - Access status: modern copyrighted text; metadata-only/private-local unless lawful access or user-provided private access is confirmed.
+
+- `Diagnosis in Chinese Medicine: A Comprehensive Guide`
+  - Author: Giovanni Maciocia.
+  - App use: diagnostic structure, clinical manifestations, tongue/pulse diagnosis, pattern identification, and decoding technical TCM pattern language into user-facing explanations.
+  - Access status: modern copyrighted text; metadata-only/private-local unless lawful access or user-provided private access is confirmed.
+
+- `Tongue Diagnosis in Chinese Medicine`
+  - Author: Giovanni Maciocia.
+  - App use: tongue body, coating, shape, color, moisture, and location interpretation for image-based tongue assessment.
+  - Access status: modern copyrighted text; metadata-only/private-local unless lawful access or user-provided private access is confirmed.
+
+- `Atlas of Chinese Tongue Diagnosis`
+  - Author: Barbara Kirschbaum.
+  - App use: visual comparison atlas, clinical tongue-pattern language, and tongue-sign description quality.
+  - Access status: modern copyrighted text; metadata-only/private-local unless lawful access or user-provided private access is confirmed.
+
+- `Pocket Atlas of Tongue Diagnosis`
+  - Authors: Claus C. Schnorrenberger and Beate Schnorrenberger.
+  - App use: concise tongue-sign atlas, organ-map explanation, and Chinese therapy guideline categories for acupuncture, herbs, and nutrition.
+  - Access status: modern copyrighted text; metadata-only/private-local unless lawful access or user-provided private access is confirmed.
+
+Implementation rule:
+
+- Use these as source-lane scaffolding for better TCM language and report organization.
+- Do not claim direct citations or quote these books in app output until actual lawful copies are supplied and indexed privately.
+- Every technical term should be decoded in plain English immediately afterward.
+
 ### 1. TCM Herb Materia Medica
 
 Primary candidate:
@@ -226,4 +261,3 @@ Highest-impact books to obtain/ingest privately next:
 6. `Desktop Guide to Keynotes and Confirmatory Symptoms` by Roger Morrison.
 7. `Homeopathic Medical Repertory`, 3rd ed. by Robin Murphy.
 8. `Encyclopedia of Herbal Medicine` by Andrew Chevallier.
-

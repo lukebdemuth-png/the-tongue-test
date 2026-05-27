@@ -396,8 +396,10 @@ const tongueZones = [
 ];
 
 const visualSourceBooks = [
-  "Barbara Kirschbaum, Atlas of Chinese Tongue Diagnosis",
+  "Giovanni Maciocia, The Foundations of Chinese Medicine",
+  "Giovanni Maciocia, Diagnosis in Chinese Medicine: A Comprehensive Guide",
   "Giovanni Maciocia, Tongue Diagnosis in Chinese Medicine",
+  "Barbara Kirschbaum, Atlas of Chinese Tongue Diagnosis",
   "Claus C. Schnorrenberger and Beate Schnorrenberger, Pocket Atlas of Tongue Diagnosis",
 ];
 
@@ -417,13 +419,13 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
     organs: [
       {
         system: "Spleen Qi / Spleen Yang with Damp accumulation",
-        meaning: "The technical TCM focus is the Spleen's transformation and transportation function: how food and fluids are converted into usable Qi and moved cleanly through the body.",
-        why: "Thick coat, greasy coat, swelling, tooth marks, center coat, heaviness, bloating, fog, and loose stool all strengthen the Damp/Spleen pattern direction.",
+        meaning: "Technical read: impaired yun hua, or Spleen transformation and transportation, with Damp obstructing the Middle Burner. This points to weaker movement of food, fluids, and post-meal energy.",
+        why: "Decoded: the body may be turning meals and fluids into heaviness instead of clean energy. Thick coat, greasy coat, swelling, tooth marks, center coat, bloating, fog, and loose stool strengthen this direction.",
       },
       {
         system: "Middle Burner Qi Dynamic",
-        meaning: "The Middle Burner is the digestive center in TCM. This report watches appetite, meal timing, post-meal heaviness, stool texture, coating thickness, and morning energy as one connected pattern.",
-        why: "The center of the tongue is traditionally mapped to Spleen/Stomach, so center coating plus digestive symptoms carries more weight than either sign alone.",
+        meaning: "Technical read: the zhong jiao, or Middle Burner, is the digestive axis where Stomach receiving/rotting-ripening and Spleen transformation should coordinate.",
+        why: "Decoded: appetite, meal timing, post-meal heaviness, stool texture, coating thickness, and morning energy are one connected digestive pattern. Center coating plus digestive symptoms carries more weight than either sign alone.",
       },
     ],
     support: {
@@ -473,18 +475,18 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
     organs: [
       {
         system: "Stomach Heat / Middle Burner Heat",
-        meaning: "The technical focus is Heat in the digestive center: appetite, reflux, thirst, mouth dryness, bad breath, yellow coat, constipation, and symptoms aggravated by spicy, fried, alcohol, or late meals.",
-        why: "Red body color, yellow or center coating, thirst, reflux, and irritability can move the interpretation toward Stomach Heat or Damp-Heat depending on moisture and coat quality.",
+        meaning: "Technical read: yang ming or Stomach-channel Heat may be agitating the digestive center, especially when Heat combines with coating changes.",
+        why: "Decoded: digestion may be running hot or irritated. Appetite, reflux, thirst, mouth dryness, bad breath, yellow coat, constipation, and symptoms after spicy, fried, alcohol, coffee, or late meals make this stronger.",
       },
       {
         system: "Heart Fire / Shen Disturbance",
-        meaning: "If the tip is red or sleep is restless, the report watches the Heart/Shen layer: agitation, vivid dreams, insomnia, anxiety, mouth dryness, and feeling overstimulated.",
-        why: "The tongue tip is traditionally associated with the Heart and upper burner; red tip plus restless sleep is more meaningful than redness alone.",
+        meaning: "Technical read: Heart Fire or Shen disturbance may be present when upper/tip redness pairs with restless sleep or emotional overstimulation.",
+        why: "Decoded: the mind-body system may be too activated at night. Red tip, vivid dreams, insomnia, anxiety, mouth dryness, agitation, or feeling wired make this direction more relevant.",
       },
       {
         system: "Liver / Gallbladder Heat or Damp-Heat",
-        meaning: "If stress, irritability, rib tension, headaches, bitter taste, red sides, or sticky yellow coating are present, the technical lens shifts toward Liver/Gallbladder Heat or Damp-Heat.",
-        why: "The sides are commonly used as a Liver/Gallbladder map area in tongue observation, so side redness has pattern value when the intake also shows pressure or irritability.",
+        meaning: "Technical read: Liver/Gallbladder Heat or Damp-Heat becomes relevant when constrained Qi generates Heat or when Damp combines with Heat in the shaoyang/liver-gallbladder layer.",
+        why: "Decoded: pressure may be turning into heat, irritability, tension, headaches, bitter taste, rib tightness, or sticky digestion. Red sides have more value when the intake also shows stress or irritability.",
       },
     ],
     support: {
@@ -534,13 +536,13 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
     organs: [
       {
         system: "Liver Qi Stagnation / Constraint",
-        meaning: "The technical focus is free coursing: whether Qi is moving smoothly through mood, breath, rib/chest area, digestion, cycle rhythms, and muscular tension.",
-        why: "Stress, suppressed frustration, red sides, purple tone, rib/chest/neck tension, sighing, headaches, and stress-affected appetite all strengthen the Liver Qi constraint interpretation.",
+        meaning: "Technical read: gan qi yu jie, or Liver Qi constraint, means the Liver's free coursing function is not moving smoothly through mood, breath, digestion, cycle rhythms, and muscle tension.",
+        why: "Decoded: stress may be getting held in the body. Suppressed frustration, red sides, purple tone, rib/chest/neck tension, sighing, headaches, and stress-affected appetite strengthen this direction.",
       },
       {
         system: "Liver Overacting On Spleen / Stomach",
-        meaning: "When stress changes appetite, bloating, stool, reflux, or post-meal comfort, TCM often reads this as constrained Liver Qi disrupting the Middle Burner.",
-        why: "This explains why a stress pattern can show up as digestive symptoms instead of only emotional symptoms.",
+        meaning: "Technical read: Liver overacting on Spleen/Stomach describes constrained Liver Qi disrupting the Middle Burner's digestive rhythm.",
+        why: "Decoded: stress does not stay only emotional. It can show up as appetite changes, bloating, stool changes, reflux, nausea, or post-meal discomfort.",
       },
     ],
     support: {
@@ -590,13 +592,13 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
     organs: [
       {
         system: "Stomach Yin / Body Fluid Depletion",
-        meaning: "The technical focus is whether the Stomach fluid layer is reduced: peeled coat, cracks, dry surface, thirst, dry mouth, constipation, or sensitivity to heat/drying routines.",
-        why: "Tongue coat, cracks, moisture, and stool/thirst signs are read together because TCM does not interpret dryness from color alone.",
+        meaning: "Technical read: wei yin xu, or Stomach Yin deficiency, suggests the moistening/cooling fluid layer of the digestive center may be reduced.",
+        why: "Decoded: the system may need moisture and recovery more than stimulation. Peeled coat, cracks, dry surface, thirst, dry mouth, constipation, and sensitivity to heat/drying routines strengthen this read.",
       },
       {
         system: "Kidney Yin / Heart-Kidney Communication",
-        meaning: "If dryness appears with night waking, heat at night, restlessness, or red tip, the report watches deeper Yin depletion and the relationship between cooling fluids and Shen settling.",
-        why: "Sleep and tip signs can shift the read from simple dryness toward a deeper fluid-restoration pattern.",
+        meaning: "Technical read: Kidney Yin deficiency or Heart-Kidney disharmony becomes relevant when the cooling, anchoring Yin layer is not settling the Shen at night.",
+        why: "Decoded: dryness plus night waking, night heat, restlessness, red tip, or feeling depleted-but-wired can mean the body needs deeper restoration rather than more stimulation.",
       },
     ],
     support: {
@@ -646,13 +648,13 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
     organs: [
       {
         system: "Spleen Yang Deficiency / Cold-Damp Middle",
-        meaning: "The technical focus is weak warming and transforming function in the Middle Burner: low appetite, cold preference, bloating after cold foods, loose stool, fatigue, wet tongue, swelling, or tooth marks.",
-        why: "Pale, wet, swollen, and tooth-marked tongue signs paired with cold/low-energy intake answers strongly point toward warming and strengthening the digestive center.",
+        meaning: "Technical read: pi yang xu with Cold-Damp in the Middle Burner suggests the warming and transforming function of digestion is underpowered.",
+        why: "Decoded: the digestive center may need warmth and rhythm. Low appetite, cold preference, bloating after cold foods, loose stool, fatigue, wet tongue, swelling, or tooth marks strengthen this read.",
       },
       {
         system: "Kidney Yang / Mingmen Fire",
-        meaning: "If cold is deep, chronic, or paired with low back weakness, frequent urination, low libido, lower-body cold, or deep fatigue, the report watches the Kidney Yang layer.",
-        why: "Root area signs, chronic cold, and depletion clues help decide whether the pattern is only digestive or deeper lower-burner weakness.",
+        meaning: "Technical read: shen yang xu or weak mingmen fire becomes relevant when cold and depletion look deep, chronic, or lower-body dominant.",
+        why: "Decoded: this is not just being cold for one day. Low back weakness, frequent urination, low libido, lower-body cold, chronic exhaustion, root-area signs, and deep depletion point toward the lower burner.",
       },
     ],
     support: {
