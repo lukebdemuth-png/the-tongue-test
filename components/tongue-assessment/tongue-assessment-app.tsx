@@ -117,6 +117,7 @@ type AccessChoice = "trial" | "one-time" | null;
 
 const MAX_UPLOAD_EDGE = 1400;
 const JPEG_QUALITY = 0.82;
+const MIN_INTAKE_ANSWERS = 10;
 
 const explainOption = "Let me explain in my own words";
 
@@ -748,7 +749,7 @@ function deriveIntakeChoiceKeys(answers: Record<string, IntakeAnswer>) {
 
 function intakeAnswerText(question: IntakeQuestion, answer?: IntakeAnswer) {
   if (!answer?.selected) return "";
-  if (answer.selected === explainOption) return answer.custom?.trim() || explainOption;
+  if (answer.selected === explainOption) return answer.custom?.trim() || "Own words selected; no detail added.";
   return answer.selected;
 }
 
@@ -1378,12 +1379,7 @@ export function TongueAssessmentApp() {
   const intakeSummary = useMemo(() => buildIntakeSummary(intakeAnswers), [intakeAnswers]);
   const primary = themes[0];
   const answeredIntakeCount = intakeSummary.total;
-  const canCompleteIntake = intakeQuestions.every((question) => {
-    const answer = intakeAnswers[question.id];
-    if (!answer?.selected) return false;
-    if (answer.selected === explainOption) return Boolean(answer.custom?.trim());
-    return true;
-  });
+  const canCompleteIntake = answeredIntakeCount >= MIN_INTAKE_ANSWERS;
 
   useEffect(() => {
     return () => {
@@ -1681,8 +1677,8 @@ export function TongueAssessmentApp() {
               </div>
             </div>
             <p className="mt-6 text-base leading-7 text-ink/68">
-              Answer reflective questions first. Then you’ll add your tongue photo. No sign-in is needed
-              before the intake or photo.
+              Answer at least {MIN_INTAKE_ANSWERS} reflective questions first. Then you’ll add your tongue photo.
+              No sign-in is needed before the intake or photo.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               {["Short guided intake", "Tongue photo", "Report preview"].map((item) => (
@@ -1778,7 +1774,7 @@ export function TongueAssessmentApp() {
             </button>
             {!canCompleteIntake ? (
               <p className="mt-3 text-sm leading-6 text-ink/54">
-                Answer each question to continue. If you choose “own words,” add a short note.
+                Answer at least {MIN_INTAKE_ANSWERS} questions to continue. You can answer more for a richer report.
               </p>
             ) : null}
           </section>
