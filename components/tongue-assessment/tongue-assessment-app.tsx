@@ -416,27 +416,35 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
       "In plain English, this often means digestion and fluid metabolism are the first places to look. If meals leave you heavy, foggy, bloated, loose, sticky, or tired, this pattern becomes more convincing.",
     organs: [
       {
-        system: "Spleen / Stomach",
-        meaning: "Food and fluid transformation may be the main area to watch.",
-        why: "Thick, greasy, swollen, tooth-marked, or center/root coating signs often point this way in Chinese medicine.",
+        system: "Spleen Qi / Spleen Yang with Damp accumulation",
+        meaning: "The technical TCM focus is the Spleen's transformation and transportation function: how food and fluids are converted into usable Qi and moved cleanly through the body.",
+        why: "Thick coat, greasy coat, swelling, tooth marks, center coat, heaviness, bloating, fog, and loose stool all strengthen the Damp/Spleen pattern direction.",
       },
       {
-        system: "Middle Burner",
-        meaning: "The pattern may be strongest around meals, bloating, appetite, stool, and post-meal energy.",
-        why: "The middle of the tongue and digestive symptoms are read together rather than separately.",
+        system: "Middle Burner Qi Dynamic",
+        meaning: "The Middle Burner is the digestive center in TCM. This report watches appetite, meal timing, post-meal heaviness, stool texture, coating thickness, and morning energy as one connected pattern.",
+        why: "The center of the tongue is traditionally mapped to Spleen/Stomach, so center coating plus digestive symptoms carries more weight than either sign alone.",
       },
     ],
     support: {
       foods: [
-        "Favor warm cooked meals, soups, congee, rice, squash, cooked greens, and simple proteins.",
-        "Reduce iced drinks, cold smoothies, grazing, greasy foods, late heavy meals, and excess sugar during the test.",
+        "Favor warm cooked meals, soups, congee, rice, millet, squash, carrots, yams, cooked greens, mushrooms, ginger-scallion broth, and simple proteins.",
+        "Use digestive spices gently if tolerated: fresh ginger, fennel, cumin, cardamom, orange peel, and small amounts of cinnamon.",
+        "Choose breakfast that is warm and simple rather than cold, raw, sweet, or skipped.",
+        "Reduce iced drinks, cold smoothies, grazing, greasy foods, late heavy meals, heavy dairy, and excess sugar during the test.",
       ],
       lifestyle: [
-        "Use a consistent meal rhythm and a short walk after the largest meal.",
+        "Use a consistent meal rhythm, ideally with the largest meal earlier in the day.",
+        "Take a short relaxed walk after the largest meal to support movement through the middle burner.",
         "Eat without screens or rushing for the first five minutes of the meal.",
+        "Notice whether damp signs increase after sugar, fried food, dairy, cold drinks, or eating while stressed.",
       ],
       formulaFamilies: [
-        "TCM formula families commonly discussed for damp/sluggish digestion include Liu Jun Zi Tang, Xiang Sha Liu Jun Zi Tang, and related Spleen-transforming approaches.",
+        "Top 3 formula families to research: Liu Jun Zi Tang, Xiang Sha Liu Jun Zi Tang, and Ping Wei San.",
+        "Liu Jun Zi Tang is traditionally used to support Spleen Qi with damp/phlegm tendencies; it tonifies digestion while helping transform dampness.",
+        "Xiang Sha Liu Jun Zi Tang adds aromatic movement for bloating, nausea, appetite disruption, and stress-affected digestion.",
+        "Ping Wei San is a stronger damp-transforming and middle-regulating direction often discussed when heaviness, thick coat, and food stagnation are prominent.",
+        "Store links can be added after vendor review, so users can compare practitioner-quality sources instead of random supplement listings.",
         "Use practitioner review before herbs or formulas, especially with medications, pregnancy, chronic illness, or strong symptoms.",
       ],
     },
@@ -464,32 +472,40 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
       "In plain English, this does not point to one single conclusion yet. The strongest early signal is that warmth, irritation, digestion, stress, and hydration may be connected. If you also notice reflux, thirst, dry mouth, irritability, restless sleep, constipation, bitter taste, or stronger symptoms after coffee, alcohol, spicy food, fried food, or late meals, this heat/digestion direction becomes more likely.",
     organs: [
       {
-        system: "Stomach / Spleen",
-        meaning: "Digestion, appetite, coating, bloating, food response, and post-meal energy are the first areas to compare with the tongue photo.",
-        why: "The center of the tongue is commonly read in relation to the Spleen/Stomach digestive center.",
+        system: "Stomach Heat / Middle Burner Heat",
+        meaning: "The technical focus is Heat in the digestive center: appetite, reflux, thirst, mouth dryness, bad breath, yellow coat, constipation, and symptoms aggravated by spicy, fried, alcohol, or late meals.",
+        why: "Red body color, yellow or center coating, thirst, reflux, and irritability can move the interpretation toward Stomach Heat or Damp-Heat depending on moisture and coat quality.",
       },
       {
-        system: "Heart / Upper Body Heat",
-        meaning: "This becomes more relevant if the tongue read is paired with poor sleep, restlessness, anxiety, mouth dryness, or a red tip.",
-        why: "Redder upper/tip signs can shift the read toward sleep, spirit, chest, and upper-body heat patterns.",
+        system: "Heart Fire / Shen Disturbance",
+        meaning: "If the tip is red or sleep is restless, the report watches the Heart/Shen layer: agitation, vivid dreams, insomnia, anxiety, mouth dryness, and feeling overstimulated.",
+        why: "The tongue tip is traditionally associated with the Heart and upper burner; red tip plus restless sleep is more meaningful than redness alone.",
       },
       {
-        system: "Liver / Gallbladder",
-        meaning: "This becomes more relevant if paired with stress, irritability, tension, headaches, rib tightness, bitter taste, or symptoms worsened by pressure.",
-        why: "The sides are commonly used as a Liver/Gallbladder map area in tongue observation.",
+        system: "Liver / Gallbladder Heat or Damp-Heat",
+        meaning: "If stress, irritability, rib tension, headaches, bitter taste, red sides, or sticky yellow coating are present, the technical lens shifts toward Liver/Gallbladder Heat or Damp-Heat.",
+        why: "The sides are commonly used as a Liver/Gallbladder map area in tongue observation, so side redness has pattern value when the intake also shows pressure or irritability.",
       },
     ],
     support: {
       foods: [
-        "Favor simple cooling foods when tolerated: cooked greens, rice, cucumber, melon, mung-style foods, and lighter evening meals.",
+        "Favor simple cooling foods when tolerated: cooked greens, celery, cucumber, zucchini, mung beans, rice, pears, melon, chrysanthemum tea, mint tea, and lighter evening meals.",
+        "If digestion is weak, keep cooling foods mostly cooked or room-temperature rather than iced or raw-heavy.",
+        "Use bitter greens gently when appropriate: dandelion greens, arugula, escarole, or lightly cooked leafy greens.",
         "Reduce alcohol, spicy foods, fried foods, coffee on an empty stomach, and late heavy meals.",
       ],
       lifestyle: [
         "Lower evening heat load: cooler room, lighter dinner, less late work, and reduced stimulation before sleep.",
+        "Avoid stacking heat triggers on the same day: alcohol, spicy food, intense workouts, late screens, and emotional conflict.",
+        "Use calm breathing or a slow walk to downshift heat that is tied to stress.",
         "Track whether heat signs respond better to cooling or whether cooling weakens digestion.",
       ],
       formulaFamilies: [
-        "TCM formula families commonly discussed for heat signs depend on location, such as Stomach heat, Heart heat, Liver/Gallbladder heat, or yin-fluid deficiency heat.",
+        "Top 3 formula families to research: Huang Lian Jie Du Tang, Long Dan Xie Gan Tang, and Qing Wei San.",
+        "Huang Lian Jie Du Tang is a strong Heat-clearing direction traditionally discussed for intense excess Heat signs; it is not a casual wellness formula.",
+        "Long Dan Xie Gan Tang is traditionally discussed for Liver/Gallbladder Damp-Heat patterns with irritability, bitter taste, red sides, or lower burner damp-heat signs.",
+        "Qing Wei San is traditionally discussed for Stomach Heat signs such as mouth/gum heat, strong thirst, bad breath, or heat in the digestive center.",
+        "Store links can be added only after vendor and safety review because Heat-clearing formulas can be too strong or wrong for depleted/cold users.",
         "A practitioner should decide whether the pattern is excess heat, deficient heat, damp-heat, or heat mixed with weak digestion before herbs are considered.",
       ],
     },
@@ -517,27 +533,35 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
       "In plain English, the body may be showing a pattern where stress and pressure change how things move. If symptoms shift with tension, deadlines, holding emotions in, skipped meals, jaw/neck tightness, or needing to sigh, this direction gets stronger.",
     organs: [
       {
-        system: "Liver / Gallbladder",
-        meaning: "Stress, tension, irritability, red sides, or purple tone may suggest constrained movement in Chinese medicine language.",
-        why: "The sides of the tongue plus stress-location symptoms are treated as a flow pattern, not just a mood pattern.",
+        system: "Liver Qi Stagnation / Constraint",
+        meaning: "The technical focus is free coursing: whether Qi is moving smoothly through mood, breath, rib/chest area, digestion, cycle rhythms, and muscular tension.",
+        why: "Stress, suppressed frustration, red sides, purple tone, rib/chest/neck tension, sighing, headaches, and stress-affected appetite all strengthen the Liver Qi constraint interpretation.",
       },
       {
-        system: "Spleen / Stomach",
-        meaning: "When stress changes appetite, bloating, stool, or reflux, digestion becomes part of the same pattern.",
-        why: "Chinese medicine often reads stress and digestion together when qi movement affects the middle burner.",
+        system: "Liver Overacting On Spleen / Stomach",
+        meaning: "When stress changes appetite, bloating, stool, reflux, or post-meal comfort, TCM often reads this as constrained Liver Qi disrupting the Middle Burner.",
+        why: "This explains why a stress pattern can show up as digestive symptoms instead of only emotional symptoms.",
       },
     ],
     support: {
       foods: [
         "Favor steady meals that prevent stress-related skipping, caffeine spikes, and late heavy eating.",
+        "Use aromatic, movement-supportive foods when tolerated: citrus peel, basil, mint, fennel, scallion, ginger, small amounts of vinegar, and lightly cooked greens.",
         "If digestion tightens under stress, choose warm easy meals before adding strong cleansing or restrictive diets.",
+        "Reduce eating while angry, rushed, multitasking, or emotionally compressed; this is often more important than the exact food.",
       ],
       lifestyle: [
-        "Use movement to move constraint: walking, gentle stretching, shaking out tension, or breath before meals.",
+        "Use movement to move constraint: walking, gentle stretching, shaking out tension, breath before meals, or a short qigong flow.",
         "Create a decompression ritual after high-pressure blocks before eating or sleeping.",
+        "Track jaw, neck, shoulder, rib, chest, and diaphragm tension as part of the pattern.",
+        "Give emotion a clean outlet: journaling, voice notes, direct conversation, breathwork, or non-exhaustive movement.",
       ],
       formulaFamilies: [
-        "TCM formula families commonly discussed for Liver qi constraint include Xiao Yao San and Jia Wei Xiao Yao San when the pattern fits.",
+        "Top 3 formula families to research: Xiao Yao San, Jia Wei Xiao Yao San, and Chai Hu Shu Gan San.",
+        "Xiao Yao San is traditionally discussed for Liver Qi constraint with Spleen weakness, stress-digestion interaction, mood tension, and fatigue.",
+        "Jia Wei Xiao Yao San adds Heat-clearing emphasis when constraint turns into irritability, heat, red sides, or restless sleep.",
+        "Chai Hu Shu Gan San is a more moving direction traditionally discussed for stronger Qi constraint, rib/chest tension, belching, and pressure-related symptoms.",
+        "Store links can be added after deciding which suppliers meet quality standards and which formulas need stronger warnings.",
         "Practitioner review is important because constraint can combine with heat, dampness, blood deficiency, or weak digestion.",
       ],
     },
@@ -565,27 +589,35 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
       "In plain English, the photo may be pointing toward a system that needs moisture, steadier nourishment, and recovery. If you also notice dry mouth, thirst, dry skin, hard stool, night waking, or feeling depleted after overwork, this pattern becomes more important.",
     organs: [
       {
-        system: "Stomach / Kidney Fluid",
-        meaning: "Dryness, cracks, peeled coat, thirst, or constipation may suggest fluids are not adequately moistening tissues.",
-        why: "Tongue coat, cracks, moisture, and stool/thirst signs are read together for fluid status.",
+        system: "Stomach Yin / Body Fluid Depletion",
+        meaning: "The technical focus is whether the Stomach fluid layer is reduced: peeled coat, cracks, dry surface, thirst, dry mouth, constipation, or sensitivity to heat/drying routines.",
+        why: "Tongue coat, cracks, moisture, and stool/thirst signs are read together because TCM does not interpret dryness from color alone.",
       },
       {
-        system: "Heart / Shen",
-        meaning: "If dryness appears with poor sleep or red tip, recovery and nighttime settling become important.",
-        why: "Sleep and tip signs can shift the read toward Heart/shen involvement.",
+        system: "Kidney Yin / Heart-Kidney Communication",
+        meaning: "If dryness appears with night waking, heat at night, restlessness, or red tip, the report watches deeper Yin depletion and the relationship between cooling fluids and Shen settling.",
+        why: "Sleep and tip signs can shift the read from simple dryness toward a deeper fluid-restoration pattern.",
       },
     ],
     support: {
       foods: [
-        "Favor moist cooked foods: soups, stews, porridges, warm fluids, cooked pears if tolerated, sesame/tahini-style moist foods, and adequate meal substance.",
+        "Favor moist cooked foods: soups, stews, porridges, warm fluids, cooked pears, apples, black sesame, tahini, eggs if tolerated, tofu, seaweed, lily bulb-style foods, and adequate meal substance.",
+        "Use hydration steadily through the day rather than chugging at night.",
+        "Choose gentle nourishment over cleansing, fasting, or drying diets if depletion is prominent.",
         "Reduce dehydrating routines: late caffeine, alcohol, dry snacks, overwork, under-sleeping, and excessive heat exposure.",
       ],
       lifestyle: [
         "Protect recovery and sleep before adding stronger interventions.",
+        "Build a lower-stimulation evening routine, especially if dryness appears with poor sleep or red tip.",
+        "Use restorative practices: yin-style stretching, quiet breath, warm bath, early bedtime, or screen reduction.",
         "Track hydration, stool dryness, dry mouth, skin dryness, and whether warm fluids change the tongue surface.",
       ],
       formulaFamilies: [
-        "TCM formula families for dryness/fluid depletion depend on whether the pattern is Stomach yin, Kidney yin, blood deficiency, or heat damaging fluids.",
+        "Top 3 formula families to research: Mai Men Dong Tang, Zhi Bai Di Huang Wan, and Liu Wei Di Huang Wan.",
+        "Mai Men Dong Tang is traditionally discussed for Stomach/Lung Yin or fluid dryness with dryness, throat/chest irritation, or depleted fluids.",
+        "Zhi Bai Di Huang Wan is a Yin-nourishing plus deficient-Heat-clearing direction, traditionally considered when night heat, dryness, and deeper depletion signs appear.",
+        "Liu Wei Di Huang Wan is a foundational Kidney Yin-nourishing family traditionally used as a base when deeper Yin/fluid depletion is the main direction.",
+        "Store links can be added after safety review because nourishing formulas are not ideal when thick greasy damp signs are dominant.",
         "Do not self-select nourishing formulas if there is thick greasy coating or strong dampness; that combination needs practitioner sorting.",
       ],
     },
@@ -613,27 +645,35 @@ const themeRules: Omit<Theme, "score" | "signs">[] = [
       "In plain English, this can look like a system that does better with warmth, rhythm, and gentle support. If cold food, iced drinks, irregular meals, or overexertion make you more tired, bloated, loose, or chilled, this direction becomes more likely.",
     organs: [
       {
-        system: "Spleen / Stomach",
-        meaning: "Cold, pale, wet, swollen, tooth-marked, low-energy signs may point toward weak transformation.",
-        why: "Pale/wet/swollen tongue signs paired with bloating or loose stool often make digestion the first area to support.",
+        system: "Spleen Yang Deficiency / Cold-Damp Middle",
+        meaning: "The technical focus is weak warming and transforming function in the Middle Burner: low appetite, cold preference, bloating after cold foods, loose stool, fatigue, wet tongue, swelling, or tooth marks.",
+        why: "Pale, wet, swollen, and tooth-marked tongue signs paired with cold/low-energy intake answers strongly point toward warming and strengthening the digestive center.",
       },
       {
-        system: "Kidney Yang / Lower Burner",
-        meaning: "If cold is deep, chronic, or paired with low back, low libido, frequent urination, or deep fatigue, lower burner context matters.",
-        why: "Root area coating, cold signs, and chronic depletion clues help decide whether the pattern is deeper than digestion.",
+        system: "Kidney Yang / Mingmen Fire",
+        meaning: "If cold is deep, chronic, or paired with low back weakness, frequent urination, low libido, lower-body cold, or deep fatigue, the report watches the Kidney Yang layer.",
+        why: "Root area signs, chronic cold, and depletion clues help decide whether the pattern is only digestive or deeper lower-burner weakness.",
       },
     ],
     support: {
       foods: [
-        "Favor warm breakfasts, warm drinks, soups, stews, cooked grains, and gentle warming spices if heat/reflux is not present.",
-        "Reduce cold drinks, cold smoothies, raw-heavy meals, and irregular meal timing.",
+        "Favor warm breakfasts, warm drinks, soups, stews, cooked grains, oats, rice porridge, root vegetables, lamb or chicken broth if appropriate, and cooked greens.",
+        "Use gentle warming spices if heat/reflux is not present: ginger, cinnamon, fennel, cumin, cardamom, clove, and black pepper in small amounts.",
+        "Keep meals regular and avoid skipping breakfast if morning energy is low.",
+        "Reduce cold drinks, cold smoothies, raw-heavy meals, excessive salads, and irregular meal timing.",
       ],
       lifestyle: [
         "Use morning light, warmth to abdomen/feet, and gentle walking to test energy and digestion response.",
-        "Avoid pushing intense exercise if it creates next-day fatigue.",
+        "Keep the lower body warm and notice whether warmth improves stool, energy, and appetite.",
+        "Use strength gently and progressively rather than pushing into depletion.",
+        "Avoid intense exercise if it creates next-day fatigue, chills, loose stool, or appetite drop.",
       ],
       formulaFamilies: [
-        "TCM formula families commonly discussed for cold/low transformation depend on whether the focus is Spleen qi, Spleen yang, Kidney yang, or cold-damp.",
+        "Top 3 formula families to research: Li Zhong Wan, Fu Zi Li Zhong Wan, and Shen Qi Wan.",
+        "Li Zhong Wan is traditionally discussed for warming and strengthening the Middle Burner when cold digestion, low appetite, loose stool, and abdominal cold are central.",
+        "Fu Zi Li Zhong Wan is a stronger warming direction that adds deeper Yang support and requires more caution and practitioner oversight.",
+        "Shen Qi Wan is traditionally discussed when Kidney Yang / lower burner weakness is part of the picture, such as deep cold, chronic depletion, or lower-body signs.",
+        "Store links can be added only after safety review because warming formulas can be inappropriate with Heat, hypertension concerns, pregnancy, or certain medications.",
         "Practitioner review is needed before warming herbs/formulas, especially if heat signs, reflux, hypertension concerns, pregnancy, or medications are present.",
       ],
     },
@@ -833,11 +873,119 @@ function qualitySummary(primary: Theme) {
   };
 }
 
+function visibleTongueSignDescriptions(visionResult: VisionResult | null, selected: Set<ChoiceKey>) {
+  if (visionResult?.detected_signs.length) {
+    return visionResult.detected_signs.map((sign) => {
+      const interpretation = visibleSignInterpretations[sign.key];
+      const evidence = sign.evidence ? ` Visible clue: ${sign.evidence}` : "";
+      return `${sign.label} (${sign.confidence} confidence). ${interpretation}${evidence}`;
+    });
+  }
+
+  return [...selected]
+    .filter((key): key is VisualChoiceKey => visualChoiceKeys.has(key))
+    .map((key) => `${labelForChoice(key)}. ${visibleSignInterpretations[key]}`)
+    .slice(0, 10);
+}
+
 const tcmTeaching = [
   "Traditional Chinese Medicine looks for patterns rather than isolated symptoms. Tongue color, coating, moisture, shape, and location are traditionally read alongside digestion, sleep, stress, energy, temperature, and daily rhythm.",
   "The tongue is not treated as a standalone diagnosis. It is one visual clue that may help organize what to observe next.",
   "A useful TCM-style wellness reflection asks: what seems hot or cold, excess or depleted, dry or damp, stuck or moving, and how do those signs change with food, rest, stress, and time of day?",
 ];
+
+const tcmFoundations = [
+  {
+    title: "Protect Your Energy, Don’t Constantly Spend It",
+    body:
+      "Traditional Chinese Medicine views health as the preservation and intelligent use of vital energy, or Qi. Constant overwork, excessive stimulation, emotional suppression, poor sleep, and chronic stress may gradually weaken internal harmony. In TCM, rest is considered part of restoration and balance.",
+  },
+  {
+    title: "Eat Warm, Nourishing Foods Regularly",
+    body:
+      "TCM often emphasizes warm, cooked, easy-to-digest meals over excessive cold, iced, or heavily processed foods. Soups, broths, rice, root vegetables, lightly cooked greens, warming teas, and simple whole foods are commonly used as general digestive support.",
+  },
+  {
+    title: "Digestion Is Central to Well-Being",
+    body:
+      "Digestion is considered one of the foundations of vitality. Eating too quickly, while stressed, distracted, emotionally upset, or overstimulated may weaken digestive balance over time. Mindful eating and slowing down are traditionally encouraged.",
+  },
+  {
+    title: "Emotions Affect the Organ Systems",
+    body:
+      "TCM recognizes relationships between emotional states and organ systems: stress and frustration with the Liver system, excessive worry with digestion, grief with the Lung system, fear with the Kidney system, and overstimulation with the Heart and mind.",
+  },
+  {
+    title: "Sleep Restores the Body",
+    body:
+      "Deep, regular sleep is considered a major restoration period. General TCM principles often encourage consistent sleep schedules, reducing stimulation at night, calming the nervous system before bed, and balancing activity with recovery.",
+  },
+  {
+    title: "Gentle Daily Movement Keeps Energy Flowing",
+    body:
+      "Qi is meant to move. Walking, stretching, qigong, tai chi, yoga, breathwork, and mindful movement may support circulation and internal balance. Too little movement may contribute to stagnation, while excessive exertion may contribute to depletion.",
+  },
+  {
+    title: "Live More in Rhythm With Nature",
+    body:
+      "TCM emphasizes adapting to seasonal and natural cycles: more restoration in winter, growth and movement in spring, activity and expansion in summer, and reflection and release in autumn.",
+  },
+  {
+    title: "Calmness Supports Healing",
+    body:
+      "An overstimulated nervous system may affect digestion, sleep, emotional balance, and vitality. Slowing down, mindful breathing, meditation, quiet reflection, time in nature, and reducing excessive stimulation are traditionally considered restorative.",
+  },
+  {
+    title: "Closing Reflection",
+    body:
+      "Traditional Chinese Medicine does not view health as perfection, but as balance, adaptability, and harmony. The tongue may reflect temporary patterns related to stress, lifestyle, emotional state, digestion, energy levels, and constitutional tendencies. Small consistent changes are traditionally considered more supportive than extreme short-term interventions.",
+  },
+];
+
+const visibleSignInterpretations: Record<VisualChoiceKey, string> = {
+  pale:
+    "A pale tongue body is traditionally read as a possible sign of Qi, Blood, or Yang weakness, especially when paired with coldness, low energy, loose stool, or feeling depleted.",
+  red:
+    "A red tongue body can suggest Heat, irritation, or increased internal reactivity. Its meaning depends heavily on location, coating, thirst, sleep, stress, and digestion.",
+  deepRed:
+    "A deep red tongue is a stronger heat signal than mild redness. In TCM language, it raises the question of excess Heat, Heat damaging fluids, or deeper irritability in the system.",
+  purple:
+    "A purple or dusky tone may suggest Blood stasis or Qi stagnation, especially when paired with tension, fixed discomfort, stress, headaches, chest/rib tightness, or poor circulation.",
+  normalPink:
+    "A soft pink tongue body is generally closer to a balanced baseline in tongue observation, especially when coating is thin and even and the user feels steady.",
+  thinCoat:
+    "A thin coat is often treated as a normal or mild coating sign. It suggests the Stomach Qi layer is visible without heavy dampness or major coating accumulation.",
+  thickCoat:
+    "A thick coat can point toward accumulation in the digestive layer, often discussed as Dampness, Phlegm, food stagnation, or a heavier internal burden.",
+  whiteCoat:
+    "A white coat may point toward Cold, Damp, or a less heated digestive pattern. It becomes more meaningful with cold signs, loose stool, fatigue, or heaviness.",
+  yellowCoat:
+    "A yellow coat is a classic Heat or Damp-Heat clue in TCM tongue observation. It becomes stronger if there is reflux, thirst, bitter taste, irritability, or sticky/heavy digestion.",
+  greasyCoat:
+    "A greasy or sticky coat often suggests Dampness, Phlegm, or food accumulation. It is especially relevant when paired with bloating, heaviness, fog, sugar cravings, or sticky stool.",
+  peeledCoat:
+    "A peeled or missing coat may suggest reduced fluids or Yin in the Stomach layer, especially if paired with dryness, thirst, night heat, cracks, or depletion.",
+  dry:
+    "A dry tongue surface can suggest fluids are not adequately moistening the system. In TCM this may relate to Heat consuming fluids, Yin deficiency, dryness, or dehydration context.",
+  wet:
+    "A very wet tongue may suggest fluids are present but not transforming well. It often points toward Cold, Dampness, or weaker Yang transformation when paired with low energy or loose stool.",
+  swollen:
+    "A swollen or puffy tongue may suggest fluid accumulation or weak transformation. In TCM this often brings the Spleen Qi/Yang and Dampness picture into focus.",
+  thin:
+    "A thin tongue body can suggest depletion, reduced nourishment, Blood deficiency, Yin deficiency, or chronic under-resourcing, depending on color and moisture.",
+  teethMarks:
+    "Teeth marks along the edges are often associated with Spleen Qi deficiency or Dampness, especially when paired with bloating, fatigue, heaviness, or loose stool.",
+  cracks:
+    "Cracks may suggest dryness, reduced fluids, or constitutional depletion. Their location matters: center cracks often pull attention toward the Stomach/Spleen area.",
+  redTip:
+    "A red tip draws attention toward the Heart/Shen and upper burner in TCM language, especially with poor sleep, restlessness, anxiety, mouth dryness, or emotional overstimulation.",
+  redSides:
+    "Red sides draw attention toward the Liver/Gallbladder map area, especially when paired with irritability, stress, frustration, rib/neck/shoulder tension, headaches, or bitter taste.",
+  centerCoat:
+    "A stronger center coat focuses attention on the Middle Burner: Spleen/Stomach digestion, appetite, bloating, food response, reflux, and post-meal energy.",
+  rootCoat:
+    "A stronger root coat points toward the lower burner and deeper fluid/elimination layer. It may be relevant with bowel patterns, urinary patterns, chronic dampness, or depletion.",
+};
 
 function buildTongueReportHtml({
   primary,
@@ -857,6 +1005,7 @@ function buildTongueReportHtml({
   const generatedAt = new Date().toLocaleString();
   const detectedSigns = visionResult?.detected_signs ?? [];
   const qualityNote = visionResult?.image_quality?.notes || visionResult?.overall_note || "";
+  const visibleDescriptions = visibleTongueSignDescriptions(visionResult, new Set(selectedLabels.map((label) => observationGroups.flatMap((group) => group.choices).find((choice) => choice.label === label)?.key).filter(Boolean) as ChoiceKey[]));
   const graphThemes = [primary, ...secondaryThemes].slice(0, 3);
   const maxScore = Math.max(...graphThemes.map((theme) => theme.score), 1);
   const quality = qualitySummary(primary);
@@ -1059,6 +1208,18 @@ function buildTongueReportHtml({
     </section>
 
     <section class="card">
+      <p class="eyebrow">Foundations of Traditional Chinese Medicine Well-Being</p>
+      ${tcmFoundations
+        .map(
+          (item) => `
+            <h3>${escapeHtml(item.title)}</h3>
+            <p>${escapeHtml(item.body)}</p>
+          `,
+        )
+        .join("")}
+    </section>
+
+    <section class="card">
       <p class="eyebrow">Stay connected</p>
       <p class="muted">Follow along for tongue photo tips, TCM-style wellness education, and future report updates.</p>
       <div class="link-row">
@@ -1071,6 +1232,7 @@ function buildTongueReportHtml({
     <section class="card">
       <p class="eyebrow">Photo + Visible Signs</p>
       ${qualityNote ? `<p>${escapeHtml(qualityNote)}</p>` : `<p class="muted">No AI photo quality note was recorded.</p>`}
+      ${visibleDescriptions.length ? reportList(visibleDescriptions) : ""}
       ${
         detectedSigns.length
           ? `<div class="pillwrap">${detectedSigns
@@ -1336,6 +1498,7 @@ export function TongueAssessmentApp() {
     setReportEmailSending(true);
     try {
       const selectedLabels = [...selected].map(labelForChoice).sort((a, b) => a.localeCompare(b));
+      const visibleDescriptions = visibleTongueSignDescriptions(visionResult, selected);
       const response = await fetch("/api/tongue-report-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1355,7 +1518,7 @@ export function TongueAssessmentApp() {
             question: item.question.question,
             answer: item.answer,
           })),
-          visibleSigns: visionResult?.detected_signs.map((sign) => `${sign.label} · ${sign.confidence}`) ?? selectedLabels,
+          visibleSigns: visibleDescriptions.length ? visibleDescriptions : selectedLabels,
           patternScores: themes.map((theme) => ({ title: theme.title, score: theme.score })),
           notes,
         }),
@@ -1932,11 +2095,13 @@ export function TongueAssessmentApp() {
 
                   <OrganFocus organs={primary.organs} />
                   <PlainMeaning meaning={primary.meaning} />
+                  <VisibleTongueSigns descriptions={visibleTongueSignDescriptions(visionResult, selected)} />
                   <InsightQuality primary={primary} />
                   <ResultList title="What To Try First" items={primary.tryFirst} />
                   <ResultList title="What To Observe Next" items={primary.observe} />
                   <FollowUpQuestions questions={primary.questions} />
                   <SupportDirection support={primary.support} />
+                  <TCMFoundations />
 
                   <article className="border border-ink/10 bg-white/75 p-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">PDF Outcome Report</p>
@@ -2098,7 +2263,7 @@ function SupportDirection({ support }: { support: Theme["support"] }) {
       <div className="mt-4 grid gap-3">
         <SupportColumn title="Food Direction" items={support.foods} />
         <SupportColumn title="Lifestyle Direction" items={support.lifestyle} />
-        <SupportColumn title="Formula / Herb Families" items={support.formulaFamilies} />
+        <SupportColumn title="Top 3 Formula Families To Research" items={support.formulaFamilies} />
       </div>
     </article>
   );
@@ -2134,11 +2299,47 @@ function OrganFocus({ organs }: { organs: OrganSignal[] }) {
   );
 }
 
+function VisibleTongueSigns({ descriptions }: { descriptions: string[] }) {
+  if (!descriptions.length) return null;
+
+  return (
+    <article className="border border-ink/10 bg-white/75 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Visible Tongue Signs</p>
+      <p className="mt-2 text-sm leading-6 text-ink/58">
+        These are the visible photo clues translated into TCM-style observation language. They are not a diagnosis.
+      </p>
+      <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/70">
+        {descriptions.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </article>
+  );
+}
+
 function PlainMeaning({ meaning }: { meaning: string }) {
   return (
     <article className="border border-ink/10 bg-white/75 p-4">
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">What This May Mean In Plain English</p>
       <p className="mt-2 text-sm leading-6 text-ink/70">{meaning}</p>
+    </article>
+  );
+}
+
+function TCMFoundations() {
+  return (
+    <article className="border border-ink/10 bg-white/75 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">
+        Foundations Of Traditional Chinese Medicine Well-Being
+      </p>
+      <div className="mt-3 space-y-3">
+        {tcmFoundations.map((item) => (
+          <div key={item.title} className="border-l-2 border-moss/25 pl-3">
+            <p className="text-sm font-semibold leading-6 text-ink">{item.title}</p>
+            <p className="mt-1 text-sm leading-6 text-ink/66">{item.body}</p>
+          </div>
+        ))}
+      </div>
     </article>
   );
 }

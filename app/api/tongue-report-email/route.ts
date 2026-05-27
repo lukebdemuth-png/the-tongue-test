@@ -26,6 +26,18 @@ type ReportPayload = {
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const tcmFoundations = [
+  "Protect Your Energy, Don’t Constantly Spend It — TCM views health as the preservation and intelligent use of Qi. Rest is part of restoration and balance.",
+  "Eat Warm, Nourishing Foods Regularly — warm, cooked, easy-to-digest meals are often emphasized over excessive cold, iced, or heavily processed foods.",
+  "Digestion Is Central to Well-Being — eating quickly, while stressed, distracted, or overstimulated may weaken digestive balance over time.",
+  "Emotions Affect the Organ Systems — stress and frustration are traditionally linked with the Liver system, worry with digestion, grief with the Lung system, fear with the Kidney system, and overstimulation with the Heart and mind.",
+  "Sleep Restores the Body — consistent sleep, reduced nighttime stimulation, and recovery rhythm are major TCM foundations.",
+  "Gentle Daily Movement Keeps Energy Flowing — walking, stretching, qigong, tai chi, yoga, breathwork, and mindful movement may support circulation and internal balance.",
+  "Live More in Rhythm With Nature — TCM emphasizes adapting to seasonal and natural cycles rather than constantly resisting them.",
+  "Calmness Supports Healing — slowing down, mindful breathing, quiet reflection, time in nature, and reducing excessive stimulation are traditionally considered restorative.",
+  "Closing Reflection — TCM views health as balance, adaptability, and harmony. Small consistent changes are traditionally considered more supportive than extreme short-term interventions.",
+];
+
 function normalizePayload(value: unknown): ReportPayload {
   if (!value || typeof value !== "object") throw new Error("Report payload is required.");
   const input = value as Record<string, any>;
@@ -38,9 +50,9 @@ function normalizePayload(value: unknown): ReportPayload {
     primarySummary: String(input.primarySummary ?? "").slice(0, 1800),
     matchedSigns: Array.isArray(input.matchedSigns) ? input.matchedSigns.map(String).slice(0, 16) : [],
     organSystems: Array.isArray(input.organSystems) ? input.organSystems.slice(0, 8) : [],
-    foodDirection: Array.isArray(input.foodDirection) ? input.foodDirection.map(String).slice(0, 10) : [],
-    lifestyleDirection: Array.isArray(input.lifestyleDirection) ? input.lifestyleDirection.map(String).slice(0, 10) : [],
-    herbalDirection: Array.isArray(input.herbalDirection) ? input.herbalDirection.map(String).slice(0, 10) : [],
+    foodDirection: Array.isArray(input.foodDirection) ? input.foodDirection.map(String).slice(0, 16) : [],
+    lifestyleDirection: Array.isArray(input.lifestyleDirection) ? input.lifestyleDirection.map(String).slice(0, 16) : [],
+    herbalDirection: Array.isArray(input.herbalDirection) ? input.herbalDirection.map(String).slice(0, 16) : [],
     intakeHighlights: Array.isArray(input.intakeHighlights)
       ? input.intakeHighlights
           .map((item: any) => ({
@@ -128,7 +140,7 @@ async function createPdf(payload: ReportPayload) {
 
   addSection(doc, "Food Direction", undefined, payload.foodDirection);
   addSection(doc, "Lifestyle Direction", undefined, payload.lifestyleDirection);
-  addSection(doc, "Herbal / Formula Direction", undefined, payload.herbalDirection);
+  addSection(doc, "Top 3 Formula Families To Research", undefined, payload.herbalDirection);
 
   addSection(
     doc,
@@ -146,6 +158,8 @@ async function createPdf(payload: ReportPayload) {
     "TCM Well-Being Education",
     "Traditional Chinese Medicine reads the tongue as one visible clue among many. Color, coat, moisture, shape, and location are compared with energy, digestion, sleep, stress, temperature, stool, thirst, and emotional rhythm. The photo starts the reflection; the intake gives it context.",
   );
+
+  addSection(doc, "Foundations of Traditional Chinese Medicine Well-Being", undefined, tcmFoundations);
 
   doc.moveDown(1);
   doc.fillColor("#766f65").font("Helvetica").fontSize(8.5).text(
