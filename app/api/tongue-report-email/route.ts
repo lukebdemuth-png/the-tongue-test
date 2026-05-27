@@ -130,7 +130,7 @@ function drawPatternSignature(doc: PDFKit.PDFDocument, scores: ReportPayload["pa
     characterSpacing: 1.2,
   });
   doc.fillColor("#766f65").font("Helvetica").fontSize(9).text(
-    "A visual read of which TCM pattern directions are strongest, secondary, or lightly present.",
+    "This graph supports the Primary Pattern Insight by showing why this direction rose to the top and which secondary directions are still present.",
     left,
     doc.y + 6,
     { width: 480 },

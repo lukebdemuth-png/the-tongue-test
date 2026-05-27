@@ -1058,6 +1058,9 @@ function buildTongueReportHtml({
     .lead-card { background: #211f1a; color: #fffaf0; padding: 22px; }
     .lead-card .eyebrow { color: #d9c7a1; }
     .lead-card .muted { color: rgba(255,250,240,0.68); }
+    .lead-card .signature-item { background: rgba(255,250,240,0.06); border-color: rgba(255,250,240,0.16); }
+    .lead-card .signature-bar { background: rgba(255,250,240,0.18); border-color: rgba(255,250,240,0.16); }
+    .lead-card .graph-meta span { color: rgba(255,250,240,0.62); }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .pillwrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
     .pill { border: 1px solid rgba(33,31,26,0.12); background: #fbfaf6; padding: 5px 8px; font-size: 12px; }
@@ -1118,11 +1121,10 @@ function buildTongueReportHtml({
       <p class="eyebrow">Primary Pattern Insight</p>
       <h2>${escapeHtml(primary.title)}</h2>
       <p>${escapeHtml(primary.plain)}</p>
+      <h3>In words you can understand</h3>
+      <p>${escapeHtml(primary.meaning)}</p>
       <p class="small muted">Matched signs: ${escapeHtml(primary.signs.join(", "))}</p>
-    </section>
-
-    <section class="card">
-      <div class="signature">
+      <div class="signature" style="margin-top:18px">
         <div class="signature-seal">
           <div class="signature-inner">
             <strong>${primary.score}</strong>
@@ -1130,9 +1132,9 @@ function buildTongueReportHtml({
           </div>
         </div>
         <div>
-          <p class="eyebrow">Pattern Signature</p>
-          <h2>Signal Strength</h2>
-          <p class="muted">A visual summary of the strongest pattern directions from the photo and selected observations.</p>
+          <p class="eyebrow">Primary pattern signature</p>
+          <h2>Why this pattern rose to the top</h2>
+          <p class="muted">The graph supports the main insight by showing how strongly this pattern stands out compared with secondary directions.</p>
           <div class="signature-list">
             ${graphThemes
               .map(
@@ -1150,11 +1152,6 @@ function buildTongueReportHtml({
           </div>
         </div>
       </div>
-    </section>
-
-    <section class="card">
-      <p class="eyebrow">Plain-English Meaning</p>
-      <p>${escapeHtml(primary.meaning)}</p>
     </section>
 
     <section class="card">
@@ -2362,7 +2359,7 @@ function PatternSignature({ themes }: { themes: Theme[] }) {
     .join(", ");
 
   return (
-    <article className="border border-ink/10 bg-white/75 p-4">
+    <article className="border border-moss/20 bg-[#f8f7f1] p-4">
       <div className="grid gap-4 sm:grid-cols-[8.5rem_1fr] sm:items-center">
         <div
           className="relative grid aspect-square place-items-center rounded-full border border-ink/10"
@@ -2382,9 +2379,10 @@ function PatternSignature({ themes }: { themes: Theme[] }) {
           </div>
         </div>
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Pattern Signature</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Primary Pattern Signature</p>
           <p className="mt-2 text-sm leading-6 text-ink/58">
-            A quick visual read of which TCM pattern directions are strongest, secondary, or only lightly present.
+            This graph supports the Primary Pattern Insight. It shows why this direction rose to the top
+            and how much secondary pattern activity is also present.
           </p>
           <div className="mt-3 space-y-2">
             {graphThemes.map((theme, index) => (
