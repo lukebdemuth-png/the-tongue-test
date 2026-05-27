@@ -1079,7 +1079,7 @@ function qualitySummary(primary: Theme) {
     points: [
       "Start with the strongest pattern, then compare it against how you actually feel this week.",
       "Use the food and rhythm suggestions as short observation experiments, not as rules.",
-      "Retake a tongue photo under similar lighting in a few days if you want to compare changes.",
+      "Retake the tongue test in 3 weeks under similar lighting to compare whether the visible pattern is shifting.",
     ],
     uncertainty: [
       "A tongue photo is only one observation. Lighting, camera color, recent food, brushing, hydration, and timing can all change what appears.",
@@ -1174,6 +1174,13 @@ const tcmTeaching = [
   "Traditional Chinese Medicine looks for patterns rather than isolated symptoms. Tongue color, coating, moisture, shape, and location are traditionally read alongside digestion, sleep, stress, energy, temperature, and daily rhythm.",
   "The tongue is not treated as a standalone diagnosis. It is one visual clue that may help organize what to observe next.",
   "A useful TCM-style wellness reflection asks: what seems hot or cold, excess or depleted, dry or damp, stuck or moving, and how do those signs change with food, rest, stress, and time of day?",
+];
+
+const threeWeekRetakePlan = [
+  "Retake the tongue test in 3 weeks using similar lighting, time of day, and camera distance so the comparison is cleaner.",
+  "Try to take the photo before coffee, strongly colored food, tongue scraping, brushing, or mouthwash.",
+  "Look for changes in coating thickness, color intensity, moisture, cracks, tooth marks, and whether the center or sides look less reactive.",
+  "Use the 3-week comparison as a wellness tracking tool, not proof of diagnosis or treatment response.",
 ];
 
 const tcmFoundations = [
@@ -1443,18 +1450,6 @@ function buildTongueReportHtml({
       ${reportList(technical.impressions)}
     </section>
 
-    <section class="card">
-      <p class="eyebrow">Intake Pattern Summary</p>
-      <p class="muted">Before the tongue photo, you answered ${intakeSummary.total} reflective intake questions. The strongest context clues are listed below.</p>
-      ${
-        intakeSummary.highlights.length
-          ? `<ul>${intakeSummary.highlights
-              .map((item) => `<li><strong>${escapeHtml(item.question.question)}</strong><br />${escapeHtml(item.answer)}</li>`)
-              .join("")}</ul>`
-          : `<p class="muted">No intake highlights were recorded.</p>`
-      }
-    </section>
-
     <section class="grid">
       <div class="card">
         <p class="eyebrow">${escapeHtml(quality.heading)}</p>
@@ -1546,9 +1541,8 @@ function buildTongueReportHtml({
     </section>
 
     <section class="card">
-      <p class="eyebrow">Follow-Up Questions</p>
-      <p class="muted">Answering these would help separate similar patterns and make the wellness direction more precise.</p>
-      ${reportList(primary.questions)}
+      <p class="eyebrow">Retake The Tongue Test In 3 Weeks</p>
+      ${reportList(threeWeekRetakePlan)}
     </section>
 
     <section class="card">
@@ -2032,7 +2026,7 @@ export function TongueAssessmentApp() {
             </h1>
             <p className="mt-4 text-sm leading-7 text-ink/62">
               Choose the answer that feels closest. If none fit, use your own words. Your answers stay in
-              this session and are included in the final report.
+              this session and help shape the final tongue reading.
             </p>
             <div className="mt-5 h-2 border border-ink/10 bg-fog">
               <div
@@ -2132,7 +2126,7 @@ export function TongueAssessmentApp() {
               <div className="mt-5 border border-moss/20 bg-fog/60 p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Intake Pattern Context</p>
                 <p className="mt-2 text-sm leading-6 text-ink/62">
-                  {intakeSummary.total} answers saved for this session. These will be included in the final report.
+                  {intakeSummary.total} answers saved for this session. These help shape the final tongue reading.
                 </p>
               </div>
             </div>
@@ -2313,7 +2307,7 @@ export function TongueAssessmentApp() {
                   </p>
                   <p className="mt-2 text-xs leading-5 text-ink/45">
                     Free preview: visible features and quality notes. The paid report expands this into a
-                    structured review, clarifying questions, tracking notes, and follow-up comparison.
+                    structured TCM reading, practical direction, and 3-week comparison plan.
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {visionResult.detected_signs.map((sign) => (
@@ -2466,7 +2460,7 @@ export function TongueAssessmentApp() {
                   <InsightQuality primary={primary} />
                   <ResultList title="What To Try First" items={primary.tryFirst} />
                   <ResultList title="What To Observe Next" items={primary.observe} />
-                  <FollowUpQuestions questions={primary.questions} />
+                  <ResultList title="Retake The Tongue Test In 3 Weeks" items={threeWeekRetakePlan} />
                   <SupportDirection support={primary.support} />
                   <FoodDietarySuggestions diet={getDietarySuggestion(primary)} />
                   <HerbSuggestions herbs={getHerbSuggestions(primary)} />
@@ -2476,7 +2470,7 @@ export function TongueAssessmentApp() {
                     <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">PDF Outcome Report</p>
                     <p className="mt-2 text-sm leading-6 text-ink/66">
                       Create a high-end report with the app logo, primary pattern insight, a signal-strength
-                      graph, organ-system focus, food direction, lifestyle direction, follow-up questions,
+                      graph, organ-system focus, food direction, lifestyle direction, 3-week retake plan,
                       and educational disclaimers. Your tongue photo is not placed in the PDF.
                     </p>
                     <button type="button" className="button-primary mt-4 w-full" onClick={downloadPdfReport}>
@@ -2528,7 +2522,6 @@ export function TongueAssessmentApp() {
                       </div>
 	                    </article>
 	                  ) : null}
-	                  <IntakePatternSummary intakeSummary={intakeSummary} />
 	                </div>
 	              ) : primary ? (
                 <div className="mt-5 border border-moss/20 bg-[#f8f7f1] p-4">
@@ -2869,48 +2862,6 @@ function InsightQuality({ primary }: { primary: Theme }) {
           ))}
         </ul>
       </div>
-    </article>
-  );
-}
-
-function IntakePatternSummary({ intakeSummary }: { intakeSummary: ReturnType<typeof buildIntakeSummary> }) {
-  return (
-    <article className="border border-ink/10 bg-white/75 p-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Intake Pattern Summary</p>
-      <p className="mt-2 text-sm leading-6 text-ink/66">
-        The report includes {intakeSummary.total} intake answers. These add context for energy,
-        digestion, stress, sleep, and emotional patterning before the tongue photo is interpreted.
-      </p>
-      {intakeSummary.highlights.length ? (
-        <div className="mt-3 space-y-3">
-          {intakeSummary.highlights.slice(0, 5).map((item) => (
-            <div key={item.question.id} className="border-l-2 border-moss/35 pl-3">
-              <p className="text-sm font-semibold leading-6 text-ink">{item.question.question}</p>
-              <p className="mt-1 text-sm leading-6 text-ink/64">{item.answer}</p>
-            </div>
-          ))}
-        </div>
-      ) : null}
-    </article>
-  );
-}
-
-function FollowUpQuestions({ questions }: { questions: string[] }) {
-  return (
-    <article className="border border-ink/10 bg-white/75 p-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Make This More Precise</p>
-      <p className="mt-2 text-sm leading-6 text-ink/66">
-        The photo gives a first read. Answering a few follow-up questions would help separate similar
-        patterns and make the wellness direction more precise.
-      </p>
-      <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/70">
-        {questions.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-      <button type="button" className="button-secondary mt-4 w-full">
-        Answer Follow-Up Questions
-      </button>
     </article>
   );
 }

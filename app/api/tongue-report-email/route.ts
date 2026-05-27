@@ -60,6 +60,13 @@ const tcmFoundations = [
   "Closing Reflection — TCM views health as balance, adaptability, and harmony. Small consistent changes are traditionally considered more supportive than extreme short-term interventions.",
 ];
 
+const threeWeekRetakePlan = [
+  "Retake the tongue test in 3 weeks using similar lighting, time of day, and camera distance so the comparison is cleaner.",
+  "Try to take the photo before coffee, strongly colored food, tongue scraping, brushing, or mouthwash.",
+  "Look for changes in coating thickness, color intensity, moisture, cracks, tooth marks, and whether the center or sides look less reactive.",
+  "Use the 3-week comparison as a wellness tracking tool, not proof of diagnosis or treatment response.",
+];
+
 function normalizePayload(value: unknown): ReportPayload {
   if (!value || typeof value !== "object") throw new Error("Report payload is required.");
   const input = value as Record<string, any>;
@@ -319,21 +326,16 @@ async function createPdf(payload: ReportPayload) {
     );
   }
 
-  addSection(
-    doc,
-    "Intake Pattern Summary",
-    undefined,
-    payload.intakeHighlights.map((item) => `${item.question} — ${item.answer}`),
-  );
-
   addSection(doc, "Visible Tongue Signs", undefined, payload.visibleSigns);
 
   if (payload.notes) addSection(doc, "User Notes", payload.notes);
 
+  addSection(doc, "Retake The Tongue Test In 3 Weeks", undefined, threeWeekRetakePlan);
+
   addSection(
     doc,
     "TCM Well-Being Education",
-    "Traditional Chinese Medicine reads the tongue as one visible clue among many. Color, coat, moisture, shape, and location are compared with energy, digestion, sleep, stress, temperature, stool, thirst, and emotional rhythm. The photo starts the reflection; the intake gives it context.",
+    "Traditional Chinese Medicine reads the tongue as one visible clue among many. Color, coat, moisture, shape, and location are compared with energy, digestion, sleep, stress, temperature, stool, thirst, and emotional rhythm. This report is meant to organize traditional pattern reflection in plain language.",
   );
 
   addSection(doc, "Foundations of Traditional Chinese Medicine Well-Being", undefined, tcmFoundations);
