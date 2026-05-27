@@ -1690,7 +1690,8 @@ export function TongueAssessmentApp() {
   const [cameraActive, setCameraActive] = useState(false);
   const [cameraError, setCameraError] = useState("");
   const [cameraStarting, setCameraStarting] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const uploadInputRef = useRef<HTMLInputElement | null>(null);
+  const cameraInputRef = useRef<HTMLInputElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const intakeDerivedSigns = useMemo(() => deriveIntakeChoiceKeys(intakeAnswers), [intakeAnswers]);
@@ -2172,10 +2173,10 @@ export function TongueAssessmentApp() {
               </div>
               <div className="mt-4 grid gap-3 border border-ink/10 bg-white/65 p-3 sm:grid-cols-[1fr_1fr]">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Best On Phone</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Upload Or Take Photo</p>
                   <p className="mt-2 text-sm leading-6 text-ink/60">
-                    Tap Take or Choose Photo. iPhone and Android will open the native camera, photo library,
-                    or file picker.
+                    Use Upload Photo for an existing picture. On your phone, Take Photo opens the native
+                    camera.
                   </p>
                 </div>
                 <div>
@@ -2186,13 +2187,20 @@ export function TongueAssessmentApp() {
                   </p>
                 </div>
               </div>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className="mt-4 grid gap-3 sm:grid-cols-3">
                 <button
                   type="button"
                   className="button-primary min-h-14 w-full"
-                  onClick={() => fileInputRef.current?.click()}
+                  onClick={() => uploadInputRef.current?.click()}
                 >
-                  Take Or Choose Photo
+                  Upload Photo
+                </button>
+                <button
+                  type="button"
+                  className="button-secondary min-h-14 w-full"
+                  onClick={() => cameraInputRef.current?.click()}
+                >
+                  Take Photo
                 </button>
                 <button
                   type="button"
@@ -2203,17 +2211,30 @@ export function TongueAssessmentApp() {
                   {cameraStarting ? "Opening Live Camera..." : cameraActive ? "Capture Live Photo" : "Open Live Camera"}
                 </button>
                 <input
-                  ref={fileInputRef}
+                  ref={uploadInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/*"
+                  className="sr-only"
+                  onChange={async (event) => {
+                    await handlePhotoFile(event.target.files?.[0]);
+                    event.currentTarget.value = "";
+                  }}
+                />
+                <input
+                  ref={cameraInputRef}
                   type="file"
                   accept="image/*"
                   capture="environment"
                   className="sr-only"
-                  onChange={(event) => handlePhotoFile(event.target.files?.[0])}
+                  onChange={async (event) => {
+                    await handlePhotoFile(event.target.files?.[0]);
+                    event.currentTarget.value = "";
+                  }}
                 />
               </div>
               <p className="mt-3 text-xs leading-5 text-ink/48">
-                Launch-safe phone flow: use Take or Choose Photo first. Live Camera is optional and depends on
-                browser permissions.
+                Launch-safe flow: use Upload Photo first on desktop. On iPhone or Android, Take Photo opens
+                the phone camera. Live Camera is optional and depends on browser permissions.
               </p>
               {cameraError ? (
                 <p className="mt-3 border border-red-200 bg-red-50 p-3 text-sm leading-6 text-red-700">{cameraError}</p>
@@ -2259,7 +2280,7 @@ export function TongueAssessmentApp() {
                   >
                     {photoConfirmed ? "Photo Confirmed" : "Use This Photo"}
                   </button>
-                  <button type="button" className="button-secondary w-full" onClick={() => fileInputRef.current?.click()}>
+                  <button type="button" className="button-secondary w-full" onClick={() => uploadInputRef.current?.click()}>
                     Retake
                   </button>
                   <button type="button" className="button-secondary w-full" onClick={clearPhoto}>
