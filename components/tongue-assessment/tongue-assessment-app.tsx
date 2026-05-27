@@ -84,6 +84,22 @@ type Theme = {
   questions: string[];
 };
 
+type HerbSuggestion = {
+  name: string;
+  why: string;
+  functions: string[];
+  simple: string;
+};
+
+type DietarySuggestion = {
+  principle: string;
+  favor: string[];
+  reduce: string[];
+  daily: string[];
+  meals: string[];
+  recipe: string;
+};
+
 type VisionResult = {
   image_quality?: {
     usable?: boolean;
@@ -408,6 +424,190 @@ const reportLinks = {
   instagram: "https://instagram.com/thetonguetest",
   newsletter: "/#updates",
   website: "/",
+};
+
+const vendorGuidance =
+  "Copy and paste this herb name into a trusted Chinese herb supplier such as Kamwo, Mayway, ActiveHerb, Plum Flower, ChineseHerbsDirect, or Mountain Rose Herbs.";
+
+const herbSuggestionsByPattern: Record<string, HerbSuggestion[]> = {
+  "Damp / Sluggish Digestion Pattern": [
+    {
+      name: "Bai Zhu 白术 — Atractylodes Rhizome",
+      why: "Chosen because this tongue pattern may suggest Spleen Qi weakness with Dampness, and Bai Zhu is traditionally used in TCM to strengthen the Spleen and dry Damp.",
+      functions: ["Tonifies Spleen Qi", "Dries Dampness", "Supports fluid transformation", "Helps stabilize the exterior in TCM"],
+      simple: "Think of this as a classic herb for supporting digestive energy and reducing damp, heavy patterns.",
+    },
+    {
+      name: "Fu Ling 茯苓 — Poria",
+      why: "Chosen because thick, wet, or greasy coating may suggest fluid accumulation, and Fu Ling is traditionally used to leach Dampness while supporting Spleen function.",
+      functions: ["Leaches Dampness", "Strengthens the Spleen", "Calms the Shen in TCM", "Supports urination in traditional use"],
+      simple: "Think of this as a gentle classic herb for helping the body process excess fluid and heaviness.",
+    },
+    {
+      name: "Chen Pi 陈皮 — Aged Tangerine Peel",
+      why: "Chosen because bloating, coating, and stress-digestion patterns may suggest Qi not moving well in the Middle Burner.",
+      functions: ["Regulates Qi", "Dries Dampness", "Transforms Phlegm", "Supports digestion in TCM"],
+      simple: "Think of this as a classic aromatic herb for helping stuck digestion move more smoothly.",
+    },
+    {
+      name: "Sha Ren 砂仁 — Amomum Fruit",
+      why: "Chosen for damp, sluggish digestion with bloating or nausea tendencies; it is traditionally used to awaken the Spleen and move Qi.",
+      functions: ["Transforms Dampness", "Moves Qi", "Warms the Middle", "Supports appetite and post-meal comfort in TCM"],
+      simple: "Think of this as a warming aromatic herb for heavy, stuck, uncomfortable digestion.",
+    },
+  ],
+  "Heat / Irritation Pattern": [
+    {
+      name: "Huang Qin 黄芩 — Scutellaria Root",
+      why: "Chosen because red/yellow tongue signs may suggest Heat or Damp-Heat, and Huang Qin is traditionally used to clear Heat and dry Dampness.",
+      functions: ["Clears Heat", "Dries Dampness", "Clears upper burner Heat", "Supports hot, irritated patterns in TCM"],
+      simple: "Think of this as a classic herb for heat and damp-heat patterns, not a casual daily tonic.",
+    },
+    {
+      name: "Lian Qiao 连翘 — Forsythia Fruit",
+      why: "Chosen because red, irritated, or upper-body heat signs may suggest Heat toxin or constrained Heat in traditional language.",
+      functions: ["Clears Heat", "Resolves toxicity in TCM", "Disperses clumping", "Supports red, irritated presentations traditionally"],
+      simple: "Think of this as a cooling herb traditionally used when heat signs feel more inflamed or irritated.",
+    },
+    {
+      name: "Zhi Zi 栀子 — Gardenia Fruit",
+      why: "Chosen because Heat patterns with restlessness, irritability, or yellow coating may involve Heat affecting the chest, digestion, or emotional state.",
+      functions: ["Drains Fire", "Clears Damp-Heat", "Cools irritability in TCM", "Supports urination in traditional use"],
+      simple: "Think of this as a cooling herb for heat that feels restless, stuck, or agitating.",
+    },
+    {
+      name: "Mai Men Dong 麦门冬 — Ophiopogon Tuber",
+      why: "Chosen when heat signs appear with dryness, thirst, peeled coat, or reduced moisture.",
+      functions: ["Nourishes Yin", "Moistens dryness", "Clears deficiency Heat", "Supports Stomach/Lung fluids in TCM"],
+      simple: "Think of this as a moistening herb for heat that seems to dry the system out.",
+    },
+  ],
+  "Constraint / Tension Pattern": [
+    {
+      name: "Chai Hu 柴胡 — Bupleurum Root",
+      why: "Chosen because stress, red sides, rib/neck tension, or pressure patterns may suggest Liver Qi constraint.",
+      functions: ["Spreads Liver Qi", "Harmonizes Shaoyang", "Raises clear Yang", "Supports constraint patterns in TCM"],
+      simple: "Think of this as a classic herb for helping constrained energy move more freely.",
+    },
+    {
+      name: "Xiang Fu 香附 — Cyperus Rhizome",
+      why: "Chosen because emotional tension and digestive disruption may suggest Qi stagnation affecting the middle and sides.",
+      functions: ["Regulates Qi", "Soothes Liver constraint", "Supports digestive Qi movement", "Used for cyclical/emotional constraint patterns in TCM"],
+      simple: "Think of this as an herb for stress patterns that show up as tightness, mood tension, or digestion changes.",
+    },
+    {
+      name: "Bai Shao 白芍 — White Peony Root",
+      why: "Chosen because constraint can combine with tension, irritability, or depletion; Bai Shao is traditionally used to nourish Blood and soften the Liver.",
+      functions: ["Nourishes Blood", "Softens the Liver", "Preserves Yin", "Supports tension patterns in TCM"],
+      simple: "Think of this as a balancing herb when stress tension needs softening rather than forcing.",
+    },
+    {
+      name: "Chen Pi 陈皮 — Aged Tangerine Peel",
+      why: "Chosen when stress clearly affects appetite, belching, bloating, or post-meal comfort.",
+      functions: ["Regulates Qi", "Supports the Middle Burner", "Dries Dampness", "Transforms Phlegm"],
+      simple: "Think of this as a simple aromatic herb for stuck digestion under stress.",
+    },
+  ],
+  "Dryness / Fluid Depletion Pattern": [
+    {
+      name: "Mai Men Dong 麦门冬 — Ophiopogon Tuber",
+      why: "Chosen because peeled coat, dry tongue, thirst, or dryness may suggest Yin/fluid depletion.",
+      functions: ["Nourishes Yin", "Generates fluids", "Moistens dryness", "Clears deficiency Heat"],
+      simple: "Think of this as a classic moistening herb for dry, depleted patterns.",
+    },
+    {
+      name: "Sha Shen 沙参 — Glehnia/Adenophora Root",
+      why: "Chosen when dryness appears with throat, mouth, or digestive fluid depletion signs.",
+      functions: ["Nourishes Yin", "Clears mild Heat", "Moistens Lung/Stomach dryness", "Generates fluids"],
+      simple: "Think of this as a gentle herb for supporting moisture when the system feels dry or depleted.",
+    },
+    {
+      name: "Sheng Di Huang 生地黄 — Rehmannia Root",
+      why: "Chosen because red/dry signs may suggest Heat affecting fluids or deeper Yin/Blood layers.",
+      functions: ["Clears Heat", "Cools Blood", "Nourishes Yin", "Generates fluids"],
+      simple: "Think of this as a deeper cooling and nourishing herb used when heat and dryness overlap.",
+    },
+    {
+      name: "Gou Qi Zi 枸杞子 — Goji Berry",
+      why: "Chosen when dryness and depletion look milder and more nourishing support may be appropriate.",
+      functions: ["Nourishes Liver and Kidney", "Supports Yin and Blood", "Benefits eyes in TCM", "Supports constitutional depletion patterns"],
+      simple: "Think of this as a familiar food-like herb for nourishment and gentle Yin/Blood support.",
+    },
+  ],
+  "Cold / Low Transformation Pattern": [
+    {
+      name: "Gan Jiang 干姜 — Dried Ginger",
+      why: "Chosen because pale, wet, cold, low-energy patterns may suggest Cold in the Middle Burner.",
+      functions: ["Warms the Middle", "Restores Yang in TCM", "Warms channels", "Transforms cold-fluid patterns"],
+      simple: "Think of this as a classic warming herb for cold, sluggish digestive patterns.",
+    },
+    {
+      name: "Rou Gui 肉桂 — Cinnamon Bark",
+      why: "Chosen when deeper cold or Yang weakness is part of the pattern, especially lower-body cold or chronic depletion.",
+      functions: ["Warms Kidney Yang", "Warms channels", "Disperses Cold", "Supports Mingmen fire in TCM"],
+      simple: "Think of this as a strong warming herb that needs care and practitioner guidance.",
+    },
+    {
+      name: "Dang Shen 党参 — Codonopsis Root",
+      why: "Chosen because low energy with weak digestion may suggest Spleen Qi deficiency.",
+      functions: ["Tonifies Qi", "Strengthens Spleen/Lung", "Supports fluids mildly", "Used for fatigue patterns in TCM"],
+      simple: "Think of this as a Qi-supporting herb for tired digestion and low vitality.",
+    },
+    {
+      name: "Bai Zhu 白术 — Atractylodes Rhizome",
+      why: "Chosen because cold, damp, tooth-marked, swollen patterns often need Spleen support and Damp transformation.",
+      functions: ["Tonifies Spleen Qi", "Dries Dampness", "Supports transformation", "Helps stabilize in TCM"],
+      simple: "Think of this as digestive support for cold, heavy, damp patterns.",
+    },
+  ],
+};
+
+const dietarySuggestionsByPattern: Record<string, DietarySuggestion> = {
+  "Damp / Sluggish Digestion Pattern": {
+    principle:
+      "In TCM dietary therapy, this pattern may suggest Dampness with weakened Spleen Qi, so warm, cooked, simple meals are traditionally preferred over cold, greasy, sweet, or heavy foods.",
+    favor: ["rice congee", "oatmeal with cinnamon", "ginger tea", "chicken soup", "bone broth", "roasted sweet potatoes", "steamed carrots", "cooked greens", "mushrooms", "simple eggs or fish"],
+    reduce: ["iced drinks", "cold smoothies", "greasy takeout", "heavy dairy", "processed sugar", "late-night overeating", "large raw salads when digestion feels weak"],
+    daily: ["Start the morning with warm food instead of a cold smoothie.", "Favor cooked meals over raw meals for a few weeks.", "Sip warm ginger or fennel tea during the day.", "Keep dinner lighter and earlier when possible."],
+    meals: ["Breakfast: oatmeal with cinnamon, walnuts, and dates.", "Lunch: chicken soup with root vegetables and rice.", "Dinner: rice bowl with salmon and steamed greens.", "Snack: warm tea with a small handful of walnuts."],
+    recipe: "Simple Ginger Congee: simmer rice with extra water until soft and porridge-like. Add fresh ginger slices and a pinch of sea salt.",
+  },
+  "Heat / Irritation Pattern": {
+    principle:
+      "In TCM dietary therapy, red/yellow/irritated signs may suggest Heat or Damp-Heat, so lighter, cooling, hydrating foods are traditionally favored while still protecting digestion.",
+    favor: ["cucumber", "celery", "zucchini", "mung beans", "cooked greens", "pears", "melon", "rice", "mint tea", "chrysanthemum tea", "white fish", "tofu if tolerated"],
+    reduce: ["alcohol", "spicy food", "fried food", "coffee on an empty stomach", "late heavy dinners", "greasy foods", "excess red meat"],
+    daily: ["Keep dinner lighter when sleep or reflux is worse.", "Choose cooked cooling foods if raw foods upset digestion.", "Hydrate steadily through the day.", "Avoid stacking spicy food, alcohol, intense workouts, and late screens on the same day."],
+    meals: ["Breakfast: rice porridge with pear or apple.", "Lunch: rice bowl with white fish, cucumber, and cooked greens.", "Dinner: mung bean soup or miso-style soup with tofu and vegetables.", "Snack: pear with a little cinnamon if digestion tolerates it."],
+    recipe: "Cooling Mung Soup: simmer mung beans until soft with plenty of water. Keep it simple; add a pinch of sea salt and cooked greens.",
+  },
+  "Constraint / Tension Pattern": {
+    principle:
+      "In TCM dietary therapy, Liver Qi constraint benefits from regular meals and gentle movement of Qi, especially when stress affects appetite, bloating, or tension.",
+    favor: ["warm rice bowls", "light soups", "citrus peel tea", "mint tea", "basil", "fennel", "scallions", "cooked leafy greens", "salmon", "eggs", "simple proteins"],
+    reduce: ["skipped meals", "too much caffeine", "eating while angry", "late heavy meals", "overeating after stress", "very restrictive dieting"],
+    daily: ["Eat before you are depleted and wired.", "Take three slow breaths before meals.", "Use a short walk after stressful work blocks.", "Favor simple meals over complicated restriction."],
+    meals: ["Breakfast: eggs with cooked greens and rice.", "Lunch: salmon rice bowl with steamed vegetables.", "Dinner: vegetable soup with scallion and ginger.", "Snack: mint or citrus peel tea."],
+    recipe: "Stress-Digestion Tea: steep fresh mint with a small piece of orange peel. Sip warm after meals or during tense work periods.",
+  },
+  "Dryness / Fluid Depletion Pattern": {
+    principle:
+      "In TCM dietary therapy, dryness or peeled/cracked signs may suggest reduced Yin or body fluids, so moistening, nourishing, cooked foods are traditionally preferred.",
+    favor: ["soups", "stews", "oatmeal", "rice porridge", "cooked pears", "black sesame", "tahini", "eggs", "tofu", "seaweed", "goji berries", "warm fluids"],
+    reduce: ["late caffeine", "alcohol", "dry snacks", "excess spicy food", "fasting", "over-cleansing", "too little sleep"],
+    daily: ["Use warm fluids steadily through the day.", "Choose moist cooked meals instead of dry snacks.", "Protect sleep before adding stronger interventions.", "Avoid extreme cleansing if you already feel depleted."],
+    meals: ["Breakfast: oatmeal with tahini, dates, and walnuts.", "Lunch: stew with root vegetables and rice.", "Dinner: tofu soup with seaweed and cooked greens.", "Snack: cooked pear with black sesame."],
+    recipe: "Moistening Pear Bowl: gently cook pear slices with a splash of water until soft. Top with black sesame or a small spoon of tahini.",
+  },
+  "Cold / Low Transformation Pattern": {
+    principle:
+      "In TCM dietary therapy, pale/wet/cold patterns may suggest weak warming and transformation, so warm cooked meals and gentle spices are traditionally favored.",
+    favor: ["warm oatmeal", "rice porridge", "ginger tea", "chicken broth", "root vegetable stew", "roasted carrots", "sweet potatoes", "cooked greens", "eggs", "warming spices like ginger, cinnamon, fennel, cumin"],
+    reduce: ["iced drinks", "cold smoothies", "raw-heavy meals", "excess salads", "skipping breakfast", "large cold fruit bowls", "overexertion without recovery"],
+    daily: ["Start with warm breakfast for a week.", "Keep the abdomen and feet warm.", "Choose soups and stews when energy is low.", "Use gentle walking rather than intense exercise if workouts drain you."],
+    meals: ["Breakfast: warm oatmeal with cinnamon and walnuts.", "Lunch: chicken broth soup with rice and root vegetables.", "Dinner: ginger vegetable stir-fry with rice.", "Snack: warm ginger tea."],
+    recipe: "Warming Ginger Broth: simmer sliced ginger in broth for 10 minutes. Add cooked rice, carrots, greens, and simple protein.",
+  },
 };
 
 const themeRules: Omit<Theme, "score" | "signs">[] = [
@@ -903,6 +1103,73 @@ function visibleTongueSignDescriptions(visionResult: VisionResult | null, select
     .slice(0, 10);
 }
 
+function getHerbSuggestions(primary: Theme) {
+  return herbSuggestionsByPattern[primary.title] ?? herbSuggestionsByPattern["Damp / Sluggish Digestion Pattern"];
+}
+
+function getDietarySuggestion(primary: Theme) {
+  return dietarySuggestionsByPattern[primary.title] ?? dietarySuggestionsByPattern["Damp / Sluggish Digestion Pattern"];
+}
+
+function selectedVisualKeys(visionResult: VisionResult | null, selected: Set<ChoiceKey>) {
+  const keys = new Set<VisualChoiceKey>();
+  for (const sign of visionResult?.detected_signs ?? []) keys.add(sign.key);
+  for (const key of selected) {
+    if (visualChoiceKeys.has(key)) keys.add(key as VisualChoiceKey);
+  }
+  return keys;
+}
+
+function technicalTongueReading(primary: Theme, visionResult: VisionResult | null, selected: Set<ChoiceKey>) {
+  const keys = selectedVisualKeys(visionResult, selected);
+  const has = (key: VisualChoiceKey) => keys.has(key);
+  const color = has("pale")
+    ? "Pale tongue body may traditionally suggest Qi deficiency, Blood deficiency, Yang deficiency, or Cold when supported by intake signs."
+    : has("deepRed")
+      ? "Deep red tongue body may traditionally suggest stronger Heat, Heat entering deeper levels, or Heat consuming fluids."
+      : has("red")
+        ? "Red tongue body may traditionally suggest Heat, Yin deficiency with Empty Heat, or irritability/reactivity depending on coating and moisture."
+        : has("purple")
+          ? "Purple or dusky tongue body may traditionally suggest Blood stasis, Qi stagnation, Cold stagnation, or constrained circulation."
+          : "Tongue body color does not show a single dominant color signal from the current read; interpretation leans more on coating, shape, moisture, region, and intake.";
+  const shape = [
+    has("swollen") ? "Swollen tongue shape may suggest Damp accumulation, Spleen Qi deficiency, or weaker fluid transformation." : "",
+    has("thin") ? "Thin tongue shape may suggest Yin deficiency, Blood deficiency, or constitutional depletion." : "",
+    has("cracks") ? "Cracks may suggest Yin deficiency, fluid depletion, Stomach Yin deficiency, or chronic constitutional dryness depending on location." : "",
+    has("teethMarks") ? "Teeth marks may suggest Spleen Qi deficiency with Dampness or a soft/swollen tongue pressing against the teeth." : "",
+  ].filter(Boolean);
+  const coating = [
+    has("thickCoat") ? "Thick coating may traditionally suggest Dampness, Phlegm, food stagnation, or an excess layer obstructing the Middle Burner." : "",
+    has("thinCoat") ? "Thin coating may suggest the Stomach Qi layer is still present and the coating burden is not dominant." : "",
+    has("greasyCoat") ? "Greasy coating may suggest Dampness, Phlegm, or Damp-Heat when paired with yellow color or heat signs." : "",
+    has("yellowCoat") ? "Yellow coating may suggest Heat or Damp-Heat." : "",
+    has("whiteCoat") ? "White coating may suggest Cold, Damp, or a less heated pattern." : "",
+    has("peeledCoat") ? "Peeled or absent coating may suggest Stomach Yin deficiency, reduced fluids, or weakened Stomach Qi." : "",
+  ].filter(Boolean);
+  const moisture = has("dry")
+    ? "Moisture read: dry surface may suggest Heat consuming fluids, Yin deficiency, or reduced Jin Ye/body fluids."
+    : has("wet")
+      ? "Moisture read: wet surface may suggest Dampness, Cold-Damp, or fluids not being transformed well."
+      : "Moisture read: no strong dry/wet signal is dominant, so moisture should be interpreted cautiously.";
+  const regions = [
+    has("redTip") ? "Tip: traditionally associated with Heart/Lung; red tip may suggest Heart Fire, Shen disturbance, or upper-burner Heat." : "",
+    has("centerCoat") ? "Center: traditionally associated with Spleen/Stomach; center coating may suggest Middle Burner involvement, digestion, appetite, reflux, bloating, or post-meal energy patterns." : "",
+    has("redSides") ? "Sides: traditionally associated with Liver/Gallbladder; red sides may suggest Liver Qi constraint turning to Heat or Liver/Gallbladder Heat." : "",
+    has("rootCoat") ? "Root: traditionally associated with Kidney/Lower Jiao; root coating may suggest lower burner Dampness, chronic fluid patterns, or deeper constitutional context." : "",
+  ].filter(Boolean);
+
+  return {
+    color,
+    shape: shape.length ? shape : ["No strong shape-specific sign is dominant from the current read."],
+    coating: coating.length ? coating : ["No strong coating-specific sign is dominant from the current read."],
+    moisture,
+    regions: regions.length
+      ? regions
+      : ["According to traditional tongue diagnosis, the tip may reflect Heart/Lung, the center Spleen/Stomach, the sides Liver/Gallbladder, and the root Kidney/Lower Jiao; no single region dominates this read."],
+    impressions: [primary.title, ...primary.organs.slice(0, 2).map((organ) => organ.system)].slice(0, 3),
+  };
+}
+
 const tcmTeaching = [
   "Traditional Chinese Medicine looks for patterns rather than isolated symptoms. Tongue color, coating, moisture, shape, and location are traditionally read alongside digestion, sleep, stress, energy, temperature, and daily rhythm.",
   "The tongue is not treated as a standalone diagnosis. It is one visual clue that may help organize what to observe next.",
@@ -1024,6 +1291,9 @@ function buildTongueReportHtml({
   const graphThemes = [primary, ...secondaryThemes].slice(0, 3);
   const maxScore = Math.max(...graphThemes.map((theme) => theme.score), 1);
   const quality = qualitySummary(primary);
+  const technical = technicalTongueReading(primary, visionResult, new Set(selectedLabels.map((label) => observationGroups.flatMap((group) => group.choices).find((choice) => choice.label === label)?.key).filter(Boolean) as ChoiceKey[]));
+  const herbs = getHerbSuggestions(primary);
+  const diet = getDietarySuggestion(primary);
 
   return `<!doctype html>
 <html>
@@ -1158,6 +1428,22 @@ function buildTongueReportHtml({
     </section>
 
     <section class="card">
+      <p class="eyebrow">Technical TCM Tongue Reading</p>
+      <h3>Tongue Body Color</h3>
+      <p>${escapeHtml(technical.color)}</p>
+      <h3>Tongue Shape</h3>
+      ${reportList(technical.shape)}
+      <h3>Tongue Coating</h3>
+      ${reportList(technical.coating)}
+      <h3>Moisture Level</h3>
+      <p>${escapeHtml(technical.moisture)}</p>
+      <h3>Regional Tongue Map</h3>
+      ${reportList(technical.regions)}
+      <h3>Pattern Impression</h3>
+      ${reportList(technical.impressions)}
+    </section>
+
+    <section class="card">
       <p class="eyebrow">Intake Pattern Summary</p>
       <p class="muted">Before the tongue photo, you answered ${intakeSummary.total} reflective intake questions. The strongest context clues are listed below.</p>
       ${
@@ -1223,6 +1509,40 @@ function buildTongueReportHtml({
       <h3>Formula / Herb Families</h3>
       ${reportList(primary.support.formulaFamilies)}
       <p class="small muted">These are tradition-based educational possibilities to discuss or explore carefully with a qualified professional. They are not instructions, prescriptions, or medical recommendations.</p>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Food & Dietary Suggestions</p>
+      <h3>TCM Dietary Principle</h3>
+      <p>${escapeHtml(diet.principle)}</p>
+      <h3>Foods To Favor</h3>
+      ${reportList(diet.favor)}
+      <h3>Foods To Reduce</h3>
+      ${reportList(diet.reduce)}
+      <h3>Daily-Life Suggestions</h3>
+      ${reportList(diet.daily)}
+      <h3>Example Meal Ideas</h3>
+      ${reportList(diet.meals)}
+      <h3>Simple Recipe</h3>
+      <p>${escapeHtml(diet.recipe)}</p>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Herb Suggestions</p>
+      <p class="muted">Educational only. These herbs are traditionally used in TCM for pattern directions similar to this result; they are not a diagnosis, prescription, or treatment plan.</p>
+      ${herbs
+        .map(
+          (herb) => `
+            <h3>${escapeHtml(herb.name)}</h3>
+            <p><strong>Why chosen:</strong> ${escapeHtml(herb.why)}</p>
+            <p><strong>Traditional functions:</strong></p>
+            ${reportList(herb.functions)}
+            <p><strong>Easy explanation:</strong> ${escapeHtml(herb.simple)}</p>
+            <p class="small muted">${escapeHtml(vendorGuidance)}</p>
+          `,
+        )
+        .join("")}
+      <p class="small muted">Consult a qualified practitioner before taking herbs, especially if pregnant, nursing, on medication, or managing a health condition.</p>
     </section>
 
     <section class="card">
@@ -1538,6 +1858,9 @@ export function TongueAssessmentApp() {
           foodDirection: primary.support.foods,
           lifestyleDirection: primary.support.lifestyle,
           herbalDirection: primary.support.formulaFamilies,
+          herbSuggestions: getHerbSuggestions(primary),
+          dietarySuggestion: getDietarySuggestion(primary),
+          technicalReading: technicalTongueReading(primary, visionResult, selected),
           intakeHighlights: intakeSummary.highlights.map((item) => ({
             question: item.question.question,
             answer: item.answer,
@@ -1996,10 +2319,10 @@ export function TongueAssessmentApp() {
                   </p>
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
                     <button type="button" className="button-primary min-h-14 w-full" onClick={() => setAccessChoice("trial")}>
-                      Start Free 2-Week Trial
+                      Free 14-Day Trial · Then $7.99/mo
                     </button>
                     <button type="button" className="button-secondary min-h-14 w-full" onClick={() => setAccessChoice("one-time")}>
-                      Pay $4.99 One-Time
+                      One-Time Full Reading · $6.99
                     </button>
                   </div>
                   <p className="mt-3 text-xs leading-5 text-ink/45">
@@ -2118,6 +2441,7 @@ export function TongueAssessmentApp() {
                   </article>
 
                   <OrganFocus organs={primary.organs} />
+                  <TechnicalTongueReading reading={technicalTongueReading(primary, visionResult, selected)} />
                   <PlainMeaning meaning={primary.meaning} />
                   <PatternSignature themes={themes} />
                   <VisibleTongueSigns descriptions={visibleTongueSignDescriptions(visionResult, selected)} />
@@ -2126,6 +2450,8 @@ export function TongueAssessmentApp() {
                   <ResultList title="What To Observe Next" items={primary.observe} />
                   <FollowUpQuestions questions={primary.questions} />
                   <SupportDirection support={primary.support} />
+                  <FoodDietarySuggestions diet={getDietarySuggestion(primary)} />
+                  <HerbSuggestions herbs={getHerbSuggestions(primary)} />
                   <TCMFoundations />
 
                   <article className="border border-ink/10 bg-white/75 p-4">
@@ -2338,6 +2664,70 @@ function VisibleTongueSigns({ descriptions }: { descriptions: string[] }) {
           <li key={item}>{item}</li>
         ))}
       </ul>
+    </article>
+  );
+}
+
+function TechnicalTongueReading({ reading }: { reading: ReturnType<typeof technicalTongueReading> }) {
+  return (
+    <article className="border border-ink/10 bg-white/75 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Technical TCM Tongue Reading</p>
+      <p className="mt-2 text-sm leading-6 text-ink/58">
+        This section uses traditional Chinese medicine terminology. It is a pattern impression, not a medical diagnosis.
+      </p>
+      <div className="mt-3 space-y-3">
+        <ResultList title="Tongue Body Color" items={[reading.color]} />
+        <ResultList title="Tongue Shape" items={reading.shape} />
+        <ResultList title="Tongue Coating" items={reading.coating} />
+        <ResultList title="Moisture Level" items={[reading.moisture]} />
+        <ResultList title="Regional Tongue Map" items={reading.regions} />
+        <ResultList title="Likely Pattern Impressions" items={reading.impressions} />
+      </div>
+    </article>
+  );
+}
+
+function FoodDietarySuggestions({ diet }: { diet: DietarySuggestion }) {
+  return (
+    <article className="border border-ink/10 bg-white/75 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Food & Dietary Suggestions</p>
+      <p className="mt-2 text-sm leading-6 text-ink/70">{diet.principle}</p>
+      <div className="mt-4 grid gap-3">
+        <SupportColumn title="Foods To Favor" items={diet.favor} />
+        <SupportColumn title="Foods To Reduce" items={diet.reduce} />
+        <SupportColumn title="Daily-Life Suggestions" items={diet.daily} />
+        <SupportColumn title="Example Meal Ideas" items={diet.meals} />
+        <div className="border border-ink/10 bg-fog/50 p-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">Simple Recipe</p>
+          <p className="mt-2 text-sm leading-6 text-ink/68">{diet.recipe}</p>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function HerbSuggestions({ herbs }: { herbs: HerbSuggestion[] }) {
+  return (
+    <article className="border border-ink/10 bg-white/75 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Herb Suggestions</p>
+      <p className="mt-2 text-sm leading-6 text-ink/58">
+        Educational only. These herbs are traditionally used in TCM for pattern directions similar to this result.
+        They are not a diagnosis, prescription, or treatment plan.
+      </p>
+      <div className="mt-4 space-y-3">
+        {herbs.map((herb) => (
+          <div key={herb.name} className="border border-ink/10 bg-fog/50 p-3">
+            <p className="text-sm font-semibold leading-6 text-ink">{herb.name}</p>
+            <p className="mt-2 text-sm leading-6 text-ink/68"><strong>Why chosen:</strong> {herb.why}</p>
+            <SupportColumn title="Traditional Functions" items={herb.functions} />
+            <p className="mt-2 text-sm leading-6 text-ink/68"><strong>Easy explanation:</strong> {herb.simple}</p>
+            <p className="mt-2 text-xs leading-5 text-ink/48">{vendorGuidance}</p>
+          </div>
+        ))}
+      </div>
+      <p className="mt-3 text-xs leading-5 text-ink/52">
+        Consult a qualified practitioner before taking herbs, especially if pregnant, nursing, on medication, or managing a health condition.
+      </p>
     </article>
   );
 }

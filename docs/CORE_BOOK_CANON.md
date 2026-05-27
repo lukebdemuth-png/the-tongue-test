@@ -181,6 +181,23 @@ Only the sources below should be treated as core guiding medicine texts unless t
    - Source note: Thieme/Open Library metadata lists the 2011 second edition as `Pocket atlas of tongue diagnosis: with Chinese therapy guidelines for acupuncture, herbs, and nutrition`.
    - Access handling: modern copyrighted text; metadata-only/private-local unless rights are clear. Do not commit extracted full text.
 
+### TCM Dietary Therapy Expansion
+
+11. `Healing with Whole Foods` by Paul Pitchford
+   - Role: Chinese dietary therapy, food energetics, warming/cooling foods, Dampness, Yin/Blood/Qi-supportive food categories, and practical meal translation.
+   - App layer: Food & Dietary Suggestions, practical meal examples, modern food-language bridge.
+   - Access handling: modern copyrighted text; metadata-only/private-local unless rights are clear. Do not commit extracted full text.
+
+12. `The Tao of Nutrition` by Maoshing Ni
+   - Role: accessible TCM food philosophy, organ-pattern food support, and simple dietary/lifestyle framing.
+   - App layer: plain-language dietary therapy and user-friendly food suggestions.
+   - Access handling: modern copyrighted text; metadata-only/private-local unless rights are clear. Do not commit extracted full text.
+
+13. `Between Heaven and Earth` by Harriet Beinfield and Efrem Korngold
+   - Role: readable translation of Chinese medicine concepts, constitutional tendencies, and lifestyle interpretation.
+   - App layer: decoding technical TCM concepts into practical, relatable user-facing explanations.
+   - Access handling: modern copyrighted text; metadata-only/private-local unless rights are clear. Do not commit extracted full text.
+
 ## General Herbal Medicine Core Books
 
 1. `Encyclopedia of Herbal Medicine` by Andrew Chevallier

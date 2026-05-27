@@ -18,6 +18,28 @@ type ReportPayload = {
   foodDirection: string[];
   lifestyleDirection: string[];
   herbalDirection: string[];
+  herbSuggestions: Array<{
+    name: string;
+    why: string;
+    functions: string[];
+    simple: string;
+  }>;
+  dietarySuggestion?: {
+    principle: string;
+    favor: string[];
+    reduce: string[];
+    daily: string[];
+    meals: string[];
+    recipe: string;
+  };
+  technicalReading?: {
+    color: string;
+    shape: string[];
+    coating: string[];
+    moisture: string;
+    regions: string[];
+    impressions: string[];
+  };
   intakeHighlights: Array<{ question: string; answer: string }>;
   visibleSigns: string[];
   patternScores: Array<{ title: string; score: number }>;
@@ -53,6 +75,39 @@ function normalizePayload(value: unknown): ReportPayload {
     foodDirection: Array.isArray(input.foodDirection) ? input.foodDirection.map(String).slice(0, 16) : [],
     lifestyleDirection: Array.isArray(input.lifestyleDirection) ? input.lifestyleDirection.map(String).slice(0, 16) : [],
     herbalDirection: Array.isArray(input.herbalDirection) ? input.herbalDirection.map(String).slice(0, 16) : [],
+    herbSuggestions: Array.isArray(input.herbSuggestions)
+      ? input.herbSuggestions
+          .map((item: any) => ({
+            name: String(item?.name ?? "").slice(0, 160),
+            why: String(item?.why ?? "").slice(0, 700),
+            functions: Array.isArray(item?.functions) ? item.functions.map(String).slice(0, 6) : [],
+            simple: String(item?.simple ?? "").slice(0, 500),
+          }))
+          .filter((item) => item.name)
+          .slice(0, 5)
+      : [],
+    dietarySuggestion:
+      input.dietarySuggestion && typeof input.dietarySuggestion === "object"
+        ? {
+            principle: String(input.dietarySuggestion.principle ?? "").slice(0, 900),
+            favor: Array.isArray(input.dietarySuggestion.favor) ? input.dietarySuggestion.favor.map(String).slice(0, 16) : [],
+            reduce: Array.isArray(input.dietarySuggestion.reduce) ? input.dietarySuggestion.reduce.map(String).slice(0, 16) : [],
+            daily: Array.isArray(input.dietarySuggestion.daily) ? input.dietarySuggestion.daily.map(String).slice(0, 16) : [],
+            meals: Array.isArray(input.dietarySuggestion.meals) ? input.dietarySuggestion.meals.map(String).slice(0, 16) : [],
+            recipe: String(input.dietarySuggestion.recipe ?? "").slice(0, 700),
+          }
+        : undefined,
+    technicalReading:
+      input.technicalReading && typeof input.technicalReading === "object"
+        ? {
+            color: String(input.technicalReading.color ?? "").slice(0, 900),
+            shape: Array.isArray(input.technicalReading.shape) ? input.technicalReading.shape.map(String).slice(0, 8) : [],
+            coating: Array.isArray(input.technicalReading.coating) ? input.technicalReading.coating.map(String).slice(0, 8) : [],
+            moisture: String(input.technicalReading.moisture ?? "").slice(0, 700),
+            regions: Array.isArray(input.technicalReading.regions) ? input.technicalReading.regions.map(String).slice(0, 8) : [],
+            impressions: Array.isArray(input.technicalReading.impressions) ? input.technicalReading.impressions.map(String).slice(0, 5) : [],
+          }
+        : undefined,
     intakeHighlights: Array.isArray(input.intakeHighlights)
       ? input.intakeHighlights
           .map((item: any) => ({
@@ -218,6 +273,17 @@ async function createPdf(payload: ReportPayload) {
   drawPatternSignature(doc, payload.patternScores);
   addSection(doc, "Matched Signs", undefined, payload.matchedSigns);
 
+  if (payload.technicalReading) {
+    addSection(doc, "Technical TCM Tongue Reading", "This is a traditional pattern impression, not a medical diagnosis.", [
+      `Tongue Body Color: ${payload.technicalReading.color}`,
+      ...payload.technicalReading.shape.map((item) => `Tongue Shape: ${item}`),
+      ...payload.technicalReading.coating.map((item) => `Tongue Coating: ${item}`),
+      `Moisture Level: ${payload.technicalReading.moisture}`,
+      ...payload.technicalReading.regions.map((item) => `Regional Map: ${item}`),
+      ...payload.technicalReading.impressions.map((item) => `Pattern Impression: ${item}`),
+    ]);
+  }
+
   addSection(
     doc,
     "Organ / System Focus",
@@ -228,6 +294,30 @@ async function createPdf(payload: ReportPayload) {
   addSection(doc, "Food Direction", undefined, payload.foodDirection);
   addSection(doc, "Lifestyle Direction", undefined, payload.lifestyleDirection);
   addSection(doc, "Top 3 Formula Families To Research", undefined, payload.herbalDirection);
+
+  if (payload.dietarySuggestion) {
+    addSection(doc, "Food & Dietary Suggestions", payload.dietarySuggestion.principle, [
+      ...payload.dietarySuggestion.favor.map((item) => `Favor: ${item}`),
+      ...payload.dietarySuggestion.reduce.map((item) => `Reduce: ${item}`),
+      ...payload.dietarySuggestion.daily.map((item) => `Daily: ${item}`),
+      ...payload.dietarySuggestion.meals.map((item) => `Meal idea: ${item}`),
+      `Simple recipe: ${payload.dietarySuggestion.recipe}`,
+    ]);
+  }
+
+  if (payload.herbSuggestions.length) {
+    addSection(
+      doc,
+      "Herb Suggestions",
+      "Educational only. These herbs are traditionally used in TCM for pattern directions similar to this result; they are not a diagnosis, prescription, or treatment plan.",
+      payload.herbSuggestions.flatMap((herb) => [
+        `${herb.name}: ${herb.why}`,
+        `Traditional functions: ${herb.functions.join("; ")}`,
+        `Easy explanation: ${herb.simple}`,
+        "Vendor guidance: Copy and paste this herb name into a trusted Chinese herb supplier such as Kamwo, Mayway, ActiveHerb, Plum Flower, ChineseHerbsDirect, or Mountain Rose Herbs.",
+      ]),
+    );
+  }
 
   addSection(
     doc,
