@@ -66,6 +66,9 @@ const threeWeekRetakePlan = [
   "Use the 3-week comparison as a wellness tracking tool, not proof of diagnosis or treatment response.",
 ];
 
+const threeGoalReflection =
+  "Your tongue can reflect patterns in your overall well-being. We encourage you to choose three small goals from this assessment and apply them consistently in your daily life. These may relate to food, hydration, rest, stress, digestion, or lifestyle rhythm.\n\nAfter three weeks, come back and retake the tongue assessment. Notice whether your tongue has changed for better or worse, and use that reflection as a way to better understand how your daily habits may be affecting your overall well-being.";
+
 function normalizePayload(value: unknown): ReportPayload {
   if (!value || typeof value !== "object") throw new Error("Report payload is required.");
   const input = value as Record<string, any>;
@@ -327,6 +330,7 @@ async function createPdf(payload: ReportPayload) {
   if (payload.notes) addSection(doc, "User Notes", payload.notes);
 
   addSection(doc, "Retake The Tongue Test In 3 Weeks", undefined, threeWeekRetakePlan);
+  addSection(doc, "Choose Three Small Goals", threeGoalReflection);
 
   addSection(
     doc,

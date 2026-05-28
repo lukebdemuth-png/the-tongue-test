@@ -1184,6 +1184,9 @@ const threeWeekRetakePlan = [
   "Use the 3-week comparison as a wellness tracking tool, not proof of diagnosis or treatment response.",
 ];
 
+const threeGoalReflection =
+  "Your tongue can reflect patterns in your overall well-being. We encourage you to choose three small goals from this assessment and apply them consistently in your daily life. These may relate to food, hydration, rest, stress, digestion, or lifestyle rhythm.\n\nAfter three weeks, come back and retake the tongue assessment. Notice whether your tongue has changed for better or worse, and use that reflection as a way to better understand how your daily habits may be affecting your overall well-being.";
+
 const tcmFoundations = [
   {
     title: "Protect Your Energy, Don’t Constantly Spend It",
@@ -1542,6 +1545,14 @@ function buildTongueReportHtml({
     <section class="card">
       <p class="eyebrow">Retake The Tongue Test In 3 Weeks</p>
       ${reportList(threeWeekRetakePlan)}
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Choose Three Small Goals</p>
+      ${threeGoalReflection
+        .split("\n\n")
+        .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+        .join("")}
     </section>
 
     <section class="card">
@@ -2566,6 +2577,15 @@ export function TongueAssessmentApp() {
                         </p>
                       )}
                     </div>
+                  </article>
+
+                  <article className="border border-moss/20 bg-[#f8f7f1] p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Choose Three Small Goals</p>
+                    {threeGoalReflection.split("\n\n").map((paragraph) => (
+                      <p key={paragraph} className="mt-3 text-sm leading-6 text-ink/68">
+                        {paragraph}
+                      </p>
+                    ))}
                   </article>
 
 	                  {themes.slice(1).length ? (

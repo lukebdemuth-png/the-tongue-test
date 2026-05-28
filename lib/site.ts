@@ -15,5 +15,6 @@ export const navItems = [
   { href: "/#features", label: "Features" },
   { href: "/#pricing", label: "Pricing" },
   { href: "/#tracking", label: "Tracking" },
+  { href: "/founder-story", label: "Founder" },
   { href: "/#privacy", label: "Privacy" },
 ];
