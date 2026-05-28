@@ -1308,7 +1308,7 @@ function buildTongueReportHtml({
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tongue Test: TCM AI Report</title>
+  <title>Tongue Test TCM Report</title>
   <style>
     @page { margin: 0.48in; }
     * { box-sizing: border-box; }
@@ -1388,10 +1388,10 @@ function buildTongueReportHtml({
   <main>
     <section class="hero">
       <div class="logo-card">
-        <img src="/images/tongue-assessment/tongue-map-logo.png" alt="Tongue Test: TCM AI logo" />
+        <img src="/images/tongue-assessment/tongue-map-logo.png" alt="Tongue Test TCM logo" />
       </div>
       <div>
-        <p class="eyebrow">Tongue Test: TCM AI</p>
+        <p class="eyebrow">Tongue Test TCM</p>
         <h1>Tongue Observation Report</h1>
         <p class="muted">AI-guided tongue observation inspired by Traditional Chinese Medicine, translated into plain-English wellness insights, food direction, and lifestyle reflections.</p>
         <p class="small muted">Generated: ${escapeHtml(generatedAt)}</p>
@@ -1608,7 +1608,7 @@ function buildTongueReportHtml({
 
     <section class="disclaimer">
       <p><strong>Basis of insight:</strong> This report is generated from visible tongue features, user-entered observations, Traditional Chinese Medicine-inspired wellness frameworks, and app logic. It is not based on medical testing or clinical diagnosis.</p>
-      <p><strong>Informational only.</strong> Tongue Test: TCM AI is not a medical device and does not diagnose, treat, cure, or prevent any medical condition. The information provided is for informational and educational purposes only. Always consult a qualified healthcare professional for medical advice, diagnosis, or treatment. If you are experiencing a medical emergency, call emergency services immediately.</p>
+      <p><strong>Informational only.</strong> Tongue Test TCM is not a medical device and does not diagnose, treat, cure, or prevent any medical condition. The information provided is for informational and educational purposes only. Always consult a qualified healthcare professional for medical advice, diagnosis, or treatment. If you are experiencing a medical emergency, call emergency services immediately.</p>
     </section>
   </main>
 </body>
@@ -1989,7 +1989,7 @@ export function TongueAssessmentApp() {
           <section className="flex min-h-[calc(100vh-2rem)] flex-col justify-between border border-ink/10 bg-[#fffdf8] p-5 shadow-card sm:min-h-0 sm:p-6">
             <div>
               <div className="flex items-center justify-between gap-4">
-                <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-moss">Tongue Test: TCM AI</p>
+                <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-moss">Tongue Test TCM</p>
                 <span className="border border-ink/10 bg-fog px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-ink/45">
                   TCM
                 </span>
@@ -1998,7 +1998,7 @@ export function TongueAssessmentApp() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/images/tongue-assessment/tongue-map-logo.png"
-                  alt="Tongue Test: TCM AI logo"
+                  alt="Tongue Test TCM logo"
                   className="aspect-square w-full object-cover"
                 />
               </div>
@@ -2154,7 +2154,7 @@ export function TongueAssessmentApp() {
           <div className="grid gap-0 lg:grid-cols-[0.78fr_1.02fr]">
             <div>
               <div className="p-5 lg:p-8">
-              <p className="mb-3 text-[0.66rem] font-semibold uppercase tracking-[0.18em] text-moss">Tongue Test: TCM AI</p>
+              <p className="mb-3 text-[0.66rem] font-semibold uppercase tracking-[0.18em] text-moss">Tongue Test TCM</p>
               <h1 className="max-w-3xl text-[2.2rem] font-semibold leading-[1] sm:text-5xl md:text-6xl">
                 Take a tongue photo. Get a simple TCM-style wellness report.
               </h1>
@@ -2187,7 +2187,7 @@ export function TongueAssessmentApp() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/tongue-assessment/tongue-map-logo.png"
-                    alt="Tongue Test: TCM AI puzzle tongue logo"
+                    alt="Tongue Test TCM puzzle tongue logo"
                     className="aspect-square w-full object-cover lg:aspect-[2/3]"
                   />
                 </div>
@@ -2633,7 +2633,7 @@ export function TongueAssessmentApp() {
             <div className="grid gap-5 md:grid-cols-[0.8fr_1.2fr]">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Feedback</p>
-                <h2 className="mt-2 text-2xl font-semibold leading-tight">Help shape Tongue Test: TCM AI</h2>
+                <h2 className="mt-2 text-2xl font-semibold leading-tight">Help shape Tongue Test TCM</h2>
                 <p className="mt-3 text-sm leading-6 text-ink/58">
                   You have reached the end of the reading. Tell us what felt useful, confusing, missing,
                   or inaccurate so we can improve the final experience.

@@ -98,7 +98,7 @@ export default function HomePage() {
       <section className="archival-texture border-b border-ink/10 bg-[#fbfaf6] py-16 md:py-24">
         <div className="container-shell grid gap-10 lg:grid-cols-[0.92fr_0.78fr] lg:items-center">
           <div>
-            <p className="eyebrow">Tongue Test: TCM AI</p>
+            <p className="eyebrow">Tongue Test TCM</p>
             <h1 className="max-w-4xl text-[3.1rem] leading-[0.98] sm:text-6xl lg:text-[5.8rem]">
               Take a clear tongue photo. Get a report you can keep.
             </h1>
@@ -108,7 +108,7 @@ export default function HomePage() {
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link href="/tongue-assessment" className="button-primary">
-                Start Tongue Test: TCM AI
+                Start Tongue Test TCM
               </Link>
               <Link href="/free-content/tongue-photo-guide" className="button-secondary">
                 Free Photo Guide
@@ -124,7 +124,7 @@ export default function HomePage() {
               <div className="overflow-hidden border border-ink/10 bg-[#f7f4ed]">
                 <Image
                   src="/images/tongue-assessment/tongue-map-logo.png"
-                  alt="Tongue Test: TCM AI puzzle tongue logo"
+                  alt="Tongue Test TCM puzzle tongue logo"
                   width={1024}
                   height={1536}
                   priority
@@ -323,7 +323,7 @@ export default function HomePage() {
             <WaitlistForm
               source="tongue-test-landing"
               buttonLabel="Join Updates"
-              successMessage="You are on the Tongue Test: TCM AI launch list."
+              successMessage="You are on the Tongue Test TCM launch list."
               interestPlaceholder="What would you want a tongue photo report to explain?"
             />
           </div>

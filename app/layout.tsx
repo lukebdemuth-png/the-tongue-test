@@ -35,7 +35,7 @@ export const metadata: Metadata = {
         url: "/icons/icon-512.png",
         width: 512,
         height: 512,
-        alt: "Tongue Test: TCM AI app icon",
+        alt: "Tongue Test TCM app icon",
       },
     ],
   },

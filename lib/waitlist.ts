@@ -102,7 +102,7 @@ async function notifyViaResend(submission: WaitlistSubmission) {
     await sendResendEmail({
       from,
       to,
-      subject: "New Tongue Test: TCM AI waitlist signup",
+      subject: "New Tongue Test TCM waitlist signup",
       text: [
         `Email: ${submission.email}`,
         `Name: ${submission.name ?? ""}`,
@@ -116,9 +116,9 @@ async function notifyViaResend(submission: WaitlistSubmission) {
     await sendResendEmail({
       from,
       to: submission.email,
-      subject: "You are on the Tongue Test: TCM AI waitlist",
+      subject: "You are on the Tongue Test TCM waitlist",
       text: [
-        "Thanks for joining the Tongue Test: TCM AI waitlist.",
+        "Thanks for joining the Tongue Test TCM waitlist.",
         "",
         "We will send practical updates as the tongue-photo review prototype develops.",
         "",

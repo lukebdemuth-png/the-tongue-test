@@ -1,6 +1,6 @@
 export const siteConfig = {
-  name: "Tongue Test: TCM AI",
-  formalName: "Tongue Test: TCM AI",
+  name: "Tongue Test TCM",
+  formalName: "Tongue Test TCM",
   tagline: "TCM tongue notes",
   traditionsLine: "Coating · Color · Tracking",
   description:

@@ -250,8 +250,8 @@ async function createPdf(payload: ReportPayload) {
     size: "LETTER",
     margin: 48,
     info: {
-      Title: "Tongue Test: TCM AI Report",
-      Author: "Tongue Test: TCM AI",
+      Title: "Tongue Test TCM Report",
+      Author: "Tongue Test TCM",
       Subject: "Educational TCM-style tongue observation report",
     },
   });
@@ -264,7 +264,7 @@ async function createPdf(payload: ReportPayload) {
   });
 
   doc.rect(0, 0, doc.page.width, doc.page.height).fill("#fffdf8");
-  doc.fillColor("#211f1a").font("Times-Roman").fontSize(27).text("Tongue Test: TCM AI", 48, 48);
+  doc.fillColor("#211f1a").font("Times-Roman").fontSize(27).text("Tongue Test TCM", 48, 48);
   doc.fillColor("#766f65").font("Helvetica").fontSize(10).text("Educational tongue observation report", 48, 82);
   doc.moveTo(48, 106).lineTo(doc.page.width - 48, 106).strokeColor("#ded6ca").stroke();
 
@@ -338,7 +338,7 @@ async function createPdf(payload: ReportPayload) {
 
   doc.moveDown(1);
   doc.fillColor("#766f65").font("Helvetica").fontSize(8.5).text(
-    "Informational only. Tongue Test: TCM AI is not a medical device and does not diagnose, treat, cure, or prevent any medical condition. The information provided is for informational and educational purposes only. Always consult a qualified healthcare professional for medical advice, diagnosis, or treatment. If you are experiencing a medical emergency, call emergency services immediately.",
+    "Informational only. Tongue Test TCM is not a medical device and does not diagnose, treat, cure, or prevent any medical condition. The information provided is for informational and educational purposes only. Always consult a qualified healthcare professional for medical advice, diagnosis, or treatment. If you are experiencing a medical emergency, call emergency services immediately.",
     { lineGap: 1 },
   );
   doc.moveDown(0.8);
@@ -367,9 +367,9 @@ async function sendResendReport(payload: ReportPayload, pdf: Buffer) {
       from,
       to: payload.email,
       reply_to: replyTo,
-      subject: "Your Tongue Test: TCM AI report",
+      subject: "Your Tongue Test TCM report",
       text: [
-        "Your Tongue Test: TCM AI report is attached.",
+        "Your Tongue Test TCM report is attached.",
         "",
         "This is an educational Traditional Chinese Medicine-style wellness reflection, not a diagnosis or treatment plan.",
         "",
