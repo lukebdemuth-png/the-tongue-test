@@ -2363,17 +2363,39 @@ export function TongueAssessmentApp() {
               </div>
             </div>
             <div className="mt-8">
-              <div className="grid grid-cols-3 gap-2">
-                {[
-                  ["01", "Intake"],
-                  ["02", "Photo"],
-                  ["03", "Report"],
-                ].map(([number, label]) => (
-                  <div key={label} className="border border-ink/10 bg-fog/60 p-3">
-                    <p className="text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-moss">{number}</p>
-                    <p className="mt-2 text-sm font-semibold leading-5 text-ink">{label}</p>
-                  </div>
-                ))}
+              <div className="border border-ink/10 bg-[#f8f5ee] p-3">
+                <p className="px-1 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-moss">
+                  Your assessment flow
+                </p>
+                <div className="mt-3 grid gap-2">
+                  {[
+                    {
+                      number: "01",
+                      label: "Reflect",
+                      detail: "Answer a short TCM intake so the photo has context.",
+                    },
+                    {
+                      number: "02",
+                      label: "Photograph",
+                      detail: "Add a clear tongue photo in natural, even lighting.",
+                    },
+                    {
+                      number: "03",
+                      label: "Understand",
+                      detail: "Receive an organ-based wellness report and PDF.",
+                    },
+                  ].map((step) => (
+                    <div key={step.label} className="grid grid-cols-[2.7rem_1fr] gap-3 border border-ink/10 bg-white/76 p-3">
+                      <div className="grid h-10 w-10 place-items-center border border-moss/20 bg-[#eef2e8] text-[0.68rem] font-semibold tracking-[0.12em] text-moss">
+                        {step.number}
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold leading-5 text-ink">{step.label}</p>
+                        <p className="mt-1 text-xs leading-5 text-ink/56">{step.detail}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
               <button type="button" className="button-primary mt-5 min-h-14 w-full" onClick={() => setIntakeStarted(true)}>
                 Begin
