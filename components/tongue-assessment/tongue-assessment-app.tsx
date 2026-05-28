@@ -2363,46 +2363,10 @@ export function TongueAssessmentApp() {
               </div>
             </div>
             <div className="mt-8">
-              <div className="border border-ink/10 bg-[#f8f5ee] p-4">
-                <p className="text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-moss">
-                  Your assessment flow
-                </p>
-                <div className="relative mt-4">
-                  <div className="absolute left-5 right-5 top-5 hidden h-px bg-gradient-to-r from-moss/20 via-moss/45 to-moss/20 min-[420px]:block" />
-                  <div className="absolute left-[calc(50%-0.45rem)] top-[0.85rem] hidden h-2 w-2 rotate-45 border-r border-t border-moss/45 min-[420px]:block" />
-                  <div className="absolute right-5 top-[0.85rem] hidden h-2 w-2 rotate-45 border-r border-t border-moss/45 min-[420px]:block" />
-                  <div className="grid gap-3 min-[420px]:grid-cols-3 min-[420px]:gap-2">
-                  {[
-                    {
-                      number: "01",
-                      label: "Reflect",
-                      detail: "Short TCM intake",
-                    },
-                    {
-                      number: "02",
-                      label: "Photograph",
-                      detail: "Clear tongue photo",
-                    },
-                    {
-                      number: "03",
-                      label: "Understand",
-                      detail: "Organ-based report",
-                    },
-                  ].map((step) => (
-                    <div key={step.label} className="relative grid grid-cols-[2.9rem_1fr] items-center gap-3 bg-transparent min-[420px]:block min-[420px]:text-center">
-                      <div className="relative z-10 grid h-10 w-10 place-items-center border border-moss/20 bg-[#fffdf8] text-[0.68rem] font-semibold tracking-[0.12em] text-moss shadow-[0_8px_22px_rgba(33,31,26,0.06)] min-[420px]:mx-auto">
-                        {step.number}
-                      </div>
-                      <div className="min-[420px]:mt-3">
-                        <p className="text-sm font-semibold leading-5 text-ink">{step.label}</p>
-                        <p className="mt-0.5 text-xs leading-5 text-ink/56">{step.detail}</p>
-                      </div>
-                    </div>
-                  ))}
-                  </div>
-                </div>
-              </div>
-              <button type="button" className="button-primary mt-5 min-h-14 w-full" onClick={() => setIntakeStarted(true)}>
+              <p className="text-center text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-ink/46">
+                Questions <span className="px-2 text-moss/55">→</span> Photo <span className="px-2 text-moss/55">→</span> Organ Report
+              </p>
+              <button type="button" className="button-primary mt-6 min-h-14 w-full" onClick={() => setIntakeStarted(true)}>
                 Begin
               </button>
               <div className="mt-4">
