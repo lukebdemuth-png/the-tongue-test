@@ -13,8 +13,18 @@ type ReportPayload = {
   email: string;
   primaryTitle: string;
   primarySummary: string;
+  plainMeaning?: string;
   matchedSigns: string[];
+  tongueDescription: string[];
   organSystems: ReportSection[];
+  organResults: Array<{
+    name: string;
+    priority: string;
+    currentFinding: string;
+    tcmInterpretation: string;
+    suggestions: string[];
+    relationships: string;
+  }>;
   foodDirection: string[];
   lifestyleDirection: string[];
   herbSuggestions: Array<{
@@ -79,8 +89,23 @@ function normalizePayload(value: unknown): ReportPayload {
     email,
     primaryTitle: String(input.primaryTitle ?? "Tongue Observation Report").slice(0, 160),
     primarySummary: String(input.primarySummary ?? "").slice(0, 1800),
+    plainMeaning: String(input.plainMeaning ?? "").slice(0, 1800),
     matchedSigns: Array.isArray(input.matchedSigns) ? input.matchedSigns.map(String).slice(0, 16) : [],
+    tongueDescription: Array.isArray(input.tongueDescription) ? input.tongueDescription.map(String).slice(0, 24) : [],
     organSystems: Array.isArray(input.organSystems) ? input.organSystems.slice(0, 8) : [],
+    organResults: Array.isArray(input.organResults)
+      ? input.organResults
+          .map((item: any) => ({
+            name: String(item?.name ?? "").slice(0, 80),
+            priority: String(item?.priority ?? "").slice(0, 40),
+            currentFinding: String(item?.currentFinding ?? "").slice(0, 1200),
+            tcmInterpretation: String(item?.tcmInterpretation ?? "").slice(0, 1200),
+            suggestions: Array.isArray(item?.suggestions) ? item.suggestions.map(String).slice(0, 8) : [],
+            relationships: String(item?.relationships ?? "").slice(0, 1200),
+          }))
+          .filter((item) => item.name)
+          .slice(0, 10)
+      : [],
     foodDirection: Array.isArray(input.foodDirection) ? input.foodDirection.map(String).slice(0, 16) : [],
     lifestyleDirection: Array.isArray(input.lifestyleDirection) ? input.lifestyleDirection.map(String).slice(0, 16) : [],
     herbSuggestions: Array.isArray(input.herbSuggestions)
@@ -178,6 +203,23 @@ function patternStrengthLabel(score: number, maxScore: number) {
   return "Background";
 }
 
+function organPriorityLabel(priority: string) {
+  if (priority === "primary") return "Primary Focus";
+  if (priority === "secondary") return "Secondary Support";
+  if (priority === "indirect") return "Indirectly Involved";
+  return "General Maintenance";
+}
+
+function organPrioritySummary(organs: ReportPayload["organResults"]) {
+  const names = (priority: string) => organs.filter((organ) => organ.priority === priority).map((organ) => organ.name);
+  return {
+    primary: names("primary"),
+    secondary: names("secondary"),
+    indirect: names("indirect"),
+    balanced: names("balanced"),
+  };
+}
+
 function drawPatternSignature(doc: PDFKit.PDFDocument, scores: ReportPayload["patternScores"]) {
   const graphScores = scores.slice(0, 3);
   if (!graphScores.length) return;
@@ -272,17 +314,15 @@ async function createPdf(payload: ReportPayload) {
   doc.moveTo(48, 106).lineTo(doc.page.width - 48, 106).strokeColor("#ded6ca").stroke();
 
   doc.y = 130;
-  doc.fillColor("#55745c").font("Helvetica-Bold").fontSize(9).text("PRIMARY PATTERN INSIGHT", { characterSpacing: 1.2 });
-  doc.moveDown(0.4);
-  doc.fillColor("#211f1a").font("Times-Roman").fontSize(22).text(payload.primaryTitle, { lineGap: 2 });
-  doc.moveDown(0.4);
-  doc.fillColor("#211f1a").font("Helvetica").fontSize(10.5).text(payload.primarySummary, { lineGap: 2 });
-
-  drawPatternSignature(doc, payload.patternScores);
-  addSection(doc, "Matched Signs", undefined, payload.matchedSigns);
+  addSection(
+    doc,
+    "Tongue Description",
+    "Simple visible observations before the Chinese medicine interpretation.",
+    payload.tongueDescription.length ? payload.tongueDescription : payload.visibleSigns,
+  );
 
   if (payload.technicalReading) {
-    addSection(doc, "Technical TCM Tongue Reading", "This is a traditional pattern impression, not a medical diagnosis.", [
+    addSection(doc, "Technical Assessment", "This is a traditional pattern impression, not a medical diagnosis.", [
       `Tongue Body Color: ${payload.technicalReading.color}`,
       ...payload.technicalReading.shape.map((item) => `Tongue Shape: ${item}`),
       ...payload.technicalReading.coating.map((item) => `Tongue Coating: ${item}`),
@@ -292,12 +332,46 @@ async function createPdf(payload: ReportPayload) {
     ]);
   }
 
-  addSection(
-    doc,
-    "Organ / System Focus",
-    undefined,
-    payload.organSystems.map((item) => `${item.title}: ${item.body ?? ""}`),
-  );
+  if (payload.organResults.length) {
+    addSection(doc, "Organ-Based Results", "Every organ category is included. Stronger tongue-related signals receive more detail; quieter systems are framed as general support and maintenance.");
+    for (const organ of payload.organResults) {
+      addSection(doc, `${organ.name} — ${organPriorityLabel(organ.priority)}`, undefined, [
+        `Current tongue-related finding: ${organ.currentFinding}`,
+        `Chinese medicine interpretation: ${organ.tcmInterpretation}`,
+        ...organ.suggestions.map((item) => `Supportive suggestion: ${item}`),
+        `Relationship to other organs: ${organ.relationships}`,
+      ]);
+    }
+
+    const priority = organPrioritySummary(payload.organResults);
+    addSection(doc, "Organ Priority", undefined, [
+      `Primary focus: ${priority.primary.length ? priority.primary.join(", ") : "No single organ system strongly dominates this reading."}`,
+      `Secondary support: ${priority.secondary.length ? priority.secondary.join(", ") : "No major secondary organ system is strongly emphasized."}`,
+      `Indirectly involved: ${priority.indirect.length ? priority.indirect.join(", ") : "No additional indirect organ systems are strongly emphasized."}`,
+      `General maintenance: ${priority.balanced.length ? priority.balanced.join(", ") : "All systems are already listed above as primary, secondary, or indirect."}`,
+    ]);
+  } else {
+    addSection(
+      doc,
+      "Organ-Based Results",
+      undefined,
+      payload.organSystems.map((item) => `${item.title}: ${item.body ?? ""}`),
+    );
+  }
+
+  doc.moveDown(0.9);
+  doc.fillColor("#55745c").font("Helvetica-Bold").fontSize(9).text("GENERAL SUMMARY", { characterSpacing: 1.2 });
+  doc.moveDown(0.4);
+  doc.fillColor("#211f1a").font("Times-Roman").fontSize(22).text(payload.primaryTitle, { lineGap: 2 });
+  doc.moveDown(0.4);
+  doc.fillColor("#211f1a").font("Helvetica").fontSize(10.5).text(payload.primarySummary, { lineGap: 2 });
+  if (payload.plainMeaning) {
+    doc.moveDown(0.4);
+    doc.fillColor("#211f1a").font("Helvetica").fontSize(10).text(payload.plainMeaning, { lineGap: 2 });
+  }
+
+  drawPatternSignature(doc, payload.patternScores);
+  addSection(doc, "Matched Signs", undefined, payload.matchedSigns);
 
   addSection(doc, "Food Direction", undefined, payload.foodDirection);
   addSection(doc, "Lifestyle Direction", undefined, payload.lifestyleDirection);

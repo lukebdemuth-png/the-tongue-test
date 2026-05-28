@@ -68,6 +68,19 @@ type OrganSignal = {
   why: string;
 };
 
+type OrganPriorityLevel = "primary" | "secondary" | "indirect" | "balanced";
+
+type OrganSystemResult = {
+  name: string;
+  slug: string;
+  icon?: string;
+  priority: OrganPriorityLevel;
+  currentFinding: string;
+  tcmInterpretation: string;
+  suggestions: string[];
+  relationships: string;
+};
+
 type Theme = {
   title: string;
   score: number;
@@ -1121,6 +1134,70 @@ function selectedVisualKeys(visionResult: VisionResult | null, selected: Set<Cho
   return keys;
 }
 
+const organPriorityLabels: Record<OrganPriorityLevel, string> = {
+  primary: "Primary Focus",
+  secondary: "Secondary Support",
+  indirect: "Indirectly Involved",
+  balanced: "General Maintenance",
+};
+
+const organPriorityRank: Record<OrganPriorityLevel, number> = {
+  primary: 0,
+  secondary: 1,
+  indirect: 2,
+  balanced: 3,
+};
+
+const organIconPaths: Record<string, string> = {
+  Liver: "/images/tongue-assessment/organs/liver.png",
+  Heart: "/images/tongue-assessment/organs/heart.png",
+  Spleen: "/images/tongue-assessment/organs/spleen.png",
+  Lung: "/images/tongue-assessment/organs/lung.png",
+  Kidney: "/images/tongue-assessment/organs/kidney.png",
+};
+
+function selectedKeysWithVision(visionResult: VisionResult | null, selected: Set<ChoiceKey>) {
+  const visual = selectedVisualKeys(visionResult, selected);
+  return (key: ChoiceKey) => selected.has(key) || (visualChoiceKeys.has(key as VisualChoiceKey) && visual.has(key as VisualChoiceKey));
+}
+
+function themeMentionsOrgan(primary: Theme, terms: string[]) {
+  const haystack = [primary.title, ...primary.organs.map((organ) => organ.system)].join(" ").toLowerCase();
+  return terms.some((term) => haystack.includes(term.toLowerCase()));
+}
+
+function simpleTongueDescription(visionResult: VisionResult | null, selected: Set<ChoiceKey>) {
+  const has = selectedKeysWithVision(visionResult, selected);
+  const descriptions = [
+    has("pale") ? "The tongue body appears lighter or paler than expected, which gives the reading a more depleted or low-energy visual tone." : "",
+    has("red") ? "The tongue body appears redder than neutral, which gives the reading a warmer or more reactive visual tone." : "",
+    has("deepRed") ? "The tongue body appears strongly red, which makes heat or irritation a more important visual theme." : "",
+    has("purple") ? "There appears to be a dusky or purple quality, which can make circulation or stuckness more relevant in the reading." : "",
+    has("thickCoat") ? "The tongue coating looks thicker than a light normal coat, especially where the coating is most visible." : "",
+    has("greasyCoat") ? "The coating has a sticky or greasy-looking quality, which can make heaviness, dampness, or sluggish digestion more relevant." : "",
+    has("yellowCoat") ? "Some coating appears yellow-toned, which can make warmth or heat in the digestive system more relevant." : "",
+    has("whiteCoat") ? "Some coating appears white-toned, which can lean more toward cold, damp, or less heated patterns." : "",
+    has("peeledCoat") ? "Some areas appear to have reduced or missing coating, which can make dryness or reduced fluids more relevant." : "",
+    has("dry") ? "The surface looks dry or less moist, which can make fluid balance and internal dryness more important." : "",
+    has("wet") ? "The surface looks wet or overly moist, which can make fluid transformation and dampness more important." : "",
+    has("swollen") ? "The tongue shape appears somewhat swollen or enlarged, which can point attention toward fluid metabolism and digestion." : "",
+    has("thin") ? "The tongue appears thin or less full, which can point attention toward nourishment, fluids, and deeper reserves." : "",
+    has("teethMarks") ? "The edges show tooth-mark-like impressions, which often makes digestive energy and fluid transformation more relevant." : "",
+    has("cracks") ? "There are visible cracks or lines, which can make dryness, fluids, or longer-standing patterns more relevant." : "",
+    has("redTip") ? "The tip appears more red or reactive, which brings attention to the upper body, sleep, stress, and the Heart/Lung area of the tongue map." : "",
+    has("redSides") ? "The sides appear more red or reactive, which brings attention to the Liver/Gallbladder area of the tongue map." : "",
+    has("centerCoat") ? "The center of the tongue has visible coating, which brings attention to the Spleen/Stomach area of the tongue map." : "",
+    has("rootCoat") ? "The back or root area has visible coating, which brings attention to the Kidney/Lower Jiao area of the tongue map." : "",
+  ].filter(Boolean);
+
+  if (descriptions.length) return descriptions;
+
+  return [
+    "The current photo does not show one strong visual sign clearly enough to dominate the reading.",
+    "The result should be treated as a broad wellness reflection and retaken with clear lighting if the photo looked shadowed, blurry, or color-distorted.",
+  ];
+}
+
 function technicalTongueReading(primary: Theme, visionResult: VisionResult | null, selected: Set<ChoiceKey>) {
   const keys = selectedVisualKeys(visionResult, selected);
   const has = (key: VisualChoiceKey) => keys.has(key);
@@ -1168,6 +1245,231 @@ function technicalTongueReading(primary: Theme, visionResult: VisionResult | nul
       ? regions
       : ["According to traditional tongue diagnosis, the tip may reflect Heart/Lung, the center Spleen/Stomach, the sides Liver/Gallbladder, and the root Kidney/Lower Jiao; no single region dominates this read."],
     impressions: [primary.title, ...primary.organs.slice(0, 2).map((organ) => organ.system)].slice(0, 3),
+  };
+}
+
+function buildOrganSystemResults(primary: Theme, visionResult: VisionResult | null, selected: Set<ChoiceKey>): OrganSystemResult[] {
+  const has = selectedKeysWithVision(visionResult, selected);
+  const liverFocused = themeMentionsOrgan(primary, ["liver", "gallbladder", "constraint"]) || has("redSides") || has("purple") || has("stress");
+  const heatFocused = themeMentionsOrgan(primary, ["heat", "irritation"]) || has("red") || has("deepRed") || has("yellowCoat") || has("heat");
+  const dampFocused =
+    themeMentionsOrgan(primary, ["damp", "spleen", "stomach", "digestion"]) ||
+    has("centerCoat") ||
+    has("thickCoat") ||
+    has("greasyCoat") ||
+    has("swollen") ||
+    has("teethMarks") ||
+    has("bloating") ||
+    has("looseStool");
+  const drynessFocused = themeMentionsOrgan(primary, ["dryness", "yin"]) || has("dry") || has("thin") || has("cracks") || has("peeledCoat") || has("thirst");
+  const kidneyFocused = themeMentionsOrgan(primary, ["kidney", "cold", "lower"]) || has("rootCoat") || has("cold") || has("lowEnergy");
+  const heartFocused = themeMentionsOrgan(primary, ["heart", "shen"]) || has("redTip") || has("poorSleep");
+  const stomachFocused = themeMentionsOrgan(primary, ["stomach"]) || has("centerCoat") || has("yellowCoat") || has("peeledCoat") || has("bloating");
+  const lungFocused = themeMentionsOrgan(primary, ["lung"]) || has("redTip") || drynessFocused;
+  const largeIntestineFocused = has("constipation") || has("looseStool") || drynessFocused || dampFocused;
+
+  const priority = {
+    Liver: liverFocused ? "primary" : heatFocused || has("stress") ? "secondary" : "balanced",
+    Heart: heartFocused && heatFocused ? "primary" : heartFocused || heatFocused ? "secondary" : "balanced",
+    Spleen: dampFocused ? "primary" : has("lowEnergy") || stomachFocused ? "secondary" : "balanced",
+    Lung: lungFocused ? "secondary" : "balanced",
+    Kidney: kidneyFocused && (has("rootCoat") || has("cold") || has("lowEnergy")) ? "primary" : kidneyFocused || drynessFocused ? "secondary" : "balanced",
+    Stomach: stomachFocused ? "primary" : dampFocused || heatFocused ? "secondary" : "balanced",
+    Gallbladder: liverFocused && heatFocused ? "secondary" : liverFocused ? "indirect" : "balanced",
+    "Large Intestine": largeIntestineFocused ? "secondary" : "balanced",
+    "Small Intestine": heartFocused || heatFocused ? "indirect" : "balanced",
+    Bladder: kidneyFocused ? "indirect" : "balanced",
+  } satisfies Record<string, OrganPriorityLevel>;
+
+  return [
+    {
+      name: "Liver",
+      slug: "liver",
+      icon: organIconPaths.Liver,
+      priority: priority.Liver,
+      currentFinding:
+        priority.Liver === "primary"
+          ? "The Liver system appears to be one of the main focuses in this reading, especially if the sides look reactive, the tongue has a dusky/purple quality, or stress and tension are part of the picture."
+          : priority.Liver === "secondary"
+            ? "The Liver system appears as a supporting focus, especially around stress response, emotional tension, or heat-related reactivity."
+            : "The Liver does not appear to be a primary focus in this tongue reading, but supporting smooth Qi movement remains useful for overall balance.",
+      tcmInterpretation:
+        "In Chinese medicine, the Liver is associated with the smooth flow of Qi, emotional regulation, tendons, menstrual rhythm, and the sides of the tongue. Red sides may suggest Liver/Gallbladder Heat, while purple or dusky color may suggest Qi constraint or Blood stasis.",
+      suggestions:
+        priority.Liver === "balanced"
+          ? ["Take gentle walks or stretch daily to keep Qi moving.", "Build small outlets for frustration instead of holding stress in.", "Favor regular meals and steady sleep so the Liver does not have to compensate for irregular rhythm."]
+          : ["Use gentle movement such as walking, stretching, qigong, or yoga to help Qi move.", "Reduce late-night stimulation, alcohol excess, and highly spicy or greasy meals if heat signs are present.", "Create a daily pressure-release practice: journaling, breathwork, unhurried walks, or honest conversation."],
+      relationships:
+        "The Liver helps regulate the Spleen/Stomach by keeping Qi moving through digestion. When Liver Qi feels constrained, digestion, sleep, mood, rib/neck tension, and Gallbladder patterns may also become more noticeable.",
+    },
+    {
+      name: "Heart",
+      slug: "heart",
+      icon: organIconPaths.Heart,
+      priority: priority.Heart,
+      currentFinding:
+        priority.Heart === "primary"
+          ? "The Heart system appears strongly reflected, especially if the tongue tip is red and the user also notices sleep disturbance, restlessness, anxiety, or overstimulation."
+          : priority.Heart === "secondary"
+            ? "The Heart system appears as a secondary focus, mostly through heat, red-tip, sleep, or nervous-system reactivity signs."
+            : "The Heart does not appear to be a primary focus in this tongue reading, but supporting calm Shen remains useful for sleep, mood, and inner steadiness.",
+      tcmInterpretation:
+        "In TCM, the Heart houses the Shen, which relates to sleep, emotional presence, mental clarity, and inner calm. The tongue tip is traditionally associated with the Heart/Lung area. Redness at the tip may suggest Heart Heat, upper-burner Heat, or Shen disturbance when supported by lived symptoms.",
+      suggestions:
+        priority.Heart === "balanced"
+          ? ["Create a quiet evening rhythm before bed.", "Limit overstimulation close to sleep.", "Use slow breathing or meditation to settle the Shen."]
+          : ["Use a simple evening wind-down: dim lights, lower screen time, and avoid heavy conversations late at night.", "Try slow exhale breathing or seated meditation when the mind feels overactive.", "Favor calming routines and steady sleep timing before adding more intense practices."],
+      relationships:
+        "The Heart is supported by Kidney Yin and by smooth Liver Qi. If the Liver is constrained or heat is present, the Heart/Shen may feel more restless. If Kidney reserves feel depleted, sleep and emotional steadiness may also suffer.",
+    },
+    {
+      name: "Spleen",
+      slug: "spleen",
+      icon: organIconPaths.Spleen,
+      priority: priority.Spleen,
+      currentFinding:
+        priority.Spleen === "primary"
+          ? "The Spleen system appears to be a main focus, especially if the center coating, thick/greasy coat, swelling, teeth marks, bloating, heaviness, or low energy are present."
+          : priority.Spleen === "secondary"
+            ? "The Spleen system appears as a supporting focus because digestion and energy transformation may be involved."
+            : "The Spleen does not appear to be a primary focus in this tongue reading, but supporting Spleen Qi can help the body transform food into usable energy and maintain balance.",
+      tcmInterpretation:
+        "In Chinese medicine, the Spleen transforms food and fluids into usable Qi and helps prevent Damp accumulation. A swollen tongue, teeth marks, thick/greasy coating, or sluggish digestion may suggest Spleen Qi deficiency with Dampness or weaker fluid transformation.",
+      suggestions:
+        priority.Spleen === "balanced"
+          ? ["Keep meals regular and avoid constantly grazing.", "Favor warm cooked foods when digestion feels sensitive.", "Eat with less distraction so the body can focus on digestion."]
+          : ["Favor warm cooked meals such as soups, congee, stews, rice bowls, eggs, root vegetables, and cooked greens.", "Reduce excessive iced drinks, cold smoothies, heavy dairy, greasy takeout, and processed sugar for a few weeks.", "Create regular meal timing and pause before eating when stressed or rushed."],
+      relationships:
+        "The Spleen works closely with the Stomach in the Middle Burner. It is easily affected by Liver stress, overthinking, irregular meals, and excess Dampness. Strong Spleen Qi supports Lung Qi and overall daily energy.",
+    },
+    {
+      name: "Lung",
+      slug: "lung",
+      icon: organIconPaths.Lung,
+      priority: priority.Lung,
+      currentFinding:
+        priority.Lung === "secondary"
+          ? "The Lung system appears as a secondary focus, especially if the tip area is reactive, the tongue looks dry, or breathing, grief, skin, or upper-body sensitivity are relevant."
+          : "The Lung does not appear to be a primary focus in this tongue reading, but supporting Lung Qi can help breath, rhythm, boundaries, and emotional release.",
+      tcmInterpretation:
+        "In TCM, the Lung governs Qi and respiration, influences the skin and defensive Qi, and is associated with grief and the upper portion of the tongue map. Dryness may bring Lung fluids into the interpretation, while red tip signs may include the upper burner.",
+      suggestions:
+        priority.Lung === "secondary"
+          ? ["Use gentle breathwork, especially slow nasal breathing and longer exhales.", "Support fluids with warm teas, soups, pears, cooked apples, and broths if dryness is present.", "Spend time outdoors and avoid overexerting the breath when depleted."]
+          : ["Take slow outdoor walks when possible.", "Practice easy nasal breathing for a few minutes daily.", "Keep hydration steady and support sleep rhythm."],
+      relationships:
+        "The Lung is supported by Spleen Qi, because digestion helps create usable Qi. It also works with the Kidney, which helps grasp the breath in TCM theory, and with the Large Intestine through paired organ relationship.",
+    },
+    {
+      name: "Kidney",
+      slug: "kidney",
+      icon: organIconPaths.Kidney,
+      priority: priority.Kidney,
+      currentFinding:
+        priority.Kidney === "primary"
+          ? "The Kidney system appears to be a main focus, especially if the root area is involved, energy feels depleted, cold signs are present, or deeper reserve patterns show up."
+          : priority.Kidney === "secondary"
+            ? "The Kidney system appears as a secondary focus through lower-burner, dryness, cold, fatigue, or reserve-related signs."
+            : "The Kidney does not appear to be a primary focus in this tongue reading, but supporting Kidney reserves can help long-term rhythm, recovery, and resilience.",
+      tcmInterpretation:
+        "In Chinese medicine, the Kidney relates to essence, deep reserves, warming/cooling regulation, lower-burner function, bones, ears, and constitutional vitality. Root coating, chronic dryness, cold signs, or deep depletion can bring Kidney Yin, Kidney Yang, or Kidney Qi into the pattern language.",
+      suggestions:
+        priority.Kidney === "balanced"
+          ? ["Protect sleep and recovery windows.", "Avoid constantly pushing through exhaustion.", "Use gentle strengthening over extreme exertion."]
+          : ["Prioritize consistent sleep, recovery days, and not pushing through deep fatigue.", "Favor warming routines if cold is present, such as warm breakfasts, cooked foods, and keeping the lower back/feet warm.", "Use gentle strength, walking, tai chi, or qigong instead of draining workouts when energy is low."],
+      relationships:
+        "The Kidney supports the Heart through the Water-Fire relationship, supports the Lung through breath depth, and provides a deeper reserve for Spleen/Stomach transformation. When Kidney reserves are low, other systems may feel less stable.",
+    },
+    {
+      name: "Stomach",
+      slug: "stomach",
+      priority: priority.Stomach,
+      currentFinding:
+        priority.Stomach === "primary"
+          ? "The Stomach system appears to be a main focus, especially if the center coating, yellow coating, peeled coating, bloating, appetite change, reflux-like warmth, or post-meal discomfort are present."
+          : priority.Stomach === "secondary"
+            ? "The Stomach appears as a secondary focus because the center tongue area or digestive signs may be part of the pattern."
+            : "The Stomach does not appear to be a primary focus in this tongue reading, but maintaining Stomach Qi supports digestion, appetite, and nourishment.",
+      tcmInterpretation:
+        "The Stomach receives and ripens food and is central to the Middle Burner. Center coating can reflect Stomach/Spleen activity; yellow coat may suggest Stomach Heat or Damp-Heat; peeled coat or cracks in the center may suggest Stomach Yin deficiency or reduced fluids.",
+      suggestions:
+        priority.Stomach === "balanced"
+          ? ["Eat at steady times when possible.", "Avoid rushing meals.", "Notice which foods leave you clear versus heavy afterward."]
+          : ["Choose simple cooked meals and reduce late-night overeating.", "If heat signs are present, reduce alcohol excess, very spicy foods, greasy meals, and large heavy dinners.", "If dryness signs are present, consider soups, stewed pears, oatmeal, congee, broths, and moist cooked foods."],
+      relationships:
+        "The Stomach pairs with the Spleen in digestion. Liver constraint can disrupt Stomach descending function, while Stomach Heat can affect the Heart/Shen and sleep in some TCM patterns.",
+    },
+    {
+      name: "Gallbladder",
+      slug: "gallbladder",
+      priority: priority.Gallbladder,
+      currentFinding:
+        priority.Gallbladder === "secondary"
+          ? "The Gallbladder appears as a secondary supporting system, especially if the sides of the tongue, heat, stress tension, headaches, bitter taste, or decision-pressure patterns are relevant."
+          : priority.Gallbladder === "indirect"
+            ? "The Gallbladder is indirectly involved because it pairs with the Liver and often follows Liver Qi or Liver Heat patterns."
+            : "The Gallbladder does not appear to be a primary focus in this tongue reading, but it remains part of the Liver/Gallbladder relationship.",
+      tcmInterpretation:
+        "In TCM, the Gallbladder is paired with the Liver and is often considered in patterns involving the sides of the tongue, constraint, Damp-Heat, rib-side tension, decisiveness, or Shaoyang-style alternating patterns.",
+      suggestions: ["Keep meals regular and avoid overly greasy meals if the Liver/Gallbladder area feels reactive.", "Use gentle side-body stretching and walking to support Qi movement.", "Notice whether stress, anger, or pressure worsens digestion, sleep, or head/neck tension."],
+      relationships:
+        "The Gallbladder is closely linked with the Liver. When Liver Qi stagnates or heat builds, Gallbladder signs may appear as a secondary layer. It also influences digestion through bile-like functional language in modern explanation, though TCM frames this through organ-network relationships.",
+    },
+    {
+      name: "Large Intestine",
+      slug: "large-intestine",
+      priority: priority["Large Intestine"],
+      currentFinding:
+        priority["Large Intestine"] === "secondary"
+          ? "The Large Intestine appears as a secondary focus when dryness, dampness, constipation, loose stool, or digestive coating patterns are part of the picture."
+          : "The Large Intestine does not appear to be a primary focus in this tongue reading, but elimination rhythm remains useful to observe.",
+      tcmInterpretation:
+        "The Large Intestine is paired with the Lung and relates to elimination, letting go, and the final movement of waste. Dryness may suggest fluid support is needed; Dampness may suggest transformation and clearing are more relevant.",
+      suggestions:
+        priority["Large Intestine"] === "secondary"
+          ? ["Track stool rhythm, hydration, and how food timing affects elimination.", "For dryness, emphasize warm fluids, soups, cooked fruits, pears, and enough dietary fiber.", "For damp/heavy patterns, reduce greasy foods, excess sugar, and heavy late meals."]
+          : ["Keep hydration steady.", "Maintain regular meal and bathroom rhythm.", "Use walking to support natural movement."],
+      relationships:
+        "The Large Intestine pairs with the Lung and is influenced by Spleen/Stomach digestion. Liver stress can also affect bowel rhythm through Qi movement.",
+    },
+    {
+      name: "Small Intestine",
+      slug: "small-intestine",
+      priority: priority["Small Intestine"],
+      currentFinding:
+        priority["Small Intestine"] === "indirect"
+          ? "The Small Intestine appears indirectly involved through Heart/Heat and digestion-related pattern language."
+          : "The Small Intestine does not appear to be a primary focus in this tongue reading, but clear digestion and food discernment remain part of overall balance.",
+      tcmInterpretation:
+        "In Chinese medicine, the Small Intestine separates the clear from the turbid and is paired with the Heart. It can be considered when heat, restlessness, digestive clarity, or fluid separation themes appear.",
+      suggestions: ["Keep meals simple when digestion feels overloaded.", "Reduce multitasking while eating so digestion can settle.", "If heat signs are present, avoid stacking spicy food, alcohol, late nights, and stress in the same period."],
+      relationships:
+        "The Small Intestine pairs with the Heart and works downstream of Stomach/Spleen digestion. Heart heat or agitation may influence this paired system in traditional pattern language.",
+    },
+    {
+      name: "Bladder",
+      slug: "bladder",
+      priority: priority.Bladder,
+      currentFinding:
+        priority.Bladder === "indirect"
+          ? "The Bladder appears indirectly involved when the root/lower-burner area or Kidney-related signs are present."
+          : "The Bladder does not appear to be a primary focus in this tongue reading, but lower-burner fluid rhythm can still be observed for maintenance.",
+      tcmInterpretation:
+        "The Bladder is paired with the Kidney and relates to fluid movement in the lower burner. Root coating, cold, dampness, or deeper reserve patterns can bring the Kidney/Bladder network into the interpretation.",
+      suggestions: ["Keep hydration steady without overloading fluids late at night.", "Protect the lower back and feet from cold if cold signs are present.", "Use gentle movement and regular sleep to support lower-burner rhythm."],
+      relationships:
+        "The Bladder depends on Kidney Qi/Yang in traditional theory and is also influenced by Spleen fluid transformation and Lung water regulation.",
+    },
+  ];
+}
+
+function organPrioritySummary(organs: OrganSystemResult[]) {
+  const byPriority = (level: OrganPriorityLevel) => organs.filter((organ) => organ.priority === level).map((organ) => organ.name);
+  return {
+    primary: byPriority("primary"),
+    secondary: byPriority("secondary"),
+    indirect: byPriority("indirect"),
+    balanced: byPriority("balanced"),
   };
 }
 
@@ -1302,7 +1604,11 @@ function buildTongueReportHtml({
   const graphThemes = [primary, ...secondaryThemes].slice(0, 3);
   const maxScore = Math.max(...graphThemes.map((theme) => theme.score), 1);
   const quality = qualitySummary(primary);
-  const technical = technicalTongueReading(primary, visionResult, new Set(selectedLabels.map((label) => observationGroups.flatMap((group) => group.choices).find((choice) => choice.label === label)?.key).filter(Boolean) as ChoiceKey[]));
+  const selectedSet = new Set(selectedLabels.map((label) => observationGroups.flatMap((group) => group.choices).find((choice) => choice.label === label)?.key).filter(Boolean) as ChoiceKey[]);
+  const technical = technicalTongueReading(primary, visionResult, selectedSet);
+  const tongueDescriptions = simpleTongueDescription(visionResult, selectedSet);
+  const organResults = buildOrganSystemResults(primary, visionResult, selectedSet);
+  const organPriorities = organPrioritySummary(organResults);
   const herbs = getHerbSuggestions(primary);
   const diet = getDietarySuggestion(primary);
 
@@ -1401,8 +1707,67 @@ function buildTongueReportHtml({
       </div>
     </section>
 
+    <section class="card">
+      <p class="eyebrow">Tongue Description</p>
+      <h2>What the tongue visually shows</h2>
+      <p class="muted">This starts with simple visible observations before translating them into Chinese medicine pattern language.</p>
+      ${reportList(tongueDescriptions)}
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Technical Assessment</p>
+      <h2>Traditional Chinese medicine pattern language</h2>
+      <p class="muted">Educational pattern interpretation only. This is not a medical diagnosis.</p>
+      <h3>Tongue Body Color</h3>
+      <p>${escapeHtml(technical.color)}</p>
+      <h3>Tongue Shape</h3>
+      ${reportList(technical.shape)}
+      <h3>Tongue Coating</h3>
+      ${reportList(technical.coating)}
+      <h3>Moisture Level</h3>
+      <p>${escapeHtml(technical.moisture)}</p>
+      <h3>Regional Tongue Map</h3>
+      ${reportList(technical.regions)}
+      <h3>Pattern Impression</h3>
+      ${reportList(technical.impressions)}
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Organ-Based Results</p>
+      <h2>Organ system view</h2>
+      <p class="muted">Every organ category is included. Stronger tongue-related signals receive more detail; quieter systems are framed as general support and maintenance.</p>
+      ${organResults
+        .map(
+          (organ) => `
+            <div class="card" style="background:#fffdf8">
+              <p class="eyebrow">${escapeHtml(organPriorityLabels[organ.priority])}</p>
+              <h3>${escapeHtml(organ.name)}</h3>
+              <p><strong>Current tongue-related finding:</strong> ${escapeHtml(organ.currentFinding)}</p>
+              <p><strong>Chinese medicine interpretation:</strong> ${escapeHtml(organ.tcmInterpretation)}</p>
+              <p><strong>Supportive suggestions:</strong></p>
+              ${reportList(organ.suggestions)}
+              <p><strong>Relationship to other organs:</strong> ${escapeHtml(organ.relationships)}</p>
+            </div>
+          `,
+        )
+        .join("")}
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Organ Priority</p>
+      <h2>Main and supporting organ systems</h2>
+      <h3>Primary focus</h3>
+      ${reportList(organPriorities.primary.length ? organPriorities.primary : ["No single organ system strongly dominates this reading."])}
+      <h3>Secondary support</h3>
+      ${reportList(organPriorities.secondary.length ? organPriorities.secondary : ["No major secondary organ system is strongly emphasized."])}
+      <h3>Indirectly involved</h3>
+      ${reportList(organPriorities.indirect.length ? organPriorities.indirect : ["No additional indirect organ systems are strongly emphasized."])}
+      <h3>General maintenance</h3>
+      ${reportList(organPriorities.balanced)}
+    </section>
+
     <section class="card lead-card">
-      <p class="eyebrow">Primary Pattern Insight</p>
+      <p class="eyebrow">General Summary</p>
       <h2>${escapeHtml(primary.title)}</h2>
       <p>${escapeHtml(primary.plain)}</p>
       <h3>In words you can understand</h3>
@@ -1438,22 +1803,6 @@ function buildTongueReportHtml({
       </div>
     </section>
 
-    <section class="card">
-      <p class="eyebrow">Technical TCM Tongue Reading</p>
-      <h3>Tongue Body Color</h3>
-      <p>${escapeHtml(technical.color)}</p>
-      <h3>Tongue Shape</h3>
-      ${reportList(technical.shape)}
-      <h3>Tongue Coating</h3>
-      ${reportList(technical.coating)}
-      <h3>Moisture Level</h3>
-      <p>${escapeHtml(technical.moisture)}</p>
-      <h3>Regional Tongue Map</h3>
-      ${reportList(technical.regions)}
-      <h3>Pattern Impression</h3>
-      ${reportList(technical.impressions)}
-    </section>
-
     <section class="grid">
       <div class="card">
         <p class="eyebrow">${escapeHtml(quality.heading)}</p>
@@ -1462,29 +1811,6 @@ function buildTongueReportHtml({
       <div class="card">
         <p class="eyebrow">What is still uncertain</p>
         ${reportList(quality.uncertainty)}
-      </div>
-    </section>
-
-    <section class="card">
-      <p class="eyebrow">Organ / System Focus</p>
-      <div class="grid">
-        <div class="score-circle">
-          <div>
-            <strong>${primary.score}</strong>
-            <span>Matched<br />Signals</span>
-          </div>
-        </div>
-        <div>
-          ${primary.organs
-            .map(
-              (organ) => `
-              <h3>${escapeHtml(organ.system)}</h3>
-              <p>${escapeHtml(organ.meaning)}</p>
-              <p class="small muted">${escapeHtml(organ.why)}</p>
-            `,
-            )
-            .join("")}
-        </div>
       </div>
     </section>
 
@@ -1702,6 +2028,15 @@ export function TongueAssessmentApp() {
   const themes = useMemo(() => scoreThemes(scoredSelection), [scoredSelection]);
   const intakeSummary = useMemo(() => buildIntakeSummary(intakeAnswers), [intakeAnswers]);
   const primary = themes[0];
+  const tongueDescriptions = useMemo(() => simpleTongueDescription(visionResult, selected), [visionResult, selected]);
+  const technicalReading = useMemo(
+    () => (primary ? technicalTongueReading(primary, visionResult, selected) : null),
+    [primary, visionResult, selected],
+  );
+  const organResults = useMemo(
+    () => (primary ? buildOrganSystemResults(primary, visionResult, selected) : []),
+    [primary, visionResult, selected],
+  );
   const answeredIntakeCount = intakeSummary.total;
   const canCompleteIntake = answeredIntakeCount >= MIN_INTAKE_ANSWERS;
   const currentIntakeQuestion = intakeQuestions[currentIntakeIndex];
@@ -1859,6 +2194,7 @@ export function TongueAssessmentApp() {
     try {
       const selectedLabels = [...selected].map(labelForChoice).sort((a, b) => a.localeCompare(b));
       const visibleDescriptions = visibleTongueSignDescriptions(visionResult, selected);
+      const organResults = buildOrganSystemResults(primary, visionResult, selected);
       const response = await fetch("/api/tongue-report-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1866,11 +2202,14 @@ export function TongueAssessmentApp() {
           email: reportEmail,
           primaryTitle: primary.title,
           primarySummary: primary.plain,
+          plainMeaning: primary.meaning,
           matchedSigns: primary.signs,
           organSystems: primary.organs.map((organ) => ({
             title: organ.system,
             body: `${organ.meaning} ${organ.why}`,
           })),
+          tongueDescription: simpleTongueDescription(visionResult, selected),
+          organResults,
           foodDirection: primary.support.foods,
           lifestyleDirection: primary.support.lifestyle,
           herbSuggestions: getHerbSuggestions(primary),
@@ -2497,22 +2836,30 @@ export function TongueAssessmentApp() {
                     </div>
                   </article>
 
-                  <ReportDisclosure title="What This Means" defaultOpen>
+                  <ReportDisclosure title="Tongue Description" defaultOpen>
+                    <TongueDescription descriptions={tongueDescriptions} />
+                  </ReportDisclosure>
+                  {technicalReading ? (
+                    <ReportDisclosure title="Technical Assessment" defaultOpen>
+                      <TechnicalTongueReading reading={technicalReading} />
+                    </ReportDisclosure>
+                  ) : null}
+                  <ReportDisclosure title="Organ-Based Results" defaultOpen>
+                    <OrganBasedResults organs={organResults} />
+                  </ReportDisclosure>
+                  <ReportDisclosure title="Organ Priority" defaultOpen>
+                    <OrganPriority organs={organResults} />
+                  </ReportDisclosure>
+                  <ReportDisclosure title="General Summary" defaultOpen>
                     <PlainMeaning meaning={primary.meaning} />
+                    <div className="mt-3">
+                      <PatternSignature themes={themes} />
+                    </div>
+                    <div className="mt-3">
+                      <InsightQuality primary={primary} />
+                    </div>
                   </ReportDisclosure>
-                  <ReportDisclosure title="Pattern Graph" defaultOpen>
-                    <PatternSignature themes={themes} />
-                  </ReportDisclosure>
-                  <ReportDisclosure title="Organ / System Focus">
-                    <OrganFocus organs={primary.organs} />
-                  </ReportDisclosure>
-                  <ReportDisclosure title="Technical TCM Reading">
-                    <TechnicalTongueReading reading={technicalTongueReading(primary, visionResult, selected)} />
-                  </ReportDisclosure>
-                  <ReportDisclosure title="Visible Tongue Signs">
-                    <VisibleTongueSigns descriptions={visibleTongueSignDescriptions(visionResult, selected)} />
-                  </ReportDisclosure>
-                  <ReportDisclosure title="What To Try / Observe" defaultOpen>
+                  <ReportDisclosure title="What To Try / Observe">
                     <div className="grid gap-3">
                       <ResultList title="What To Try First" items={primary.tryFirst} />
                       <ResultList title="What To Observe Next" items={primary.observe} />
@@ -2531,15 +2878,12 @@ export function TongueAssessmentApp() {
                   <ReportDisclosure title="TCM Foundations">
                     <TCMFoundations />
                   </ReportDisclosure>
-                  <ReportDisclosure title="Result Quality">
-                    <InsightQuality primary={primary} />
-                  </ReportDisclosure>
 
                   <article className="border border-ink/10 bg-white/75 p-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">PDF Outcome Report</p>
                     <p className="mt-2 text-sm leading-6 text-ink/66">
                       Create a high-end report with the app logo, primary pattern insight, a signal-strength
-                      graph, organ-system focus, food direction, lifestyle direction, 3-week retake plan,
+                      graph, organ-based results, food direction, lifestyle direction, 3-week retake plan,
                       and educational disclaimers. Your tongue photo is not placed in the PDF.
                     </p>
                     <button type="button" className="button-primary mt-4 w-full" onClick={downloadPdfReport}>
@@ -2713,6 +3057,131 @@ function ReportDisclosure({
       </summary>
       <div className="border-t border-ink/10 p-3 sm:p-4">{children}</div>
     </details>
+  );
+}
+
+function TongueDescription({ descriptions }: { descriptions: string[] }) {
+  return (
+    <article className="border border-ink/10 bg-white/75 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">What the tongue visually shows</p>
+      <p className="mt-2 text-sm leading-6 text-ink/58">
+        This starts with visible features first, before translating them into traditional Chinese medicine pattern language.
+      </p>
+      <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/72">
+        {descriptions.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </article>
+  );
+}
+
+function priorityClass(priority: OrganPriorityLevel) {
+  if (priority === "primary") return "border-[#9f5a3f]/35 bg-[#fff7f0] text-[#8d3f2e]";
+  if (priority === "secondary") return "border-moss/30 bg-[#f4f7f0] text-moss";
+  if (priority === "indirect") return "border-[#8d6a46]/30 bg-[#fbf6ed] text-[#7b5a34]";
+  return "border-ink/10 bg-fog text-ink/48";
+}
+
+function OrganBasedResults({ organs }: { organs: OrganSystemResult[] }) {
+  return (
+    <article className="space-y-3">
+      <div className="border border-ink/10 bg-white/75 p-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Organ system view</p>
+        <p className="mt-2 text-sm leading-6 text-ink/58">
+          Every major organ category is included. Stronger tongue-related signals receive more detail; quieter systems are framed as general support and maintenance.
+        </p>
+      </div>
+      {organs.map((organ) => (
+        <details
+          key={organ.name}
+          open={organ.priority === "primary" || organ.priority === "secondary"}
+          className="group border border-ink/10 bg-white/78 shadow-card"
+        >
+          <summary className="flex cursor-pointer list-none items-center gap-3 p-3">
+            {organ.icon ? (
+              <img
+                src={organ.icon}
+                alt=""
+                className="h-12 w-12 shrink-0 border border-ink/10 bg-[#8d6a46]/10 object-cover"
+              />
+            ) : (
+              <span className="grid h-12 w-12 shrink-0 place-items-center border border-ink/10 bg-fog text-sm font-semibold text-ink/46">
+                {organ.name.slice(0, 2)}
+              </span>
+            )}
+            <span className="min-w-0 flex-1">
+              <span className="block text-base font-semibold leading-5 text-ink">{organ.name}</span>
+              <span className={`mt-1 inline-block border px-2 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.12em] ${priorityClass(organ.priority)}`}>
+                {organPriorityLabels[organ.priority]}
+              </span>
+            </span>
+            <span className="grid h-7 w-7 shrink-0 place-items-center border border-ink/10 bg-fog text-sm leading-none text-ink/50 transition group-open:rotate-45">
+              +
+            </span>
+          </summary>
+          <div className="space-y-3 border-t border-ink/10 p-4">
+            <OrganResultBlock title="Current tongue-related finding" body={organ.currentFinding} />
+            <OrganResultBlock title="Chinese medicine interpretation" body={organ.tcmInterpretation} />
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">Supportive suggestions</p>
+              <ul className="mt-2 space-y-2 text-sm leading-6 text-ink/70">
+                {organ.suggestions.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <OrganResultBlock title="Relationship to other organs" body={organ.relationships} />
+          </div>
+        </details>
+      ))}
+    </article>
+  );
+}
+
+function OrganResultBlock({ title, body }: { title: string; body: string }) {
+  return (
+    <div>
+      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">{title}</p>
+      <p className="mt-1 text-sm leading-6 text-ink/70">{body}</p>
+    </div>
+  );
+}
+
+function OrganPriority({ organs }: { organs: OrganSystemResult[] }) {
+  const summary = organPrioritySummary(organs);
+  return (
+    <article className="grid gap-3">
+      <PriorityGroup title="Primary focus" items={summary.primary} fallback="No single organ system strongly dominates this reading." tone="primary" />
+      <PriorityGroup title="Secondary support" items={summary.secondary} fallback="No major secondary organ system is strongly emphasized." tone="secondary" />
+      <PriorityGroup title="Indirectly involved" items={summary.indirect} fallback="No additional indirect organ systems are strongly emphasized." tone="indirect" />
+      <PriorityGroup title="General maintenance" items={summary.balanced} fallback="All systems are already listed above as primary, secondary, or indirect." tone="balanced" />
+    </article>
+  );
+}
+
+function PriorityGroup({
+  title,
+  items,
+  fallback,
+  tone,
+}: {
+  title: string;
+  items: string[];
+  fallback: string;
+  tone: OrganPriorityLevel;
+}) {
+  return (
+    <div className="border border-ink/10 bg-white/75 p-3">
+      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">{title}</p>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {(items.length ? items : [fallback]).map((item) => (
+          <span key={item} className={`border px-2.5 py-1.5 text-xs leading-5 ${items.length ? priorityClass(tone) : "border-ink/10 bg-fog text-ink/45"}`}>
+            {item}
+          </span>
+        ))}
+      </div>
+    </div>
   );
 }
 
