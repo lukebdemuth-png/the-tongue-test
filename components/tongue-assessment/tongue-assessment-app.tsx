@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
@@ -1661,6 +1662,7 @@ function ToggleCard({
 export function TongueAssessmentApp() {
   const [intakeStarted, setIntakeStarted] = useState(false);
   const [intakeComplete, setIntakeComplete] = useState(false);
+  const [currentIntakeIndex, setCurrentIntakeIndex] = useState(0);
   const [intakeAnswers, setIntakeAnswers] = useState<Record<string, IntakeAnswer>>({});
   const [accessChoice, setAccessChoice] = useState<AccessChoice>(null);
   const [selected, setSelected] = useState<Set<ChoiceKey>>(new Set());
@@ -1691,6 +1693,12 @@ export function TongueAssessmentApp() {
   const primary = themes[0];
   const answeredIntakeCount = intakeSummary.total;
   const canCompleteIntake = answeredIntakeCount >= MIN_INTAKE_ANSWERS;
+  const currentIntakeQuestion = intakeQuestions[currentIntakeIndex];
+  const currentIntakeAnswer = intakeAnswers[currentIntakeQuestion.id];
+  const intakeProgressPercent = Math.max(
+    4,
+    Math.round(((currentIntakeIndex + 1) / intakeQuestions.length) * 100),
+  );
 
   useEffect(() => {
     return () => {
@@ -1784,6 +1792,12 @@ export function TongueAssessmentApp() {
     setVisionResult(null);
     setVisionError("");
     setFeedbackStatus("");
+  }
+
+  function moveIntake(direction: 1 | -1) {
+    setCurrentIntakeIndex((current) =>
+      Math.min(intakeQuestions.length - 1, Math.max(0, current + direction)),
+    );
   }
 
   async function sendFeedback() {
@@ -1970,11 +1984,17 @@ export function TongueAssessmentApp() {
 
   if (!intakeStarted) {
     return (
-      <main className="min-h-screen bg-[#fbfaf6]">
-        <div className="container-shell max-w-3xl py-8 md:py-14">
-          <section className="border border-ink/10 bg-white p-5 shadow-card md:p-8">
-            <div className="grid gap-5 sm:grid-cols-[7rem_1fr] sm:items-center">
-              <div className="overflow-hidden border border-ink/10 bg-[#f7f4ed]">
+      <main className="min-h-screen bg-[#f3efe7]">
+        <div className="mx-auto flex min-h-screen w-full max-w-[30rem] flex-col px-4 py-4 sm:justify-center sm:py-8">
+          <section className="flex min-h-[calc(100vh-2rem)] flex-col justify-between border border-ink/10 bg-[#fffdf8] p-5 shadow-card sm:min-h-0 sm:p-6">
+            <div>
+              <div className="flex items-center justify-between gap-4">
+                <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-moss">Tongue Test: TCM AI</p>
+                <span className="border border-ink/10 bg-fog px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-ink/45">
+                  TCM
+                </span>
+              </div>
+              <div className="mx-auto mt-7 w-[58%] max-w-[13rem] overflow-hidden border border-ink/10 bg-[#f7f4ed]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/images/tongue-assessment/tongue-map-logo.png"
@@ -1982,29 +2002,35 @@ export function TongueAssessmentApp() {
                   className="aspect-square w-full object-cover"
                 />
               </div>
-              <div>
-                <p className="eyebrow">Tongue Test: TCM AI</p>
-                <h1 className="mt-3 text-[2.55rem] font-semibold leading-[1.02] sm:text-5xl">
-                  Begin your Traditional Chinese Medicine tongue wellness check with a short intake.
+              <div className="mt-7">
+                <h1 className="text-[2.35rem] font-semibold leading-[0.98]">
+                  Begin with a short TCM tongue wellness check.
                 </h1>
+                <p className="mt-4 text-[0.95rem] leading-7 text-ink/64">
+                  Answer a few reflective questions, add a clear tongue photo, then receive a plain-English
+                  TCM-style wellness report.
+                </p>
               </div>
             </div>
-            <p className="mt-6 text-base leading-7 text-ink/68">
-              Answer at least {MIN_INTAKE_ANSWERS} reflective questions first. Then you’ll add your tongue photo.
-              No sign-in is needed before the intake or photo.
-            </p>
-            <div className="mt-6 grid gap-3 sm:grid-cols-3">
-              {["Short guided intake", "Tongue photo", "Report preview"].map((item) => (
-                <div key={item} className="border border-ink/10 bg-fog/60 p-3 text-sm leading-6 text-ink/66">
-                  {item}
-                </div>
-              ))}
-            </div>
-            <button type="button" className="button-primary mt-7 min-h-14 w-full" onClick={() => setIntakeStarted(true)}>
-              Begin Intake
-            </button>
-            <div className="mt-5">
-              <ShortResultDisclaimer />
+            <div className="mt-8">
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  ["01", "Intake"],
+                  ["02", "Photo"],
+                  ["03", "Report"],
+                ].map(([number, label]) => (
+                  <div key={label} className="border border-ink/10 bg-fog/60 p-3">
+                    <p className="text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-moss">{number}</p>
+                    <p className="mt-2 text-sm font-semibold leading-5 text-ink">{label}</p>
+                  </div>
+                ))}
+              </div>
+              <button type="button" className="button-primary mt-5 min-h-14 w-full" onClick={() => setIntakeStarted(true)}>
+                Begin
+              </button>
+              <div className="mt-4">
+                <ShortResultDisclaimer />
+              </div>
             </div>
           </section>
         </div>
@@ -2014,82 +2040,96 @@ export function TongueAssessmentApp() {
 
   if (!intakeComplete) {
     return (
-      <main className="min-h-screen bg-[#fbfaf6]">
-        <div className="container-shell max-w-4xl py-6 md:py-10">
-          <section className="border border-ink/10 bg-white p-4 shadow-card sm:p-6">
-            <p className="eyebrow">TCM intake</p>
-            <h1 className="mt-3 text-3xl font-semibold leading-tight sm:text-5xl">
-              Notice your patterns before the photo.
-            </h1>
-            <p className="mt-4 text-sm leading-7 text-ink/62">
-              Choose the answer that feels closest. If none fit, use your own words. Your answers stay in
-              this session and help shape the final tongue reading.
-            </p>
-            <div className="mt-5 h-2 border border-ink/10 bg-fog">
-              <div
-                className="h-full bg-moss transition-all"
-                style={{ width: `${Math.round((answeredIntakeCount / intakeQuestions.length) * 100)}%` }}
-              />
-            </div>
-            <p className="mt-2 text-xs uppercase tracking-[0.14em] text-ink/45">
-              {answeredIntakeCount} of {intakeQuestions.length} answered
-            </p>
-          </section>
-
-          <section className="mt-4 grid gap-3">
-            {intakeQuestions.map((question, index) => {
-              const answer = intakeAnswers[question.id];
-              return (
-                <article key={question.id} className="border border-ink/10 bg-white p-4 shadow-card sm:p-5">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">
-                    Question {index + 1}
+      <main className="min-h-screen bg-[#f3efe7]">
+        <div className="mx-auto flex min-h-screen w-full max-w-[30rem] flex-col px-4 py-4">
+          <section className="flex min-h-[calc(100vh-2rem)] flex-col border border-ink/10 bg-[#fffdf8] p-4 shadow-card">
+            <div className="sticky top-0 z-10 -mx-4 -mt-4 border-b border-ink/10 bg-[#fffdf8]/95 px-4 py-3 backdrop-blur">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-moss">TCM Intake</p>
+                  <p className="mt-1 text-xs leading-5 text-ink/48">
+                    {answeredIntakeCount} answered · {MIN_INTAKE_ANSWERS} needed
                   </p>
-                  <h2 className="mt-2 text-xl font-semibold leading-snug text-ink">{question.question}</h2>
-                  <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                    {question.options.map((option) => {
-                      const active = answer?.selected === option;
-                      return (
-                        <button
-                          key={option}
-                          type="button"
-                          className={`min-h-14 border p-3 text-left text-sm leading-5 transition ${
-                            active ? "border-ink bg-ink text-white" : "border-ink/10 bg-fog/60 text-ink hover:border-moss/35"
-                          }`}
-                          onClick={() => answerIntake(question, option)}
-                        >
-                          {option}
-                        </button>
-                      );
-                    })}
-                  </div>
-                  {answer?.selected === explainOption ? (
-                    <textarea
-                      value={answer.custom ?? ""}
-                      onChange={(event) => updateIntakeCustom(question.id, event.target.value)}
-                      className="mt-3 w-full resize-y border border-ink/10 bg-fog/60 p-3 text-sm leading-6 outline-none focus:border-moss"
-                      rows={3}
-                      placeholder="Write what feels true for you..."
-                    />
-                  ) : null}
-                </article>
-              );
-            })}
-          </section>
+                </div>
+                <span className="border border-ink/10 bg-fog px-2.5 py-1 text-xs font-semibold text-ink/55">
+                  {currentIntakeIndex + 1}/{intakeQuestions.length}
+                </span>
+              </div>
+              <div className="mt-3 h-1.5 overflow-hidden bg-fog">
+                <div className="h-full bg-moss transition-all" style={{ width: `${intakeProgressPercent}%` }} />
+              </div>
+            </div>
 
-          <section className="mt-4 border border-ink/10 bg-white p-4 shadow-card sm:p-5">
-            <button
-              type="button"
-              className="button-primary min-h-14 w-full"
-              disabled={!canCompleteIntake}
-              onClick={() => setIntakeComplete(true)}
-            >
-              Continue To Tongue Photo
-            </button>
-            {!canCompleteIntake ? (
-              <p className="mt-3 text-sm leading-6 text-ink/54">
-                Answer at least {MIN_INTAKE_ANSWERS} questions to continue. You can answer more for a richer report.
-              </p>
-            ) : null}
+            <div className="flex flex-1 flex-col justify-center py-6">
+              <article className="border border-ink/10 bg-white p-4 shadow-card">
+                <p className="text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-moss">
+                  Question {currentIntakeIndex + 1}
+                </p>
+                <h1 className="mt-3 text-[1.75rem] font-semibold leading-[1.08] text-ink">
+                  {currentIntakeQuestion.question}
+                </h1>
+                <div className="mt-5 grid gap-2">
+                  {currentIntakeQuestion.options.map((option) => {
+                    const active = currentIntakeAnswer?.selected === option;
+                    return (
+                      <button
+                        key={option}
+                        type="button"
+                        className={`min-h-14 border px-3 py-3 text-left text-sm font-semibold leading-5 transition ${
+                          active ? "border-ink bg-ink text-white" : "border-ink/10 bg-fog/70 text-ink hover:border-moss/35"
+                        }`}
+                        onClick={() => answerIntake(currentIntakeQuestion, option)}
+                      >
+                        {option}
+                      </button>
+                    );
+                  })}
+                </div>
+                {currentIntakeAnswer?.selected === explainOption ? (
+                  <textarea
+                    value={currentIntakeAnswer.custom ?? ""}
+                    onChange={(event) => updateIntakeCustom(currentIntakeQuestion.id, event.target.value)}
+                    className="mt-3 w-full resize-y border border-ink/10 bg-fog/60 p-3 text-sm leading-6 outline-none focus:border-moss"
+                    rows={3}
+                    placeholder="Write what feels true for you..."
+                  />
+                ) : null}
+              </article>
+            </div>
+
+            <div className="grid gap-2 border-t border-ink/10 pt-3">
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  className="button-secondary min-h-12 w-full"
+                  disabled={currentIntakeIndex === 0}
+                  onClick={() => moveIntake(-1)}
+                >
+                  Back
+                </button>
+                <button
+                  type="button"
+                  className="button-secondary min-h-12 w-full"
+                  disabled={currentIntakeIndex === intakeQuestions.length - 1}
+                  onClick={() => moveIntake(1)}
+                >
+                  Next
+                </button>
+              </div>
+              <button
+                type="button"
+                className="button-primary min-h-14 w-full"
+                disabled={!canCompleteIntake}
+                onClick={() => setIntakeComplete(true)}
+              >
+                Continue To Photo
+              </button>
+              {!canCompleteIntake ? (
+                <p className="text-center text-xs leading-5 text-ink/48">
+                  Answer {Math.max(0, MIN_INTAKE_ANSWERS - answeredIntakeCount)} more to continue.
+                </p>
+              ) : null}
+            </div>
           </section>
         </div>
       </main>
@@ -2097,45 +2137,58 @@ export function TongueAssessmentApp() {
   }
 
   return (
-    <main className="min-h-screen bg-[#fbfaf6]">
-      <div className="container-shell max-w-6xl py-8 md:py-12">
-        <section className="border border-ink/10 bg-white p-4 shadow-card sm:p-5 md:p-8">
-          <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+    <main className="min-h-screen bg-[#f3efe7]">
+      <div className="mx-auto w-full max-w-[30rem] px-4 py-4 lg:max-w-6xl lg:px-8 lg:py-10">
+        <section className="overflow-hidden border border-ink/10 bg-[#fffdf8] shadow-card">
+          <div className="sticky top-0 z-20 flex items-center justify-between gap-3 border-b border-ink/10 bg-[#fffdf8]/95 px-4 py-3 backdrop-blur lg:hidden">
             <div>
-              <p className="eyebrow mb-3">Tongue Test: TCM AI</p>
-              <h1 className="max-w-3xl text-[2.55rem] font-semibold leading-[1.02] sm:text-5xl md:text-6xl">
+              <p className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-moss">Tongue Test</p>
+              <p className="mt-1 text-xs leading-5 text-ink/48">
+                {accessChoice ? "Report" : visionResult ? "Access" : "Photo"}
+              </p>
+            </div>
+            <span className="border border-ink/10 bg-fog px-2.5 py-1 text-xs font-semibold text-ink/55">
+              {accessChoice ? "03" : visionResult ? "02" : "01"}
+            </span>
+          </div>
+          <div className="grid gap-0 lg:grid-cols-[0.78fr_1.02fr]">
+            <div>
+              <div className="p-5 lg:p-8">
+              <p className="mb-3 text-[0.66rem] font-semibold uppercase tracking-[0.18em] text-moss">Tongue Test: TCM AI</p>
+              <h1 className="max-w-3xl text-[2.2rem] font-semibold leading-[1] sm:text-5xl md:text-6xl">
                 Take a tongue photo. Get a simple TCM-style wellness report.
               </h1>
-              <p className="mt-4 max-w-2xl text-base leading-7 text-ink/68 md:leading-8">
+              <p className="mt-4 max-w-2xl text-[0.95rem] leading-7 text-ink/64 md:text-base md:leading-8">
                 Choose a clear photo, confirm it, then receive a calm educational report with visible
                 tongue notes, plain-English pattern insight, food direction, and lifestyle reflections.
               </p>
-              <div className="mt-5 max-w-2xl">
+              <div className="mt-5 max-w-2xl hidden lg:block">
                 <WellnessPurposeDisclosure compact />
               </div>
-              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+              <div className="mt-5 grid grid-cols-3 gap-2">
                 {["Intake complete", "Take or choose photo", "Choose access"].map((item) => (
-                  <div key={item} className="border border-ink/10 bg-fog/60 p-3 text-sm leading-6 text-ink/66">
+                  <div key={item} className="border border-ink/10 bg-fog/60 p-2.5 text-xs font-semibold leading-5 text-ink/60 lg:p-3 lg:text-sm lg:leading-6">
                     {item}
                   </div>
                 ))}
               </div>
-              <div className="mt-5 border border-moss/20 bg-fog/60 p-4">
+              <div className="mt-5 border border-moss/20 bg-fog/60 p-3 lg:p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Intake Pattern Context</p>
                 <p className="mt-2 text-sm leading-6 text-ink/62">
                   {intakeSummary.total} answers saved for this session. These help shape the final tongue reading.
                 </p>
               </div>
+              </div>
             </div>
 
-            <div className="border border-ink/10 bg-[#f7f4ed] p-3 sm:p-4">
-              <div className="mb-4 grid gap-4 sm:grid-cols-[7.5rem_1fr] sm:items-center">
+            <div className="border-t border-ink/10 bg-[#f7f4ed] p-4 lg:border-l lg:border-t-0">
+              <div className="mb-4 grid grid-cols-[5.5rem_1fr] gap-3 items-center lg:grid-cols-[7.5rem_1fr] lg:gap-4">
                 <div className="overflow-hidden border border-ink/10 bg-[#f7f4ed]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/tongue-assessment/tongue-map-logo.png"
                     alt="Tongue Test: TCM AI puzzle tongue logo"
-                    className="aspect-[2/3] w-full object-cover"
+                    className="aspect-square w-full object-cover lg:aspect-[2/3]"
                   />
                 </div>
                 <div>
@@ -2155,28 +2208,12 @@ export function TongueAssessmentApp() {
                 Privacy note: your photo is prepared in the browser, then sent for AI-assisted review only
                 when you tap analyze. Use the clear controls below to remove the current photo from this session.
               </p>
-              <div className="mt-3 grid gap-2 text-xs leading-5 text-ink/54 sm:grid-cols-3">
+              <div className="mt-3 grid grid-cols-3 gap-2 text-xs leading-5 text-ink/54">
                 <span className="border border-ink/10 bg-white/62 p-2">Natural light</span>
                 <span className="border border-ink/10 bg-white/62 p-2">No flash or filters</span>
                 <span className="border border-ink/10 bg-white/62 p-2">Photo before food/coffee</span>
               </div>
-              <div className="mt-4 grid gap-3 border border-ink/10 bg-white/65 p-3 sm:grid-cols-[1fr_1fr]">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Upload Or Take Photo</p>
-                  <p className="mt-2 text-sm leading-6 text-ink/60">
-                    Use Upload Photo for an existing picture. On your phone, Take Photo opens the native
-                    camera.
-                  </p>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Optional Live Camera</p>
-                  <p className="mt-2 text-sm leading-6 text-ink/60">
-                    If supported by the browser, the live camera opens directly in this screen. If it fails,
-                    use the native phone picker.
-                  </p>
-                </div>
-              </div>
-              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <div className="mt-4 grid gap-3 lg:grid-cols-3">
                 <label className="block border border-ink bg-ink p-3 text-xs font-semibold uppercase tracking-[0.14em] text-white">
                   <span className="mb-2 block">Upload Photo</span>
                   <input
@@ -2343,7 +2380,7 @@ export function TongueAssessmentApp() {
           </div>
         </section>
 
-        <div className="mt-5 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="mt-4 grid gap-4 lg:mt-6 lg:grid-cols-[0.82fr_1.08fr]">
           <section className="order-2 space-y-4">
             <details className="border border-ink/10 bg-white/78 p-4 shadow-card">
               <summary className="cursor-pointer text-xs font-semibold uppercase tracking-[0.16em] text-moss">
@@ -2423,11 +2460,11 @@ export function TongueAssessmentApp() {
           </section>
 
           <aside className="order-1 lg:sticky lg:top-6 lg:self-start">
-            <section className="border border-ink/10 bg-white p-5 shadow-card md:p-6">
+            <section className="border border-ink/10 bg-[#fffdf8] p-4 shadow-card md:p-6">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <p className="eyebrow mb-3">Your Tongue Test Report</p>
-                  <h2 className="text-3xl font-semibold leading-tight">
+                  <p className="mb-3 text-[0.66rem] font-semibold uppercase tracking-[0.18em] text-moss">Your Tongue Test Report</p>
+                  <h2 className="text-[1.85rem] font-semibold leading-[1.05] sm:text-3xl">
                     {primary?.title ?? "Choose a photo to begin."}
                   </h2>
                 </div>
@@ -2449,19 +2486,43 @@ export function TongueAssessmentApp() {
                     </div>
                   </article>
 
-                  <OrganFocus organs={primary.organs} />
-                  <TechnicalTongueReading reading={technicalTongueReading(primary, visionResult, selected)} />
-                  <PlainMeaning meaning={primary.meaning} />
-                  <PatternSignature themes={themes} />
-                  <VisibleTongueSigns descriptions={visibleTongueSignDescriptions(visionResult, selected)} />
-                  <InsightQuality primary={primary} />
-                  <ResultList title="What To Try First" items={primary.tryFirst} />
-                  <ResultList title="What To Observe Next" items={primary.observe} />
-                  <ResultList title="Retake The Tongue Test In 3 Weeks" items={threeWeekRetakePlan} />
-                  <SupportDirection support={primary.support} />
-                  <FoodDietarySuggestions diet={getDietarySuggestion(primary)} />
-                  <HerbSuggestions herbs={getHerbSuggestions(primary)} />
-                  <TCMFoundations />
+                  <ReportDisclosure title="What This Means" defaultOpen>
+                    <PlainMeaning meaning={primary.meaning} />
+                  </ReportDisclosure>
+                  <ReportDisclosure title="Pattern Graph" defaultOpen>
+                    <PatternSignature themes={themes} />
+                  </ReportDisclosure>
+                  <ReportDisclosure title="Organ / System Focus">
+                    <OrganFocus organs={primary.organs} />
+                  </ReportDisclosure>
+                  <ReportDisclosure title="Technical TCM Reading">
+                    <TechnicalTongueReading reading={technicalTongueReading(primary, visionResult, selected)} />
+                  </ReportDisclosure>
+                  <ReportDisclosure title="Visible Tongue Signs">
+                    <VisibleTongueSigns descriptions={visibleTongueSignDescriptions(visionResult, selected)} />
+                  </ReportDisclosure>
+                  <ReportDisclosure title="What To Try / Observe" defaultOpen>
+                    <div className="grid gap-3">
+                      <ResultList title="What To Try First" items={primary.tryFirst} />
+                      <ResultList title="What To Observe Next" items={primary.observe} />
+                      <ResultList title="Retake The Tongue Test In 3 Weeks" items={threeWeekRetakePlan} />
+                    </div>
+                  </ReportDisclosure>
+                  <ReportDisclosure title="Food + Lifestyle Direction" defaultOpen>
+                    <SupportDirection support={primary.support} />
+                    <div className="mt-3">
+                      <FoodDietarySuggestions diet={getDietarySuggestion(primary)} />
+                    </div>
+                  </ReportDisclosure>
+                  <ReportDisclosure title="Herb Suggestions">
+                    <HerbSuggestions herbs={getHerbSuggestions(primary)} />
+                  </ReportDisclosure>
+                  <ReportDisclosure title="TCM Foundations">
+                    <TCMFoundations />
+                  </ReportDisclosure>
+                  <ReportDisclosure title="Result Quality">
+                    <InsightQuality primary={primary} />
+                  </ReportDisclosure>
 
                   <article className="border border-ink/10 bg-white/75 p-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">PDF Outcome Report</p>
@@ -2610,6 +2671,28 @@ export function TongueAssessmentApp() {
         ) : null}
       </div>
     </main>
+  );
+}
+
+function ReportDisclosure({
+  title,
+  children,
+  defaultOpen = false,
+}: {
+  title: string;
+  children: ReactNode;
+  defaultOpen?: boolean;
+}) {
+  return (
+    <details open={defaultOpen} className="group border border-ink/10 bg-white/72 shadow-card">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-xs font-semibold uppercase tracking-[0.15em] text-moss">
+        <span>{title}</span>
+        <span className="grid h-7 w-7 place-items-center border border-ink/10 bg-fog text-sm leading-none text-ink/50 transition group-open:rotate-45">
+          +
+        </span>
+      </summary>
+      <div className="border-t border-ink/10 p-3 sm:p-4">{children}</div>
+    </details>
   );
 }
 
