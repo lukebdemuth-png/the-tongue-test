@@ -34,6 +34,9 @@ export async function createStripeCheckoutSession({ plan, origin }: CheckoutInpu
   params.set("cancel_url", `${origin}/tongue-assessment?checkout=cancelled`);
   params.set("allow_promotion_codes", "true");
   params.set("billing_address_collection", "auto");
+  params.set("client_reference_id", `tongue-test-${plan}`);
+  params.set("metadata[plan]", plan);
+  params.set("metadata[app]", "tongue-test-tcm");
   params.set("line_items[0][quantity]", "1");
   params.set("line_items[0][price_data][currency]", "usd");
   params.set("line_items[0][price_data][unit_amount]", String(config.amount));
@@ -42,6 +45,11 @@ export async function createStripeCheckoutSession({ plan, origin }: CheckoutInpu
   if (config.mode === "subscription") {
     params.set("line_items[0][price_data][recurring][interval]", "month");
     params.set("subscription_data[trial_period_days]", "14");
+    params.set("subscription_data[metadata][plan]", plan);
+    params.set("subscription_data[metadata][app]", "tongue-test-tcm");
+  } else {
+    params.set("payment_intent_data[metadata][plan]", plan);
+    params.set("payment_intent_data[metadata][app]", "tongue-test-tcm");
   }
 
   const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {

@@ -10,6 +10,7 @@ Required for paid checkout:
 
 - `NEXT_PUBLIC_SITE_URL`
 - `STRIPE_SECRET_KEY`
+- `STRIPE_WEBHOOK_SECRET`
 
 Recommended before public sharing:
 
@@ -18,6 +19,7 @@ Recommended before public sharing:
 - `SUPABASE_WAITLIST_TABLE`
 - `SUPABASE_FEEDBACK_TABLE`
 - `SUPABASE_TONGUE_REPORTS_TABLE`
+- `SUPABASE_STRIPE_EVENTS_TABLE`
 - `RESEND_API_KEY`
 - `REPORT_FROM_EMAIL`
 - `REPORT_REPLY_TO_EMAIL`
@@ -84,12 +86,41 @@ create table if not exists public.tongue_report_records (
 alter table public.tongue_report_records enable row level security;
 ```
 
+Stripe events table default:
+
+- `stripe_events`
+
+Suggested stripe events columns:
+
+- `id` uuid primary key default gen_random_uuid()
+- `stripe_event_id` text not null unique
+- `event_type` text not null
+- `livemode` boolean nullable
+- `checkout_session_id` text nullable
+- `customer_email` text nullable
+- `plan` text nullable
+- `payment_status` text nullable
+- `raw_event` jsonb nullable
+- `received_at` timestamptz default now()
+
+Full SQL setup file:
+
+- `supabase/tongue-test-launch-schema.sql`
+
+Run that file in the Supabase SQL editor to create:
+
+- `waitlist_subscribers`
+- `app_feedback`
+- `tongue_report_records`
+- `stripe_events`
+
 ## Launch Routes
 
 - App: `/pattern-app`
 - Direct app route: `/tongue-assessment`
 - Free IG content gate: `/free-content/tongue-photo-guide`
 - Stripe checkout API: `/api/stripe-checkout`
+- Stripe webhook API: `/api/stripe-webhook`
 - Report record API: `/api/tongue-report-record`
 
 ## Notes
@@ -122,9 +153,14 @@ Current pricing:
 Before production launch:
 
 - Add `STRIPE_SECRET_KEY` in Vercel.
+- Add `STRIPE_WEBHOOK_SECRET` in Vercel.
 - Add `NEXT_PUBLIC_SITE_URL` as the deployed domain, for example `https://yourdomain.com`.
 - Test both checkout buttons from the deployed site.
 - Confirm Stripe sends the user back to `/tongue-assessment?checkout=success`.
+- In Stripe, create a webhook endpoint for:
+  - `https://yourdomain.com/api/stripe-webhook`
+  - Event: `checkout.session.completed`
+- Copy the webhook signing secret into `STRIPE_WEBHOOK_SECRET`.
 
 Local development behavior:
 
