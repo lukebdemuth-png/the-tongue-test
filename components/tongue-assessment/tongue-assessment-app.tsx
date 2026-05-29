@@ -148,6 +148,7 @@ type AccessChoice = "trial" | "one-time" | null;
 const MAX_UPLOAD_EDGE = 1400;
 const JPEG_QUALITY = 0.82;
 const MIN_INTAKE_ANSWERS = 10;
+const REPORT_SESSION_STORAGE_KEY = "tongue-test-tcm-pending-report";
 
 const explainOption = "Let me explain in my own words";
 
@@ -402,6 +403,7 @@ const visualChoiceKeys = new Set<ChoiceKey>(
     .filter((group) => group.title !== "How You Feel")
     .flatMap((group) => group.choices.map((choice) => choice.key)),
 );
+const allChoiceKeys = new Set<ChoiceKey>(observationGroups.flatMap((group) => group.choices.map((choice) => choice.key)));
 
 const tongueZones = [
   {
@@ -2018,6 +2020,8 @@ export function TongueAssessmentApp() {
   const [reportEmail, setReportEmail] = useState("");
   const [reportEmailStatus, setReportEmailStatus] = useState("");
   const [reportEmailSending, setReportEmailSending] = useState(false);
+  const [checkoutLoading, setCheckoutLoading] = useState<AccessChoice>(null);
+  const [checkoutError, setCheckoutError] = useState("");
   const [cameraActive, setCameraActive] = useState(false);
   const [cameraError, setCameraError] = useState("");
   const [cameraStarting, setCameraStarting] = useState(false);
@@ -2050,6 +2054,45 @@ export function TongueAssessmentApp() {
     return () => {
       streamRef.current?.getTracks().forEach((track) => track.stop());
     };
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const checkout = params.get("checkout");
+    if (!checkout) return;
+
+    if (checkout === "success") {
+      const plan = params.get("plan") === "trial" ? "trial" : "one-time";
+      const raw = window.sessionStorage.getItem(REPORT_SESSION_STORAGE_KEY);
+      if (raw) {
+        try {
+          const snapshot = JSON.parse(raw) as {
+            selected?: ChoiceKey[];
+            intakeAnswers?: Record<string, IntakeAnswer>;
+            notes?: string;
+            visionResult?: VisionResult;
+          };
+          setSelected(new Set((snapshot.selected ?? []).filter((key) => allChoiceKeys.has(key))));
+          setIntakeAnswers(snapshot.intakeAnswers ?? {});
+          setNotes(snapshot.notes ?? "");
+          setVisionResult(snapshot.visionResult ?? null);
+          setIntakeStarted(true);
+          setIntakeComplete(true);
+          setAccessChoice(plan);
+          setCheckoutError("");
+        } catch {
+          setCheckoutError("Payment completed, but the saved report session could not be restored. Please retake the photo if the report is missing.");
+        }
+      } else {
+        setCheckoutError("Payment completed, but this browser did not have a saved report session. Please retake the photo if the report is missing.");
+      }
+    }
+
+    if (checkout === "cancelled") {
+      setCheckoutError("Checkout was cancelled. Your report preview is still here when you are ready.");
+    }
+
+    window.history.replaceState(null, "", "/tongue-assessment");
   }, []);
 
   function toggle(key: ChoiceKey) {
@@ -2185,6 +2228,71 @@ export function TongueAssessmentApp() {
     });
 
     openTonguePdfReport(reportHtml);
+  }
+
+  function persistReportSession() {
+    window.sessionStorage.setItem(
+      REPORT_SESSION_STORAGE_KEY,
+      JSON.stringify({
+        selected: [...selected],
+        intakeAnswers,
+        notes,
+        visionResult,
+      }),
+    );
+  }
+
+  async function saveReportRecord(access: Exclude<AccessChoice, null>) {
+    if (!primary) return;
+    const priorities = organPrioritySummary(organResults);
+    await fetch("/api/tongue-report-record", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        accessChoice: access,
+        primaryTitle: primary.title,
+        primarySummary: primary.plain,
+        organPriorities: priorities,
+        patternScores: themes.map((theme) => ({ title: theme.title, score: theme.score })),
+        visibleSigns: visibleTongueSignDescriptions(visionResult, selected),
+        intakeHighlights: intakeSummary.highlights.map((item) => ({
+          question: item.question.question,
+          answer: item.answer,
+        })),
+        notes,
+        source: "tongue-assessment",
+      }),
+    });
+  }
+
+  async function startCheckout(access: Exclude<AccessChoice, null>) {
+    if (!primary || !visionResult) return;
+    setCheckoutError("");
+    setCheckoutLoading(access);
+    try {
+      persistReportSession();
+      const response = await fetch("/api/stripe-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: access }),
+      });
+      const body = await response.json();
+      if (!response.ok || !body.ok) throw new Error(body.error || "Could not start checkout.");
+
+      if (body.demoAccess) {
+        setAccessChoice(access);
+        await saveReportRecord(access);
+        setCheckoutError(body.message || "Local preview access enabled. Stripe still needs to be configured before launch.");
+        return;
+      }
+
+      if (typeof body.url !== "string" || !body.url) throw new Error("Stripe did not return a checkout URL.");
+      window.location.href = body.url;
+    } catch (error) {
+      setCheckoutError(error instanceof Error ? error.message : "Could not start checkout.");
+    } finally {
+      setCheckoutLoading(null);
+    }
   }
 
   async function sendPdfReportEmail() {
@@ -2705,16 +2813,30 @@ export function TongueAssessmentApp() {
                     option to view the full result and PDF.
                   </p>
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                    <button type="button" className="button-primary min-h-14 w-full" onClick={() => setAccessChoice("trial")}>
-                      Free 14-Day Trial · Then $7.99/mo
+                    <button
+                      type="button"
+                      className="button-primary min-h-14 w-full"
+                      disabled={checkoutLoading !== null}
+                      onClick={() => startCheckout("trial")}
+                    >
+                      {checkoutLoading === "trial" ? "Starting Checkout..." : "Free 14-Day Trial · Then $7.99/mo"}
                     </button>
-                    <button type="button" className="button-secondary min-h-14 w-full" onClick={() => setAccessChoice("one-time")}>
-                      One-Time Full Reading · $6.99
+                    <button
+                      type="button"
+                      className="button-secondary min-h-14 w-full"
+                      disabled={checkoutLoading !== null}
+                      onClick={() => startCheckout("one-time")}
+                    >
+                      {checkoutLoading === "one-time" ? "Starting Checkout..." : "One-Time Full Reading · $6.99"}
                     </button>
                   </div>
-                  <p className="mt-3 text-xs leading-5 text-ink/45">
-                    Stripe is not connected yet, so this is a launch-flow placeholder. Real payment will replace these buttons.
-                  </p>
+                  {checkoutError ? (
+                    <p className="mt-3 border border-moss/20 bg-fog/70 p-3 text-xs leading-5 text-ink/58">{checkoutError}</p>
+                  ) : (
+                    <p className="mt-3 text-xs leading-5 text-ink/45">
+                      Secure checkout opens through Stripe. Local preview unlocks only while Stripe keys are not configured.
+                    </p>
+                  )}
                 </article>
               ) : null}
             </div>

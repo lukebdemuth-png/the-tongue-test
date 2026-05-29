@@ -6,12 +6,18 @@ Required for AI photo analysis:
 
 - `OPENAI_API_KEY`
 
+Required for paid checkout:
+
+- `NEXT_PUBLIC_SITE_URL`
+- `STRIPE_SECRET_KEY`
+
 Recommended before public sharing:
 
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `SUPABASE_WAITLIST_TABLE`
 - `SUPABASE_FEEDBACK_TABLE`
+- `SUPABASE_TONGUE_REPORTS_TABLE`
 - `RESEND_API_KEY`
 - `REPORT_FROM_EMAIL`
 - `REPORT_REPLY_TO_EMAIL`
@@ -20,6 +26,7 @@ Optional for local fallback paths:
 
 - `WAITLIST_FILE_PATH`
 - `FEEDBACK_FILE_PATH`
+- `TONGUE_REPORT_FILE_PATH`
 
 ## Supabase Tables
 
@@ -39,11 +46,51 @@ Suggested feedback columns:
 - `source` text
 - `created_at` timestamptz default now()
 
+Report records table default:
+
+- `tongue_report_records`
+
+Suggested report columns:
+
+- `id` uuid primary key default gen_random_uuid()
+- `access_choice` text nullable
+- `primary_title` text not null
+- `primary_summary` text nullable
+- `organ_priorities` jsonb nullable
+- `pattern_scores` jsonb nullable
+- `visible_signs` jsonb nullable
+- `intake_highlights` jsonb nullable
+- `notes` text nullable
+- `source` text
+- `created_at` timestamptz default now()
+
+Suggested SQL:
+
+```sql
+create table if not exists public.tongue_report_records (
+  id uuid primary key default gen_random_uuid(),
+  access_choice text,
+  primary_title text not null,
+  primary_summary text,
+  organ_priorities jsonb,
+  pattern_scores jsonb,
+  visible_signs jsonb,
+  intake_highlights jsonb,
+  notes text,
+  source text default 'tongue-assessment',
+  created_at timestamptz not null default now()
+);
+
+alter table public.tongue_report_records enable row level security;
+```
+
 ## Launch Routes
 
 - App: `/pattern-app`
 - Direct app route: `/tongue-assessment`
 - Free IG content gate: `/free-content/tongue-photo-guide`
+- Stripe checkout API: `/api/stripe-checkout`
+- Report record API: `/api/tongue-report-record`
 
 ## Notes
 
@@ -62,3 +109,24 @@ Required before this works in production:
 - Add `REPORT_REPLY_TO_EMAIL`, for example your support inbox.
 
 The emailed PDF does not include the user's tongue photo. It includes the app result, intake summary, visible-sign labels, food/lifestyle/formula-family direction, educational TCM context, and disclaimer language.
+
+## Stripe Checkout
+
+The app now starts checkout through `/api/stripe-checkout`.
+
+Current pricing:
+
+- Free 14-day trial, then `$7.99/month`
+- One-time full reading for `$6.99`
+
+Before production launch:
+
+- Add `STRIPE_SECRET_KEY` in Vercel.
+- Add `NEXT_PUBLIC_SITE_URL` as the deployed domain, for example `https://yourdomain.com`.
+- Test both checkout buttons from the deployed site.
+- Confirm Stripe sends the user back to `/tongue-assessment?checkout=success`.
+
+Local development behavior:
+
+- If `STRIPE_SECRET_KEY` is missing, local development unlocks preview access and shows a setup message.
+- Production will not unlock without Stripe.

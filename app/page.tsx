@@ -35,14 +35,14 @@ const visibleFeatures = [
 const pricing = [
   {
     name: "One Scan Report",
-    price: "$4.99",
-    note: "One full tongue photo report plus one follow-up comparison.",
+    price: "$6.99",
+    note: "One full organ-based tongue photo report and downloadable PDF.",
     primary: true,
   },
   {
     name: "Tracking Plan",
-    price: "$15/mo",
-    note: "Up to 15 scans per month, history, comparisons, and deeper explanations.",
+    price: "$7.99/mo",
+    note: "Free 14-day trial, then monthly access for retakes and comparison tracking.",
     primary: false,
   },
 ];
@@ -239,10 +239,10 @@ export default function HomePage() {
         <div className="container-shell grid gap-12 lg:grid-cols-[0.75fr_1fr] lg:items-start">
           <div>
             <p className="eyebrow">Pricing</p>
-            <h2 className="section-title">$4.99 first. Tracking second.</h2>
+            <h2 className="section-title">$6.99 once, or track changes monthly.</h2>
             <p className="section-copy mt-6">
-              The launch offer stays simple: one report for curiosity users, then a monthly
-              tracking plan for people who want to compare changes over time.
+              The launch offer stays simple: one full reading for curiosity users, or a
+              14-day trial that becomes monthly access for people who want to compare changes over time.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
