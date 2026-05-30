@@ -2000,6 +2000,7 @@ function ToggleCard({
 }
 
 export function TongueAssessmentApp() {
+  const [onboardingPageIndex, setOnboardingPageIndex] = useState(1);
   const [intakeStarted, setIntakeStarted] = useState(false);
   const [intakeComplete, setIntakeComplete] = useState(false);
   const [currentIntakeIndex, setCurrentIntakeIndex] = useState(0);
@@ -2029,6 +2030,7 @@ export function TongueAssessmentApp() {
   const [cameraStarting, setCameraStarting] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const onboardingTouchStartX = useRef<number | null>(null);
   const intakeDerivedSigns = useMemo(() => deriveIntakeChoiceKeys(intakeAnswers), [intakeAnswers]);
   const scoredSelection = useMemo(() => new Set([...selected, ...intakeDerivedSigns]), [selected, intakeDerivedSigns]);
   const themes = useMemo(() => scoreThemes(scoredSelection), [scoredSelection]);
@@ -2450,47 +2452,178 @@ export function TongueAssessmentApp() {
     stopCamera();
   }
 
+  function moveOnboardingPage(direction: 1 | -1) {
+    setOnboardingPageIndex((current) => Math.min(2, Math.max(0, current + direction)));
+  }
+
+  function handleOnboardingTouchEnd(x: number) {
+    if (onboardingTouchStartX.current === null) return;
+    const delta = x - onboardingTouchStartX.current;
+    onboardingTouchStartX.current = null;
+    if (Math.abs(delta) < 42) return;
+    moveOnboardingPage(delta < 0 ? 1 : -1);
+  }
+
   if (!intakeStarted) {
+    const onboardingNav = [
+      { label: "Report", icon: "/images/tongue-assessment/organs/liver.png" },
+      { label: "Start", icon: "/images/tongue-assessment/organs/lung.png" },
+      { label: "Story", icon: "/images/tongue-assessment/organs/heart.png" },
+    ];
+
     return (
       <main className="min-h-screen bg-[#f3efe7]">
         <div className="mx-auto flex min-h-screen w-full max-w-[30rem] flex-col px-4 py-4 sm:justify-center sm:py-8">
-          <section className="flex min-h-[calc(100vh-2rem)] flex-col justify-between border border-ink/10 bg-[#fffdf8] p-5 shadow-card sm:min-h-0 sm:p-6">
-            <div>
-              <div className="flex items-center justify-between gap-4">
-                <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-moss">Tongue Test TCM</p>
-                <span className="border border-ink/10 bg-fog px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-ink/45">
-                  TCM
-                </span>
-              </div>
-              <div className="mx-auto mt-7 w-[58%] max-w-[13rem] overflow-hidden border border-ink/10 bg-[#f7f4ed]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/tongue-assessment/tongue-map-logo.png"
-                  alt="Tongue Test TCM logo"
-                  className="aspect-square w-full object-cover"
-                />
-              </div>
-              <div className="mt-7">
-                <h1 className="text-[2.35rem] font-semibold leading-[0.98]">
-                  Begin with a short TCM tongue wellness check.
-                </h1>
-                <p className="mt-4 text-[0.95rem] leading-7 text-ink/64">
-                  Answer a few reflective questions, add a clear tongue photo, then receive a plain-English
-                  TCM-style wellness report.
-                </p>
+          <section
+            className="flex min-h-[calc(100vh-2rem)] flex-col overflow-hidden border border-ink/10 bg-[#fffdf8] shadow-card sm:min-h-[42rem]"
+            onTouchStart={(event) => {
+              onboardingTouchStartX.current = event.touches[0]?.clientX ?? null;
+            }}
+            onTouchEnd={(event) => {
+              handleOnboardingTouchEnd(event.changedTouches[0]?.clientX ?? 0);
+            }}
+          >
+            <div className="flex min-h-0 flex-1">
+              <div
+                className="grid w-[300%] shrink-0 grid-cols-3 transition-transform duration-500 ease-out"
+                style={{ transform: `translateX(-${onboardingPageIndex * 33.333333}%)` }}
+              >
+                <article className="flex min-h-0 flex-col justify-between p-5 sm:p-6">
+                  <div>
+                    <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-moss">The Report</p>
+                    <h1 className="mt-5 text-[2.25rem] font-semibold leading-[0.98]">
+                      A clean PDF you can keep and compare.
+                    </h1>
+                    <p className="mt-4 text-[0.95rem] leading-7 text-ink/64">
+                      The result is organized around visible tongue signs, TCM-style organ reflections,
+                      food direction, lifestyle support, and a three-week retest plan.
+                    </p>
+                    <div className="mt-6 border border-ink/10 bg-[#f8f5ee] p-4 shadow-[0_16px_50px_rgba(32,33,31,0.08)]">
+                      <div className="flex items-start justify-between gap-3 border-b border-ink/10 pb-3">
+                        <div>
+                          <p className="text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-moss">Sample PDF</p>
+                          <p className="mt-2 font-serif text-2xl leading-none text-ink">Organ Report</p>
+                        </div>
+                        <div className="h-10 w-10 overflow-hidden border border-ink/10 bg-white">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src="/images/tongue-assessment/organs/liver.png" alt="" className="h-full w-full object-cover" />
+                        </div>
+                      </div>
+                      <div className="mt-4 space-y-3">
+                        {[
+                          ["Tongue description", 88],
+                          ["Organ priority", 76],
+                          ["Food direction", 64],
+                        ].map(([label, value]) => (
+                          <div key={label}>
+                            <div className="flex justify-between text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-ink/48">
+                              <span>{label}</span>
+                              <span>{value}%</span>
+                            </div>
+                            <div className="mt-1 h-2 bg-[#e9e2d4]">
+                              <div className="h-full bg-moss" style={{ width: `${value}%` }} />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <p className="mt-5 text-xs leading-5 text-ink/44">
+                    No tongue photo is placed inside the PDF. The report focuses on the interpretation and wellness reflection.
+                  </p>
+                </article>
+
+                <article className="flex min-h-0 flex-col justify-between p-5 sm:p-6">
+                  <div>
+                    <div className="flex items-center justify-between gap-4">
+                      <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-moss">Tongue Test TCM</p>
+                      <span className="border border-ink/10 bg-fog px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-ink/45">
+                        TCM
+                      </span>
+                    </div>
+                    <div className="mx-auto mt-7 w-[58%] max-w-[13rem] overflow-hidden border border-ink/10 bg-[#f7f4ed]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src="/images/tongue-assessment/tongue-map-logo.png"
+                        alt="Tongue Test TCM logo"
+                        className="aspect-square w-full object-cover"
+                      />
+                    </div>
+                    <div className="mt-7">
+                      <h1 className="text-[2.35rem] font-semibold leading-[0.98]">
+                        Begin with a short TCM tongue wellness check.
+                      </h1>
+                      <p className="mt-4 text-[0.95rem] leading-7 text-ink/64">
+                        Answer a few reflective questions, add a clear tongue photo, then receive a plain-English
+                        TCM-style wellness report.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-8">
+                    <p className="text-center text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-ink/46">
+                      Questions <span className="px-2 text-moss/55">→</span> Photo <span className="px-2 text-moss/55">→</span> Organ Report
+                    </p>
+                    <button type="button" className="button-primary mt-6 min-h-14 w-full" onClick={() => setIntakeStarted(true)}>
+                      Begin
+                    </button>
+                    <div className="mt-4">
+                      <ShortResultDisclaimer />
+                    </div>
+                  </div>
+                </article>
+
+                <article className="flex min-h-0 flex-col justify-between p-5 sm:p-6">
+                  <div>
+                    <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-moss">Founder Story</p>
+                    <div className="mx-auto mt-7 h-24 w-24 overflow-hidden border border-ink/10 bg-[#f7f4ed]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src="/images/tongue-assessment/organs/heart.png" alt="Heart icon" className="h-full w-full object-cover" />
+                    </div>
+                    <h1 className="mt-7 text-[2.25rem] font-semibold leading-[0.98]">
+                      Why this app exists.
+                    </h1>
+                    <div className="mt-5 space-y-4 text-[0.92rem] leading-7 text-ink/64">
+                      <p>
+                        I created this app because Traditional Chinese Medicine helped me understand my own body in a way I had never experienced before.
+                      </p>
+                      <p>
+                        For a long time, I had a coating on my tongue and did not know what it meant. TCM helped me understand how the tongue can reflect digestion, diet, internal balance, and overall well-being.
+                      </p>
+                      <p>
+                        As a registered nurse who became sick with long-term COVID while working during the pandemic, I also experienced how powerful Chinese herbal medicine could be.
+                      </p>
+                    </div>
+                  </div>
+                  <p className="mt-5 text-xs leading-5 text-ink/44">
+                    The goal is to make traditional tongue observation and Chinese herbs easier to understand in a clear, practical way.
+                  </p>
+                </article>
               </div>
             </div>
-            <div className="mt-8">
-              <p className="text-center text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-ink/46">
-                Questions <span className="px-2 text-moss/55">→</span> Photo <span className="px-2 text-moss/55">→</span> Organ Report
-              </p>
-              <button type="button" className="button-primary mt-6 min-h-14 w-full" onClick={() => setIntakeStarted(true)}>
-                Begin
-              </button>
-              <div className="mt-4">
-                <ShortResultDisclaimer />
+
+            <nav className="border-t border-ink/10 bg-[#fffdf8]/95 px-5 pb-5 pt-3">
+              <div className="mx-auto grid max-w-[18rem] grid-cols-3 gap-3">
+                {onboardingNav.map((item, index) => (
+                  <button
+                    key={item.label}
+                    type="button"
+                    aria-label={`Open ${item.label} screen`}
+                    className={`flex flex-col items-center gap-1.5 transition ${
+                      onboardingPageIndex === index ? "text-ink" : "text-ink/35"
+                    }`}
+                    onClick={() => setOnboardingPageIndex(index)}
+                  >
+                    <span className={`grid h-12 w-12 place-items-center overflow-hidden border transition ${
+                      onboardingPageIndex === index ? "border-ink/25 bg-fog shadow-card" : "border-ink/8 bg-white/60"
+                    }`}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={item.icon} alt="" className="h-full w-full object-cover" />
+                    </span>
+                    <span className="text-[0.58rem] font-semibold uppercase tracking-[0.16em]">{item.label}</span>
+                  </button>
+                ))}
               </div>
-            </div>
+            </nav>
           </section>
         </div>
       </main>
