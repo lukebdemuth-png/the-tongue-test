@@ -21,3 +21,4 @@ data/raw/*.pdf
 data/clean/*.md
 data/extracted/*.txt
 sources/raw/**/*.pdf
+.vercel
