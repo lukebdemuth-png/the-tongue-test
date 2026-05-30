@@ -5,8 +5,8 @@ export const siteConfig = {
   traditionsLine: "Coating · Color · Tracking",
   description:
     "Tongue notes, TCM-style patterns, photo tips, and wellness tracking. Take a clear tongue photo, review visible tongue features with educational notes, and track changes over time.",
-  url: "https://example.com",
-  email: "hello@thetonguetest.example",
+  url: "https://the-tongue-test.vercel.app",
+  email: "lukebdemuth@gmail.com",
   logo: "/images/tongue-assessment/tongue-map-logo.png",
 };
 
@@ -16,5 +16,5 @@ export const navItems = [
   { href: "/#pricing", label: "Pricing" },
   { href: "/#tracking", label: "Tracking" },
   { href: "/founder-story", label: "Founder" },
-  { href: "/#privacy", label: "Privacy" },
+  { href: "/privacy", label: "Privacy" },
 ];

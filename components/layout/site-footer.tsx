@@ -44,6 +44,18 @@ export function SiteFooter() {
               <li>Visible features before pattern language</li>
               <li>Educational notes, not medical advice</li>
             </ul>
+            <ul className="mt-6 space-y-3 text-sm text-ink/65">
+              <li>
+                <Link href="/terms" className="nav-link">
+                  Terms
+                </Link>
+              </li>
+              <li>
+                <Link href="/data-deletion" className="nav-link">
+                  Data Deletion
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

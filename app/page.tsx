@@ -16,7 +16,7 @@ const reportSections = [
   "Photo quality note",
   "Visible tongue observations",
   "TCM-style educational pattern language",
-  "Clarifying questions",
+  "Organ-system report",
   "Food and lifestyle reflections",
   "Follow-up comparison instructions",
 ];
@@ -160,7 +160,7 @@ export default function HomePage() {
             <p className="section-copy mt-6">
               The tongue photo starts the process. The finished product is a clean, high-end report
               that organizes the visible signs into plain-English pattern insight, a signal graph,
-              organ-system focus, food direction, lifestyle direction, and follow-up questions.
+              organ-system focus, food direction, lifestyle direction, and follow-up comparison guidance.
             </p>
             <Link href="/tongue-assessment" className="button-primary mt-8">
               Preview The Flow
@@ -299,13 +299,25 @@ export default function HomePage() {
               "Photo review starts with quality: light, focus, angle, crop, and color reliability.",
               "Photos are sent for AI review only when the user chooses to analyze.",
               "Raw photos, notes, names, emails, and reports should not be sent into analytics.",
-              "Language stays educational: observation, visible features, pattern language, tracking, and clarifying questions.",
+              "Users should have a clear way to request deletion of stored report, email, waitlist, and feedback records.",
+              "Language stays educational: observation, visible features, pattern language, tracking, and comparison guidance.",
               "Results should not claim disease detection, cure, prescription, or medical advice.",
             ].map((item) => (
               <div key={item} className="border-l border-moss/35 bg-white/70 p-4 text-sm leading-7 text-ink/68">
                 {item}
               </div>
             ))}
+            <div className="flex flex-wrap gap-3 pt-2">
+              <Link href="/privacy" className="button-secondary">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="button-secondary">
+                Terms
+              </Link>
+              <Link href="/data-deletion" className="button-secondary">
+                Data Deletion
+              </Link>
+            </div>
           </div>
         </div>
       </section>

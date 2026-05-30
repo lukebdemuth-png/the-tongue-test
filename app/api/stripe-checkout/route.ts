@@ -8,6 +8,16 @@ const plans = new Set<StripeCheckoutPlan>(["trial", "one-time"]);
 
 export async function POST(request: Request) {
   try {
+    if (process.env.NEXT_PUBLIC_GOOGLE_PLAY_BUILD === "true") {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "Stripe checkout is disabled for Google Play builds. Use Google Play Billing for Android in-app purchases.",
+        },
+        { status: 403 },
+      );
+    }
+
     const input = await request.json();
     const plan = String(input?.plan ?? "") as StripeCheckoutPlan;
     if (!plans.has(plan)) {

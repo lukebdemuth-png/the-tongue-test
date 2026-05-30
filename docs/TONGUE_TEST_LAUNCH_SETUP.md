@@ -12,6 +12,12 @@ Required for paid checkout:
 - `STRIPE_SECRET_KEY`
 - `STRIPE_WEBHOOK_SECRET`
 
+Google Play build switch:
+
+- `NEXT_PUBLIC_GOOGLE_PLAY_BUILD=true`
+
+Use this only for an Android / Google Play build. It disables Stripe checkout in the app because paid digital reports and subscriptions inside a Google Play app should use Google Play Billing instead of Stripe.
+
 Recommended before public sharing:
 
 - `SUPABASE_URL`
@@ -116,9 +122,11 @@ Run that file in the Supabase SQL editor to create:
 
 ## Launch Routes
 
-- App: `/pattern-app`
-- Direct app route: `/tongue-assessment`
+- App: `/tongue-assessment`
 - Free IG content gate: `/free-content/tongue-photo-guide`
+- Privacy Policy: `/privacy`
+- Terms: `/terms`
+- Data Deletion: `/data-deletion`
 - Stripe checkout API: `/api/stripe-checkout`
 - Stripe webhook API: `/api/stripe-webhook`
 - Report record API: `/api/tongue-report-record`
@@ -126,6 +134,10 @@ Run that file in the Supabase SQL editor to create:
 ## Notes
 
 The app frames outputs as educational Traditional Chinese Medicine-inspired pattern reflections. It does not diagnose, prescribe, or replace medical care.
+
+Google Play readiness notes live in:
+
+- `docs/GOOGLE_PLAY_COMPLIANCE_CHECKLIST.md`
 
 ## PDF Report Email Delivery
 

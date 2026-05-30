@@ -149,6 +149,7 @@ const MAX_UPLOAD_EDGE = 1400;
 const JPEG_QUALITY = 0.82;
 const MIN_INTAKE_ANSWERS = 10;
 const REPORT_SESSION_STORAGE_KEY = "tongue-test-tcm-pending-report";
+const GOOGLE_PLAY_BUILD = process.env.NEXT_PUBLIC_GOOGLE_PLAY_BUILD === "true";
 
 const explainOption = "Let me explain in my own words";
 
@@ -2009,6 +2010,7 @@ export function TongueAssessmentApp() {
   const [imagePreview, setImagePreview] = useState("");
   const [imageDataUrl, setImageDataUrl] = useState("");
   const [photoConfirmed, setPhotoConfirmed] = useState(false);
+  const [photoAiConsent, setPhotoAiConsent] = useState(false);
   const [visionResult, setVisionResult] = useState<VisionResult | null>(null);
   const [visionLoading, setVisionLoading] = useState(false);
   const [visionError, setVisionError] = useState("");
@@ -2133,6 +2135,10 @@ export function TongueAssessmentApp() {
       setVisionError("Confirm this photo before analysis.");
       return;
     }
+    if (!photoAiConsent) {
+      setVisionError("Please confirm you understand this photo will be sent for AI-assisted educational review.");
+      return;
+    }
     setVisionError("");
     setVisionLoading(true);
     try {
@@ -2164,6 +2170,7 @@ export function TongueAssessmentApp() {
     setImagePreview("");
     setImageDataUrl("");
     setPhotoConfirmed(false);
+    setPhotoAiConsent(false);
     setVisionResult(null);
     setVisionError("");
     setCameraError("");
@@ -2178,6 +2185,7 @@ export function TongueAssessmentApp() {
     setImagePreview("");
     setImageDataUrl("");
     setPhotoConfirmed(false);
+    setPhotoAiConsent(false);
     setVisionResult(null);
     setVisionError("");
     setFeedbackStatus("");
@@ -2392,6 +2400,7 @@ export function TongueAssessmentApp() {
     setVisionError("");
     setCameraError("");
     setPhotoConfirmed(false);
+    setPhotoAiConsent(false);
     if (!file) {
       setImagePreview("");
       setImageDataUrl("");
@@ -2435,6 +2444,7 @@ export function TongueAssessmentApp() {
     setImagePreview(dataUrl);
     setImageDataUrl(dataUrl);
     setPhotoConfirmed(false);
+    setPhotoAiConsent(false);
     setVisionResult(null);
     setVisionError("");
     stopCamera();
@@ -2771,10 +2781,27 @@ export function TongueAssessmentApp() {
                   Review the photo first. If it looks clear, tap Use This Photo.
                 </p>
               ) : null}
+              {photoConfirmed ? (
+                <label className="mt-3 flex gap-3 border border-ink/10 bg-white/72 p-3 text-sm leading-6 text-ink/62">
+                  <input
+                    type="checkbox"
+                    checked={photoAiConsent}
+                    onChange={(event) => {
+                      setPhotoAiConsent(event.target.checked);
+                      if (event.target.checked) setVisionError("");
+                    }}
+                    className="mt-1 h-4 w-4 shrink-0 accent-[#20211f]"
+                  />
+                  <span>
+                    I understand this photo will be sent for AI-assisted educational review and is not used
+                    for medical diagnosis, treatment, or emergency evaluation.
+                  </span>
+                </label>
+              ) : null}
               <button
                 type="button"
                 className="button-primary mt-4 min-h-14 w-full"
-                disabled={!imageDataUrl || !photoConfirmed || imagePreparing || visionLoading}
+                disabled={!imageDataUrl || !photoConfirmed || !photoAiConsent || imagePreparing || visionLoading}
                 onClick={analyzeTonguePhoto}
               >
                 {imagePreparing ? "Preparing Photo..." : visionLoading ? "Building Report..." : "Analyze And Build Report"}
@@ -2812,31 +2839,38 @@ export function TongueAssessmentApp() {
                     You completed the intake and added a tongue image. Choose a trial or one-time report
                     option to view the full result and PDF.
                   </p>
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                    <button
-                      type="button"
-                      className="button-primary min-h-14 w-full"
-                      disabled={checkoutLoading !== null}
-                      onClick={() => startCheckout("trial")}
-                    >
-                      {checkoutLoading === "trial" ? "Starting Checkout..." : "Free 14-Day Trial · Then $7.99/mo"}
-                    </button>
-                    <button
-                      type="button"
-                      className="button-secondary min-h-14 w-full"
-                      disabled={checkoutLoading !== null}
-                      onClick={() => startCheckout("one-time")}
-                    >
-                      {checkoutLoading === "one-time" ? "Starting Checkout..." : "One-Time Full Reading · $6.99"}
-                    </button>
-                  </div>
+                  {GOOGLE_PLAY_BUILD ? (
+                    <div className="mt-4 border border-moss/20 bg-fog/70 p-4 text-sm leading-6 text-ink/62">
+                      Android app purchases must be completed through Google Play Billing. The web Stripe
+                      checkout is disabled for Google Play builds.
+                    </div>
+                  ) : (
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      <button
+                        type="button"
+                        className="button-primary min-h-14 w-full"
+                        disabled={checkoutLoading !== null}
+                        onClick={() => startCheckout("trial")}
+                      >
+                        {checkoutLoading === "trial" ? "Starting Checkout..." : "Free 14-Day Trial · Then $7.99/mo"}
+                      </button>
+                      <button
+                        type="button"
+                        className="button-secondary min-h-14 w-full"
+                        disabled={checkoutLoading !== null}
+                        onClick={() => startCheckout("one-time")}
+                      >
+                        {checkoutLoading === "one-time" ? "Starting Checkout..." : "One-Time Full Reading · $6.99"}
+                      </button>
+                    </div>
+                  )}
                   {checkoutError ? (
                     <p className="mt-3 border border-moss/20 bg-fog/70 p-3 text-xs leading-5 text-ink/58">{checkoutError}</p>
-                  ) : (
+                  ) : !GOOGLE_PLAY_BUILD ? (
                     <p className="mt-3 text-xs leading-5 text-ink/45">
                       Secure checkout opens through Stripe. Local preview unlocks only while Stripe keys are not configured.
                     </p>
-                  )}
+                  ) : null}
                 </article>
               ) : null}
             </div>
@@ -2894,7 +2928,7 @@ export function TongueAssessmentApp() {
             <article className="border border-ink/10 bg-white p-5 shadow-card">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">Visual Comparison Library</p>
               <p className="mt-2 text-sm leading-6 text-ink/58">
-                The photo-reading language is organized around picture-heavy tongue diagnosis references.
+                The photo-reading language is organized around picture-heavy tongue observation references.
                 These are the core visual sources for the app direction:
               </p>
               <ul className="mt-3 space-y-2 text-sm leading-6 text-ink/68">
