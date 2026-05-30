@@ -22,3 +22,9 @@ data/clean/*.md
 data/extracted/*.txt
 sources/raw/**/*.pdf
 .vercel
+.openclaw/
+HEARTBEAT.md
+IDENTITY.md
+SOUL.md
+TOOLS.md
+USER.md

@@ -2488,7 +2488,7 @@ export function TongueAssessmentApp() {
                 className="grid w-[300%] shrink-0 grid-cols-3 transition-transform duration-500 ease-out"
                 style={{ transform: `translateX(-${onboardingPageIndex * 33.333333}%)` }}
               >
-                <article className="flex min-h-0 flex-col justify-between p-5 sm:p-6">
+                <article className="flex min-h-0 flex-col justify-between overflow-y-auto p-5 sm:p-6">
                   <div>
                     <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-moss">The Report</p>
                     <h1 className="mt-5 text-[2.25rem] font-semibold leading-[0.98]">
@@ -2506,7 +2506,7 @@ export function TongueAssessmentApp() {
                         </div>
                         <div className="h-10 w-10 overflow-hidden border border-ink/10 bg-white">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src="/images/tongue-assessment/organs/liver.png" alt="" className="h-full w-full object-cover" />
+                          <img src="/images/tongue-assessment/organs/liver.png" alt="" className="h-full w-full object-contain" />
                         </div>
                       </div>
                       <div className="mt-4 space-y-3">
@@ -2533,7 +2533,7 @@ export function TongueAssessmentApp() {
                   </p>
                 </article>
 
-                <article className="flex min-h-0 flex-col justify-between p-5 sm:p-6">
+                <article className="flex min-h-0 flex-col justify-between overflow-y-auto p-5 sm:p-6">
                   <div>
                     <div className="flex items-center justify-between gap-4">
                       <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-moss">Tongue Test TCM</p>
@@ -2572,12 +2572,12 @@ export function TongueAssessmentApp() {
                   </div>
                 </article>
 
-                <article className="flex min-h-0 flex-col justify-between p-5 sm:p-6">
+                <article className="flex min-h-0 flex-col justify-between overflow-y-auto p-5 sm:p-6">
                   <div>
                     <p className="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-moss">Founder Story</p>
                     <div className="mx-auto mt-7 h-24 w-24 overflow-hidden border border-ink/10 bg-[#f7f4ed]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/images/tongue-assessment/organs/heart.png" alt="Heart icon" className="h-full w-full object-cover" />
+                      <img src="/images/tongue-assessment/organs/heart.png" alt="Heart icon" className="h-full w-full object-contain" />
                     </div>
                     <h1 className="mt-7 text-[2.25rem] font-semibold leading-[0.98]">
                       Why this app exists.
@@ -2617,7 +2617,7 @@ export function TongueAssessmentApp() {
                       onboardingPageIndex === index ? "border-ink/25 bg-fog shadow-card" : "border-ink/8 bg-white/60"
                     }`}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={item.icon} alt="" className="h-full w-full object-cover" />
+                      <img src={item.icon} alt="" className="h-full w-full object-contain" />
                     </span>
                     <span className="text-[0.58rem] font-semibold uppercase tracking-[0.16em]">{item.label}</span>
                   </button>
