@@ -46,8 +46,8 @@ async function writeLocalSubmission(submission: WaitlistSubmission) {
 }
 
 async function writeSupabaseSubmission(submission: WaitlistSubmission) {
-  const url = process.env.SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   const table = process.env.SUPABASE_WAITLIST_TABLE || "waitlist_subscribers";
   if (!url || !serviceRoleKey) return false;
 

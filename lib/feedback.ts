@@ -51,8 +51,8 @@ export async function saveFeedbackSubmission(submission: FeedbackSubmission) {
 }
 
 async function writeSupabaseFeedback(submission: FeedbackSubmission) {
-  const url = process.env.SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   const table = process.env.SUPABASE_FEEDBACK_TABLE || "app_feedback";
   if (!url || !serviceRoleKey) return false;
 
