@@ -2076,24 +2076,32 @@ export function TongueAssessmentApp() {
             notes?: string;
             visionResult?: VisionResult;
           };
-          setSelected(new Set((snapshot.selected ?? []).filter((key) => allChoiceKeys.has(key))));
-          setIntakeAnswers(snapshot.intakeAnswers ?? {});
-          setNotes(snapshot.notes ?? "");
-          setVisionResult(snapshot.visionResult ?? null);
-          setIntakeStarted(true);
-          setIntakeComplete(true);
-          setAccessChoice(plan);
-          setCheckoutError("");
+          queueMicrotask(() => {
+            setSelected(new Set((snapshot.selected ?? []).filter((key) => allChoiceKeys.has(key))));
+            setIntakeAnswers(snapshot.intakeAnswers ?? {});
+            setNotes(snapshot.notes ?? "");
+            setVisionResult(snapshot.visionResult ?? null);
+            setIntakeStarted(true);
+            setIntakeComplete(true);
+            setAccessChoice(plan);
+            setCheckoutError("");
+          });
         } catch {
-          setCheckoutError("Payment completed, but the saved report session could not be restored. Please retake the photo if the report is missing.");
+          queueMicrotask(() => {
+            setCheckoutError("Payment completed, but the saved report session could not be restored. Please retake the photo if the report is missing.");
+          });
         }
       } else {
-        setCheckoutError("Payment completed, but this browser did not have a saved report session. Please retake the photo if the report is missing.");
+        queueMicrotask(() => {
+          setCheckoutError("Payment completed, but this browser did not have a saved report session. Please retake the photo if the report is missing.");
+        });
       }
     }
 
     if (checkout === "cancelled") {
-      setCheckoutError("Checkout was cancelled. Your report preview is still here when you are ready.");
+      queueMicrotask(() => {
+        setCheckoutError("Checkout was cancelled. Your report preview is still here when you are ready.");
+      });
     }
 
     window.history.replaceState(null, "", "/tongue-assessment");

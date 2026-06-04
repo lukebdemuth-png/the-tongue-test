@@ -27,9 +27,14 @@ async function writeLocalStripeEvent(record: StripeEventRecord) {
 
 async function writeSupabaseStripeEvent(record: StripeEventRecord) {
   const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   const table = process.env.SUPABASE_STRIPE_EVENTS_TABLE || "stripe_events";
-  if (!url || !serviceRoleKey) return false;
+  if (!url || !serviceRoleKey) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("Supabase Stripe event writes need SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in Vercel.");
+    }
+    return false;
+  }
 
   const response = await fetch(`${url.replace(/\/$/, "")}/rest/v1/${table}?on_conflict=stripe_event_id`, {
     method: "POST",

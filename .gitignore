@@ -23,6 +23,14 @@ data/extracted/*.txt
 sources/raw/**/*.pdf
 .vercel
 .openclaw/
+.agents/
+avatars/
+memory/
+share/
+test-runs/
+skills-lock.json
+tsconfig.tsbuildinfo
+MEMORY.md
 HEARTBEAT.md
 IDENTITY.md
 SOUL.md

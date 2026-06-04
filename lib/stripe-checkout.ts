@@ -21,8 +21,11 @@ const planCopy: Record<StripeCheckoutPlan, { name: string; mode: "subscription" 
 export async function createStripeCheckoutSession({ plan, origin }: CheckoutInput) {
   const secretKey = process.env.STRIPE_SECRET_KEY;
   if (!secretKey) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("Stripe checkout needs STRIPE_SECRET_KEY in Vercel before launch.");
+    }
     return {
-      demoAccess: process.env.NODE_ENV !== "production",
+      demoAccess: true,
       message: "Stripe is not configured yet. Add STRIPE_SECRET_KEY in Vercel before launch.",
     };
   }
