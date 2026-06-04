@@ -23,6 +23,7 @@ data/extracted/*.txt
 sources/raw/**/*.pdf
 .vercel
 .openclaw/
+.playwright-mcp/
 .agents/
 avatars/
 memory/

@@ -1,6 +1,6 @@
 # App Launch Dashboard
 
-Updated: 2026-06-03 production route audit
+Updated: 2026-06-03 operator sweep
 
 ## Current Apps
 
@@ -31,32 +31,42 @@ Ready:
 - Waitlist/report/feedback/Stripe event table-name envs exist in Vercel.
 - Privacy, terms, and data deletion pages exist.
 - Stripe checkout and webhook code exist.
+- Local repo state is clean.
+- Local `main` matches `tongue/main`.
+- Local lint passes with 2 existing Next.js `<img>` warnings.
+- Local production build passes.
 
 Not ready:
 - STRIPE_SECRET_KEY is missing in Vercel.
 - STRIPE_WEBHOOK_SECRET is missing in Vercel.
 - SUPABASE_SERVICE_ROLE_KEY is missing in Vercel.
 - SUPABASE_URL should be added as a server-side Vercel env.
-- Production waitlist route currently fails with Supabase RLS.
-- Production feedback route currently fails with Supabase RLS.
-- Production report-record route currently fails with Supabase RLS.
+- Production waitlist route currently fails because `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are missing in Vercel.
+- Production feedback route currently fails because `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are missing in Vercel.
+- Production report-record route currently fails because `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are missing in Vercel.
 - Production Stripe checkout currently fails because Stripe is not configured.
 - A live/test Stripe checkout has not been verified end-to-end.
 - Report email/PDF delivery needs live verification.
-- Repo state is dirty and needs cleanup.
-- Local branch is ahead of origin/main, and the main `origin` remote still points to a different repo.
+- Main `origin` remote still points to the medicine ingestion repo; use `tongue` for Tongue Test pushes unless the remote strategy is changed.
 - Native app-store payment path is not wired yet.
 
-Production route audit:
-- `POST /api/waitlist`: FAIL. Supabase returned RLS error for `waitlist_subscribers`.
-- `POST /api/feedback`: FAIL. Supabase returned RLS error for `app_feedback`.
-- `POST /api/tongue-report-record`: FAIL. Supabase returned RLS error for `tongue_report_records`.
-- `POST /api/stripe-checkout`: FAIL. Stripe did not return checkout URL because Stripe secret env is missing.
+Last production route audit:
+- `POST /api/waitlist`: FAIL. App clearly reports missing `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`.
+- `POST /api/feedback`: FAIL. App clearly reports missing `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`.
+- `POST /api/tongue-report-record`: FAIL. App clearly reports missing `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`.
+- `POST /api/stripe-checkout`: FAIL. App clearly reports missing `STRIPE_SECRET_KEY`.
 
 Code fix applied locally:
 - Server write code no longer treats `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` as a service role key.
 - Production now reports missing `SUPABASE_SERVICE_ROLE_KEY` clearly instead of failing through RLS.
 - Production now reports missing `STRIPE_SECRET_KEY` clearly instead of returning vague checkout failure.
+- Fix was pushed to GitHub `the-tongue-test` and deployed by Vercel.
+- Local git branch now tracks `tongue/main`.
+
+Operator sweep notes:
+- Local `.env.local` has `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, and `OPENAI_API_KEY`.
+- Local `.env.local` does not include `SUPABASE_SERVICE_ROLE_KEY`, so local Supabase write verification cannot be completed without adding a server-side key.
+- Supabase changelog check found the April 28, 2026 breaking change that new tables may not be exposed to the Data API automatically; if production still fails after `SUPABASE_SERVICE_ROLE_KEY` is added, confirm Data API exposure and role grants for the launch tables.
 
 ### Your Master Homeopathy
 
@@ -112,16 +122,15 @@ Still limited:
 
 These are tasks Codex should do without asking unless a login, payment, or destructive action is required.
 
-1. Clean up the Tongue Test repo state.
-2. Separate launch docs from app code where needed.
-3. Confirm the correct GitHub remote/branch for Tongue Test.
-4. Push committed app changes to the correct repo.
-5. Verify Vercel is building from the correct repo/branch.
-6. Test Tongue Test waitlist, feedback, report, and email flows.
-7. Test Supabase writes for production routes.
-8. Test Stripe checkout after keys are added.
-9. Improve result/report quality and mobile UX after launch plumbing is verified.
-10. Prepare app-store compliance docs/checklists for each app.
+1. Separate launch docs from app code where needed.
+2. Confirm whether `origin` should be changed to the Tongue Test repo or whether agents should keep using `tongue`.
+3. Push committed app changes to the correct repo when there are new changes.
+4. Verify Vercel is building from the correct repo/branch.
+5. Test Tongue Test waitlist, feedback, report, and email flows.
+6. Test Supabase writes for production routes after server-side Supabase env is present.
+7. Test Stripe checkout after keys are added.
+8. Improve result/report quality and mobile UX after launch plumbing is verified.
+9. Prepare app-store compliance docs/checklists for each app.
 
 ## User Action Queue
 
