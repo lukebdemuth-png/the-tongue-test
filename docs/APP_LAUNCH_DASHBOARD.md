@@ -1,6 +1,6 @@
 # App Launch Dashboard
 
-Updated: 2026-06-03 operator sweep
+Updated: 2026-06-04 operator sweep
 
 ## Current Apps
 
@@ -19,7 +19,7 @@ Vercel project:
 https://vercel.com/3-patterns/the-tongue-test
 
 Status:
-Web app is live and builds locally. It is not fully launch-ready because production Supabase writes and Stripe checkout are blocked by missing server-side secrets/config.
+Web app is live and builds locally. Codex can continue app/code/testing work. The only hard launch blockers are owner-controlled production secrets in Vercel: Supabase server access and Stripe checkout/webhook secrets.
 
 Ready:
 - Live page returns 200 OK.
@@ -41,10 +41,10 @@ Not ready:
 - STRIPE_WEBHOOK_SECRET is missing in Vercel.
 - SUPABASE_SERVICE_ROLE_KEY is missing in Vercel.
 - SUPABASE_URL should be added as a server-side Vercel env.
-- Production waitlist route currently fails because `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are missing in Vercel.
-- Production feedback route currently fails because `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are missing in Vercel.
-- Production report-record route currently fails because `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are missing in Vercel.
-- Production Stripe checkout currently fails because Stripe is not configured.
+- Production waitlist route currently fails only because `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are missing in Vercel.
+- Production feedback route currently fails only because `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are missing in Vercel.
+- Production report-record route currently fails only because `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are missing in Vercel.
+- Production Stripe checkout currently fails only because `STRIPE_SECRET_KEY` is missing in Vercel.
 - A live/test Stripe checkout has not been verified end-to-end.
 - Report email/PDF delivery needs live verification.
 - Main `origin` remote still points to the medicine ingestion repo; use `tongue` for Tongue Test pushes unless the remote strategy is changed.
@@ -55,6 +55,8 @@ Last production route audit:
 - `POST /api/feedback`: FAIL. App clearly reports missing `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`.
 - `POST /api/tongue-report-record`: FAIL. App clearly reports missing `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`.
 - `POST /api/stripe-checkout`: FAIL. App clearly reports missing `STRIPE_SECRET_KEY`.
+- Local production build: PASS.
+- Git state: clean, `main` tracking `tongue/main`.
 
 Code fix applied locally:
 - Server write code no longer treats `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` as a service role key.
@@ -118,7 +120,7 @@ Still limited:
 - Supabase MCP is read-only for now.
 - Google Drive MCP is not connected.
 
-## Codex Work Queue
+## Codex-Owned Work Queue
 
 These are tasks Codex should do without asking unless a login, payment, or destructive action is required.
 
@@ -126,18 +128,25 @@ These are tasks Codex should do without asking unless a login, payment, or destr
 2. Confirm whether `origin` should be changed to the Tongue Test repo or whether agents should keep using `tongue`.
 3. Push committed app changes to the correct repo when there are new changes.
 4. Verify Vercel is building from the correct repo/branch.
-5. Test Tongue Test waitlist, feedback, report, and email flows.
+5. Test Tongue Test waitlist, feedback, report, and email flows immediately after server secrets are present.
 6. Test Supabase writes for production routes after server-side Supabase env is present.
 7. Test Stripe checkout after keys are added.
 8. Improve result/report quality and mobile UX after launch plumbing is verified.
 9. Prepare app-store compliance docs/checklists for each app.
+10. Keep this dashboard updated after each production audit.
 
-## User Action Queue
+## Owner-Only Action Queue
 
-These require account authority, secrets, payments, login approval, or store-owner decisions.
+These require account authority, secrets, payments, login approval, or store-owner decisions. Everything else should stay with Codex.
 
-1. Finish Vercel MCP OAuth login:
-   https://vercel.com/account/integrations
+### Critical Tongue Test Blockers
+
+1. Add Supabase server-side env vars in Vercel:
+   https://vercel.com/3-patterns/the-tongue-test/settings/environment-variables
+
+   Required env vars:
+   - SUPABASE_URL
+   - SUPABASE_SERVICE_ROLE_KEY
 
 2. Add Stripe production/test keys for Tongue Test in Vercel:
    https://vercel.com/3-patterns/the-tongue-test/settings/environment-variables
@@ -146,14 +155,7 @@ These require account authority, secrets, payments, login approval, or store-own
    - STRIPE_SECRET_KEY
    - STRIPE_WEBHOOK_SECRET
 
-3. Add Supabase server-side key for Tongue Test in Vercel:
-   https://vercel.com/3-patterns/the-tongue-test/settings/environment-variables
-
-   Required env vars:
-   - SUPABASE_URL
-   - SUPABASE_SERVICE_ROLE_KEY
-
-4. Open Stripe dashboard and confirm products/prices/webhook:
+3. Open Stripe dashboard and confirm products/prices/webhook:
    https://dashboard.stripe.com/
 
    Needed:
@@ -162,7 +164,7 @@ These require account authority, secrets, payments, login approval, or store-own
    - Trial: 14 days
    - Webhook endpoint: https://the-tongue-test.vercel.app/api/stripe-webhook
 
-5. Confirm Supabase Tongue Test tables in Supabase:
+4. Confirm Supabase Tongue Test tables in Supabase:
    https://supabase.com/dashboard/project/irnvzkkzujcebusrlphs
 
    Tables to confirm:
@@ -171,8 +173,13 @@ These require account authority, secrets, payments, login approval, or store-own
    - tongue_report_records
    - stripe_events
 
-6. Confirm Resend sending domain and sender:
+5. Confirm Resend sending domain and sender:
    https://resend.com/domains
+
+### Secondary Account Steps
+
+6. Finish Vercel MCP OAuth login:
+   https://vercel.com/account/integrations
 
 7. Add `ANTHROPIC_API_KEY` to Innate Wellness Vercel env:
    https://vercel.com/3-patterns/innate-wellness/settings/environment-variables
