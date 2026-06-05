@@ -133,10 +133,14 @@ async function notifyViaResend(submission: WaitlistSubmission) {
 export async function saveWaitlistSubmission(submission: WaitlistSubmission): Promise<WaitlistResult> {
   const wroteToSupabase = await writeSupabaseSubmission(submission);
   if (wroteToSupabase) {
-    await notifyViaResend(submission);
+    await notifyViaResend(submission).catch((error) => {
+      console.warn("Waitlist notification email failed after Supabase save.", error);
+    });
     return { ok: true, mode: "supabase" };
   }
   await writeLocalSubmission(submission);
-  await notifyViaResend(submission);
+  await notifyViaResend(submission).catch((error) => {
+    console.warn("Waitlist notification email failed after local save.", error);
+  });
   return { ok: true, mode: "local" };
 }
