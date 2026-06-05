@@ -1,6 +1,8 @@
 import { appendFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 
+import { createSupabaseRestHeaders } from "@/lib/supabase-rest";
+
 export type WaitlistSubmission = {
   email: string;
   name?: string;
@@ -58,12 +60,7 @@ async function writeSupabaseSubmission(submission: WaitlistSubmission) {
 
   const response = await fetch(`${url.replace(/\/$/, "")}/rest/v1/${table}?on_conflict=email`, {
     method: "POST",
-    headers: {
-      apikey: serviceRoleKey,
-      Authorization: `Bearer ${serviceRoleKey}`,
-      "Content-Type": "application/json",
-      Prefer: "resolution=merge-duplicates,return=minimal",
-    },
+    headers: createSupabaseRestHeaders(serviceRoleKey, "resolution=merge-duplicates,return=minimal"),
     body: JSON.stringify({
       email: submission.email,
       name: submission.name ?? null,

@@ -1,6 +1,8 @@
 import { appendFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 
+import { createSupabaseRestHeaders } from "@/lib/supabase-rest";
+
 export type FeedbackSubmission = {
   message: string;
   email?: string;
@@ -63,12 +65,7 @@ async function writeSupabaseFeedback(submission: FeedbackSubmission) {
 
   const response = await fetch(`${url.replace(/\/$/, "")}/rest/v1/${table}`, {
     method: "POST",
-    headers: {
-      apikey: serviceRoleKey,
-      Authorization: `Bearer ${serviceRoleKey}`,
-      "Content-Type": "application/json",
-      Prefer: "return=minimal",
-    },
+    headers: createSupabaseRestHeaders(serviceRoleKey, "return=minimal"),
     body: JSON.stringify({
       email: submission.email ?? null,
       message: submission.message,

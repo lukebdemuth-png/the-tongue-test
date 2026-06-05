@@ -1,6 +1,8 @@
 import { appendFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 
+import { createSupabaseRestHeaders } from "@/lib/supabase-rest";
+
 export type TongueReportRecord = {
   accessChoice?: string;
   primaryTitle: string;
@@ -58,12 +60,7 @@ async function writeSupabaseReport(record: TongueReportRecord) {
 
   const response = await fetch(`${url.replace(/\/$/, "")}/rest/v1/${table}`, {
     method: "POST",
-    headers: {
-      apikey: serviceRoleKey,
-      Authorization: `Bearer ${serviceRoleKey}`,
-      "Content-Type": "application/json",
-      Prefer: "return=minimal",
-    },
+    headers: createSupabaseRestHeaders(serviceRoleKey, "return=minimal"),
     body: JSON.stringify({
       access_choice: record.accessChoice ?? null,
       primary_title: record.primaryTitle,

@@ -1,6 +1,8 @@
 import { appendFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 
+import { createSupabaseRestHeaders } from "@/lib/supabase-rest";
+
 export type StripeEventRecord = {
   stripeEventId: string;
   eventType: string;
@@ -38,12 +40,7 @@ async function writeSupabaseStripeEvent(record: StripeEventRecord) {
 
   const response = await fetch(`${url.replace(/\/$/, "")}/rest/v1/${table}?on_conflict=stripe_event_id`, {
     method: "POST",
-    headers: {
-      apikey: serviceRoleKey,
-      Authorization: `Bearer ${serviceRoleKey}`,
-      "Content-Type": "application/json",
-      Prefer: "resolution=ignore-duplicates,return=minimal",
-    },
+    headers: createSupabaseRestHeaders(serviceRoleKey, "resolution=ignore-duplicates,return=minimal"),
     body: JSON.stringify({
       stripe_event_id: record.stripeEventId,
       event_type: record.eventType,
